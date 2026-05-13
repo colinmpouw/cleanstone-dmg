@@ -1,3 +1,3 @@
 # cleanstone-dmg
 dmg project 13-5-2026
-repo aangemaakt
+Repository aangemaakt op 13-5-2026.
