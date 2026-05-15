@@ -1,5 +1,8 @@
 <?php
 spl_autoload_register(function ($class) {
+
+    $className = basename(str_replace('\\', '/', $class));
+
     $paths = [
         __DIR__ . '/controllers/',
         __DIR__ . '/services/',
@@ -8,7 +11,7 @@ spl_autoload_register(function ($class) {
     ];
 
     foreach ($paths as $path) {
-        $file = $path . $class . '.php';
+        $file = $path . $className . '.php';
         if (file_exists($file)) {
             require_once $file;
             return;

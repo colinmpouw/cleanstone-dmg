@@ -6,7 +6,10 @@ $router = new Router();
 
 foreach (glob(__DIR__ . '/controllers/*.php') as $file) {
     $className = pathinfo($file, PATHINFO_FILENAME);
-    new $className($router);
+    if ($className === 'DatabaseController') continue;
+
+    $fullClass = 'controllers\\' . $className;
+    new $fullClass($router);
 }
 
-$router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+$router->dispatch();

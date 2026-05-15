@@ -1,7 +1,9 @@
 <?php
 
 namespace controllers;
-class databaseController
+use PDO;
+use PDOException;
+class DatabaseController
 {
     private $pdo;
 
