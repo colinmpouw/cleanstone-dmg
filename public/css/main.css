@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+:root {
+    --title-font:"Playfair Display", serif;;
+    --body-font: 'Inter', Helvetica, sans-serif;
+    --black-color: #0A0A0A;
+    --white-color: #FFFFFF;
+    --gray-color: #E6E7E9;
+    --lightgray-color: #F9FAFB;
+    --darkgray-color: #4A5565;
+}
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: var(--title-font);
+    font-weight: 500;
+}
+p, ul, ol, dl, dt, dd{
+    font-family: var(--body-font);
+}
+
+body{
+    color: var(--black-color);
+}
