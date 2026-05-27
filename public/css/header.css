@@ -1,0 +1,140 @@
+/* Header styles for site */
+
+.site-header{
+    background: transparent;
+    padding: 24px 0 0;
+}
+.site-header__inner{
+    max-width:1200px;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    padding:0 20px;
+}
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+}
+.logo-mark{
+    width:44px;
+    height:44px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#fff;
+    color:#5a4035;
+    font-weight:700;
+    font-size:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+.logo-text strong{
+    display:block;
+    letter-spacing:0.15em;
+    color:#5a4035;
+    font-size:14px;
+    text-transform:uppercase;
+}
+.logo-text span{
+    display:block;
+    font-size:12px;
+    color:#6f5f50;
+}
+
+.search-btn{
+    width:44px;
+    height:44px;
+    border-radius:14px;
+    border:1px solid rgba(0,0,0,0.08);
+    background:rgba(255,255,255,0.85);
+    color:#5a4035;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.main-nav ul{
+    display:flex;
+    gap:12px;
+    list-style:none;
+    align-items:center;
+}
+.main-nav a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:14px 22px;
+    border-radius:999px;
+    text-decoration:none;
+    color:#5b4b44;
+    background:rgba(255,255,255,0.78);
+    backdrop-filter: blur(12px);
+    font-weight:600;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.main-nav a:hover{
+    background:rgba(255,255,255,0.95);
+    transform: translateY(-1px);
+}
+.main-nav li.active a{
+    background:#5a4035;
+    color:#fff;
+}
+
+.header-actions{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+.icon-btn{
+    width:44px;
+    height:44px;
+    border-radius:14px;
+    border:1px solid rgba(0,0,0,0.08);
+    background:rgba(255,255,255,0.85);
+    color:#5a4035;
+    font-size:18px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+.cart-btn{
+    padding:0;
+}
+.cart-badge{
+    position:absolute;
+    top:6px;
+    right:6px;
+    min-width:18px;
+    min-height:18px;
+    border-radius:999px;
+    background:#5a4035;
+    color:#fff;
+    font-size:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 5px;
+}
+
+@media (max-width: 900px){
+    .site-header__inner{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+    .main-nav ul{
+        gap:8px;
+        overflow-x:auto;
+        padding-bottom:6px;
+    }
+    .search-btn,
+    .icon-btn,
+    .logo-mark{
+        min-width:44px;
+    }
+}
