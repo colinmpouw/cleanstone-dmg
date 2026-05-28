@@ -1,32 +1,42 @@
-<header class="site-header">
-    <div class="site-header__inner">
-        <a class="logo" href="/public/home.php">
-            <span class="logo-mark">CS</span>
-            <span class="logo-text">
-                <strong>Cleanstone</strong>
-                <span>Care &amp; Stone</span>
-            </span>
-        </a>
-
-        <button class="search-btn" aria-label="Zoeken">🔍</button>
-
-        <nav class="main-nav" aria-label="Hoofdmenu">
-            <ul>
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Producten</a></li>
-                <li><a href="#">Bundels</a></li>
-                <li><a href="#">Advies</a></li>
-                <li><a href="#">Blog</a></li>
-            </ul>
-        </nav>
-
-        <div class="header-actions">
-            <button class="icon-btn" aria-label="Account">👤</button>
-            <button class="icon-btn cart-btn" aria-label="Winkelwagen">
-                🛒
-                <span class="cart-badge">0</span>
-            </button>
+<header>
+    <div class="left">
+        <div class="logo">
+            <img src="../public/assets/logo-cleanstone.png">
         </div>
+        <button class="search-btn" aria-label="Zoeken">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+        </button>
+    </div>
+
+    <nav>
+        <a href="#" class="active">HOME</a>
+        <a href="#">PRODUCTEN</a>
+        <a href="#">BUNDELS</a>
+        <a href="#">ADVIES</a>
+        <a href="#">BLOG</a>
+    </nav>
+
+    <div class="right">
+        <div class="divider"></div>
+        <button class="icon-btn" aria-label="Account">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>
+            </svg>
+        </button>
+        <button class="icon-btn cart" aria-label="Winkelwagen">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="20" r="1.4"/>
+                <circle cx="18" cy="20" r="1.4"/>
+                <path d="M2 3h3l2.6 13h11l2-9H6"/>
+            </svg>
+            <span class="badge">0</span>
+        </button>
     </div>
 </header>
-

@@ -1,11 +1,13 @@
 <?php
 
 namespace controllers;
-class PageController
+
+class HomController
 {
     public function __construct($router)
     {
 
+        $router->get('/home', [$this, 'pageHome']);
         $router->get('/', [$this, 'pageHome']);
 
     }

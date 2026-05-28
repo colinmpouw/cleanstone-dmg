@@ -1,140 +1,124 @@
-/* Header styles for site */
-
-.site-header{
-    background: transparent;
-    padding: 24px 0 0;
+:root{
+    --bg:#e9e2d6;
+    --pill-bg:#f3eee5;
+    --dark:#2b231d;
+    --text:#4a4036;
+    --accent:#8a6a4f;
+    --white:#fff;
 }
-.site-header__inner{
-    max-width:1200px;
-    margin:0 auto;
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    font-family:'DM Sans',sans-serif;
+    background:transparent;
+    padding:24px 40px;
+}
+header{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:18px;
-    padding:0 20px;
+    max-width:1400px;
+    margin:0 auto;
+}
+/* Left: logo + search */
+.left{
+    display:flex;
+    align-items:center;
+    gap:48px;
 }
 .logo{
     display:flex;
+    flex-direction:column;
     align-items:center;
-    gap:12px;
-    text-decoration:none;
+    line-height:1;
 }
-.logo-mark{
-    width:44px;
-    height:44px;
-    border-radius:14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#fff;
-    color:#5a4035;
+.logo .mark{
+    font-family:'Playfair Display',serif;
     font-weight:700;
-    font-size:16px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-.logo-text strong{
-    display:block;
-    letter-spacing:0.15em;
-    color:#5a4035;
     font-size:14px;
-    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--accent);
+    margin-bottom:3px;
 }
-.logo-text span{
-    display:block;
-    font-size:12px;
-    color:#6f5f50;
+.logo .name{
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    font-size:17px;
+    letter-spacing:4px;
+    color:var(--dark);
 }
-
+.logo .sub{
+    font-size:6.5px;
+    letter-spacing:3px;
+    color:var(--text);
+    margin-top:3px;
+}
 .search-btn{
-    width:44px;
-    height:44px;
-    border-radius:14px;
-    border:1px solid rgba(0,0,0,0.08);
-    background:rgba(255,255,255,0.85);
-    color:#5a4035;
-    font-size:18px;
+    background:none;
+    border:none;
     cursor:pointer;
-}
-
-.main-nav ul{
+    color:var(--dark);
     display:flex;
-    gap:12px;
-    list-style:none;
     align-items:center;
 }
-.main-nav a{
-    display:inline-flex;
+/* Center nav */
+nav{
+    display:flex;
     align-items:center;
-    justify-content:center;
-    padding:14px 22px;
-    border-radius:999px;
+    gap: 0px;
+    margin-left:auto;
+    margin-right: 15px;
+}
+nav a{
     text-decoration:none;
-    color:#5b4b44;
-    background:rgba(255,255,255,0.78);
-    backdrop-filter: blur(12px);
-    font-weight:600;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    color:var(--text);
+    font-size:13px;
+    font-weight:500;
+    letter-spacing:1px;
+    padding: 11px 22px;
+    border-radius:30px;
+    transition: background-color .2s ease, color .2s ease;
+    background: white;
 }
-.main-nav a:hover{
-    background:rgba(255,255,255,0.95);
-    transform: translateY(-1px);
+nav a:hover:not(.active){
+    color:var(--white);
+    background:var(--dark);
 }
-.main-nav li.active a{
-    background:#5a4035;
-    color:#fff;
+nav a.active{
+    background:var(--dark);
+    color:var(--white);
 }
-
-.header-actions{
+/* Right: account + cart */
+.right{
     display:flex;
-    gap:10px;
     align-items:center;
+    gap:20px;
+}
+.divider{
+    width:1px;
+    height:24px;
+    background:#2b231d;
 }
 .icon-btn{
-    width:44px;
-    height:44px;
-    border-radius:14px;
-    border:1px solid rgba(0,0,0,0.08);
-    background:rgba(255,255,255,0.85);
-    color:#5a4035;
-    font-size:18px;
+    background:none;
+    border:none;
     cursor:pointer;
+    color:var(--dark);
     display:flex;
     align-items:center;
-    justify-content:center;
-    position:relative;
 }
-.cart-btn{
-    padding:0;
-}
-.cart-badge{
+.cart{position:relative;}
+.cart .badge{
     position:absolute;
-    top:6px;
-    right:6px;
-    min-width:18px;
-    min-height:18px;
-    border-radius:999px;
-    background:#5a4035;
-    color:#fff;
-    font-size:11px;
+    top:-8px;
+    right:-9px;
+    background:var(--dark);
+    color:var(--white);
+    font-size:10px;
+    font-weight:600;
+    width:17px;
+    height:17px;
+    border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:0 5px;
-}
-
-@media (max-width: 900px){
-    .site-header__inner{
-        flex-wrap:wrap;
-        justify-content:center;
-    }
-    .main-nav ul{
-        gap:8px;
-        overflow-x:auto;
-        padding-bottom:6px;
-    }
-    .search-btn,
-    .icon-btn,
-    .logo-mark{
-        min-width:44px;
-    }
 }

@@ -1,12 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Indie+Flower&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 :root {
     --title-font:"Playfair Display", serif;;
-    --body-font: 'Inter', Helvetica, sans-serif;
-    --black-color: #0A0A0A;
-    --white-color: #FFFFFF;
-    --gray-color: #E6E7E9;
-    --lightgray-color: #F9FAFB;
-    --darkgray-color: #4A5565;
+    --body-font: 'DM Sans', sans-serif;
+    --bg:#e9e2d6;
+    --pill-bg:#f3eee5;
+    --dark:#2b231d;
+    --text:#4a4036;
+    --accent:#8a6a4f;
+    --white:#fff;
+    --background-color: #DACFB6;
 }
 *{
     box-sizing: border-box;
