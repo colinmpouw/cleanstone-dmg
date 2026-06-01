@@ -6,7 +6,7 @@
     padding: 60px 20px 40px;
 }
 .footer-inner{
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1.4fr 1fr;
@@ -18,16 +18,10 @@
     gap: 18px;
     align-items: flex-start;
 }
-.logo-mark-footer{
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
-    background: #f7efe4;
-    color: #5a4035;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:700;
+
+.logo-mark-footer img{
+    height: 100px;
+    object-fit: contain;
 }
 .footer-title{
     margin:0 0 10px;
@@ -68,7 +62,7 @@
     font-size: 14px;
 }
 .footer-bottom{
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 40px auto 0;
     display:flex;
     align-items:center;

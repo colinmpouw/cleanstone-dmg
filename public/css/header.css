@@ -1,124 +1,147 @@
-:root{
-    --bg:#e9e2d6;
-    --pill-bg:#f3eee5;
-    --dark:#2b231d;
-    --text:#4a4036;
-    --accent:#8a6a4f;
-    --white:#fff;
+
+header {
+
+    width: 100%;
+    height: 80px;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-    font-family:'DM Sans',sans-serif;
-    background:transparent;
-    padding:24px 40px;
-}
-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    max-width:1400px;
-    margin:0 auto;
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+    max-width: 1300px;
+
 }
 /* Left: logo + search */
-.left{
-    display:flex;
-    align-items:center;
-    gap:48px;
+.left {
+    display: flex;
+    align-items: center;
+    gap: 48px;
 }
-.logo{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    line-height:1;
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
 }
-.logo .mark{
-    font-family:'Playfair Display',serif;
-    font-weight:700;
-    font-size:14px;
-    letter-spacing:1px;
-    color:var(--accent);
-    margin-bottom:3px;
+.logo img{
+    height: 40px;
+    object-fit: contain;
 }
-.logo .name{
-    font-family:'Playfair Display',serif;
-    font-weight:700;
-    font-size:17px;
-    letter-spacing:4px;
-    color:var(--dark);
+.logo .mark {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(  --rustic-taupe);
+    margin-bottom: 3px;
 }
-.logo .sub{
-    font-size:6.5px;
-    letter-spacing:3px;
-    color:var(--text);
-    margin-top:3px;
+
+.logo .name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 4px;
+    color: var( --charcoal-clay);
 }
-.search-btn{
-    background:none;
-    border:none;
-    cursor:pointer;
-    color:var(--dark);
-    display:flex;
-    align-items:center;
+
+.logo .sub {
+    font-size: 6.5px;
+    letter-spacing: 3px;
+    color: var( --charcoal-clay);
+    margin-top: 3px;
 }
+
+.search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var( --charcoal-clay);
+    display: flex;
+    align-items: center;
+}
+
 /* Center nav */
-nav{
-    display:flex;
-    align-items:center;
+
+
+nav ul {
+    margin-left: auto;
+    margin-right: 1rem;
+    display: flex;
     gap: 0px;
-    margin-left:auto;
-    margin-right: 15px;
+    list-style: none;
+
+    padding: 0;
 }
-nav a{
-    text-decoration:none;
-    color:var(--text);
-    font-size:13px;
-    font-weight:500;
-    letter-spacing:1px;
+
+nav li {
+    display: inline-block;
+}
+
+nav a {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--charcoal-clay);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
     padding: 11px 22px;
-    border-radius:30px;
+    border-radius: 30px;
     transition: background-color .2s ease, color .2s ease;
     background: white;
 }
-nav a:hover:not(.active){
-    color:var(--white);
-    background:var(--dark);
+
+nav a:hover:not(.active) {
+    color: var(--white);
+    background: var(--charcoal-clay);
 }
-nav a.active{
-    background:var(--dark);
-    color:var(--white);
+
+nav a.active {
+    background: var(--charcoal-clay);
+    color: var(--white);
 }
+
 /* Right: account + cart */
-.right{
-    display:flex;
-    align-items:center;
-    gap:20px;
+.right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
-.divider{
-    width:1px;
-    height:24px;
-    background:#2b231d;
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background: #2b231d;
 }
-.icon-btn{
-    background:none;
-    border:none;
-    cursor:pointer;
-    color:var(--dark);
-    display:flex;
-    align-items:center;
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--charcoal-clay);
+    display: flex;
+    align-items: center;
 }
-.cart{position:relative;}
-.cart .badge{
-    position:absolute;
-    top:-8px;
-    right:-9px;
-    background:var(--dark);
-    color:var(--white);
-    font-size:10px;
-    font-weight:600;
-    width:17px;
-    height:17px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+
+.cart {
+    position: relative;
+}
+
+.cart .badge {
+    position: absolute;
+    top: -8px;
+    right: -9px;
+    background: var(--charcoal-clay);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 600;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

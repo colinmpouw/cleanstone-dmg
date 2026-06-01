@@ -1,9 +1,8 @@
 <footer class="site-footer">
     <div class="footer-inner">
         <div class="footer-brand">
-            <div class="logo-mark-footer">CS</div>
-            <div>
-                <p class="footer-title">Cleanstone</p>
+            <div class="logo-mark-footer">
+                <img src="/public/assets/logo_footer.png" alt="Cleanstone Logo">
                 <p class="footer-note">Uw specialist in natuursteen onderhoud. Premium producten voor professioneel resultaat.</p>
             </div>
         </div>

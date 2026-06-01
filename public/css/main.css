@@ -3,13 +3,14 @@
 :root {
     --title-font:"Playfair Display", serif;;
     --body-font: 'DM Sans', sans-serif;
-    --bg:#e9e2d6;
-    --pill-bg:#f3eee5;
-    --dark:#2b231d;
-    --text:#4a4036;
-    --accent:#8a6a4f;
-    --white:#fff;
-    --background-color: #DACFB6;
+
+    --charcoal-clay: #3A2B20;
+    --rustic-taupe: #7E6A52;
+    --warm-beige: #B89C82;
+    --creamy-taupe: #DACFB6;
+    --soft-white: #F9F5ED;
+    --white: #fff;
+
 }
 *{
     box-sizing: border-box;
@@ -21,10 +22,13 @@ h1, h2, h3, h4, h5, h6{
     font-family: var(--title-font);
     font-weight: 500;
 }
-p, ul, ol, dl, dt, dd{
+p, ul, ol, dl, dt, dd ,a, span, button, input, textarea{
     font-family: var(--body-font);
 }
 
 body{
-    color: var(--black-color);
+
+    background-color: var(--white);
+    color: var(--charcoal-clay);
+
 }

@@ -1,0 +1,40 @@
+main {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+main h1 {
+    color: var(--rustic-taupe);
+    font-size: 5rem;
+    font-weight: 700;
+}
+
+main h2 {
+    font-size: 2rem;
+}
+
+main a {
+    margin-top: 1rem;
+    color: var(--rustic-taupe);
+    text-decoration: none;
+    position: relative;
+}
+
+main a:after {
+    position: absolute;
+    content: '';
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: var(--rustic-taupe);
+    transition: 0.3s ease;
+}
+
+main a:hover:after {
+    width: 0%;
+    left: 50%;
+}

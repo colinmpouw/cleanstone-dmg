@@ -8,10 +8,19 @@
     <link rel="stylesheet" href="/public/css/main.css">
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
-    <link rel="stylesheet" href="/public/css/home.css">
+    <link rel="stylesheet" href="/public/css/404.css">
     <title>Document</title>
 </head>
 <body>
-404
+<?php require_once __DIR__ . '/../component/header.php'; ?>
+
+<main>
+    <h1>404</h1>
+    <h2>Pagina niet gevonden</h2>
+    <p>Sorry, de pagina die je zoekt bestaat niet.</p>
+    <a href="/" class="home-link">Ga terug naar de homepage</a>
+</main>
+
+<?php require_once __DIR__ . '/../component/footer.php'; ?>
 </body>
 </html>
