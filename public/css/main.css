@@ -11,8 +11,8 @@
     --soft-white: #F9F5ED;
     --white: #fff;
 
-    --title-size:3rem;
-    --small-tile-size:1.25rem;
+    --title-size:2rem;
+    --small-title-size:1.25rem;
     --paragraph-size:1rem;
     --list-text-size:0.8rem;
 }
@@ -38,4 +38,19 @@ body{
     background-color: var(--white);
     color: var(--charcoal-clay);
 
+}
+.page-title{
+    width: 100%;
+    text-align: center;
+    padding: 60px 40px;
+    background: linear-gradient(-185deg, var(--charcoal-clay) 0%, var(--rustic-taupe) 100%);
+}
+.page-title h1{
+    font-size: 3.5rem;
+    font-weight: 650;
+    color: var(--white);
+}
+.page-title p{
+    font-size: var(--small-title-size);
+    color: var(--white);
 }

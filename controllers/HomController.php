@@ -9,6 +9,7 @@ class HomController
 
         $router->get('/home', [$this, 'pageHome']);
         $router->get('/', [$this, 'pageHome']);
+        $router->get('/test', [$this, 'testPage']);
 
     }
 
@@ -16,6 +17,8 @@ class HomController
     {
         require __DIR__ . '/../public/home.php';
     }
-
+public function testPage(){
+        require __DIR__ . '/../public/test.php';
+}
 
 }

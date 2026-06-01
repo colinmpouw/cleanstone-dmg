@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
     <link rel="stylesheet" href="/public/css/home.css">
-    <title>Document</title>
+    <link rel="icon" href="/public/assets/logo_icon.png" type="image/png">
+    <title>CleanStone -Home</title>
 </head>
 <body>
 <?php require_once __DIR__ . '/../component/header.php'; ?>

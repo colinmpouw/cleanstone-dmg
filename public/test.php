@@ -16,6 +16,10 @@
 <body>
 <?php require_once __DIR__ . '/../component/header.php'; ?>
 
+<div class="page-title">
+    <h1>Page title</h1>
+    <p>nvno nfoinonsoin noifnsoifsoifn</p>
+</div>
 <main>
     <h1>404</h1>
     <h2>Pagina niet gevonden</h2>
