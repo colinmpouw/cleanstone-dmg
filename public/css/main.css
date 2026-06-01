@@ -11,6 +11,10 @@
     --soft-white: #F9F5ED;
     --white: #fff;
 
+    --title-size:3rem;
+    --small-tile-size:1.25rem;
+    --paragraph-size:1rem;
+    --list-text-size:0.8rem;
 }
 *{
     box-sizing: border-box;
@@ -24,6 +28,9 @@ h1, h2, h3, h4, h5, h6{
 }
 p, ul, ol, dl, dt, dd ,a, span, button, input, textarea{
     font-family: var(--body-font);
+}
+p{
+    font-size: var(--paragraph-size);
 }
 
 body{

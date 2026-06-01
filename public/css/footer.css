@@ -6,6 +6,7 @@
     padding: 60px 20px 40px;
 }
 .footer-inner{
+    width: 90%;
     max-width: 1300px;
     margin: 0 auto;
     display: grid;
@@ -41,8 +42,9 @@
     gap: 24px;
 }
 .footer-links h4{
+    font-size: var(--small-tile-size);
     margin:0 0 18px;
-    font-size: 16px;
+
     color: #fff;
 }
 .footer-links ul{
@@ -59,9 +61,10 @@
 }
 .footer-links li{
     color: rgba(246,239,230,0.82);
-    font-size: 14px;
+    font-size: var(--list-text-size);
 }
 .footer-bottom{
+    width: 90%;
     max-width: 1300px;
     margin: 40px auto 0;
     display:flex;

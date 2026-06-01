@@ -40,20 +40,20 @@ nav {
     margin-bottom: 3px;
 }
 
-.logo .name {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 17px;
-    letter-spacing: 4px;
-    color: var( --charcoal-clay);
-}
+/*.logo .name {*/
+/*    font-family: 'Playfair Display', serif;*/
+/*    font-weight: 700;*/
+/*    font-size: 17px;*/
+/*    letter-spacing: 4px;*/
+/*    color: var( --charcoal-clay);*/
+/*}*/
 
-.logo .sub {
-    font-size: 6.5px;
-    letter-spacing: 3px;
-    color: var( --charcoal-clay);
-    margin-top: 3px;
-}
+/*.logo .sub {*/
+/*    font-size: 6.5px;*/
+/*    letter-spacing: 3px;*/
+/*    color: var( --charcoal-clay);*/
+/*    margin-top: 3px;*/
+/*}*/
 
 .search-btn {
     background: none;
@@ -85,7 +85,7 @@ nav a {
     display: inline-block;
     text-decoration: none;
     color: var(--charcoal-clay);
-    font-size: 13px;
+    font-size: var(--list-text-size);
     font-weight: 500;
     letter-spacing: 1px;
     padding: 11px 22px;
