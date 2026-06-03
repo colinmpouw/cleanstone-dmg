@@ -1,8 +1,14 @@
+<?php
+$currentPath = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/', '/');
+$currentPath = $currentPath === '' ? '/' : $currentPath;
+?>
 <header>
     <nav>
         <div class="left">
             <div class="logo">
-                <img src="/public/assets/logo-cleanstone.png">
+                <a href="/home" aria-label="Home">
+                    <img src="/public/assets/logo-cleanstone.png" alt="Cleanstone">
+                </a>
             </div>
             <button class="search-btn" aria-label="Zoeken">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
@@ -13,15 +19,13 @@
             </button>
         </div>
 
-
         <ul>
-            <li><a href="/home" class="active">HOME</a></li>
+            <li><a href="/home">HOME</a></li>
             <li><a href="/producten">PRODUCTEN</a></li>
             <li><a href="/bundels">BUNDELS</a></li>
             <li><a href="/advies">ADVIES</a></li>
             <li><a href="/blog">BLOG</a></li>
         </ul>
-
 
         <div class="right">
             <div class="divider"></div>
@@ -44,3 +48,25 @@
         </div>
     </nav>
 </header>
+
+<script>
+(() => {
+    const links = document.querySelectorAll('nav ul a[href]');
+    const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+
+    const normalize = (href) => {
+        const path = new URL(href, window.location.origin).pathname.replace(/\/+$/, '') || '/';
+        return path;
+    };
+
+    links.forEach(link => {
+        const isActive = normalize(link.getAttribute('href')) === currentPath;
+        link.classList.toggle('active', isActive);
+
+        link.addEventListener('click', () => {
+            links.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+        });
+    });
+})();
+</script>

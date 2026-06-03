@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/public/css/header.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/bundels.css">
+    <link rel="icon" href="/public/assets/logo_icon.png" type="image/png">
+    <title>CleanStone -Bundels</title>
+</head>
+<body>
+<?php require_once __DIR__ . '/../component/header.php'; ?>
+
+<main>
+    <div class="page-title">
+        <p class="page-title-tag">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.28086 12.9162C8.20647 12.6278 8.05615 12.3646 7.84555 12.154C7.63494 11.9434 7.37176 11.7931 7.08336 11.7187L1.97086 10.4004C1.88364 10.3756 1.80687 10.3231 1.75221 10.2508C1.69754 10.1784 1.66797 10.0902 1.66797 9.99956C1.66797 9.90889 1.69754 9.82069 1.75221 9.74835C1.80687 9.67601 1.88364 9.62348 1.97086 9.59872L7.08336 8.27956C7.37166 8.20523 7.63477 8.05503 7.84537 7.84459C8.05596 7.63414 8.20634 7.37113 8.28086 7.08289L9.5992 1.97039C9.6237 1.88282 9.67618 1.80567 9.74863 1.75072C9.82108 1.69576 9.90951 1.66602 10.0004 1.66602C10.0914 1.66602 10.1798 1.69576 10.2523 1.75072C10.3247 1.80567 10.3772 1.88282 10.4017 1.97039L11.7192 7.08289C11.7936 7.37128 11.9439 7.63447 12.1545 7.84507C12.3651 8.05567 12.6283 8.20599 12.9167 8.28039L18.0292 9.59789C18.1171 9.62214 18.1946 9.67456 18.2499 9.74712C18.3052 9.81968 18.3351 9.90836 18.3351 9.99956C18.3351 10.0908 18.3052 10.1794 18.2499 10.252C18.1946 10.3245 18.1171 10.377 18.0292 10.4012L12.9167 11.7187C12.6283 11.7931 12.3651 11.9434 12.1545 12.154C11.9439 12.3646 11.7936 12.6278 11.7192 12.9162L10.4009 18.0287C10.3764 18.1163 10.3239 18.1934 10.2514 18.2484C10.179 18.3033 10.0905 18.3331 9.99961 18.3331C9.90868 18.3331 9.82025 18.3033 9.7478 18.2484C9.67535 18.1934 9.62287 18.1163 9.59836 18.0287L8.28086 12.9162Z"
+                      stroke="#DACFB6" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16.6666 2.5V5.83333" stroke="#DACFB6" stroke-width="1.66667" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                <path d="M18.3333 4.16699H15" stroke="#DACFB6" stroke-width="1.66667" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                <path d="M3.33337 14.167V15.8337" stroke="#DACFB6" stroke-width="1.66667" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                <path d="M4.16667 15H2.5" stroke="#DACFB6" stroke-width="1.66667" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+            </svg>
+
+            Bespaar tot 40% met onze bundels
+        </p>
+        <h1>Slimme Bundels</h1>
+        <p>Zorgvuldig samengestelde pakketten voor elk natuursteen onderhoudsprobleem</p>
+        <div class="bundels-info">
+            <div>
+                <span>6+</span>
+                <p>Bundels</p>
+            </div>
+            <div>
+                <span>1.5k+</span>
+                <p>Tevreden klanten</p>
+            </div>
+            <div>
+                <span>€35</span>
+                <p>Gem. besparing</p>
+            </div>
+            <div>
+                <span>100%</span>
+                <p>Gratis verzending</p>
+            </div>
+        </div>
+    </div>
+
+    <section id="bundels-container">
+
+        <div class="card">
+
+            <!-- Image -->
+            <div class="card__image-wrap">
+                <!-- Replace src with your actual kitchen image -->
+                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop" alt="Aanrechtblad">
+                <span class="badge badge--discount">-18%</span>
+                <span class="badge badge--bestseller">Bestseller</span>
+            </div>
+
+            <!-- Body -->
+            <div class="card__body">
+
+                <!-- Rating -->
+                <div class="rating">
+                    <svg width="0" height="0" style="position:absolute">
+                        <defs>
+                            <linearGradient id="half-gradient">
+                                <stop offset="50%" stop-color="#f5a623"/>
+                                <stop offset="50%" stop-color="#e0ddd8"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="stars">
+                        <!-- 4 full + 1 half -->
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star star--half" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                    </div>
+                    <span class="rating__count">(294)</span>
+                </div>
+
+                <h1 class="card__title">Aanrechtblad Starter</h1>
+                <p class="card__subtitle">Compleet pakket voor dagelijks onderhoud<br>van uw aanrechtblad</p>
+
+                <!-- Package contents -->
+                <div class="package-box">
+                    <p class="package-box__label">Pakket bevat:</p>
+                    <ul class="package-list">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Lithofin MN Allesreiniger 1L
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Akemi Stone Sealer 500ml
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Microvezel doeken (3st)
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Gebruiksinstructies
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Suitable for -->
+                <div class="suitable">
+                    <p class="suitable__label">Geschikt voor:</p>
+                    <div class="tags">
+                        <span class="tag">Graniet</span>
+                        <span class="tag">Marmer</span>
+                        <span class="tag">Composiet</span>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="price-row">
+                    <div class="price-block">
+                        <div class="price-current">€89.95</div>
+                        <div class="price-original">€109.95</div>
+                    </div>
+                    <div class="savings-badge">Bespaar €20</div>
+                </div>
+
+                <!-- CTA -->
+                <button class="btn">
+                    Bekijk bundel
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </button>
+
+            </div>
+        </div>
+        <div class="card">
+
+            <!-- Image -->
+            <div class="card__image-wrap">
+                <!-- Replace src with your actual kitchen image -->
+                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop" alt="Aanrechtblad">
+                <span class="badge badge--discount">-18%</span>
+                <span class="badge badge--bestseller">Bestseller</span>
+            </div>
+
+            <!-- Body -->
+            <div class="card__body">
+
+                <!-- Rating -->
+                <div class="rating">
+                    <svg width="0" height="0" style="position:absolute">
+                        <defs>
+                            <linearGradient id="half-gradient">
+                                <stop offset="50%" stop-color="#f5a623"/>
+                                <stop offset="50%" stop-color="#e0ddd8"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="stars">
+                        <!-- 4 full + 1 half -->
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star star--half" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                    </div>
+                    <span class="rating__count">(294)</span>
+                </div>
+
+                <h1 class="card__title">Aanrechtblad Starter</h1>
+                <p class="card__subtitle">Compleet pakket voor dagelijks onderhoud<br>van uw aanrechtblad</p>
+
+                <!-- Package contents -->
+                <div class="package-box">
+                    <p class="package-box__label">Pakket bevat:</p>
+                    <ul class="package-list">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Lithofin MN Allesreiniger 1L
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Akemi Stone Sealer 500ml
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Microvezel doeken (3st)
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Gebruiksinstructies
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Suitable for -->
+                <div class="suitable">
+                    <p class="suitable__label">Geschikt voor:</p>
+                    <div class="tags">
+                        <span class="tag">Graniet</span>
+                        <span class="tag">Marmer</span>
+                        <span class="tag">Composiet</span>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="price-row">
+                    <div class="price-block">
+                        <div class="price-current">€89.95</div>
+                        <div class="price-original">€109.95</div>
+                    </div>
+                    <div class="savings-badge">Bespaar €20</div>
+                </div>
+
+                <!-- CTA -->
+                <button class="btn">
+                    Bekijk bundel
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </button>
+
+            </div>
+        </div>
+        <div class="card">
+
+            <!-- Image -->
+            <div class="card__image-wrap">
+                <!-- Replace src with your actual kitchen image -->
+                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop" alt="Aanrechtblad">
+                <span class="badge badge--discount">-18%</span>
+                <span class="badge badge--bestseller">Bestseller</span>
+            </div>
+
+            <!-- Body -->
+            <div class="card__body">
+
+                <!-- Rating -->
+                <div class="rating">
+                    <svg width="0" height="0" style="position:absolute">
+                        <defs>
+                            <linearGradient id="half-gradient">
+                                <stop offset="50%" stop-color="#f5a623"/>
+                                <stop offset="50%" stop-color="#e0ddd8"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="stars">
+                        <!-- 4 full + 1 half -->
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star star--half" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                    </div>
+                    <span class="rating__count">(294)</span>
+                </div>
+
+                <h1 class="card__title">Aanrechtblad Starter</h1>
+                <p class="card__subtitle">Compleet pakket voor dagelijks onderhoud<br>van uw aanrechtblad</p>
+
+                <!-- Package contents -->
+                <div class="package-box">
+                    <p class="package-box__label">Pakket bevat:</p>
+                    <ul class="package-list">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Lithofin MN Allesreiniger 1L
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Akemi Stone Sealer 500ml
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Microvezel doeken (3st)
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Gebruiksinstructies
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Suitable for -->
+                <div class="suitable">
+                    <p class="suitable__label">Geschikt voor:</p>
+                    <div class="tags">
+                        <span class="tag">Graniet</span>
+                        <span class="tag">Marmer</span>
+                        <span class="tag">Composiet</span>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="price-row">
+                    <div class="price-block">
+                        <div class="price-current">€89.95</div>
+                        <div class="price-original">€109.95</div>
+                    </div>
+                    <div class="savings-badge">Bespaar €20</div>
+                </div>
+
+                <!-- CTA -->
+                <button class="btn">
+                    Bekijk bundel
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </button>
+
+            </div>
+        </div>
+        <div class="card">
+
+            <!-- Image -->
+            <div class="card__image-wrap">
+                <!-- Replace src with your actual kitchen image -->
+                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop" alt="Aanrechtblad">
+                <span class="badge badge--discount">-18%</span>
+                <span class="badge badge--bestseller">Bestseller</span>
+            </div>
+
+            <!-- Body -->
+            <div class="card__body">
+
+                <!-- Rating -->
+                <div class="rating">
+                    <svg width="0" height="0" style="position:absolute">
+                        <defs>
+                            <linearGradient id="half-gradient">
+                                <stop offset="50%" stop-color="#f5a623"/>
+                                <stop offset="50%" stop-color="#e0ddd8"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="stars">
+                        <!-- 4 full + 1 half -->
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                        <svg class="star star--half" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>
+                    </div>
+                    <span class="rating__count">(294)</span>
+                </div>
+
+                <h1 class="card__title">Aanrechtblad Starter</h1>
+                <p class="card__subtitle">Compleet pakket voor dagelijks onderhoud<br>van uw aanrechtblad</p>
+
+                <!-- Package contents -->
+                <div class="package-box">
+                    <p class="package-box__label">Pakket bevat:</p>
+                    <ul class="package-list">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Lithofin MN Allesreiniger 1L
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Akemi Stone Sealer 500ml
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Microvezel doeken (3st)
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_121_10894)">
+                                    <path d="M14.534 6.66666C14.8385 8.16086 14.6215 9.71428 13.9192 11.0679C13.217 12.4214 12.0719 13.4934 10.675 14.1049C9.2781 14.7164 7.71376 14.8305 6.24287 14.4282C4.77199 14.026 3.48347 13.1316 2.59219 11.8943C1.70091 10.657 1.26075 9.15148 1.34511 7.62892C1.42948 6.10635 2.03326 4.65872 3.05577 3.52744C4.07829 2.39616 5.45773 1.64961 6.96405 1.4123C8.47037 1.17498 10.0125 1.46123 11.3333 2.22333" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 7.33366L8 9.33366L14.6667 2.66699" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_121_10894">
+                                        <rect width="16" height="16" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            Gebruiksinstructies
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Suitable for -->
+                <div class="suitable">
+                    <p class="suitable__label">Geschikt voor:</p>
+                    <div class="tags">
+                        <span class="tag">Graniet</span>
+                        <span class="tag">Marmer</span>
+                        <span class="tag">Composiet</span>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="price-row">
+                    <div class="price-block">
+                        <div class="price-current">€89.95</div>
+                        <div class="price-original">€109.95</div>
+                    </div>
+                    <div class="savings-badge">Bespaar €20</div>
+                </div>
+
+                <!-- CTA -->
+                <button class="btn">
+                    Bekijk bundel
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </button>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<?php require_once __DIR__ . '/../component/footer.php'; ?>
+
+</body>
+</html>
