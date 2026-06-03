@@ -11,19 +11,16 @@ body {
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
 }
 .wrap {
-  max-width: 1100px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 40px 20px;
 }
 
 /* Central card layout similar to the provided .login example */
 .over-page {
-  max-width: 800px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  width: min(100%, 1600px);
+  margin: 20px auto 40px;
+  padding: 0 16px 20px;
 }
 .over-page h1 {
   text-align: center;
