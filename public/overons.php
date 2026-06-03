@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/overons.css">
     <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <meta name="description"
         content="Over CleanStone — specialist in natuursteen onderhoud, missie, verhaal en waarden.">
 </head>
@@ -47,17 +48,17 @@
         <section class="stats-section">
             <div class="wrap stats-row">
                 <div class="stat-card">
-                    <div class="stat-icon">⭐</div>
+                    <div class="stat-icon"><i class="fi fi-rr-heart"></i></div>
                     <h4>Premium kwaliteit</h4>
                     <p>Alleen de beste merken en producten voor optimaal resultaat</p>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">👥</div>
+                    <div class="stat-icon"><i class="fi fi-rr-users-alt"></i></div>
                     <h4>15.000+ klanten</h4>
                     <p>Tevreden particulieren en professionals door heel Nederland</p>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">🤝</div>
+                    <div class="stat-icon"><i class="fi fi-rr-star"></i></div>
                     <h4>Persoonlijke service</h4>
                     <p>Deskundig advies op maat voor elke situatie</p>
                 </div>
