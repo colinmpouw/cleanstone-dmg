@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Indie+Flower&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 :root {
-    --title-font:"Playfair Display", serif;;
+    --title-font: "Playfair Display", serif;
     --body-font: 'DM Sans', sans-serif;
 
     --charcoal-clay: #3A2B20;
@@ -11,10 +11,14 @@
     --soft-white: #F9F5ED;
     --white: #fff;
 
-    --title-size:2rem;
-    --small-title-size:1.25rem;
-    --paragraph-size:1rem;
-    --list-text-size:0.8rem;
+    --title-size: 3.5rem;
+    --page-title-size: 3.5rem;
+    --section-title-size: 1rem;
+    --small-title-size: 1.25rem;
+    --paragraph-size: 1rem;
+    --list-text-size: 0.8rem;
+    --button-size: 0.95rem;
+    --badge-size: 0.8rem;
 }
 *{
     box-sizing: border-box;
@@ -34,10 +38,10 @@ p{
 }
 
 body{
-
+    font-family: var(--body-font);
+    padding-top: 80px;
     background-color: var(--white);
     color: var(--charcoal-clay);
-
 }
 .page-title{
     width: 100%;
@@ -46,7 +50,7 @@ body{
     background: linear-gradient(-185deg, var(--charcoal-clay) 0%, var(--rustic-taupe) 100%);
 }
 .page-title h1{
-    font-size: 3.5rem;
+    font-size: var(--page-title-size);
     font-weight: 650;
     color: var(--white);
 }
