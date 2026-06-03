@@ -130,17 +130,6 @@
     display: block;
 }
 
-.badge {
-    position: absolute;
-    left: 18px;
-    top: 18px;
-    background: rgba(95, 75, 63, 0.96);
-    color: #fff;
-    padding: 10px 16px;
-    border-radius: 999px;
-    font-size: 0.8rem;
-}
-
 .product-card .meta {
     padding: 24px;
     display: flex;
