@@ -6,7 +6,9 @@ $currentPath = $currentPath === '' ? '/' : $currentPath;
     <nav>
         <div class="left">
             <div class="logo">
-                <img src="/public/assets/logo-cleanstone.png">
+                <a href="/home" aria-label="Home">
+                    <img src="/public/assets/logo-cleanstone.png" alt="Cleanstone">
+                </a>
             </div>
             <button class="search-btn" aria-label="Zoeken">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
@@ -49,23 +51,18 @@ $currentPath = $currentPath === '' ? '/' : $currentPath;
 
 <script>
 (() => {
-    const links = document.querySelectorAll('nav a[href]');
+    const links = document.querySelectorAll('nav ul a[href]');
     const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
 
     const normalize = (href) => {
         const path = new URL(href, window.location.origin).pathname.replace(/\/+$/, '') || '/';
-        return path === '/home' && currentPath === '/' ? '/' : path;
+        return path;
     };
-
-    const setActive = () => {
-        links.forEach(link => {
-            link.classList.toggle('active', normalize(link.getAttribute('href')) === currentPath || (currentPath === '/home' && normalize(link.getAttribute('href')) === '/'));
-        });
-    };
-
-    setActive();
 
     links.forEach(link => {
+        const isActive = normalize(link.getAttribute('href')) === currentPath;
+        link.classList.toggle('active', isActive);
+
         link.addEventListener('click', () => {
             links.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
