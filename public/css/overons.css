@@ -1,0 +1,230 @@
+/* Overons page styles */
+:root {
+  --brown-1: #6b3f2b;
+  --brown-2: #c9a98d;
+  --soft: #f6efe8;
+  --card-shadow: 0 8px 18px rgba(33, 33, 33, 0.08);
+}
+body {
+  background: var(--soft);
+  color: #2e2e2e;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Central card layout similar to the provided .login example */
+.over-page {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+.over-page h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.over-page section {
+  display: block;
+}
+
+.over-page button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: var(--brown-1);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.over-page button:hover {
+  background-color: #513022;
+}
+
+.page-title {
+  width: 100%;
+  text-align: center;
+  padding: 60px 40px;
+  background: linear-gradient(180deg, var(--brown-1), #8b5e44);
+  color: white;
+  border-radius: 4px;
+}
+.over-hero-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+.page-title h1 {
+  font-size: 32px;
+  letter-spacing: 1px;
+  margin: 0 0 10px;
+}
+.page-title p {
+  opacity: 0.95;
+  font-size: 15px;
+}
+
+.mission-section {
+  padding: 60px 0;
+}
+.mission-grid {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+.mission-text {
+  flex: 1;
+}
+.mission-text h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.mission-text p {
+  line-height: 1.6;
+  color: #4a4a4a;
+}
+.mission-card {
+  width: 320px;
+  height: 240px;
+  background: linear-gradient(180deg, #e7d7c9, #f2ebe6);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--card-shadow);
+}
+.trophy {
+  font-size: 64px;
+}
+
+.stats-section {
+  padding: 30px 0;
+}
+.stats-row {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+.stat-card {
+  flex: 1;
+  background: white;
+  padding: 22px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+}
+.stat-icon {
+  font-size: 28px;
+  background: var(--brown-2);
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.stat-card h3 {
+  margin: 8px 0;
+}
+.stat-card p {
+  font-size: 14px;
+  color: #666;
+}
+
+.story-section {
+  padding: 40px 0;
+}
+.story-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+}
+.story-card h2 {
+  margin-top: 0;
+}
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 16px;
+}
+.timeline-item {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.timeline-item .year {
+  min-width: 80px;
+  color: var(--brown-1);
+  font-weight: 700;
+}
+.timeline-item .text strong {
+  display: block;
+}
+.timeline-item .text p {
+  margin: 6px 0 0;
+  color: #666;
+}
+
+.promise-values {
+  padding: 50px 0;
+}
+.pv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.pv-card {
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  background: white;
+}
+.pv-card.brown {
+  background: linear-gradient(180deg, var(--brown-1), #8b5e44);
+  color: white;
+}
+.pv-card.light {
+  background: white;
+}
+.pv-card h3 {
+  margin-top: 0;
+}
+.pv-card ul {
+  margin: 12px 0 0;
+  padding-left: 18px;
+}
+.pv-card li {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+  .mission-grid {
+    flex-direction: column;
+  }
+  .stats-row {
+    flex-direction: column;
+  }
+  .pv-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .wrap {
+    padding: 20px 16px;
+  }
+  .page-title {
+    padding: 48px 20px;
+  }
+  .mission-card {
+    width: 100%;
+  }
+}
