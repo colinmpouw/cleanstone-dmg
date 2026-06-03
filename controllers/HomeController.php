@@ -2,7 +2,7 @@
 
 namespace controllers;
 
-class HomController
+class HomeController
 {
     public function __construct($router)
     {
