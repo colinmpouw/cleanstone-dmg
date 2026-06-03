@@ -34,7 +34,7 @@ p{
 }
 
 body{
-
+    padding-top: 80px;
     background-color: var(--white);
     color: var(--charcoal-clay);
 
