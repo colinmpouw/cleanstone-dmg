@@ -17,7 +17,6 @@
 
     <main class="products-page">
                 <div class="page-title">
-                    <p class="eyebrow">Onze selectie</p>
                     <h1>Alle Producten</h1>
                     <p class="hero-copy">Premium onderhoudsmiddelen voor natuursteen van de beste merken</p>
                 </div>
