@@ -53,15 +53,17 @@
     width: 90%;
     max-width: 1300px;
     margin: 0 auto;
+    align-items: flex-start;
 }
 
 /* ── Card ── */
-.card {
+.bundels-card {
     background: var(--white);
     border-radius: 20px;
     overflow: hidden;
     width: 360px;
     box-shadow: 0 8px 40px rgba(58, 43, 32, 0.12);
+
 }
 
 /* ── Image area ── */
@@ -78,7 +80,7 @@
     display: block;
 }
 
-.badge {
+.bundels-badge {
     position: absolute;
     border-radius: 20px;
     font-family: var(--body-font);
@@ -90,7 +92,7 @@
 .badge--discount {
     top: 14px;
     left: 14px;
-    background: var(--rustic-taupe);
+    background: var(--green);
     color: var(--white);
 }
 
@@ -239,7 +241,7 @@
 }
 
 .price-current {
-    font-family: var(--title-font);
+    font-family: var(--body-font);
     font-size: 2rem;
     font-weight: 700;
     color: var(--charcoal-clay);
@@ -257,13 +259,14 @@
 }
 
 .savings-badge {
-    background: var(--creamy-taupe);
-    color: var(--charcoal-clay);
+    background: var(--rustic-taupe);
+    color: var(--white);
     font-family: var(--body-font);
     font-size: var(--badge-size);
     font-weight: 700;
     padding: 8px 14px;
-    border-radius: 10px;
+    border-radius: 25px;
+
 }
 
 /* CTA */
