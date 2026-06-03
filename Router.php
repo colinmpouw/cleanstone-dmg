@@ -1,20 +1,20 @@
 <?php
 class Router
 {
-    private $routes = [];
+    private array $routes = [];
 
-    public function get($uri, $callback)
+    public function get(string $uri, callable $callback): void
     {
         $this->routes['GET'][$uri] = $callback;
     }
 
-    public function post($uri, $callback)
+    public function post(string $uri, callable $callback): void
     {
         $this->routes['POST'][$uri] = $callback;
     }
 
 
-    public function dispatch()
+    public function dispatch(): void
     {
         ob_start();
 

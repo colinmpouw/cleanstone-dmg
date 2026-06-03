@@ -1,3 +1,18 @@
+<?php
+if (!isset($products, $categories, $brands)) {
+    require_once __DIR__ . '/../autoloader.php';
+    require_once __DIR__ . '/../controllers/DatabaseController.php';
+
+    $db = new controllers\DatabaseController();
+
+    $products = $db->read(
+        "SELECT p.id, p.name, p.price, p.stock, b.name as brand_name FROM products p LEFT JOIN brands b ON p.brand_id = b.id ORDER BY p.id DESC"
+    ) ?: [];
+
+    $categories = $db->read("SELECT id, name, slug FROM categories WHERE parent_id IS NULL ORDER BY name") ?: [];
+    $brands = $db->read("SELECT id, name FROM brands ORDER BY name") ?: [];
+}
+?>
 <!doctype html>
 <html lang="nl">
 
@@ -32,64 +47,51 @@
                     <label>Categorie</label>
                     <ul>
                         <li><a class="active" href="#">Alle</a></li>
-                        <li><a href="#">Reinigers</a></li>
-                        <li><a href="#">Bescherming</a></li>
-                        <li><a href="#">Intensieve reiniging</a></li>
-                        <li><a href="#">Vlekverwijdering</a></li>
-                        <li><a href="#">Onderhoud</a></li>
+                        <?php foreach ($categories as $cat): ?>
+                            <li><a href="#"><?php echo htmlspecialchars($cat['name']); ?></a></li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div class="filter-group">
                     <label>Merk</label>
                     <ul>
                         <li><a class="active" href="#">Alle merken</a></li>
-                        <li><a href="#">Lithofin</a></li>
-                        <li><a href="#">Akemi</a></li>
-                        <li><a href="#">Bellinzoni</a></li>
-                        <li><a href="#">Lantania</a></li>
+                        <?php foreach ($brands as $brand): ?>
+                            <li><a href="#"><?php echo htmlspecialchars($brand['name']); ?></a></li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             </aside>
 
             <div class="products-grid-wrapper">
                 <div class="products-grid-intro">
-                    <p>8 producten gevonden</p>
+                    <p><?php echo count($products); ?> producten gevonden</p>
                 </div>
                 <section class="products-grid">
-                <?php
-                // Voorbeeldproducten; vervang met dynamische inhoud uit database/controller
-                $items = [
-                    ['brand' => 'Lithofin', 'title' => 'Lindha XL Oilssealer', 'price' => '€24.95', 'rating' => '4.8', 'reviews' => '158', 'stock' => 'Op voorraad'],
-                    ['brand' => 'Akemi', 'title' => 'Akemi Marble Protector', 'price' => '€39.95', 'rating' => '4.9', 'reviews' => '234', 'stock' => 'Op voorraad'],
-                    ['brand' => 'Bellinzoni', 'title' => 'Bellinzoni Idea Stone', 'price' => '€29.95', 'rating' => '4.7', 'reviews' => '189', 'stock' => 'Op voorraad'],
-                    ['brand' => 'Lithofin', 'title' => 'Lithofin KF Intense Clean', 'price' => '€34.95', 'rating' => '4.9', 'reviews' => '298', 'stock' => 'Op voorraad'],
-                    ['brand' => 'Lantania', 'title' => 'Lantania Natural Stone Sealer', 'price' => '€44.95', 'rating' => '4.8', 'reviews' => '167', 'stock' => 'Op voorraad'],
-                    ['brand' => 'Akemi', 'title' => 'Akemi Anti-Drop', 'price' => '€27.95', 'rating' => '4.7', 'reviews' => '143', 'stock' => 'Uitverkocht'],
-                    ['brand' => 'Lithofin', 'title' => 'Lithofin POLISH CREAM', 'price' => '€32.95', 'rating' => '4.9', 'reviews' => '412', 'stock' => 'Op voorraad'],
-                    ['brand' => 'Bellinzoni', 'title' => 'Bellinzoni Cera Gel', 'price' => '€38.95', 'rating' => '4.8', 'reviews' => '198', 'stock' => 'Op voorraad'],
-                ];
-
-                foreach ($items as $i) { ?>
+                <?php foreach ($products as $product): 
+                    $stockStatus = (int)$product['stock'] > 0 ? 'Op voorraad' : 'Uitverkocht';
+                    $formattedPrice = '€' . number_format($product['price'], 2, ',', '');
+                ?>
                     <article class="product-card">
                         <div class="media">
-                            <div class="badge"><?php echo htmlspecialchars($i['stock']); ?></div>
+                            <div class="badge"><?php echo htmlspecialchars($stockStatus); ?></div>
                             <img src="https://via.placeholder.com/360x240.png?text=Product"
-                                alt="<?php echo htmlspecialchars($i['title']); ?>">
+                                alt="<?php echo htmlspecialchars($product['name']); ?>">
                         </div>
                         <div class="meta">
-                            <span class="product-brand"><?php echo htmlspecialchars($i['brand']); ?></span>
-                            <h4><?php echo htmlspecialchars($i['title']); ?></h4>
+                            <span class="product-brand"><?php echo htmlspecialchars($product['brand_name'] ?? 'Onbekend'); ?></span>
+                            <h4><?php echo htmlspecialchars($product['name']); ?></h4>
                             <div class="rating">
                                 <span class="stars">★★★★☆</span>
-                                <span class="rating-value"><?php echo htmlspecialchars($i['reviews']); ?></span>
+                                <span class="rating-value">158</span>
                             </div>
-                            <div class="price"><?php echo htmlspecialchars($i['price']); ?></div>
-                            <button class="<?php echo $i['stock'] === 'Uitverkocht' ? 'btn-disabled' : 'btn-primary'; ?>">
-                                <?php echo $i['stock'] === 'Uitverkocht' ? 'Uitverkocht' : 'In winkelwagen'; ?>
+                            <div class="price"><?php echo htmlspecialchars($formattedPrice); ?></div>
+                            <button class="<?php echo $stockStatus === 'Uitverkocht' ? 'btn-disabled' : 'btn-primary'; ?>">
+                                <?php echo $stockStatus === 'Uitverkocht' ? 'Uitverkocht' : 'In winkelwagen'; ?>
                             </button>
                         </div>
                     </article>
-                <?php } ?>
+                <?php endforeach; ?>
                 </section>
             </div>
         </div>
