@@ -20,6 +20,7 @@ class BundelsController
     public function get_all_bundels() {
         $bundels = [
             [
+                "id"            => 1,
                 "image"         => "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop",
                 "imageAlt"      => "Aanrechtblad",
                 "discount"      => "-18%",
@@ -41,6 +42,7 @@ class BundelsController
                 "link"          => "#"
             ],
             [
+                "id"            => 1,
                 "image"         => "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop",
                 "imageAlt"      => "Bundel 2",
                 "discount"      => null,
@@ -60,6 +62,7 @@ class BundelsController
                 "link"          => "#"
             ],
             [
+                "id"            => 1,
                 "image"         => "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&auto=format&fit=crop",
                 "imageAlt"      => "Bundel 3",
                 "discount"      => "-10%",

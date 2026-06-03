@@ -184,7 +184,7 @@ function createCardHTML(bundel) {
     btn.innerHTML = arrowSVG; // static SVG, no user data
     btn.prepend(document.createTextNode('Bekijk bundel '));
     btn.addEventListener('click', () => {
-        location.href = bundel.link;
+        location.href = "/bundel/" + bundel.id; // navigate to detail page
     });
 
     body.appendChild(btn);
