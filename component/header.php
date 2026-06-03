@@ -1,3 +1,7 @@
+<?php
+$currentPath = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/', '/');
+$currentPath = $currentPath === '' ? '/' : $currentPath;
+?>
 <header>
     <nav>
         <div class="left">
@@ -13,15 +17,13 @@
             </button>
         </div>
 
-
         <ul>
-            <li><a href="/home" class="active">HOME</a></li>
+            <li><a href="/home">HOME</a></li>
             <li><a href="/producten">PRODUCTEN</a></li>
             <li><a href="/bundels">BUNDELS</a></li>
             <li><a href="/advies">ADVIES</a></li>
             <li><a href="/blog">BLOG</a></li>
         </ul>
-
 
         <div class="right">
             <div class="divider"></div>
@@ -44,3 +46,30 @@
         </div>
     </nav>
 </header>
+
+<script>
+(() => {
+    const links = document.querySelectorAll('nav a[href]');
+    const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+
+    const normalize = (href) => {
+        const path = new URL(href, window.location.origin).pathname.replace(/\/+$/, '') || '/';
+        return path === '/home' && currentPath === '/' ? '/' : path;
+    };
+
+    const setActive = () => {
+        links.forEach(link => {
+            link.classList.toggle('active', normalize(link.getAttribute('href')) === currentPath || (currentPath === '/home' && normalize(link.getAttribute('href')) === '/'));
+        });
+    };
+
+    setActive();
+
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            links.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+        });
+    });
+})();
+</script>
