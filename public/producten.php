@@ -1,3 +1,13 @@
+<?php
+if (!isset($products, $categories, $brands)) {
+    require_once __DIR__ . '/../autoloader.php';
+    require_once __DIR__ . '/../controllers/DatabaseController.php';
+
+    $db = new controllers\DatabaseController();
+    $categories = $db->read("SELECT id, name, slug FROM categories WHERE parent_id IS NULL ORDER BY name") ?: [];
+    $brands = $db->read("SELECT id, name FROM brands ORDER BY name") ?: [];
+}
+?>
 <!doctype html>
 <html lang="nl">
 
@@ -17,7 +27,6 @@
 
     <main class="products-page">
                 <div class="page-title">
-                    <p class="eyebrow">Onze selectie</p>
                     <h1>Alle Producten</h1>
                     <p class="hero-copy">Premium onderhoudsmiddelen voor natuursteen van de beste merken</p>
                 </div>
@@ -27,71 +36,33 @@
                 <h3>Filters</h3>
                 <div class="filter-group">
                     <label>Zoeken</label>
-                    <input type="search" placeholder="Zoek producten...">
+                    <input id="product-search" type="search" placeholder="Zoek producten...">
                 </div>
                 <div class="filter-group">
                     <label>Categorie</label>
                     <ul>
-                        <li><a class="active" href="#">Alle</a></li>
-                        <li><a href="#">Reinigers</a></li>
-                        <li><a href="#">Bescherming</a></li>
-                        <li><a href="#">Intensieve reiniging</a></li>
-                        <li><a href="#">Vlekverwijdering</a></li>
-                        <li><a href="#">Onderhoud</a></li>
+                        <li><a class="active" href="#" data-category="all">Alle</a></li>
+                        <?php foreach ($categories as $cat): ?>
+                            <li><a href="#" data-category="<?php echo htmlspecialchars($cat['slug']); ?>"><?php echo htmlspecialchars($cat['name']); ?></a></li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div class="filter-group">
                     <label>Merk</label>
                     <ul>
-                        <li><a class="active" href="#">Alle merken</a></li>
-                        <li><a href="#">Lithofin</a></li>
-                        <li><a href="#">Akemi</a></li>
-                        <li><a href="#">Bellinzoni</a></li>
-                        <li><a href="#">Lantania</a></li>
+                        <li><a class="active" href="#" data-brand="all">Alle merken</a></li>
+                        <?php foreach ($brands as $brand): ?>
+                            <li><a href="#" data-brand="<?php echo htmlspecialchars($brand['name']); ?>"><?php echo htmlspecialchars($brand['name']); ?></a></li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             </aside>
 
             <div class="products-grid-wrapper">
                 <div class="products-grid-intro">
-                    <p>8 producten gevonden</p>
+                    <p id="product-count">Laden...</p>
                 </div>
-                <section class="products-grid">
-                <?php
-                // Voorbeeldproducten; vervang met dynamische inhoud uit database/controller
-                $items = [
-                    ['brand' => 'Lithofin', 'title' => 'Lindha XL Oilssealer', 'price' => '€24.95', 'rating' => '4.8', 'reviews' => '158', 'stock' => 'Op voorraad'],
-                    ['brand' => 'Akemi', 'title' => 'Akemi Marble Protector', 'price' => '€39.95', 'rating' => '4.9', 'reviews' => '234', 'stock' => 'Op voorraad'],
-                    ['brand' => 'Bellinzoni', 'title' => 'Bellinzoni Idea Stone', 'price' => '€29.95', 'rating' => '4.7', 'reviews' => '189', 'stock' => 'Op voorraad'],
-                    ['brand' => 'Lithofin', 'title' => 'Lithofin KF Intense Clean', 'price' => '€34.95', 'rating' => '4.9', 'reviews' => '298', 'stock' => 'Op voorraad'],
-                    ['brand' => 'Lantania', 'title' => 'Lantania Natural Stone Sealer', 'price' => '€44.95', 'rating' => '4.8', 'reviews' => '167', 'stock' => 'Op voorraad'],
-                    ['brand' => 'Akemi', 'title' => 'Akemi Anti-Drop', 'price' => '€27.95', 'rating' => '4.7', 'reviews' => '143', 'stock' => 'Uitverkocht'],
-                    ['brand' => 'Lithofin', 'title' => 'Lithofin POLISH CREAM', 'price' => '€32.95', 'rating' => '4.9', 'reviews' => '412', 'stock' => 'Op voorraad'],
-                    ['brand' => 'Bellinzoni', 'title' => 'Bellinzoni Cera Gel', 'price' => '€38.95', 'rating' => '4.8', 'reviews' => '198', 'stock' => 'Op voorraad'],
-                ];
-
-                foreach ($items as $i) { ?>
-                    <article class="product-card">
-                        <div class="media">
-                            <div class="badge"><?php echo htmlspecialchars($i['stock']); ?></div>
-                            <img src="https://via.placeholder.com/360x240.png?text=Product"
-                                alt="<?php echo htmlspecialchars($i['title']); ?>">
-                        </div>
-                        <div class="meta">
-                            <span class="product-brand"><?php echo htmlspecialchars($i['brand']); ?></span>
-                            <h4><?php echo htmlspecialchars($i['title']); ?></h4>
-                            <div class="rating">
-                                <span class="stars">★★★★☆</span>
-                                <span class="rating-value"><?php echo htmlspecialchars($i['reviews']); ?></span>
-                            </div>
-                            <div class="price"><?php echo htmlspecialchars($i['price']); ?></div>
-                            <button class="<?php echo $i['stock'] === 'Uitverkocht' ? 'btn-disabled' : 'btn-primary'; ?>">
-                                <?php echo $i['stock'] === 'Uitverkocht' ? 'Uitverkocht' : 'In winkelwagen'; ?>
-                            </button>
-                        </div>
-                    </article>
-                <?php } ?>
-                </section>
+                <section id="products-grid" class="products-grid"></section>
             </div>
         </div>
 
@@ -99,6 +70,7 @@
 
     </main>
 
+    <script src="/public/js/producten.js"></script>
 </body>
 
 </html>

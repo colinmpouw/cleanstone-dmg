@@ -67,9 +67,9 @@
 
 .filter-group a {
     display: inline-flex;
-    width: fit-content;
+    width: 100%;
     padding: 10px 16px;
-    border-radius: 18px;
+    border-radius: 12px;
     color: #5b4b44;
     text-decoration: none;
     background: #f7efe6;
@@ -128,17 +128,6 @@
     height: 100%;
     object-fit: cover;
     display: block;
-}
-
-.badge {
-    position: absolute;
-    left: 18px;
-    top: 18px;
-    background: rgba(95, 75, 63, 0.96);
-    color: #fff;
-    padding: 10px 16px;
-    border-radius: 999px;
-    font-size: 0.8rem;
 }
 
 .product-card .meta {

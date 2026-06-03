@@ -5,7 +5,7 @@ use PDO;
 use PDOException;
 class DatabaseController
 {
-    private $pdo;
+    private PDO $pdo;
 
     public function __construct()
     {
@@ -22,13 +22,13 @@ class DatabaseController
         }
     }
 
-    public function connect()
+    public function connect(): PDO
     {
         return $this->pdo;
     }
 
     // Read data (SELECT query with parameters)
-    public function read($query, $params = [])
+    public function read(string $query, array $params = []): array|false
     {
         try {
             $stmt = $this->pdo->prepare($query);
@@ -42,7 +42,7 @@ class DatabaseController
     }
 
     // Save data (INSERT, UPDATE, DELETE with parameters)
-    public function save($query, $params = [])
+    public function save(string $query, array $params = []): bool
     {
         try {
             $stmt = $this->pdo->prepare($query);
@@ -53,7 +53,7 @@ class DatabaseController
         }
     }
 
-    public function lastInsertId()
+    public function lastInsertId(): string
     {
         return $this->pdo->lastInsertId();
     }
