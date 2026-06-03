@@ -4,11 +4,6 @@ if (!isset($products, $categories, $brands)) {
     require_once __DIR__ . '/../controllers/DatabaseController.php';
 
     $db = new controllers\DatabaseController();
-
-    $products = $db->read(
-        "SELECT p.id, p.name, p.price, p.stock, b.name as brand_name FROM products p LEFT JOIN brands b ON p.brand_id = b.id ORDER BY p.id DESC"
-    ) ?: [];
-
     $categories = $db->read("SELECT id, name, slug FROM categories WHERE parent_id IS NULL ORDER BY name") ?: [];
     $brands = $db->read("SELECT id, name FROM brands ORDER BY name") ?: [];
 }
@@ -41,23 +36,23 @@ if (!isset($products, $categories, $brands)) {
                 <h3>Filters</h3>
                 <div class="filter-group">
                     <label>Zoeken</label>
-                    <input type="search" placeholder="Zoek producten...">
+                    <input id="product-search" type="search" placeholder="Zoek producten...">
                 </div>
                 <div class="filter-group">
                     <label>Categorie</label>
                     <ul>
-                        <li><a class="active" href="#">Alle</a></li>
+                        <li><a class="active" href="#" data-category="all">Alle</a></li>
                         <?php foreach ($categories as $cat): ?>
-                            <li><a href="#"><?php echo htmlspecialchars($cat['name']); ?></a></li>
+                            <li><a href="#" data-category="<?php echo htmlspecialchars($cat['slug']); ?>"><?php echo htmlspecialchars($cat['name']); ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
                 <div class="filter-group">
                     <label>Merk</label>
                     <ul>
-                        <li><a class="active" href="#">Alle merken</a></li>
+                        <li><a class="active" href="#" data-brand="all">Alle merken</a></li>
                         <?php foreach ($brands as $brand): ?>
-                            <li><a href="#"><?php echo htmlspecialchars($brand['name']); ?></a></li>
+                            <li><a href="#" data-brand="<?php echo htmlspecialchars($brand['name']); ?>"><?php echo htmlspecialchars($brand['name']); ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
@@ -65,34 +60,9 @@ if (!isset($products, $categories, $brands)) {
 
             <div class="products-grid-wrapper">
                 <div class="products-grid-intro">
-                    <p><?php echo count($products); ?> producten gevonden</p>
+                    <p id="product-count">Laden...</p>
                 </div>
-                <section class="products-grid">
-                <?php foreach ($products as $product): 
-                    $stockStatus = (int)$product['stock'] > 0 ? 'Op voorraad' : 'Uitverkocht';
-                    $formattedPrice = '€' . number_format($product['price'], 2, ',', '');
-                ?>
-                    <article class="product-card">
-                        <div class="media">
-                            <div class="badge"><?php echo htmlspecialchars($stockStatus); ?></div>
-                            <img src="https://via.placeholder.com/360x240.png?text=Product"
-                                alt="<?php echo htmlspecialchars($product['name']); ?>">
-                        </div>
-                        <div class="meta">
-                            <span class="product-brand"><?php echo htmlspecialchars($product['brand_name'] ?? 'Onbekend'); ?></span>
-                            <h4><?php echo htmlspecialchars($product['name']); ?></h4>
-                            <div class="rating">
-                                <span class="stars">★★★★☆</span>
-                                <span class="rating-value">158</span>
-                            </div>
-                            <div class="price"><?php echo htmlspecialchars($formattedPrice); ?></div>
-                            <button class="<?php echo $stockStatus === 'Uitverkocht' ? 'btn-disabled' : 'btn-primary'; ?>">
-                                <?php echo $stockStatus === 'Uitverkocht' ? 'Uitverkocht' : 'In winkelwagen'; ?>
-                            </button>
-                        </div>
-                    </article>
-                <?php endforeach; ?>
-                </section>
+                <section id="products-grid" class="products-grid"></section>
             </div>
         </div>
 
@@ -100,6 +70,7 @@ if (!isset($products, $categories, $brands)) {
 
     </main>
 
+    <script src="/public/js/producten.js"></script>
 </body>
 
 </html>

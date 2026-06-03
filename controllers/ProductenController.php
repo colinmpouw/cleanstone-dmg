@@ -11,11 +11,11 @@ class ProductenController
     {
         $this->db = new DatabaseController();
         $router->get('/producten', [$this, 'pageProducten']);
+        $router->get('/api/get_all_products', [$this, 'get_all_products']);
     }
 
     public function pageProducten()
     {
-        $products = $this->getProducts();
         $categories = $this->getCategories();
         $brands = $this->getBrands();
         
@@ -26,17 +26,29 @@ class ProductenController
     {
         $query = "
             SELECT 
-                p.id, 
-                p.name, 
-                p.price, 
+                p.id,
+                p.slug,
+                p.name,
+                p.price,
                 p.stock,
+                p.image,
+                c.name as category_name,
+                c.slug as category_slug,
                 b.name as brand_name
             FROM products p
             LEFT JOIN brands b ON p.brand_id = b.id
+            LEFT JOIN categories c ON p.category_id = c.id
             ORDER BY p.id DESC
         ";
         
         return $this->db->read($query) ?: [];
+    }
+
+    public function get_all_products()
+    {
+        $products = $this->getProducts();
+        header('Content-Type: application/json');
+        echo json_encode($products);
     }
 
     private function getCategories()
