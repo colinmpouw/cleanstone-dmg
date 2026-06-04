@@ -41,7 +41,7 @@ p{
 body{
     font-family: var(--body-font);
     padding-top: 80px;
-    background-color: var(--white);
+    background-color: #E8DDD0;
     color: var(--charcoal-clay);
 }
 .page-title{

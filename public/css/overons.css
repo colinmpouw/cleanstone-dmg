@@ -7,10 +7,10 @@
   --white: #ffffff;
 }
 
-body {
-  background: var(--soft);
-  color: var(--charcoal-clay);
-}
+/*body {*/
+/*  background: var(--soft);*/
+/*  color: var(--charcoal-clay);*/
+/*}*/
 
 .wrap {
   max-width: 1320px;
