@@ -16,7 +16,7 @@ class BundelsRepository
     public function get_all_bundels()
     {
 
-        $sql = "SELECT * FROM product_bundles";
+        $sql = "SELECT * FROM bundel_full_details";
         $result = $this->DB->read($sql);
         return $result;
     }

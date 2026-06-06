@@ -22,22 +22,19 @@ class DatabaseController
         }
     }
 
-    public function connect(): PDO
-    {
-        return $this->pdo;
-    }
 
     // Read data (SELECT query with parameters)
-    public function read(string $query, array $params = []): array|false
+    public function read(string $query, array $params = []): array
     {
         try {
             $stmt = $this->pdo->prepare($query);
             $stmt->execute($params);
-            $data = $stmt->fetchAll();
-            return !empty($data) ? $data : false;
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+
         } catch (PDOException $e) {
 
-            return false;
+            die("DB ERROR: " . $e->getMessage());
         }
     }
 

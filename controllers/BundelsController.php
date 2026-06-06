@@ -36,7 +36,7 @@ class BundelsController
 
         echo json_encode([
             "success" => true,
-            "message" => "Courses retrieved successfully",
+            "message" => "Bundels retrieved successfully",
             "data" => $result
         ]);
 

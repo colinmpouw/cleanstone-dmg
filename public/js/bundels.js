@@ -203,11 +203,24 @@ async function loadBundels() {
         const data = await res.json();
 
         container.innerHTML = '';
-        data.forEach(bundel => container.appendChild(createCardHTML(bundel)));
+
+        if (!data.success) {
+            const msg = document.createElement('p');
+            msg.textContent = data.message || 'Geen bundels gevonden';
+            container.appendChild(msg);
+            return;
+        }
+
+
+        data.data.forEach(bundel => {
+            container.appendChild(createCardHTML(bundel));
+        });
 
     } catch (err) {
         console.error('Failed to load bundels:', err);
+
         container.innerHTML = '';
+
         const msg = document.createElement('p');
         msg.textContent = 'Er is iets misgegaan. Probeer het later opnieuw.';
         container.appendChild(msg);
