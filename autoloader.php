@@ -8,6 +8,7 @@ spl_autoload_register(function ($class) {
         __DIR__ . '/services/',
         __DIR__ . '/public/',
         __DIR__ . '/component/',
+        __DIR__ . '/repositories/'
     ];
 
     foreach ($paths as $path) {
