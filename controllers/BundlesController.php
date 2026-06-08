@@ -1,15 +1,15 @@
 <?php
 
 namespace controllers;
-use services\BundelsService;
+use services\BundlesService;
 
-class BundelsController
+class BundlesController
 {
-    private $bundelsService;
+    private $bundlesService;
 
     public function __construct($router)
     {
-        $this->bundelsService = new BundelsService();
+        $this->bundlesService = new BundlesService();
         $router->get('/bundels', [$this, 'bundelsPage']);
         $router->get('/api/get_all_bundels', [$this, 'get_all_bundels']);
 
@@ -24,7 +24,7 @@ class BundelsController
 
         header('Content-Type: application/json');
 
-        $result = $this->bundelsService->get_all_bundels();
+        $result = $this->bundlesService->get_all_bundels();
         if (empty($result)) {
             echo json_encode([
                 "success" => false,

@@ -4,7 +4,7 @@ namespace repositories;
 
 use controllers\DatabaseController;
 
-class BundelsRepository
+class BundlesRepository
 {
     private $DB;
 
@@ -16,7 +16,7 @@ class BundelsRepository
     public function get_all_bundels()
     {
 
-        $sql = "SELECT * FROM bundel_full_details";
+        $sql = "SELECT * FROM bundle_full_details";
         $result = $this->DB->read($sql);
         return $result;
     }
