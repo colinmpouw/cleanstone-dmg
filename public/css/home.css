@@ -1,3 +1,6 @@
+body{
+    padding-top: 0;
+}
 .hero {
     min-height: 100vh;
     display: flex;
@@ -262,7 +265,7 @@
 /* Floating badge bottom-left */
 .float-badge {
     position: absolute;
-    bottom: -20px;
+    bottom: -48px;
     left: -20px;
     background: var(--white);
     border-radius: 14px;
@@ -328,5 +331,112 @@
     }
     50% {
         transform: translateX(-50%) translateY(6px);
+    }
+}
+
+.show_all_badges {
+    background: var(--soft-white);
+    /*padding: 50px 20px;*/
+    display: flex;
+    justify-content: center;
+    height: 300px;
+    align-items: center;
+    border-bottom: 1px solid var(--creamy-taupe);
+}
+
+.all_badges {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 150px;
+}
+
+.badge {
+    flex: 1;
+    text-align: center;
+}
+
+.badge_icon {
+    width: 56px;
+    height: 56px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 16px;
+
+    background: var(--creamy-taupe);
+    border-radius: 12px;
+}
+
+.badge_icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.badge_icon svg path {
+    stroke: var(--charcoal-clay);
+}
+
+.badge_title {
+    font-family: var(--title-font);
+    font-size: var(--small-title-size);
+    font-weight: 600;
+    color: var(--charcoal-clay);
+    margin-bottom: 6px;
+    line-height: 1.2;
+}
+
+.small_text {
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--rustic-taupe);
+    line-height: 1.4;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+    .all_badges {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 32px;
+    }
+
+    .badge {
+        flex: 0 0 calc(50% - 16px);
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .show_all_badges {
+        padding: 40px 20px;
+    }
+
+    .all_badges {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .badge {
+        width: 100%;
+    }
+}
+
+.full-bleed-divider {
+    height: 2px;
+    background: var(--creamy-taupe);
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    border: 0;
+    display: block;
+}
+
+@media (max-width: 480px) {
+    .full-bleed-divider {
+        height: 2px;
     }
 }
