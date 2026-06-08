@@ -57,7 +57,7 @@
 }
 
 /* ── Card ── */
-.bundels-card {
+.card {
     background: var(--white);
     border-radius: 20px;
     overflow: hidden;
