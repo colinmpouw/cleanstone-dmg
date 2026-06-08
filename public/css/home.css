@@ -343,6 +343,7 @@ body {
     height: 300px;
     align-items: center;
     border-bottom: 1px solid var(--creamy-taupe);
+    width: 100%;
 }
 
 .all_badges {
@@ -352,6 +353,7 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     gap: 150px;
+    width: 90%;
 }
 
 .badge {
