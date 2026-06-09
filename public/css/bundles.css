@@ -231,7 +231,11 @@
     font-weight: 500;
     background: var(--white);
 }
+.tag--bundle{
+    background: var(--creamy-taupe);
+    border-color: var(--creamy-taupe);
 
+}
 /* Price row */
 .price-row {
     display: flex;

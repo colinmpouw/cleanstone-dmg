@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/public/css/main.css">
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
-    <link rel="stylesheet" href="/public/css/bundels.css">
+    <link rel="stylesheet" href="/public/css/bundles.css">
     <link rel="icon" href="/public/assets/logo_icon.png" type="image/png">
     <title>CleanStone -Bundels</title>
 </head>
@@ -61,6 +61,6 @@
 </main>
 
 <?php require_once __DIR__ . '/../component/footer.php'; ?>
-<script src="/public/js/bundels.js"></script>
+<script src="/public/js/bundles.js"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@ class BundlesRepository
         $this->DB = new databaseController();
     }
 
-    public function get_all_bundels()
+    public function get_all_bundles()
     {
 
         $sql = "SELECT * FROM bundle_full_details";
@@ -21,4 +21,10 @@ class BundlesRepository
         return $result;
     }
 
+    public function find_bundle($bundle_id){
+
+        $sql = "SELECT * FROM bundle_full_details WHERE id = :bundle_id";
+        $result = $this->DB->read($sql, ['bundle_id' => $bundle_id]);
+        return $result;
+    }
 }

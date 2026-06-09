@@ -206,7 +206,7 @@ function createCardHTML(bundel) {
     btn.innerHTML = `Bekijk bundel ${arrowSVG}`;
 
     btn.addEventListener('click', () => {
-        location.href = "/bundel/" + bundel.id;
+        location.href = `/bundel/${bundel.id}/${slugify(bundel.name)}`;
     });
 
     body.appendChild(btn);
@@ -215,10 +215,20 @@ function createCardHTML(bundel) {
 
     return card;
 }
-
+function slugify(text) {
+    return text
+        .toString()
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
 
 /* ── Fetch & render ── */
-async function loadBundels() {
+async function loadBundles() {
     const container = document.getElementById('bundels-container');
     container.innerHTML = '<p>Laden...</p>';
 
@@ -251,4 +261,4 @@ async function loadBundels() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadBundels);
+document.addEventListener('DOMContentLoaded', loadBundles);
