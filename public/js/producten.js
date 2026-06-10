@@ -65,9 +65,15 @@ function createProductCardHTML(product) {
     const priceText = formatPrice(product.price);
     const imageSrc = product.image ? `/public/assets/${product.image}` : 'https://via.placeholder.com/360x240.png?text=Product';
     const imageAlt = product.imageAlt || product.name || 'Productafbeelding';
+    const productUrl = `/product/${product.slug || product.id}`;
 
     const card = document.createElement('article');
     card.className = 'product-card';
+
+    // Make the entire image section clickable
+    const imageLink = document.createElement('a');
+    imageLink.href = productUrl;
+    imageLink.className = 'media-link';
 
     const imageWrap = document.createElement('div');
     imageWrap.className = 'media';
@@ -78,10 +84,12 @@ function createProductCardHTML(product) {
     imageWrap.appendChild(img);
 
     const badge = document.createElement('div');
-    badge.className = 'badge';
+    badge.className = `stock-badge ${product.stock > 0 ? 'stock-badge--in-stock' : 'stock-badge--out-of-stock'}`;
     badge.textContent = stockStatus;
     imageWrap.appendChild(badge);
-    card.appendChild(imageWrap);
+    
+    imageLink.appendChild(imageWrap);
+    card.appendChild(imageLink);
 
     const body = document.createElement('div');
     body.className = 'meta';
@@ -91,8 +99,14 @@ function createProductCardHTML(product) {
     brand.textContent = product.brand_name || 'Onbekend';
     body.appendChild(brand);
 
+    // Make the title a clickable link
+    const titleLink = document.createElement('a');
+    titleLink.href = productUrl;
+    titleLink.className = 'product-title-link';
+    titleLink.textContent = product.name;
+    
     const title = document.createElement('h4');
-    title.textContent = product.name;
+    title.appendChild(titleLink);
     body.appendChild(title);
 
     const rating = document.createElement('div');
@@ -109,8 +123,10 @@ function createProductCardHTML(product) {
     btn.className = product.stock > 0 ? 'btn-primary' : 'btn-disabled';
     btn.textContent = product.stock > 0 ? 'In winkelwagen' : 'Uitverkocht';
     if (product.stock > 0) {
-        btn.addEventListener('click', () => {
-            location.href = `/product/${product.slug || product.id}`;
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Navigate to product page
+            window.location.href = productUrl;
         });
     }
     body.appendChild(btn);
