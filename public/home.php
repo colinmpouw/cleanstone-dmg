@@ -369,9 +369,61 @@
         <p>Bespaar tijd en geld met onze zorgvuldig samengestelde pakketten</p>
     </div>
     <div id="top-bundels-container" class="cards-grid"></div>
-<!--    <div class="bundels-footer">-->
-<!--        <a href="/bundels"><button class="view-products-btn">Bekijk alle bundels</button></a>-->
-<!--    </div>-->
+</section>
+
+<section class="merken-section">
+
+    <div class="merken-header">
+        <h1>Premium merken</h1>
+        <p>Wij werken samen met de beste fabrikanten in de branche</p>
+    </div>
+
+    <div class="merken-banner">
+        <div class="merken-banner__label">
+            <span>Onze partners</span>
+            <div class="divider"></div>
+            <span class="tag">Merken</span>
+        </div>
+
+        <div class="merken-logos">
+            <div class="merken-logo-item">
+                 <img src="/public/assets/lithofin.png" alt="Lithofin">
+            </div>
+
+            <div class="merken-logo-item">
+                 <img src="/public/assets/AKEMI_logo.png" alt="Akemi">
+            </div>
+
+            <div class="merken-logo-item">
+                 <img src="/public/assets/LOGO-BELLINZONI-std.png" alt="Bellinzoni">
+            </div>
+
+            <div class="merken-logo-item">
+                 <img src="/public/assets/lantania_logo.png" alt="Lantania">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="merken-labels">
+        <div class="merken-label-item">
+            <strong>Lithofin</strong>
+            <span>Marktleider in steenonderhoud</span>
+        </div>
+        <div class="merken-label-item">
+            <strong>Akemi</strong>
+            <span>Premium Duitse kwaliteit</span>
+        </div>
+        <div class="merken-label-item">
+            <strong>Bellinzoni</strong>
+            <span>Italiaanse expertise</span>
+        </div>
+        <div class="merken-label-item">
+            <strong>Lantania</strong>
+            <span>Innovatieve oplossingen</span>
+        </div>
+    </div>
+
 </section>
 
 <?php require_once __DIR__ . '/../component/footer.php'; ?>

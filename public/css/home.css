@@ -632,6 +632,7 @@ body {
     text-align: center;
     margin-bottom: 52px;
 }
+
 .bundels_header h1 {
     font-family: var(--title-font, "Playfair Display", serif);
     font-size: var(--page-title-size);
@@ -639,6 +640,7 @@ body {
     color: var(--charcoal-clay, #3A2B20);
     margin-bottom: 10px;
 }
+
 .bundels_header p {
     font-size: 1rem;
     color: var(--rustic-taupe, #7E6A52);
@@ -689,6 +691,7 @@ body {
     object-fit: cover;
     display: block;
 }
+
 .tag--bundle-container {
     position: absolute;
     top: 14px;
@@ -699,7 +702,8 @@ body {
     justify-content: flex-end;
     gap: 1rem;
 }
-.tag--bundle{
+
+.tag--bundle {
     background: linear-gradient(90deg, var(--rustic-taupe) 0%, var(--warm-beige) 100%);
     border-radius: 20px;
 
@@ -708,7 +712,8 @@ body {
     color: var(--white);
     font-weight: 500;
 }
-.badge--discount{
+
+.badge--discount {
     position: absolute;
     top: 14px;
     left: 14px;
@@ -720,6 +725,7 @@ body {
     padding: 5px 12px;
     border-radius: 15px;
 }
+
 .bundels-badge {
     position: absolute;
     border-radius: 20px;
@@ -834,15 +840,18 @@ body {
     color: var(--charcoal-clay);
     font-weight: 500;
 }
-.package-list li a{
+
+.package-list li a {
     color: var(--charcoal-clay);
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: border-color 0.18s;
 }
+
 .package-list li a:hover {
     border-color: var(--charcoal-clay);
 }
+
 .check-icon {
     width: 18px;
     height: 18px;
@@ -869,16 +878,16 @@ body {
     flex-wrap: wrap;
 }
 
-.tag {
-    border: 1.5px solid var(--creamy-taupe);
-    border-radius: 20px;
-    font-family: var(--body-font);
-    font-size: var(--list-text-size);
-    padding: 4px 14px;
-    color: var(--charcoal-clay);
-    font-weight: 500;
-    background: var(--white);
-}
+/*.tag {*/
+/*    border: 1.5px solid var(--creamy-taupe);*/
+/*    border-radius: 20px;*/
+/*    font-family: var(--body-font);*/
+/*    font-size: var(--list-text-size);*/
+/*    padding: 4px 14px;*/
+/*    color: var(--charcoal-clay);*/
+/*    font-weight: 500;*/
+/*    background: var(--white);*/
+/*}*/
 
 /* Price row */
 .price-row {
@@ -945,4 +954,148 @@ body {
     width: 18px;
     height: 18px;
     stroke: currentColor;
+}
+
+.merken-section {
+    padding: 80px 40px;
+    background-color: var(--white, #fff);
+}
+
+.merken-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.merken-header h1 {
+    font-family: var(--title-font);
+    font-size: var(--page-title-size);
+    font-weight: 700;
+    color: var(--charcoal-clay, #3A2B20);
+    margin-bottom: 10px;
+}
+
+.merken-header p {
+    font-size: 1rem;
+    color: var(--rustic-taupe, #7E6A52);
+}
+
+/* === DARK BANNER === */
+.merken-banner {
+    max-width: 1250px;
+    margin: 0 auto 44px auto;
+    background-color: var(--charcoal-clay, #3A2B20);
+    border-radius: 20px;
+    padding: 70px 70px;
+}
+
+.merken-banner__label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+}
+
+.merken-banner__label span:first-child {
+    font-family: var(--title-font, "Playfair Display", serif);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--white, #fff);
+    white-space: nowrap;
+}
+
+.merken-banner__label .divider {
+    flex: 0 0 60px;
+    height: 1px;
+    background-color: var(--rustic-taupe, #7E6A52);
+}
+
+.merken-banner__label .tag {
+    font-family: var(--body-font, 'DM Sans', sans-serif);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--warm-beige, #B89C82);
+}
+
+/* logo grid */
+.merken-logos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    gap: 20px;
+}
+
+.merken-logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+}
+
+.merken-logo-item img {
+    max-width: 100%;
+    max-height: 48px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.85;
+    transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+.merken-logo-item img:hover {
+    filter: none;
+    opacity: 1;
+    cursor: pointer;
+
+}
+
+/* fallback tekst als er geen afbeelding is */
+.merken-logo-item .logo-text {
+    color: var(--white, #fff);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    opacity: 0.85;
+}
+
+.merken-logo-item .logo-text.bold {
+    font-weight: 800;
+    font-family: var(--body-font, 'DM Sans', sans-serif);
+    letter-spacing: 0.05em;
+}
+
+.merken-logo-item .logo-text.italic {
+    font-style: italic;
+    font-family: var(--title-font, "Playfair Display", serif);
+}
+
+.merken-logo-item .logo-text.caps {
+    font-weight: 700;
+    font-family: var(--body-font, 'DM Sans', sans-serif);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+/* === BOTTOM LABELS === */
+.merken-labels {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    text-align: center;
+}
+
+.merken-label-item strong {
+    display: block;
+    font-family: var(--body-font, 'DM Sans', sans-serif);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--charcoal-clay, #3A2B20);
+    margin-bottom: 4px;
+}
+
+.merken-label-item span {
+    font-size: 0.8rem;
+    color: var(--rustic-taupe, #7E6A52);
 }
