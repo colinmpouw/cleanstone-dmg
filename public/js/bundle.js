@@ -127,5 +127,54 @@ async function loadBundle() {
         console.error(err);
     }
 }
+async function loadBundleCards() {
+    try {
+        const res = await fetch('/api/get_all_bundels');
+        const data = await res.json();
 
+        if (!data.success) {
+            console.error('Bundles not found');
+            return;
+        }
+
+        const bundles = data.data;
+        const container = document.getElementById('bundles-grid');
+        container.innerHTML = '';
+
+        bundles.forEach(bundle => {
+            const card = document.createElement('div');
+            card.className = 'bundle-card';
+
+            card.innerHTML = `
+                <div class="bundle-card-image-wrap">
+                    <img 
+                        src="${bundle.image || 'https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=900&q=80'}" 
+                        alt="${bundle.name || ''}"
+                    />
+                </div>
+                <div class="bundle-card-info">
+                    <p class="bundle-card-name">${bundle.name || ''}</p>
+                    <div class="bundle-card-price-row">
+                        <span class="bundle-card-price">€${bundle.price}</span>
+                        ${bundle.original_price
+                ? `<span class="bundle-card-original">€${bundle.original_price}</span>`
+                : ''
+            }
+                    </div>
+                </div>
+            `;
+
+            card.addEventListener('click', () => {
+                window.location.href = `/bundel/${bundle.id}/${slugify(bundle.name)}`;
+            });
+
+            container.appendChild(card);
+        });
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+loadBundleCards();
 document.addEventListener('DOMContentLoaded', loadBundle);
