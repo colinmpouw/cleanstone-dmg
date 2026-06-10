@@ -38,7 +38,7 @@
                 <span id="badge-bestseller" class="badge-bestseller">Bestseller</span>
             </div>
 
-            <div class="trust-row">
+            <div class="trust-row" id="trust-row">
                 <div class="trust-item">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14 18V6C14 5.46957 13.7893 4.96086 13.4142 4.58579C13.0391 4.21071 12.5304 4 12 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V17C2 17.2652 2.10536 17.5196 2.29289 17.7071C2.48043 17.8946 2.73478 18 3 18H5" stroke="#7E6A52" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -74,11 +74,7 @@
 
             <div class="rating-row">
                 <div class="stars" id="stars">
-                    <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.4 7.4H20l-6.2 4.5 2.4 7.4L10 16.1l-6.2 4.2 2.4-7.4L0 8.4h7.6z"/></svg>
-                    <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.4 7.4H20l-6.2 4.5 2.4 7.4L10 16.1l-6.2 4.2 2.4-7.4L0 8.4h7.6z"/></svg>
-                    <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.4 7.4H20l-6.2 4.5 2.4 7.4L10 16.1l-6.2 4.2 2.4-7.4L0 8.4h7.6z"/></svg>
-                    <svg class="star filled" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.4 7.4H20l-6.2 4.5 2.4 7.4L10 16.1l-6.2 4.2 2.4-7.4L0 8.4h7.6z"/></svg>
-                    <svg class="star empty"  viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.4 7.4H20l-6.2 4.5 2.4 7.4L10 16.1l-6.2 4.2 2.4-7.4L0 8.4h7.6z"/></svg>
+
                 </div>
                 <span id="rating-text"></span>
             </div>
@@ -96,7 +92,7 @@
                     </div>
                     <span id="price-save" class="badge-save">Bespaar €20</span>
                 </div>
-                <button class="btn-cart">
+                <button class="btn-cart" id="btn-cart">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8 22C8.55228 22 9 21.5523 9 21C9 20.4477 8.55228 20 8 20C7.44772 20 7 20.4477 7 21C7 21.5523 7.44772 22 8 22Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M19 22C19.5523 22 20 21.5523 20 21C20 20.4477 19.5523 20 19 20C18.4477 20 18 20.4477 18 21C18 21.5523 18.4477 22 19 22Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -118,73 +114,14 @@
 
                     Pakket bevat:
                 </div>
-                <ul class="package-list">
-                    <li>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_121_12267)">
-                                <path d="M18.1676 8.33357C18.5482 10.2013 18.2769 12.1431 17.3991 13.8351C16.5213 15.527 15.09 16.8669 13.3438 17.6313C11.5977 18.3957 9.64227 18.5384 7.80367 18.0355C5.96506 17.5327 4.35441 16.4147 3.24031 14.8681C2.12622 13.3214 1.57602 11.4396 1.68147 9.53639C1.78692 7.63318 2.54165 5.82364 3.81979 4.40954C5.09793 2.99545 6.82223 2.06226 8.70514 1.76561C10.588 1.46897 12.5157 1.82679 14.1667 2.7794" stroke="#7E6A52" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M7.5 9.16634L10 11.6663L18.3333 3.33301" stroke="#7E6A52" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_121_12267">
-                                    <rect width="20" height="20" fill="white"/>
-                                </clipPath>
-                            </defs>
-                        </svg>
+                <ul class="package-list" id="package-list">
 
-                        Lithofin MN Allesreiniger 1L
-                    </li>
-                    <li>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_121_12267)">
-                                <path d="M18.1676 8.33357C18.5482 10.2013 18.2769 12.1431 17.3991 13.8351C16.5213 15.527 15.09 16.8669 13.3438 17.6313C11.5977 18.3957 9.64227 18.5384 7.80367 18.0355C5.96506 17.5327 4.35441 16.4147 3.24031 14.8681C2.12622 13.3214 1.57602 11.4396 1.68147 9.53639C1.78692 7.63318 2.54165 5.82364 3.81979 4.40954C5.09793 2.99545 6.82223 2.06226 8.70514 1.76561C10.588 1.46897 12.5157 1.82679 14.1667 2.7794" stroke="#7E6A52" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M7.5 9.16634L10 11.6663L18.3333 3.33301" stroke="#7E6A52" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_121_12267">
-                                    <rect width="20" height="20" fill="white"/>
-                                </clipPath>
-                            </defs>
-                        </svg>
-
-                        Akemi Stone Sealer 500ml
-                    </li>
-                    <li>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_121_12267)">
-                                <path d="M18.1676 8.33357C18.5482 10.2013 18.2769 12.1431 17.3991 13.8351C16.5213 15.527 15.09 16.8669 13.3438 17.6313C11.5977 18.3957 9.64227 18.5384 7.80367 18.0355C5.96506 17.5327 4.35441 16.4147 3.24031 14.8681C2.12622 13.3214 1.57602 11.4396 1.68147 9.53639C1.78692 7.63318 2.54165 5.82364 3.81979 4.40954C5.09793 2.99545 6.82223 2.06226 8.70514 1.76561C10.588 1.46897 12.5157 1.82679 14.1667 2.7794" stroke="#7E6A52" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M7.5 9.16634L10 11.6663L18.3333 3.33301" stroke="#7E6A52" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_121_12267">
-                                    <rect width="20" height="20" fill="white"/>
-                                </clipPath>
-                            </defs>
-                        </svg>
-
-                        Microvezel doeken (3st)
-                    </li>
-                    <li>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_121_12267)">
-                                <path d="M18.1676 8.33357C18.5482 10.2013 18.2769 12.1431 17.3991 13.8351C16.5213 15.527 15.09 16.8669 13.3438 17.6313C11.5977 18.3957 9.64227 18.5384 7.80367 18.0355C5.96506 17.5327 4.35441 16.4147 3.24031 14.8681C2.12622 13.3214 1.57602 11.4396 1.68147 9.53639C1.78692 7.63318 2.54165 5.82364 3.81979 4.40954C5.09793 2.99545 6.82223 2.06226 8.70514 1.76561C10.588 1.46897 12.5157 1.82679 14.1667 2.7794" stroke="#7E6A52" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M7.5 9.16634L10 11.6663L18.3333 3.33301" stroke="#7E6A52" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_121_12267">
-                                    <rect width="20" height="20" fill="white"/>
-                                </clipPath>
-                            </defs>
-                        </svg>
-
-                        Gebruiksinstructies
-                    </li>
                 </ul>
             </div>
 
             <div class="suitable-section">
                 <p class="suitable-title">Geschikt voor:</p>
-                <div class="suitable-tags">
+                <div class="suitable-tags" id="suitable-tags">
                     <span class="tag">Graniet</span>
                     <span class="tag">Marmer</span>
                     <span class="tag">Composiet</span>

@@ -254,10 +254,20 @@ main {
     font-size: var(--paragraph-size);
     color: var(--rustic-taupe);
 }
-
+.package-list li a{
+    color: var(--charcoal-clay);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.18s;
+}
+.package-list li a:hover {
+    border-color: var(--charcoal-clay);
+}
 .check-icon {
-    color: var(--warm-beige);
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
+    color: var(--rustic-taupe);
 }
 
 /* Suitable-for section */
