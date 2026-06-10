@@ -13,6 +13,8 @@
 }
 
 .filters {
+    position: sticky;
+    top: 70px;
     background: #ffffff;
     border-radius: 32px;
     padding: 28px 24px;
