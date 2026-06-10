@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Indie+Flower&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+
 :root {
   --brown-1: #5b3f33;
   --brown-2: #c9a98d;
@@ -59,7 +62,7 @@
   flex: 1;
 }
 .mission-text h2 {
-  font-family: "Playfair Display", serif;
+  font-family: "Playfair Display";
   font-size: 28px;
   margin-bottom: 12px;
 }
@@ -210,12 +213,14 @@
 
 @media (max-width: 480px) {
   .page-title {
+    font-family: "Playfair Display";
     padding: 48px 20px;
   }
   .page-title h1 {
     font-size: 26px;
   }
   .mission-card {
+    font-family: "DM Sans";
     width: 100%;
     aspect-ratio: auto;
     height: 220px;
