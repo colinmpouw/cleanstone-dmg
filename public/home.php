@@ -384,45 +384,10 @@
             <div class="divider"></div>
             <span class="tag">Merken</span>
         </div>
-
-        <div class="merken-logos">
-            <div class="merken-logo-item">
-                 <img src="/public/assets/lithofin.png" alt="Lithofin">
-            </div>
-
-            <div class="merken-logo-item">
-                 <img src="/public/assets/AKEMI_logo.png" alt="Akemi">
-            </div>
-
-            <div class="merken-logo-item">
-                 <img src="/public/assets/LOGO-BELLINZONI-std.png" alt="Bellinzoni">
-            </div>
-
-            <div class="merken-logo-item">
-                 <img src="/public/assets/lantania_logo.png" alt="Lantania">
-            </div>
-
-        </div>
+        <div class="merken-logos" id="merken-logos"></div>
     </div>
 
-    <div class="merken-labels">
-        <div class="merken-label-item">
-            <strong>Lithofin</strong>
-            <span>Marktleider in steenonderhoud</span>
-        </div>
-        <div class="merken-label-item">
-            <strong>Akemi</strong>
-            <span>Premium Duitse kwaliteit</span>
-        </div>
-        <div class="merken-label-item">
-            <strong>Bellinzoni</strong>
-            <span>Italiaanse expertise</span>
-        </div>
-        <div class="merken-label-item">
-            <strong>Lantania</strong>
-            <span>Innovatieve oplossingen</span>
-        </div>
-    </div>
+    <div class="merken-labels" id="merken-labels"></div>  <!-- buiten de banner -->
 
 </section>
 

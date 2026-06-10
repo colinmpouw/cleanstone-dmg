@@ -1018,10 +1018,9 @@ body {
     color: var(--warm-beige, #B89C82);
 }
 
-/* logo grid */
 .merken-logos {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     align-items: center;
     gap: 20px;
 }
@@ -1076,16 +1075,14 @@ body {
     text-transform: uppercase;
 }
 
-/* === BOTTOM LABELS === */
 .merken-labels {
     max-width: 1100px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 20px;
     text-align: center;
 }
-
 .merken-label-item strong {
     display: block;
     font-family: var(--body-font, 'DM Sans', sans-serif);

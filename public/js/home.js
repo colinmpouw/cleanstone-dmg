@@ -335,3 +335,44 @@ function slugify(text) {
 }
 
 document.addEventListener('DOMContentLoaded', loadTopBundles);
+
+async function loadBrands() {
+    const logosContainer  = document.getElementById('merken-logos');
+    const labelsContainer = document.getElementById('merken-labels');
+    if (!logosContainer || !labelsContainer) return;
+
+    try {
+        const res  = await fetch('/api/get_all_brands');
+        const data = await res.json();
+
+        if (!data.success) return;
+
+        logosContainer.innerHTML  = '';
+        labelsContainer.innerHTML = '';
+
+
+        data.data.forEach(brand => {
+            // logo
+            const logoItem = document.createElement('div');
+            logoItem.className = 'merken-logo-item';
+            const img = document.createElement('img');
+            img.src = brand.logo || '';
+            img.alt = brand.name;
+            logoItem.appendChild(img);
+            logosContainer.appendChild(logoItem);
+
+            // label
+            const labelItem = document.createElement('div');
+            labelItem.className = 'merken-label-item';
+            labelItem.innerHTML = `<strong>${brand.name}</strong><span>${brand.discription || ''}</span>`;
+            labelsContainer.appendChild(labelItem);
+        });
+
+    } catch (err) {
+        console.error('Failed to load brands:', err);
+    }
+
+
+}
+
+document.addEventListener('DOMContentLoaded', loadBrands);
