@@ -40,8 +40,8 @@
             </p>
 
             <div class="hero__buttons">
-                <a href="#" class="btn-primary">Shop Bundels &nbsp;→</a>
-                <a href="#" class="btn-outline">Gratis Advies</a>
+                <a href="/bundels" class="btn-primary">Shop Bundels &nbsp;→</a>
+                <a href="/advies" class="btn-outline">Gratis Advies</a>
             </div>
 
             <div class="hero__stats">
@@ -357,10 +357,19 @@
     </div>
 
     <div class="products-footer">
-        <button class="view-products-btn">
+      <a href="/producten"  <button  class="view-products-btn">
             Bekijk alle producten
-        </button>
+        </button> <a/>
     </div>
+</section>
+
+<section class="show_all_bundels">
+    <div class="bundels_header">
+        <h1> Slimme bundels </h1>
+        <p>Bespaar tijd en geld met onze zorgvuldig samengestelde pakketten</p>
+    </div>
+
+
 </section>
 
 <?php require_once __DIR__ . '/../component/footer.php'; ?>
