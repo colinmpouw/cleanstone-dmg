@@ -357,19 +357,21 @@
     </div>
 
     <div class="products-footer">
-      <a href="/producten"  <button  class="view-products-btn">
+      <a href="/producten"> <button  class="view-products-btn">
             Bekijk alle producten
-        </button> <a/>
+        </button> </a>
     </div>
 </section>
 
 <section class="show_all_bundels">
     <div class="bundels_header">
-        <h1> Slimme bundels </h1>
+        <h1>Slimme bundels</h1>
         <p>Bespaar tijd en geld met onze zorgvuldig samengestelde pakketten</p>
     </div>
-
-
+    <div id="top-bundels-container" class="cards-grid"></div>
+<!--    <div class="bundels-footer">-->
+<!--        <a href="/bundels"><button class="view-products-btn">Bekijk alle bundels</button></a>-->
+<!--    </div>-->
 </section>
 
 <?php require_once __DIR__ . '/../component/footer.php'; ?>
