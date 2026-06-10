@@ -79,7 +79,37 @@
     object-fit: cover;
     display: block;
 }
+.tag--bundle-container {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    width: 70%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+.tag--bundle{
+    background: linear-gradient(90deg, var(--rustic-taupe) 0%, var(--warm-beige) 100%);
+    border-radius: 20px;
 
+    font-size: var(--list-text-size);
+    padding: 4px 14px;
+    color: var(--white);
+    font-weight: 500;
+}
+.badge--discount{
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: var(--green);
+    color: var(--white);
+    font-family: var(--body-font);
+    font-weight: 700;
+    font-size: var(--badge-size);
+    padding: 5px 12px;
+    border-radius: 15px;
+}
 .bundels-badge {
     position: absolute;
     border-radius: 20px;
@@ -194,7 +224,15 @@
     color: var(--charcoal-clay);
     font-weight: 500;
 }
-
+.package-list li a{
+    color: var(--charcoal-clay);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.18s;
+}
+.package-list li a:hover {
+    border-color: var(--charcoal-clay);
+}
 .check-icon {
     width: 18px;
     height: 18px;
