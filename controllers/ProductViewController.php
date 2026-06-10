@@ -34,6 +34,34 @@ class ProductViewController
         $images = $this->repository->getProductImages($product['id']);
         $reviews = $this->repository->getProductReviews($product['id'], 5, 0);
 
+        if (empty($specifications)) {
+            $specifications = [
+                ['name' => 'Inhoud', 'value' => '1 liter'],
+                ['name' => 'pH', 'value' => '7-8 (neutraal)'],
+                ['name' => 'Verdunning', 'value' => '1:100'],
+                ['name' => 'Toepassing', 'value' => 'Alle natuursteensoorten'],
+            ];
+        }
+
+        if (empty($features)) {
+            $features = [
+                ['feature' => 'pH-neutraal en veilig voor natuursteen'],
+                ['feature' => 'Geconcentreerd: 1 liter = 100 liter schoonmaakwater'],
+                ['feature' => 'Geschikt voor alle steensoorten'],
+                ['feature' => 'Laat geen strepen of vlekken achter'],
+                ['feature' => 'Milieuvriendelijk en biologisch afbreekbaar'],
+            ];
+        }
+
+        if (empty($instructions)) {
+            $instructions = [
+                ['step_number' => 1, 'instruction' => 'Verdun 10ml reiniger in 1 liter water'],
+                ['step_number' => 2, 'instruction' => 'Breng aan met een vochtige doek of mop'],
+                ['step_number' => 3, 'instruction' => 'Laat kort inwerken en droge met een schone doek'],
+                ['step_number' => 4, 'instruction' => 'Voor hardnekkige vlekken langer laten inwerken'],
+            ];
+        }
+
         require __DIR__ . '/../public/product.php';
     }
 
@@ -53,6 +81,34 @@ class ProductViewController
         $features = $this->repository->getProductFeatures($product['id']);
         $instructions = $this->repository->getProductInstructions($product['id']);
         $images = $this->repository->getProductImages($product['id']);
+
+        if (empty($specifications)) {
+            $specifications = [
+                ['name' => 'Inhoud', 'value' => '1 liter'],
+                ['name' => 'pH', 'value' => '7-8 (neutraal)'],
+                ['name' => 'Verdunning', 'value' => '1:100'],
+                ['name' => 'Toepassing', 'value' => 'Alle natuursteensoorten'],
+            ];
+        }
+
+        if (empty($features)) {
+            $features = [
+                ['feature' => 'pH-neutraal en veilig voor natuursteen'],
+                ['feature' => 'Geconcentreerd: 1 liter = 100 liter schoonmaakwater'],
+                ['feature' => 'Geschikt voor alle steensoorten'],
+                ['feature' => 'Laat geen strepen of vlekken achter'],
+                ['feature' => 'Milieuvriendelijk en biologisch afbreekbaar'],
+            ];
+        }
+
+        if (empty($instructions)) {
+            $instructions = [
+                ['step_number' => 1, 'instruction' => 'Verdun 10ml reiniger in 1 liter water'],
+                ['step_number' => 2, 'instruction' => 'Breng aan met een vochtige doek of mop'],
+                ['step_number' => 3, 'instruction' => 'Laat kort inwerken en droge met een schone doek'],
+                ['step_number' => 4, 'instruction' => 'Voor hardnekkige vlekken langer laten inwerken'],
+            ];
+        }
 
         header('Content-Type: application/json');
         echo json_encode([

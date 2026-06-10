@@ -188,34 +188,36 @@ $reviewCount = $rating['review_count'] ?? 0;
                 </div>
             </div>
 
-            <!-- Specifications Section -->
-            <?php if (!empty($specifications)): ?>
-                <section class="product-section specifications-section">
-                    <h2>Specificaties</h2>
-                    <div class="specifications-grid">
-                        <?php foreach ($specifications as $spec): ?>
-                            <div class="spec-item">
-                                <span class="spec-label"><?php echo htmlspecialchars($spec['name']); ?></span>
-                                <span class="spec-value"><?php echo htmlspecialchars($spec['value']); ?></span>
+            <?php if (!empty($specifications) || !empty($instructions)): ?>
+                <div class="product-panels">
+                    <?php if (!empty($specifications)): ?>
+                        <section class="product-section specifications-section">
+                            <h2>Specificaties</h2>
+                            <div class="specifications-grid">
+                                <?php foreach ($specifications as $spec): ?>
+                                    <div class="spec-item">
+                                        <span class="spec-label"><?php echo htmlspecialchars($spec['name']); ?></span>
+                                        <span class="spec-value"><?php echo htmlspecialchars($spec['value']); ?></span>
+                                    </div>
+                                <?php endforeach; ?>
                             </div>
-                        <?php endforeach; ?>
-                    </div>
-                </section>
-            <?php endif; ?>
+                        </section>
+                    <?php endif; ?>
 
-            <!-- Usage Instructions Section -->
-            <?php if (!empty($instructions)): ?>
-                <section class="product-section instructions-section">
-                    <h2>Gebruiksinstructies</h2>
-                    <div class="instructions-list">
-                        <?php foreach ($instructions as $instruction): ?>
-                            <div class="instruction-item">
-                                <div class="step-number"><?php echo $instruction['step_number']; ?></div>
-                                <div class="step-text"><?php echo htmlspecialchars($instruction['instruction']); ?></div>
+                    <?php if (!empty($instructions)): ?>
+                        <section class="product-section instructions-section">
+                            <h2>Gebruiksinstructies</h2>
+                            <div class="instructions-list">
+                                <?php foreach ($instructions as $instruction): ?>
+                                    <div class="instruction-item">
+                                        <div class="step-number"><?php echo $instruction['step_number']; ?></div>
+                                        <div class="step-text"><?php echo htmlspecialchars($instruction['instruction']); ?></div>
+                                    </div>
+                                <?php endforeach; ?>
                             </div>
-                        <?php endforeach; ?>
-                    </div>
-                </section>
+                        </section>
+                    <?php endif; ?>
+                </div>
             <?php endif; ?>
 
             <!-- Full Description -->
