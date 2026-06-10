@@ -24,6 +24,7 @@ $currentPath = $currentPath === '' ? '/' : $currentPath;
             <li><a href="/producten">PRODUCTEN</a></li>
             <li><a href="/bundels">BUNDELS</a></li>
             <li><a href="/advies">ADVIES</a></li>
+            <li><a href="/overons">OVER ONS</a></li>
             <li><a href="/blog">BLOG</a></li>
         </ul>
 

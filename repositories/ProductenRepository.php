@@ -31,7 +31,7 @@ class ProductenRepository
                 )) as image,
                 c.name as category_name,
                 c.slug as category_slug,
-                b.name as brand_name
+                b.name as brand_name     
             FROM products p
             LEFT JOIN brands b ON p.brand_id = b.id
             LEFT JOIN categories c ON p.category_id = c.id

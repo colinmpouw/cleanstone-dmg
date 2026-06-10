@@ -15,8 +15,24 @@ class BundlesController
         $router->get('/bundel/{bundle_id}/{slug}', [$this, 'bundlePage']);
         $router->get('/api/get_all_bundels', [$this, 'get_all_bundles']);
         $router->get('/api/find_bundle/{bundle_id}', [$this, 'find_bundle']);
+        $router->get('/api/get_top_bundels', [$this, 'get_top_bundles']);
+    }
+    public function get_top_bundles()
+    {
+        header('Content-Type: application/json');
 
+        $result = $this->bundlesService->get_top_bundles();
+        if (empty($result)) {
+            echo json_encode(["success" => false, "message" => "No data provided"]);
+            return;
+        }
 
+        echo json_encode([
+            "success" => true,
+            "message" => "Top bundels retrieved successfully",
+            "data" => $result
+        ]);
+        exit();
     }
 
     public function bundlesPage()
