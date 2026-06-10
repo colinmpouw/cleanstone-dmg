@@ -40,22 +40,17 @@ function createCardHTML(bundel) {
     img.alt = bundel.name || '';
     imageWrap.appendChild(img);
 
-    /* ✅ badge 左右固定 */
+    /* ✅ bundle tags */
     if (bundel.bundle_tags) {
+        const bundleTagContainer = document.createElement('div');
+        bundleTagContainer.className = 'tag--bundle-container';
+        imageWrap.appendChild(bundleTagContainer);
 
-        bundel.bundle_tags.forEach((tag, index) => {
-
+        bundel.bundle_tags.forEach(tag => {
             const span = document.createElement('span');
-            span.className = 'badge';
-
-            if (index === 0) {
-                span.classList.add('badge--discount'); // 左
-            } else if (index === 1) {
-                span.classList.add('badge--bestseller'); // 右
-            }
-
+            span.className = 'tag--bundle';
             span.textContent = tag;
-            imageWrap.appendChild(span);
+            bundleTagContainer.appendChild(span);
         });
     }
 
@@ -101,7 +96,7 @@ function createCardHTML(bundel) {
     subtitle.textContent = bundel.description || '';
     body.appendChild(subtitle);
 
-    /* ✅ package */
+    /* ✅ package + 计算总价 */
     const packageBox = document.createElement('div');
     packageBox.className = 'package-box';
 
@@ -112,14 +107,26 @@ function createCardHTML(bundel) {
     const list = document.createElement('ul');
     list.className = 'package-list';
 
+    let productTotal = 0;
+
     bundel.products.forEach(p => {
+
+        const price = parseFloat(p.price) || 0;
+        const qty = parseFloat(p.quantity) || 1;
+
+        productTotal += price * qty;
+
         const li = document.createElement('li');
 
         const iconWrap = document.createElement('div');
         iconWrap.innerHTML = checkIconSVG;
 
+        const link = document.createElement('a');
+        link.href = `/product/${p.product_id}/${slugify(p.product_name)}`;
+        link.textContent = `${p.product_name} (${p.quantity}x)`;
+
         li.appendChild(iconWrap.firstElementChild);
-        li.appendChild(document.createTextNode(`${p.product_name} (${p.quantity}x)`));
+        li.appendChild(link);
 
         list.appendChild(li);
     });
@@ -128,7 +135,7 @@ function createCardHTML(bundel) {
     packageBox.appendChild(list);
     body.appendChild(packageBox);
 
-    /* ✅ TAGS（🔥） */
+    /* ✅ TAGS */
     const suitable = document.createElement('div');
     suitable.className = 'suitable';
 
@@ -139,22 +146,9 @@ function createCardHTML(bundel) {
     const tagsWrap = document.createElement('div');
     tagsWrap.className = 'tags';
 
-    /* ✅ bundle tags（✅） */
-    if (bundel.bundle_tags) {
-        bundel.bundle_tags.forEach(tag => {
-            const span = document.createElement('span');
-            span.className = 'tag tag--bundle';
-            span.textContent = tag;
-
-            tagsWrap.appendChild(span);
-        });
-    }
-
-    /* ✅ product tags（后面 ✅） */
     const tagSet = new Set();
-    let productPrice = 0;
+
     bundel.products.forEach(p => {
-        p.price && (productPrice += parseFloat(p.price));
         if (p.tags) {
             p.tags.forEach(t => tagSet.add(t.name));
         }
@@ -164,40 +158,56 @@ function createCardHTML(bundel) {
         const span = document.createElement('span');
         span.className = 'tag tag--product';
         span.textContent = tag;
-
         tagsWrap.appendChild(span);
     });
 
     suitable.appendChild(suitableLabel);
     suitable.appendChild(tagsWrap);
-
     body.appendChild(suitable);
 
-    /* ✅ price */
+    /* ✅ PRICE */
     const priceRow = document.createElement('div');
     priceRow.className = 'price-row';
 
     const priceBlock = document.createElement('div');
     priceBlock.className = 'price-block';
 
-    const priceProductTotal = document.createElement('div');
-    priceProductTotal.className = 'price-total';
+    const bundlePrice = parseFloat(bundel.price) || 0;
+    const savings = productTotal - bundlePrice;
 
-
+    /* 当前价 */
     const current = document.createElement('div');
     current.className = 'price-current';
-    current.textContent = `€${bundel.price}`;
-
+    current.textContent = `€${bundlePrice.toFixed(2)}`;
     priceBlock.appendChild(current);
 
-    if (bundel.original_price) {
+    /* 原价 */
+    if (productTotal > bundlePrice) {
         const original = document.createElement('div');
         original.className = 'price-original';
-        original.textContent = `€${bundel.original_price}`;
+        original.textContent = `€${productTotal.toFixed(2)}`;
         priceBlock.appendChild(original);
     }
 
     priceRow.appendChild(priceBlock);
+
+    /* ✅ Bespaar（不带 %） */
+    if (savings > 0) {
+        const badge = document.createElement('div');
+        badge.className = 'savings-badge';
+        badge.textContent = `Bespaar €${savings.toFixed(2)}`;
+        priceRow.appendChild(badge);
+
+        /* ✅ % 放在图片 */
+        const percent = Math.round((savings / productTotal) * 100);
+
+        const discountBadge = document.createElement('span');
+        discountBadge.className = 'badge badge--discount';
+        discountBadge.textContent = `-${percent}%`;
+
+        imageWrap.appendChild(discountBadge);
+    }
+
     body.appendChild(priceRow);
 
     /* ✅ button */
@@ -215,6 +225,8 @@ function createCardHTML(bundel) {
 
     return card;
 }
+
+
 function slugify(text) {
     return text
         .toString()
