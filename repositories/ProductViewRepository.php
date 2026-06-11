@@ -112,7 +112,7 @@ class ProductViewRepository
                 r.id,
                 r.rating,
                 r.review,
-                r.user_id,
+                CONCAT('Klant ', r.user_id) as author,
                 r.created_at
             FROM reviews r
             WHERE r.product_id = ?

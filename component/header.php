@@ -2,6 +2,7 @@
 $currentPath = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/', '/');
 $currentPath = $currentPath === '' ? '/' : $currentPath;
 ?>
+<?php $currentUser = $_SESSION['user'] ?? null; ?>
 <header>
     <nav>
         <div class="left">
@@ -30,13 +31,13 @@ $currentPath = $currentPath === '' ? '/' : $currentPath;
 
         <div class="right">
             <div class="divider"></div>
-            <button class="icon-btn" aria-label="Account">
+            <a class="icon-btn" href="<?php echo $currentUser ? '/account' : '/login'; ?>" aria-label="Account">
                 <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
                      stroke-linecap="round">
                     <circle cx="12" cy="8" r="4"/>
                     <path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>
                 </svg>
-            </button>
+            </a>
             <button class="icon-btn cart" aria-label="Winkelwagen">
                 <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
                      stroke-linecap="round" stroke-linejoin="round">

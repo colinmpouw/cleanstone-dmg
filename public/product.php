@@ -104,7 +104,7 @@ $reviewCount = $rating['review_count'] ?? 0;
 
                     <!-- Description -->
                     <p class="product-description">
-                        <?php echo htmlspecialchars($product['short_description'] ?? $product['description']); ?>
+                        <?php echo htmlspecialchars($product['short_description'] ?? $product['description'] ?? 'Zachte en effectieve reiniging voor natuursteen, verwijdert vuil en vet zonder de beschermlaag aan te tasten.'); ?>
                     </p>
 
                     <!-- Important Characteristics -->
@@ -220,12 +220,33 @@ $reviewCount = $rating['review_count'] ?? 0;
                 </div>
             <?php endif; ?>
 
-            <!-- Full Description -->
-            <?php if ($product['description']): ?>
-                <section class="product-section description-section">
-                    <h2>Volledige Omschrijving</h2>
-                    <div class="product-description-full">
-                        <?php echo nl2br(htmlspecialchars($product['description'])); ?>
+            <?php if (!empty($reviews)): ?>
+                <section class="product-section reviews-section">
+                    <h2>Reviews</h2>
+                    <div class="reviews-summary">
+                        <span class="reviews-score"><?php echo number_format($averageRating, 1, '.', ''); ?> / 5</span>
+                        <span class="reviews-count"><?php echo $reviewCount; ?> beoordelingen</span>
+                    </div>
+                    <div class="reviews-list">
+                        <?php foreach ($reviews as $review): ?>
+                            <article class="review-item">
+                                <div class="review-header">
+                                    <div class="review-stars">
+                                        <?php
+                                            $filledStars = (int) floor($review['rating'] ?? 0);
+                                            for ($i = 0; $i < 5; $i++) {
+                                                echo '<span class="star' . ($i < $filledStars ? ' filled' : '') . '">★</span>';
+                                            }
+                                        ?>
+                                    </div>
+                                    <div class="review-meta">
+                                        <span class="review-author"><?php echo htmlspecialchars($review['author'] ?? 'Anoniem'); ?></span>
+                                        <time datetime="<?php echo htmlspecialchars($review['created_at']); ?>"><?php echo date('d-m-Y', strtotime($review['created_at'])); ?></time>
+                                    </div>
+                                </div>
+                                <p class="review-text"><?php echo htmlspecialchars($review['review']); ?></p>
+                            </article>
+                        <?php endforeach; ?>
                     </div>
                 </section>
             <?php endif; ?>

@@ -2,6 +2,8 @@
 require_once __DIR__ . '/autoloader.php';
 require_once __DIR__ . '/Router.php';
 
+session_start();
+
 $router = new Router();
 
 foreach (glob(__DIR__ . '/controllers/*.php') as $file) {
