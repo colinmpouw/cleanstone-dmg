@@ -31,6 +31,10 @@ function slugify(text) {
 async function loadBundle() {
     try {
         const res = await fetch(`/api/find_bundle/${bundle_id}`);
+        if (res.status === 404) {
+            window.location.href = "/404";
+            return;
+        }
         const data = await res.json();
 
         if (!data.success) {
@@ -53,23 +57,55 @@ async function loadBundle() {
         badgeDiscount.textContent = bundle.bundle_tags?.[0] || '';
         badgeDiscount.style.display = bundle.bundle_tags?.[0] ? '' : 'none';
 
-        badgeBestseller.textContent = bundle.bundle_tags?.[1] || '';
-        badgeBestseller.style.display = bundle.bundle_tags?.[1] ? '' : 'none';
+
+
+        bundle.bundle_tags.forEach((tag)=>{
+            const tagElement = document.createElement('span');
+            tagElement.className = 'badge';
+            tagElement.textContent = tag;
+            badgeBestseller.appendChild(tagElement);
+
+        })
+
 
         /* ───────── TITLE ───────── */
         document.getElementById('bundle-title').textContent = bundle.name;
         document.getElementById('bundle-subtitle').textContent = bundle.description || '';
 
         /* ───────── PRICE ───────── */
-        document.getElementById('price-current').textContent = `€${bundle.price}`;
+        const current = bundle.price;
+
+        const original = products.reduce(
+            (sum, p) => sum + (p.price * p.quantity),
+            0
+        );
+
+
+        document.getElementById('price-current').textContent = `€${current}`;
 
         const priceOriginal = document.getElementById('price-original');
-        priceOriginal.textContent = bundle.original_price ? `€${bundle.original_price}` : '';
-        priceOriginal.style.display = bundle.original_price ? '' : 'none';
-
         const priceSave = document.getElementById('price-save');
-        priceSave.textContent = bundle.savings || '';
-        priceSave.style.display = bundle.savings ? '' : 'none';
+        
+        if (original && original > current) {
+
+            priceOriginal.textContent = `€${original}`;
+            priceOriginal.style.display = '';
+
+
+            const savings = original - current;
+            priceSave.textContent = `Bespaar €${savings.toFixed(2)}`;
+            priceSave.style.display = '';
+
+
+            const discountPercent = ((savings) / original) * 100;
+            badgeDiscount.textContent = `-${Math.round(discountPercent)}%`;
+            badgeDiscount.style.display = '';
+
+        } else {
+            priceOriginal.style.display = 'none';
+            priceSave.style.display = 'none';
+            badgeDiscount.style.display = 'none';
+        }
 
         /* ───────── RATING ───────── */
         const ratings = products

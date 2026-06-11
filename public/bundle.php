@@ -35,7 +35,7 @@
                         alt="Moderne keuken met marmeren aanrechtblad"
                 />
                 <span id="badge-discount" class="badge-discount">-18%</span>
-                <span id="badge-bestseller" class="badge-bestseller">Bestseller</span>
+                <span id="badge-bestseller" class="badge-bestseller"></span>
             </div>
 
             <div class="trust-row" id="trust-row">

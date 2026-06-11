@@ -67,14 +67,22 @@ main {
     position: absolute;
     top: 16px;
     right: 16px;
-    background: rgba(255, 255, 255, 0.85);
-    color: var(--charcoal-clay);
+    display: flex;
+    gap: 1rem;
+    width: 70%;
+    justify-content: flex-end;
+
+
+}
+
+.badge-bestseller span {
+    background: var(--charcoal-clay);
+    border-radius: 999px;
+    padding: 8px 18px;
+    color: var(--white);
     font-family: var(--body-font);
     font-weight: 600;
     font-size: var(--badge-size);
-    padding: 8px 18px;
-    border-radius: 999px;
-    backdrop-filter: blur(4px);
 }
 
 .trust-row {

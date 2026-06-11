@@ -107,14 +107,17 @@ class BundlesController
         header('Content-Type: application/json');
 
         $result = $this->bundlesService->find_bundle($bundle_id);
-        if (empty($result)) {
+
+        if (!$result) {
+            http_response_code(404);
+
             echo json_encode([
                 "success" => false,
-                "message" => "No data provided"
+                "message" => "Bundle not found"
             ]);
-            return;
-        }
 
+            exit;
+        }
 
         echo json_encode([
             "success" => true,

@@ -96,7 +96,7 @@ function createCardHTML(bundel) {
     subtitle.textContent = bundel.description || '';
     body.appendChild(subtitle);
 
-    /* ✅ package + 计算总价 */
+    /* ✅ package + total */
     const packageBox = document.createElement('div');
     packageBox.className = 'package-box';
 
