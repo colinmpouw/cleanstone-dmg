@@ -129,15 +129,19 @@ async function loadBundle() {
 }
 async function loadBundleCards() {
     try {
-        const res = await fetch('/api/get_all_bundels');
+        const res = await fetch(`/api/find_bundles_by_similar/${bundle_id}/${bundle_name}`);
         const data = await res.json();
 
         if (!data.success) {
             console.error('Bundles not found');
+            const title = document.getElementById('other-bundles');
+            title.style.display = 'none';
             return;
         }
 
         const bundles = data.data;
+
+
         const container = document.getElementById('bundles-grid');
         container.innerHTML = '';
 
@@ -176,5 +180,8 @@ async function loadBundleCards() {
     }
 }
 
-loadBundleCards();
-document.addEventListener('DOMContentLoaded', loadBundle);
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadBundle();
+    loadBundleCards();
+});

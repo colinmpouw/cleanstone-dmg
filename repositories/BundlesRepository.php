@@ -27,6 +27,25 @@ class BundlesRepository
         $result = $this->DB->read($sql, ['bundle_id' => $bundle_id]);
         return $result;
     }
+    public function find_bundles_by_similar($bundle_id,$bundle_name)
+    {
+        $bundle_name = str_replace('-', ' ', $bundle_name);
+
+        $sql = "
+        SELECT *
+        FROM bundle_full_details
+        WHERE name LIKE :name
+        AND id != :id
+        LIMIT 3
+    ";
+
+        $result = $this->DB->read($sql, [
+            'name' => '%' . $bundle_name . '%',
+            'id'   => $bundle_id
+        ]);
+
+        return $result;
+    }
     public function get_top_bundles(int $limit = 3)
     {
         $sql = "
@@ -51,4 +70,5 @@ class BundlesRepository
         }
         return $results;
     }
+
 }
