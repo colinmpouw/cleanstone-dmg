@@ -379,7 +379,7 @@ async function loadBrands() {
             const logoItem = document.createElement('div');
             logoItem.className = 'merken-logo-item';
             const img = document.createElement('img');
-            img.src = brand.logo || '';
+            img.src = `/uploads/brands/${brand.logo}` || '';
             img.alt = brand.name;
             logoItem.appendChild(img);
             logosContainer.appendChild(logoItem);
@@ -422,7 +422,7 @@ async function loadTopProducts() {
             article.innerHTML = `
                 <div class="media">
                     <span class="stock-badge">${inStock ? 'Op voorraad' : 'Uitverkocht'}</span>
-                    <img src="${product.image || '/public/assets/schone_tegel.png'}" alt="${product.name}">
+                    <img src="/uploads/products/${product.image || '/public/assets/schone_tegel.png'}" alt="${product.name}">
                 </div>
                 <div class="meta">
                     <span class="product-brand">${product.brand_name || ''}</span>
