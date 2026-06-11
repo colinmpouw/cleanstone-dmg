@@ -13,6 +13,8 @@ class ProductenController
         $this->service = new ProductenService();
         $router->get('/producten', [$this, 'pageProducten']);
         $router->get('/api/get_all_products', [$this, 'get_all_products']);
+        $router->get('/api/get_top_products', [$this, 'get_top_products']);
+
     }
 
     public function pageProducten()
@@ -28,5 +30,16 @@ class ProductenController
         $products = $this->service->getAllProducts();
         header('Content-Type: application/json');
         echo json_encode($products);
+    }
+
+    public function get_top_products()
+    {
+        header('Content-Type: application/json');
+        $products = $this->service->getTopProducts();
+        echo json_encode([
+            "success" => true,
+            "data" => $products
+        ]);
+        exit();
     }
 }

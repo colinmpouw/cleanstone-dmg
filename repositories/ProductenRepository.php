@@ -52,4 +52,10 @@ class ProductenRepository
         $query = "SELECT id, name FROM brands ORDER BY name";
         return $this->DB->read($query) ?: [];
     }
+
+    public function getTopProducts(int $limit = 4): array
+    {
+        $query = "SELECT * FROM get_top_products LIMIT " . (int)$limit;
+        return $this->DB->read($query) ?: [];
+    }
 }

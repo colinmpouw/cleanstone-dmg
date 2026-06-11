@@ -27,4 +27,9 @@ class ProductenService
     {
         return $this->repository->getBrands();
     }
+
+    public function getTopProducts(): array
+    {
+        return $this->repository->getTopProducts();
+    }
 }
