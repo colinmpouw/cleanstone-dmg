@@ -4,12 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Over Ons · CleanStone</title>
+    <title>Cleanstone -Over ons</title>
     <link rel="stylesheet" href="/public/css/main.css">
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/overons.css">
     <link rel="stylesheet" href="/public/css/footer.css">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="icon" href="/public/assets/logo_icon.png" type="image/png">
     <meta name="description"
         content="Over CleanStone — specialist in natuursteen onderhoud, missie, verhaal en waarden.">
 </head>

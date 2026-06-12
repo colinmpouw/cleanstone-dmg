@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
     <link rel="stylesheet" href="/public/css/blog.css">
-    <title>CleanStone - Blog & Advies</title>
+    <link rel="icon" href="/public/assets/logo_icon.png" type="image/png">
+    <title>CleanStone -Blog</title>
 </head>
 
 <body class="blog">
