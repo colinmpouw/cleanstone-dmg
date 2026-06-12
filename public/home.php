@@ -285,6 +285,33 @@
     </div>
 </section>
 
+<section class="reviews-section">
+    <div class="reviews-inner">
+
+        <!-- HEADER -->
+        <div class="reviews-header">
+            <h1>Wat onze klanten zeggen</h1>
+            <p>Meer dan 15.000 tevreden klanten gingen u voor</p>
+        </div>
+
+        <div class="reviews-cards">
+            <script defer async src='https://cdn.trustindex.io/loader.js?6333d3b74fab094f66964df949d'></script>
+        </div>
+
+        <!-- STATS -->
+        <div class="reviews-stats">
+            <div class="reviews-stat">
+                <span class="reviews-stat__number">4.8/5</span>
+                <span class="reviews-stat__label">Gemiddelde score</span>
+            </div>
+            <div class="reviews-stat">
+                <span class="reviews-stat__number">15.000+</span>
+                <span class="reviews-stat__label">Reviews</span>
+            </div>
+        </div>
+
+    </div>
+</section>
 
 
 <?php require_once __DIR__ . '/../component/footer.php'; ?>
