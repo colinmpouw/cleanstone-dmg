@@ -177,7 +177,9 @@
     </div>
     <div class="products-grid" id="top-products-container"></div>
     <div class="products-footer">
-        <a href="/producten"><button class="view-products-btn">Bekijk alle producten</button></a>
+        <a href="/producten">
+            <button class="view-products-btn">Bekijk alle producten</button>
+        </a>
     </div>
 </section>
 
@@ -208,6 +210,82 @@
     <div class="merken-labels" id="merken-labels"></div>  <!-- buiten de banner -->
 
 </section>
+
+
+<section class="advies-section">
+    <div class="advies-inner">
+
+        <!-- LEFT -->
+        <div class="advies-left">
+            <h1>Gratis expert advies</h1>
+            <p>Twijfelt u welk product het beste is voor uw natuursteen? Upload een foto en ontvang binnen 24 uur
+                persoonlijk advies van onze specialisten.</p>
+
+            <div class="advies-steps">
+                <div class="advies-step">
+                    <div class="advies-step__num">1</div>
+                    <span>Upload foto van uw steen</span>
+                </div>
+                <div class="advies-step">
+                    <div class="advies-step__num">2</div>
+                    <span>Beschrijf het probleem</span>
+                </div>
+                <div class="advies-step">
+                    <div class="advies-step__num">3</div>
+                    <span>Ontvang advies op maat</span>
+                </div>
+                <div class="advies-step">
+                    <div class="advies-step__num">4</div>
+                    <span>Bestel direct het juiste product</span>
+                </div>
+            </div>
+
+            <div class="advies-badge">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.801 9.99999C22.2577 12.2413 21.9322 14.5714 20.8788 16.6018C19.8255 18.6322 18.1079 20.24 16.0125 21.1573C13.9171 22.0746 11.5706 22.2458 9.36428 21.6424C7.15795 21.0389 5.22517 19.6974 3.88825 17.8414C2.55134 15.9854 1.8911 13.7272 2.01764 11.4434C2.14418 9.15952 3.04986 6.98808 4.58363 5.29116C6.1174 3.59424 8.18656 2.47442 10.446 2.11844C12.7055 1.76247 15.0188 2.19185 17 3.33499"
+                          stroke="#7E6A52" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9 11L12 14L22 4" stroke="#7E6A52" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+
+                <p><strong>Reactietijd:</strong> Gemiddeld binnen 4 uur op werkdagen</p>
+            </div>
+        </div>
+
+        <!-- RIGHT: FORM -->
+        <div class="advies-card">
+            <h2>Upload uw foto</h2>
+
+            <label class="upload-zone">
+                <input type="file" accept="image/*">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                <p>Sleep uw foto hierheen of klik om te uploaden</p>
+                <span>JPG, PNG of HEIC tot 10MB</span>
+            </label>
+
+            <input type="text" placeholder="Uw naam">
+            <input type="email" placeholder="E-mailadres">
+            <textarea placeholder="Beschrijf uw vraag of probleem..."></textarea>
+
+            <button class="advies-submit">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                    <circle cx="12" cy="13" r="4"/>
+                </svg>
+                Verstuur adviesaanvraag
+            </button>
+        </div>
+
+    </div>
+</section>
+
+
 
 <?php require_once __DIR__ . '/../component/footer.php'; ?>
 
