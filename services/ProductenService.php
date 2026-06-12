@@ -32,4 +32,9 @@ class ProductenService
     {
         return $this->repository->getTopProducts();
     }
+
+    public function searchProductsForAi(string $searchTerm): array
+    {
+        return $this->repository->searchProductsForAi($searchTerm);
+    }
 }

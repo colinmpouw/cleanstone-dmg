@@ -58,4 +58,20 @@ class ProductenRepository
         $query = "SELECT * FROM get_top_products LIMIT " . (int)$limit;
         return $this->DB->read($query) ?: [];
     }
+    public function searchProductsForAi(string $searchTerm): array
+    {
+        $query = "
+        SELECT * FROM products_full_details
+        WHERE name LIKE ?
+        OR description LIKE ?
+        LIMIT 10
+    ";
+
+        $likeTerm = '%' . $searchTerm . '%';
+
+        return $this->DB->read($query, [
+            $likeTerm,
+            $likeTerm
+        ]) ?: [];
+    }
 }
