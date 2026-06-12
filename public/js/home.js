@@ -453,3 +453,25 @@ async function loadTopProducts() {
 
 
 
+function observeScrollElements() {
+    const elements = document.querySelectorAll('.scroll-animate, .scroll-animate-badge');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    elements.forEach((element) => {
+        observer.observe(element);
+    });
+}
+
+// Start observing when DOM is ready
+document.addEventListener('DOMContentLoaded', observeScrollElements);

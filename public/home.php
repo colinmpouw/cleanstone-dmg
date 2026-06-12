@@ -111,7 +111,7 @@
 
     <div class="all_badges">
 
-        <div class="badge">
+        <div class="badge scroll-animate-badge">
             <div class="badge_icon">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18.6667 24V8.00004C18.6667 7.2928 18.3857 6.61452 17.8856 6.11442C17.3855 5.61433 16.7073 5.33337 16 5.33337H5.33335C4.62611 5.33337 3.94783 5.61433 3.44774 6.11442C2.94764 6.61452 2.66669 7.2928 2.66669 8.00004V22.6667C2.66669 23.0203 2.80716 23.3595 3.05721 23.6095C3.30726 23.8596 3.6464 24 4.00002 24H6.66669"
@@ -130,7 +130,7 @@
             <div class="small_text"> Vanaf €50 binnen Nederland</div>
         </div>
 
-        <div class="badge">
+        <div class="badge scroll-animate-badge">
             <div class="badge_icon">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M26.6666 17.3333C26.6666 23.9999 22 27.3333 16.4533 29.2666C16.1629 29.365 15.8474 29.3603 15.56 29.2533C9.99998 27.3333 5.33331 23.9999 5.33331 17.3333V7.99995C5.33331 7.64633 5.47379 7.30719 5.72384 7.05714C5.97389 6.80709 6.31302 6.66662 6.66665 6.66662C9.33331 6.66662 12.6666 5.06662 14.9866 3.03995C15.2691 2.79861 15.6285 2.66602 16 2.66602C16.3715 2.66602 16.7308 2.79861 17.0133 3.03995C19.3466 5.07995 22.6666 6.66662 25.3333 6.66662C25.6869 6.66662 26.0261 6.80709 26.2761 7.05714C26.5262 7.30719 26.6666 7.64633 26.6666 7.99995V17.3333Z"
@@ -141,7 +141,7 @@
             <div class="small_text"> Niet tevreden? Geld terug</div>
         </div>
 
-        <div class="badge">
+        <div class="badge scroll-animate-badge">
             <div class="badge_icon">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4 18.6667H8C8.70724 18.6667 9.38552 18.9476 9.88562 19.4477C10.3857 19.9478 10.6667 20.6261 10.6667 21.3333V25.3333C10.6667 26.0406 10.3857 26.7189 9.88562 27.219C9.38552 27.719 8.70724 28 8 28H6.66667C5.95942 28 5.28115 27.719 4.78105 27.219C4.28095 26.7189 4 26.0406 4 25.3333V16C4 12.8174 5.26428 9.76516 7.51472 7.51472C9.76516 5.26428 12.8174 4 16 4C19.1826 4 22.2348 5.26428 24.4853 7.51472C26.7357 9.76516 28 12.8174 28 16V25.3333C28 26.0406 27.719 26.7189 27.219 27.219C26.7189 27.719 26.0406 28 25.3333 28H24C23.2928 28 22.6145 27.719 22.1144 27.219C21.6143 26.7189 21.3333 26.0406 21.3333 25.3333V21.3333C21.3333 20.6261 21.6143 19.9478 22.1144 19.4477C22.6145 18.9476 23.2928 18.6667 24 18.6667H28"
@@ -152,7 +152,7 @@
             <div class="small_text"> Direct hulp van specialisten</div>
         </div>
 
-        <div class="badge">
+        <div class="badge scroll-animate-badge">
             <div class="badge_icon">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20.636 17.1866L22.656 28.5546C22.6787 28.6885 22.6599 28.8261 22.6022 28.949C22.5445 29.0719 22.4507 29.1742 22.3333 29.2424C22.2159 29.3105 22.0804 29.3412 21.9451 29.3303C21.8098 29.3193 21.681 29.2674 21.576 29.1813L16.8027 25.5986C16.5723 25.4265 16.2923 25.3335 16.0047 25.3335C15.7171 25.3335 15.4371 25.4265 15.2067 25.5986L10.4254 29.18C10.3205 29.2659 10.1919 29.3178 10.0567 29.3287C9.92154 29.3396 9.78626 29.3091 9.66892 29.2411C9.55157 29.1732 9.45774 29.0711 9.39993 28.9484C9.34212 28.8258 9.32308 28.6884 9.34537 28.5546L11.364 17.1866"
@@ -171,12 +171,12 @@
 <div class="full-bleed-divider" aria-hidden="true"></div>
 
 <section class="popular_products">
-    <div class="popular_header">
+    <div class="popular_header scroll-animate">
         <h1>Populaire producten</h1>
         <p>De meest verkochte producten van topmerken</p>
     </div>
     <div class="products-grid" id="top-products-container"></div>
-    <div class="products-footer">
+    <div class="products-footer scroll-animate">
         <a href="/producten">
             <button class="view-products-btn">Bekijk alle producten</button>
         </a>
@@ -184,7 +184,7 @@
 </section>
 
 <section class="show_all_bundels">
-    <div class="bundels_header">
+    <div class="bundels_header scroll-animate">
         <h1>Slimme bundels</h1>
         <p>Bespaar tijd en geld met onze zorgvuldig samengestelde pakketten</p>
     </div>
@@ -193,12 +193,12 @@
 
 <section class="merken-section">
 
-    <div class="merken-header">
+    <div class="merken-header scroll-animate">
         <h1>Premium merken</h1>
         <p>Wij werken samen met de beste fabrikanten in de branche</p>
     </div>
 
-    <div class="merken-banner">
+    <div class="merken-banner scroll-animate">
         <div class="merken-banner__label">
             <span>Onze partners</span>
             <div class="divider"></div>
@@ -207,7 +207,7 @@
         <div class="merken-logos" id="merken-logos"></div>
     </div>
 
-    <div class="merken-labels" id="merken-labels"></div>  <!-- buiten de banner -->
+    <div class="merken-labels scroll-animate" id="merken-labels"></div>  <!-- buiten de banner -->
 
 </section>
 
@@ -216,7 +216,7 @@
     <div class="advies-inner">
 
         <!-- LEFT -->
-        <div class="advies-left">
+        <div class="advies-left scroll-animate">
             <h1>Gratis expert advies</h1>
             <p>Twijfelt u welk product het beste is voor uw natuursteen? Upload een foto en ontvang binnen 24 uur
                 persoonlijk advies van onze specialisten.</p>
@@ -253,7 +253,7 @@
         </div>
 
         <!-- RIGHT: FORM -->
-        <div class="advies-card">
+        <div class="advies-card scroll-animate">
             <h2>Upload uw foto</h2>
 
             <label class="upload-zone">
@@ -289,17 +289,17 @@
     <div class="reviews-inner">
 
         <!-- HEADER -->
-        <div class="reviews-header">
+        <div class="reviews-header scroll-animate">
             <h1>Wat onze klanten zeggen</h1>
             <p>Meer dan 15.000 tevreden klanten gingen u voor</p>
         </div>
 
-        <div class="reviews-cards">
+        <div class="reviews-cards scroll-animate">
             <script defer async src='https://cdn.trustindex.io/loader.js?6333d3b74fab094f66964df949d'></script>
         </div>
 
         <!-- STATS -->
-        <div class="reviews-stats">
+        <div class="reviews-stats scroll-animate">
             <div class="reviews-stat">
                 <span class="reviews-stat__number">4.8/5</span>
                 <span class="reviews-stat__label">Gemiddelde score</span>
