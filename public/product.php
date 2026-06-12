@@ -38,10 +38,10 @@ $reviewCount = $rating['review_count'] ?? 0;
             <div class="product-content">
                 <!-- Product Images -->
                 <?php
-    $defaultImage = $product['image'] ? '/public/assets/' . ltrim($product['image'], '/') : '/public/assets/placeholder.jpg';
+    $defaultImage = $product['image'] ? '/uploads/products/' . ltrim($product['image'], '/') : '/public/assets/placeholder.jpg';
     $mainImage = $defaultImage;
     if (!empty($images)) {
-        $mainImage = '/public/assets/' . ltrim($images[0]['image'], '/');
+        $mainImage = '/uploads/products/' . ltrim($images[0]['image'], '/');
     }
     ?>
     <div class="product-images">

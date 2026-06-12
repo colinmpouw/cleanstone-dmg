@@ -63,7 +63,7 @@ function updateActiveLinks(links, key, value) {
 function createProductCardHTML(product) {
     const stockStatus = product.stock > 0 ? 'Op voorraad' : 'Uitverkocht';
     const priceText = formatPrice(product.price);
-    const imageSrc = product.image ? `/public/assets/${product.image}` : 'https://via.placeholder.com/360x240.png?text=Product';
+    const imageSrc = product.image ? `/uploads/products/${product.image}` : 'https://via.placeholder.com/360x240.png?text=Product';
     const imageAlt = product.imageAlt || product.name || 'Productafbeelding';
     const productUrl = `/product/${product.slug || product.id}`;
 
