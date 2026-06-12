@@ -59,3 +59,143 @@ body{
     font-size: var(--small-title-size);
     color: var(--white);
 }
+
+
+
+
+
+
+/*=============================Ai chat==============================================*/
+#AiChat-button {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--charcoal-clay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    transition: background 0.2s;
+    z-index: 1000;
+}
+#AiChat-button:hover { background: var(--rustic-taupe); }
+#AiChat-button svg { stroke: var(--soft-white); }
+
+#AiChat-container {
+    position: fixed;
+    bottom: 4.5rem;
+    right: 1.5rem;
+    width: 340px;
+    height: 440px;
+    background: var(--white);
+    border-radius: 14px;
+    border: 1px solid var(--creamy-taupe);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(58, 43, 32, 0.10);
+    z-index: 999;
+}
+
+#AiChat-header {
+    background: var(--charcoal-clay);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+#AiChat-header h2 {
+    font-family: var(--title-font);
+    font-size: var(--small-title-size);
+    color: var(--soft-white);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+#AiChat-close-button {
+    background: none;
+    border: none;
+    color: var(--creamy-taupe);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+#AiChat-close-button:hover { color: var(--soft-white); }
+
+#AiChat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 14px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--soft-white);
+    scrollbar-width: thin;
+    scrollbar-color: var(--creamy-taupe) transparent;
+}
+
+.msg {
+    max-width: 82%;
+    padding: 9px 13px;
+    border-radius: 10px;
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    line-height: 1.5;
+    word-break: break-word;
+}
+.msg.user {
+    align-self: flex-end;
+    background: var(--charcoal-clay);
+    color: var(--soft-white);
+    border-bottom-right-radius: 3px;
+}
+.msg.ai {
+    align-self: flex-start;
+    background: var(--white);
+    color: var(--charcoal-clay);
+    border: 1px solid var(--creamy-taupe);
+    border-bottom-left-radius: 3px;
+}
+
+#AiChat-input-area {
+    display: flex;
+    gap: 8px;
+    padding: 10px 12px;
+    border-top: 1px solid var(--creamy-taupe);
+    background: var(--white);
+    flex-shrink: 0;
+}
+#AiChat-input {
+    flex: 1;
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--charcoal-clay);
+    background: var(--soft-white);
+    outline: none;
+    transition: border-color 0.15s;
+}
+#AiChat-input::placeholder { color: var(--warm-beige); }
+#AiChat-input:focus { border-color: var(--rustic-taupe); }
+
+#AiChat-send-button {
+    background: var(--charcoal-clay);
+    color: var(--soft-white);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: var(--body-font);
+    font-size: var(--button-size);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+#AiChat-send-button:hover { background: var(--rustic-taupe); }
+#AiChat-send-button:active { transform: scale(0.97); }
