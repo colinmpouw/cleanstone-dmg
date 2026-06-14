@@ -1,0 +1,116 @@
+/* === SIDEBAR === */
+.sidebar {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px 20px;
+    width: 240px;
+    box-shadow: 0 4px 24px rgba(58,43,32,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* profile */
+.sidebar__profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--creamy-taupe);
+    margin-bottom: 16px;
+}
+
+.sidebar__avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--creamy-taupe) 0%, var(--warm-beige) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+
+.sidebar__avatar svg {
+    width: 38px;
+    height: 38px;
+    color: #6B5B8E;
+}
+
+.sidebar__name {
+    font-family: var(--title-font);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--charcoal-clay);
+}
+
+.sidebar__email {
+    font-size: 0.78rem;
+    color: var(--rustic-taupe);
+}
+
+/* nav */
+.sidebar__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--charcoal-clay);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.nav-item svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: var(--charcoal-clay);
+}
+
+.nav-item:hover:not(.active):not(.logout) {
+    background: var(--soft-white);
+}
+
+.nav-item.active {
+    background: var(--charcoal-clay);
+    color: var(--white);
+    font-weight: 600;
+}
+
+.nav-item.active:hover {
+    background: var(--charcoal-clay);
+    color: var(--white);
+}
+
+.nav-item.active svg {
+    color: var(--white);
+}
+
+.nav-item.logout {
+    color: #c0392b;
+    margin-top: 6px;
+}
+
+.nav-item.logout svg {
+    color: #c0392b;
+}

@@ -158,7 +158,7 @@ class AuthController
             exit;
         }
 
-        require __DIR__ . '/../public/account.php';
+        require __DIR__ . '/../public/account-overzicht.php';
     }
 
     public function logout(): void
