@@ -67,10 +67,13 @@ if (!isset($products, $categories, $brands)) {
             </div>
         </div>
 
-        <?php include __DIR__ . '/../component/footer.php'; ?>
+
 
     </main>
 
+    <?php require_once __DIR__ . '/../component/aiChat.php'; ?>
+    <?php include __DIR__ . '/../component/footer.php'; ?>
+    <script src="/public/js/AiChat.js"></script>
     <script src="/public/js/producten.js"></script>
 </body>
 

@@ -203,7 +203,8 @@
     </div>
 </section>
 <?php require_once __DIR__ . '/../component/footer.php'; ?>
-
+<?php require_once __DIR__ . '/../component/aiChat.php'; ?>
+<script src="/public/js/AiChat.js"></script>
 <script src="/public/js/advies.js"></script>
 
 </body>
