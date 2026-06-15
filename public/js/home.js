@@ -451,6 +451,54 @@ async function loadTopProducts() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('home-adv-submit');
+    if (!btn) return;
+
+    btn.addEventListener('click', async () => {
+        const name    = document.getElementById('home-adv-name')?.value.trim();
+        const email   = document.getElementById('home-adv-email')?.value.trim();
+        const message = document.getElementById('home-adv-message')?.value.trim();
+
+        if (!name || !email || !message) {
+            alert('Vul alle verplichte velden in.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('name',    name);
+        formData.append('email',   email);
+        formData.append('message', message);
+
+        const photos = document.getElementById('home-adv-photos')?.files;
+        if (photos) {
+            Array.from(photos).slice(0, 5).forEach(file => {
+                formData.append('photos[]', file);
+            });
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Versturen...';
+
+        try {
+            const res  = await fetch('/api/advies/submit', { method: 'POST', body: formData });
+            const data = await res.json();
+
+            if (data.success) {
+                window.location.href = '/show-advies/' + data.request_id;
+            } else {
+                alert(data.message || 'Er is iets misgegaan.');
+                btn.disabled = false;
+                btn.textContent = 'Verstuur adviesaanvraag';
+            }
+        } catch (err) {
+            console.error(err);
+            btn.disabled = false;
+            btn.textContent = 'Verstuur adviesaanvraag';
+        }
+    });
+});
+
 
 
 function observeScrollElements() {
