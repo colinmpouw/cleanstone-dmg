@@ -95,15 +95,30 @@ class ProductenRepository
         $query = "
         SELECT * FROM products_full_details
         WHERE name LIKE ?
-        OR description LIKE ?
-        LIMIT 10
+           OR category_name LIKE ?
+           OR short_description LIKE ?
+           OR description LIKE ?
+        LIMIT 5
     ";
 
         $likeTerm = '%' . $searchTerm . '%';
 
         return $this->DB->read($query, [
             $likeTerm,
+            $likeTerm,
+            $likeTerm,
             $likeTerm
         ]) ?: [];
     }
+
+    public function getTopProductsForAi(): array
+    {
+        return $this->DB->read("
+        SELECT name, price FROM products_full_details
+        WHERE avg_rating IS NOT NULL
+        ORDER BY avg_rating DESC, review_count DESC
+        LIMIT 5
+    ") ?: [];
+    }
+
 }

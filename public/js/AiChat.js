@@ -4,14 +4,19 @@ const input = document.getElementById("AiChat-input");
 const sendBtn = document.getElementById("AiChat-send-button");
 
 // ── Toggle ────────────────────────────────────────────────
+let welcomed = false;
+
 document.getElementById("AiChat-button").addEventListener("click", () => {
     const isHidden = container.style.display === "none" || container.style.display === "";
     container.style.display = isHidden ? "flex" : "none";
-    if (isHidden) input.focus();
-});
 
-document.getElementById("AiChat-close-button").addEventListener("click", () => {
-    container.style.display = "none";
+    if (isHidden) {
+        input.focus();
+        if (!welcomed) {
+            welcomed = true;
+            typeWriter("Hallo! Waarmee kan ik je helpen? 👋");
+        }
+    }
 });
 
 // ── Messages ──────────────────────────────────────────────
