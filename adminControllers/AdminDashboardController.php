@@ -9,7 +9,7 @@ class AdminDashboardController
     public function __construct($router)
     {
 
-        $router->get('/admin/', [$this, 'dashboardPage']);
+        $router->get('/admin', [$this, 'dashboardPage']);
         $router->get('/admin/dashboard', [$this, 'dashboardPage']);
 
     }

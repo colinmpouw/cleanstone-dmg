@@ -5,11 +5,21 @@ class Router
 
     public function get(string $uri, callable $callback): void
     {
+        $uri = rtrim($uri, '/');
+        if ($uri === '') {
+            $uri = '/';
+        }
+
         $this->routes['GET'][$uri] = $callback;
     }
 
     public function post(string $uri, callable $callback): void
     {
+        $uri = rtrim($uri, '/');
+        if ($uri === '') {
+            $uri = '/';
+        }
+
         $this->routes['POST'][$uri] = $callback;
     }
 
