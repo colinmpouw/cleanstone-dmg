@@ -1,5 +1,5 @@
 body {
-    background: #f4efe9;
+    background: linear-gradient(135deg, #F9F5ED 0%, #F6F2E8 8%, #DDD2BB 92% #DACFB6 100%);
 }
 
 .auth-page {
@@ -29,6 +29,15 @@ body {
     font-size: 0.8rem;
     color: #8d7b6d;
     margin-bottom: 0.75rem;
+}
+
+.auth-card__header .logo {
+    margin-bottom: 3rem;
+}
+
+.auth-card__header .logo img {
+    height: 80px;
+    width: auto;
 }
 
 .auth-card__header h1 {
