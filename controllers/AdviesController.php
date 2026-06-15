@@ -28,6 +28,11 @@ class AdviesController
 
     public function pageAdvies(): void
     {
+        $existing = null;
+        if (!empty($_SESSION['user']['id'])) {
+            $requests = $this->adviesService->getRequestsByUser($_SESSION['user']['id']);
+            $existing = $requests[0] ?? null;
+        }
         require __DIR__ . '/../public/advies.php';
     }
 
