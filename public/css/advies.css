@@ -332,3 +332,59 @@
     color: var(--charcoal-clay);
     margin-top: 2px;
 }
+
+/* === ANIMATIONS === */
+/* initial hidden state for animated blocks */
+.page-title,
+.advies-left,
+.advies-card,
+.advies-step,
+.upload-zone,
+.contact-card {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 520ms cubic-bezier(.2,.9,.2,1), transform 520ms cubic-bezier(.2,.9,.2,1);
+    will-change: opacity, transform;
+}
+
+/* visible state */
+.in-view {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* stagger the steps a bit */
+.advies-steps .advies-step {
+    transition-delay: 0ms;
+}
+.advies-steps .advies-step:nth-child(1) { transition-delay: 80ms; }
+.advies-steps .advies-step:nth-child(2) { transition-delay: 160ms; }
+.advies-steps .advies-step:nth-child(3) { transition-delay: 240ms; }
+.advies-steps .advies-step:nth-child(4) { transition-delay: 320ms; }
+
+/* subtle hover micro-interactions */
+.upload-zone:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 10px 30px rgba(58,43,32,0.06);
+}
+
+.advies-card:hover {
+    transform: translateY(-4px);
+}
+
+/* add a gentle pop for contact cards when they appear */
+.contact-card.in-view { transition-duration: 640ms; }
+
+/* Accessibility: prefers-reduced-motion support */
+@media (prefers-reduced-motion: reduce) {
+    .page-title,
+    .advies-left,
+    .advies-card,
+    .advies-step,
+    .upload-zone,
+    .contact-card {
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+}

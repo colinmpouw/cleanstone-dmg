@@ -1,5 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('adv-submit');
+
+    // don't bail out early - animations should run even when the submit button
+    // is not present (e.g. for anonymous users). Attach submit handler only
+    // when btn exists.
+
+    // Animate elements when they come into view using IntersectionObserver
+    const animateSelector = [
+        '.page-title',
+        '.advies-left',
+        '.advies-card',
+        '.advies-step',
+        '.upload-zone',
+        '.contact-card'
+    ].join(',');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -10% 0px',
+        threshold: 0.12
+    };
+
+    const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll(animateSelector).forEach(el => io.observe(el));
+
+    // Trigger page title appear with a small delay for nicer entrance
+    const pageTitle = document.querySelector('.page-title');
+    if (pageTitle) {
+        setTimeout(() => pageTitle.classList.add('in-view'), 120);
+    }
+
     if (!btn) return;
 
     btn.addEventListener('click', async () => {
