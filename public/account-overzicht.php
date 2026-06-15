@@ -70,7 +70,7 @@ if (!$user) {
         <div class="alert-banner">
             <h2>Uw adviesaanvraag is in behandeling</h2>
             <p>Onze specialist bekijkt uw aanvraag. U ontvangt binnen 24 uur een reactie.</p>
-            <button class="alert-banner__btn" onclick="location.href='account-advies.html'">Bekijk adviesaanvraag
+            <button class="alert-banner__btn" onclick="location.href='/show-advies'">Bekijk adviesaanvraag
             </button>
         </div>
 

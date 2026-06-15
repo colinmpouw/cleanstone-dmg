@@ -4,7 +4,7 @@ namespace controllers;
 
 use services\BundlesService;
 
-class BundlesController
+class   BundlesController
 {
     private $bundlesService;
 

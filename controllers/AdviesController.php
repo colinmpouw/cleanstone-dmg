@@ -1,22 +1,20 @@
 <?php
 
 namespace controllers;
-use repositories\AdviesRepository;
+use services\AdviesService;
 
 class AdviesController
 {
-    private AdviesRepository $repo;
+    private AdviesService $adviesService;
 
     public function __construct($router)
     {
-        $this->repo = new AdviesRepository();
-
-        $router->get('/show-advies', [$this, 'pageShowAdvies']);
+        $this->adviesService = new AdviesService();
 
         $router->get('/advies', [$this, 'pageAdvies']);
-        $router->post('/advies', [$this, 'submitForm']);
+        $router->get('/show-advies', [$this, 'pageShowAdvies']);
+        $router->post('/api/advies/submit', [$this, 'submitForm']);
     }
-
 
     private function requireLogin(): void
     {
@@ -39,10 +37,11 @@ class AdviesController
     public function submitForm(): void
     {
         $this->requireLogin();
+        header('Content-Type: application/json');
 
         $user = $_SESSION['user'];
 
-        $request_id = $this->repo->createRequest([
+        $request_id = $this->adviesService->createRequest([
             'user_id'        => $user['id'],
             'name'           => trim($_POST['name'] ?? ''),
             'email'          => trim($_POST['email'] ?? ''),
@@ -52,23 +51,26 @@ class AdviesController
             'message'        => trim($_POST['message'] ?? ''),
         ]);
 
+        if (!$request_id) {
+            echo json_encode(['success' => false, 'message' => 'Aanmaken mislukt']);
+            return;
+        }
+
         if (!empty($_FILES['photos']['name'][0])) {
-            $uploadDir = __DIR__ . '/../public/uploads/advies/';
+            $uploadDir = __DIR__ . '/../uploads/advies/';
             $allowed   = ['jpg', 'jpeg', 'png', 'heic', 'webp'];
 
             foreach ($_FILES['photos']['tmp_name'] as $i => $tmp) {
                 if ($_FILES['photos']['error'][$i] !== UPLOAD_ERR_OK) continue;
-
                 $ext = strtolower(pathinfo($_FILES['photos']['name'][$i], PATHINFO_EXTENSION));
                 if (!in_array($ext, $allowed)) continue;
-
                 $filename = uniqid('advies_') . '.' . $ext;
                 move_uploaded_file($tmp, $uploadDir . $filename);
-                $this->repo->saveImage($request_id, $filename);
+                $this->adviesService->saveImage($request_id, $filename);
             }
         }
 
-        header('Location: /advies' . $request_id);
+        echo json_encode(['success' => true, 'request_id' => $request_id]);
         exit;
     }
 }
