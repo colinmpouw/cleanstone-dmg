@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Indie+Flower&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+:root {
+    --title-font: "Playfair Display", serif;
+    --body-font: 'DM Sans', sans-serif;
+
+    --charcoal-clay: #3A2B20;
+    --rustic-taupe: #7E6A52;
+    --warm-beige: #B89C82;
+    --creamy-taupe: #DACFB6;
+    --soft-white: #F9F5ED;
+    --white: #fff;
+    --green: #00C950;
+
+    --title-size: 2rem;
+    --page-title-size: 3.5rem;
+    --section-title-size: 1rem;
+    --small-title-size: 1.25rem;
+    --paragraph-size: 1rem;
+    --list-text-size: 0.8rem;
+    --button-size: 0.95rem;
+    --badge-size: 0.8rem;
+}
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: var(--title-font);
+    font-weight: 500;
+}
+p, ul, ol, dl, dt, dd ,a, span, button, input, textarea{
+    font-family: var(--body-font);
+}
+p{
+    font-size: var(--paragraph-size);
+}
+
+body{
+    font-family: var(--body-font);
+    padding-top: 80px;
+    background-color: #E8DDD0;
+    color: var(--charcoal-clay);
+}
