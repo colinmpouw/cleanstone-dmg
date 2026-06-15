@@ -22,6 +22,11 @@ if (!isset($errors)) {
 <main class="auth-page">
     <div class="auth-card">
         <div class="auth-card__header">
+            <div class="logo">
+                <a href="/home" aria-label="Home">
+                    <img src="/public/assets/logo-cleanstone.png" alt="Cleanstone">
+                </a>
+            </div>
             <p class="eyebrow">Welkom terug</p>
             <h1>Log in op uw account</h1>
             <p>Gebruik uw e-mailadres en wachtwoord om verder te gaan.</p>
