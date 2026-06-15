@@ -13,5 +13,10 @@ foreach (glob(__DIR__ . '/controllers/*.php') as $file) {
     $fullClass = 'controllers\\' . $className;
     new $fullClass($router);
 }
+foreach (glob(__DIR__ . '/adminControllers/*.php') as $file) {
+    $className = pathinfo($file, PATHINFO_FILENAME);
+    $fullClass = 'adminControllers\\' . $className;
+    new $fullClass($router);
+}
 
 $router->dispatch();

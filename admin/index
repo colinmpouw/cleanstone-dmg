@@ -1,0 +1,257 @@
+<?php
+//require_once __DIR__ . '/../autoloader.php';
+//require_once __DIR__ . '/../repositories/BlogRepository.php';
+//
+//$blogRepository = new \repositories\BlogRepository();
+//$blogPosts = $blogRepository->getAllPosts();
+//
+//$page = $_GET['page'] ?? 'dashboard';
+//
+//function active($name, $page)
+//{
+//    return $name === $page ? 'active' : '';
+//}
+//function badge($text, $class = '')
+//{
+//    return "<span class='badge $class'>$text</span>";
+//}
+//?>
+<!--haha-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="nl">-->
+<!---->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>CleanStone CMS</title>-->
+<!--    <link rel="stylesheet" href="style.css">-->
+<!--</head>-->
+<!---->
+<!--<body>-->
+<!--    <div class="app">-->
+<!--        <aside class="sidebar">-->
+<!--            <div>-->
+<!--                <div class="brand">-->
+<!--                    <div class="logo">CS</div>-->
+<!--                    <div><strong>CleanStone CMS</strong><span>Content Management System</span></div>-->
+<!--                </div>-->
+<!---->
+<!--                <nav>-->
+<!--                    <a class="--><?php //= active('dashboard', $page) ?><!--" href="?page=dashboard">▦ Dashboard</a>-->
+<!--                    <a class="--><?php //= active('products', $page) ?><!--" href="?page=products">◈ Producten & Bundels</a>-->
+<!--                    <a class="--><?php //= active('content', $page) ?><!--" href="?page=content">▣ Content Beheer</a>-->
+<!--                    <a class="--><?php //= active('advice', $page) ?><!--" href="?page=advice">▱ Adviesaanvragen</a>-->
+<!--                    <a class="--><?php //= active('settings', $page) ?><!--" href="?page=settings">⚙ Instellingen</a>-->
+<!--                </nav>-->
+<!--            </div>-->
+<!---->
+<!--            <div>-->
+<!--                <div class="userbox">-->
+<!--                    <div class="avatar">AV</div>-->
+<!--                    <div><strong>Admin User</strong><span>admin@cleanstone.nl</span></div>-->
+<!--                </div>-->
+<!--                <a class="logout" href="#">↳ Uitloggen</a>-->
+<!--            </div>-->
+<!--        </aside>-->
+<!---->
+<!--        <main class="main">-->
+<!--            <header class="topbar"><a href="#">‹ Terug naar Website</a></header>-->
+<!---->
+<!--            --><?php //if ($page === 'dashboard'): ?>
+<!--                <section class="page-head">-->
+<!--                    <h1>Dashboard</h1>-->
+<!--                    <p>Welkom terug! Hier is een overzicht van uw winkel.</p>-->
+<!--                </section>-->
+<!---->
+<!--                <section class="stats">-->
+<!--                    <div class="card stat"><i>🛒</i><small>Totale Bestellingen</small>-->
+<!--                        <h2>1,247</h2><em>+12%</em>-->
+<!--                    </div>-->
+<!--                    <div class="card stat"><i>📦</i><small>Producten</small>-->
+<!--                        <h2>68</h2><em>+3</em>-->
+<!--                    </div>-->
+<!--                    <div class="card stat"><i>👥</i><small>Klanten</small>-->
+<!--                        <h2>10,382</h2><em>+156</em>-->
+<!--                    </div>-->
+<!--                    <div class="card stat"><i>💬</i><small>Adviesaanvragen</small>-->
+<!--                        <h2>23</h2><em>+8</em>-->
+<!--                    </div>-->
+<!--                </section>-->
+<!---->
+<!--                <section class="two-col">-->
+<!--                    <div class="card">-->
+<!--                        <h3>Recente Bestellingen</h3>-->
+<!--                        --><?php //foreach ([
+//                            ['#12451', 'Jan Bakker', '13 mei 2026', '€74.97', 'Verzonden'],
+//                            ['#12450', 'Sophie de Vries', '13 mei 2026', '€124.95', 'Verwerken'],
+//                            ['#12449', 'Mark Janssen', '12 mei 2026', '€49.99', 'Afgeleverd'],
+//                            ['#12448', 'Lisa van Dam', '12 mei 2026', '€89.97', 'Verzonden']
+//                        ] as $o): ?>
+<!--                            <div class="row">-->
+<!--                                <div><b>--><?php //= $o[0] ?><!--</b><span>--><?php //= $o[1] ?><!-- • --><?php //= $o[2] ?><!--</span></div>-->
+<!--                                <div class="right"><b>--><?php //= $o[3] ?><!--</b>--><?php //= badge($o[4], strtolower($o[4])) ?><!--</div>-->
+<!--                            </div>-->
+<!--                        --><?php //endforeach; ?>
+<!--                    </div>-->
+<!---->
+<!--                    <div class="card">-->
+<!--                        <h3>Adviesaanvragen</h3>-->
+<!--                        --><?php //foreach ([
+//                            ['Emma Peters', 'Marmer onderhoud advies', 'Media'],
+//                            ['Tom de Jong', 'Vlekverwijdering graniet', 'Media'],
+//                            ['Anna Smit', 'Algemene vraag', '']
+//                        ] as $a): ?>
+<!--                            <div class="row">-->
+<!--                                <div><b>--><?php //= $a[0] ?><!--</b><span>--><?php //= $a[1] ?><!--<br>13 mei 2026</span></div>-->
+<!--                                <div>--><?php //= $a[2] ? badge($a[2], 'blue') : '' ?><!--</div>-->
+<!--                            </div>-->
+<!--                        --><?php //endforeach; ?>
+<!--                    </div>-->
+<!--                </section>-->
+<!---->
+<!--                <section class="card">-->
+<!--                    <h3>Top Verkochte Producten</h3>-->
+<!--                    --><?php //foreach ([
+//                        ['Premium Marmer Reiniger', '342 verkocht', '€8544.58'],
+//                        ['Natuursteen Impregneer', '287 verkocht', '€10038.13'],
+//                        ['Graniet Polish', '245 verkocht', '€7347.55'],
+//                        ['Hardsteen Beschermer', '198 verkocht', '€5540.02']
+//                    ] as $i => $p): ?>
+<!--                        <div class="rank"><span>--><?php //= $i + 1 ?><!--</span>-->
+<!--                            <div><b>--><?php //= $p[0] ?><!--</b><small>--><?php //= $p[1] ?><!--</small></div><b>--><?php //= $p[2] ?><!--</b>-->
+<!--                        </div>-->
+<!--                    --><?php //endforeach; ?>
+<!--                </section>-->
+<!---->
+<!--            --><?php //elseif ($page === 'products'): ?>
+<!--                <section class="page-head page-flex">-->
+<!--                    <div>-->
+<!--                        <h1>Producten Beheer</h1>-->
+<!--                        <p>Beheer uw productassortiment en bundels</p>-->
+<!--                    </div><button>+ Nieuw Product</button>-->
+<!--                </section>-->
+<!--                <section class="card">-->
+<!--                    <div class="tabs"><button class="tab active">📦 Producten (3)</button><button class="tab">🧱 Bundels-->
+<!--                            (2)</button></div>-->
+<!--                    <div class="filters"><input placeholder="🔍 Zoek producten..."><input><input></div>-->
+<!--                    <table>-->
+<!--                        <thead>-->
+<!--                            <tr>-->
+<!--                                <th>Product</th>-->
+<!--                                <th>SKU</th>-->
+<!--                                <th>Categorie</th>-->
+<!--                                <th>Prijs</th>-->
+<!--                                <th>Voorraad</th>-->
+<!--                                <th>Status</th>-->
+<!--                                <th>Acties</th>-->
+<!--                            </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                            --><?php //foreach ([
+//                                ['Premium Marmer Reiniger - Dagelijks Onderhoud', 'CS-MAR-001', 'Marmer', '€24.99', '145', 'Actief'],
+//                                ['Natuursteen Impregneer - Beschermlaag', 'CS-NAT-002', 'Natuursteen', '€34.99', '87', 'Actief'],
+//                                ['Graniet Polish - Glans Hersteller', 'CS-GRA-003', 'Graniet', '€29.99', '0', 'Niet op voorraad']
+//                            ] as $p): ?>
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <div class="prod">-->
+<!--                                            <div class="thumb"></div><b>--><?php //= $p[0] ?><!--</b>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                    <td>--><?php //= $p[1] ?><!--</td>-->
+<!--                                    <td>--><?php //= $p[2] ?><!--</td>-->
+<!--                                    <td><b>--><?php //= $p[3] ?><!--</b></td>-->
+<!--                                    <td class="--><?php //= $p[4] == '0' ? 'red' : '' ?><!--">--><?php //= $p[4] ?><!--</td>-->
+<!--                                    <td>--><?php //= badge($p[5], $p[5] == 'Actief' ? 'green' : 'redbg') ?><!--</td>-->
+<!--                                    <td>✎ &nbsp; 🗑</td>-->
+<!--                                </tr>-->
+<!--                            --><?php //endforeach; ?>
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </section>-->
+<!---->
+<!--            --><?php //elseif ($page === 'content'): ?>
+<!--                <section class="page-head page-flex">-->
+<!--                    <div>-->
+<!--                        <h1>Content Beheer</h1>-->
+<!--                        <p>Beheer de blogposts uit de database.</p>-->
+<!--                    </div>-->
+<!--                </section>-->
+<!--                <section class="card">-->
+<!--                    <div class="tabs">-->
+<!--                        <button class="tab active">📄 Blog (--><?php //= count($blogPosts) ?><!--)</button>-->
+<!--                    </div>-->
+<!---->
+<!--                    --><?php //if (!empty($blogPosts)): ?>
+<!--                        <table>-->
+<!--                            <thead>-->
+<!--                                <tr>-->
+<!--                                    <th>Titel</th>-->
+<!--                                    <th>Tag</th>-->
+<!--                                    <th>Auteur</th>-->
+<!--                                    <th>Datum</th>-->
+<!--                                    <th>Excerpt</th>-->
+<!--                                </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!--                                --><?php //foreach ($blogPosts as $blog): ?>
+<!--                                    <tr>-->
+<!--                                        <td>-->
+<!--                                            <div class="prod">-->
+<!--                                                <div class="thumb"></div>-->
+<!--                                                <b>--><?php //= htmlspecialchars($blog['title']) ?><!--</b>-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+<!--                                        <td>--><?php //= htmlspecialchars($blog['tag']) ?><!--</td>-->
+<!--                                        <td>--><?php //= htmlspecialchars($blog['arthor']) ?><!--</td>-->
+<!--                                        <td>--><?php //= date('d-m-Y', strtotime($blog['date'])) ?><!--</td>-->
+<!--                                        <td>--><?php //= htmlspecialchars($blog['excerpt'] ?? '') ?><!--</td>-->
+<!--                                    </tr>-->
+<!--                                --><?php //endforeach; ?>
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    --><?php //else: ?>
+<!--                        <div class="request">-->
+<!--                            <h4>Geen blogposts gevonden</h4>-->
+<!--                            <p>Er staan op dit moment nog geen blogposts in de database.</p>-->
+<!--                        </div>-->
+<!--                    --><?php //endif; ?>
+<!--                </section>-->
+<!---->
+<!--            --><?php //elseif ($page === 'advice'): ?>
+<!--                <section class="page-head">-->
+<!--                    <h1>Adviesaanvragen</h1>-->
+<!--                    <p>Beheer klantadviesaanvragen en bijgevoegde mediabestanden</p>-->
+<!--                </section>-->
+<!--                <section class="card">-->
+<!--                    <div class="filters full"><input placeholder="🔍 Zoek op naam of onderwerp..."><input></div>-->
+<!--                    <div class="summary">-->
+<!--                        <div class="sum bluebox"><b>2</b><span>Nieuwe aanvragen</span></div>-->
+<!--                        <div class="sum yellowbox"><b>1</b><span>In behandeling</span></div>-->
+<!--                        <div class="sum greenbox"><b>1</b><span>Afgehandeld</span></div>-->
+<!--                    </div>-->
+<!--                    --><?php //foreach ([
+//                        ['Emma Peters', 'Nieuw', 'emma.peters@email.nl • +31 6 12345678', 'Marmer onderhoud advies', 'Ik heb marmeren vloeren in mijn woonkamer en zie vlekken verschijnen. Welk product kan ik het beste gebruiken voor dagelijks onderhoud?', '13 mei 2026 14:32', '2 bijlage(n)'],
+//                        ['Tom de Jong', 'In behandeling', 'tom.dejong@email.nl • +31 6 23456789', 'Vlekverwijdering graniet aanrecht', 'Op mijn granieten aanrechtblad zijn kringen ontstaan door olie. Hoe kan ik deze het beste verwijderen zonder de steen te beschadigen?', '13 mei 2026 11:15', '2 bijlage(n)'],
+//                        ['Anna Smit', 'Afgehandeld', 'anna.smit@email.nl • +31 6 34567890', 'Algemene vraag over natuursteen impregneren', 'Hoe vaak moet ik mijn natuurstenen terras opnieuw impregneren? En welk product raadt u aan?', '12 mei 2026 16:45', ''],
+//                        ['Peter van Dijk', 'Nieuw', 'peter.vandijk@email.nl • +31 6 45678901', 'Hardsteen terras onderhoud', 'Mijn hardstenen terras vertoont witte uitslag. Is dit kalkaanslag en hoe kan ik dit behandelen?', '12 mei 2026 09:22', '3 bijlage(n)']
+//                    ] as $r): ?>
+<!--                        <div class="request">-->
+<!--                            <h4>--><?php //= $r[0] ?><!--         --><?php //= badge($r[1], strtolower(str_replace(' ', '-', $r[1]))) ?><!--</h4>-->
+<!--                            <span>--><?php //= $r[2] ?><!--</span><b>--><?php //= $r[3] ?><!--</b>-->
+<!--                            <p>--><?php //= $r[4] ?><!--</p>-->
+<!--                            <div class="request-bottom"><small>--><?php //= $r[5] ?><!-- • --><?php //= $r[6] ?><!--</small><button>👁 Bekijk-->
+<!--                                    Details</button></div>-->
+<!--                        </div>-->
+<!--                    --><?php //endforeach; ?>
+<!--                </section>-->
+<!--            --><?php //else: ?>
+<!--                <section class="page-head">-->
+<!--                    <h1>Instellingen</h1>-->
+<!--                    <p>Hier kun je later instellingen plaatsen.</p>-->
+<!--                </section>-->
+<!--            --><?php //endif; ?>
+<!--        </main>-->
+<!--    </div>-->
+<!--</body>-->
+<!---->
+<!--</html>-->

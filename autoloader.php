@@ -8,7 +8,13 @@ spl_autoload_register(function ($class) {
         __DIR__ . '/services/',
         __DIR__ . '/public/',
         __DIR__ . '/component/',
-        __DIR__ . '/repositories/'
+        __DIR__ . '/repositories/',
+
+
+//      ==========  ADMIN =============
+          __DIR__ . '/adminControllers/',
+        __DIR__. '/adminServices/',
+        __DIR__. '/adminRepositories/',
     ];
 
     foreach ($paths as $path) {
