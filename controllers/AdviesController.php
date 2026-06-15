@@ -68,7 +68,7 @@ class AdviesController
             }
         }
 
-        header('Location: /mijn-advies/' . $request_id);
+        header('Location: /advies' . $request_id);
         exit;
     }
 }

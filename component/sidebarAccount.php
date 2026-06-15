@@ -1,6 +1,7 @@
 <?php
 $currentPath = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/', '/');
 $currentPath = $currentPath === '' ? '/' : $currentPath;
+$sidebarUser = $_SESSION['user'] ?? ($user ?? null);
 ?>
 
 <aside class="sidebar">
@@ -9,8 +10,8 @@ $currentPath = $currentPath === '' ? '/' : $currentPath;
         <div class="sidebar__avatar">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v2h20v-2c0-3.3-6.7-5-10-5z"/></svg>
         </div>
-        <span class="sidebar__name">Jan Jansen</span>
-        <span class="sidebar__email">jan@email.nl</span>
+        <span class="sidebar__name"><?php echo htmlspecialchars($sidebarUser['username'] ?? 'Gebruiker', ENT_QUOTES, 'UTF-8'); ?></span>
+        <span class="sidebar__email"><?php echo htmlspecialchars($sidebarUser['email'] ?? '', ENT_QUOTES, 'UTF-8'); ?></span>
     </div>
 
     <nav class="sidebar__nav">
