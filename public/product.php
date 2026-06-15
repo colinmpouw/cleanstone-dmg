@@ -11,6 +11,12 @@ $originalPrice = $product['price'];
 $discount = $product['sale_price'] ? round(100 - ($price / $originalPrice * 100)) : 0;
 $averageRating = $rating['average_rating'] ?? 0;
 $reviewCount = $rating['review_count'] ?? 0;
+$reviewErrors = $reviewErrors ?? [];
+$reviewOld = $reviewOld ?? ['rating' => '', 'review' => ''];
+$reviewSuccess = $reviewSuccess ?? '';
+$reviewFormOpen = !empty($reviewErrors) || !empty($reviewOld['rating']) || !empty($reviewOld['review']);
+$reviewFormStyle = $reviewFormOpen ? 'display: block; margin-top: 1rem;' : 'display: none; margin-top: 1rem;';
+$reviewToggleText = $reviewFormOpen ? 'Verberg reviewformulier' : 'Schrijf een review';
 ?>
 <!doctype html>
 <html lang="nl">
@@ -54,8 +60,9 @@ $reviewCount = $rating['review_count'] ?? 0;
         <div class="thumbnail-gallery">
             <?php if (!empty($images)): ?>
                 <?php foreach ($images as $index => $img): ?>
+                    <?php $thumbnailImage = $img['image'] ? '/uploads/products/' . ltrim($img['image'], '/') : $defaultImage; ?>
                     <div class="thumbnail <?php echo $index === 0 ? 'active' : ''; ?>" onclick="changeImage(this)">
-                        <img src="/public/assets/<?php echo htmlspecialchars($img['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                        <img src="<?php echo htmlspecialchars($thumbnailImage); ?>" alt="<?php echo htmlspecialchars($img['alt_text'] ?: $product['name']); ?>">
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -220,26 +227,63 @@ $reviewCount = $rating['review_count'] ?? 0;
                 </div>
             <?php endif; ?>
 
-            <?php if (!empty($reviews)): ?>
                 <section class="product-section reviews-section">
                     <h2>Reviews</h2>
                     <div class="reviews-summary">
                         <span class="reviews-score"><?php echo number_format($averageRating, 1, '.', ''); ?> / 5</span>
                         <span class="reviews-count"><?php echo $reviewCount; ?> beoordelingen</span>
                     </div>
+
+                    <div class="review-submit">
+                        <?php if (!empty($reviewSuccess)): ?>
+                            <div class="review-success"><?php echo htmlspecialchars($reviewSuccess); ?></div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($reviewErrors)): ?>
+                            <div class="review-errors">
+                                <ul>
+                                    <?php foreach ($reviewErrors as $error): ?>
+                                        <li><?php echo htmlspecialchars($error); ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($_SESSION['user']['id'])): ?>
+                            <button id="toggleReviewForm" class="btn btn-secondary">Schrijf een review</button>
+                            <form id="reviewForm" action="/product/<?php echo htmlspecialchars($product['slug']); ?>/review" method="post" class="review-form" style="display: none; margin-top: 1rem;">
+                                <label for="rating">Beoordeling</label>
+                                <select id="rating" name="rating" required>
+                                    <option value="">Kies...</option>
+                                    <?php for ($star = 5; $star >= 1; $star--): ?>
+                                        <option value="<?php echo $star; ?>" <?php echo isset($reviewOld['rating']) && (int)$reviewOld['rating'] === $star ? 'selected' : ''; ?>><?php echo $star; ?> sterren</option>
+                                    <?php endfor; ?>
+                                </select>
+
+                                <label for="review">Uw review</label>
+                                <textarea id="review" name="review" rows="4" required><?php echo htmlspecialchars($reviewOld['review']); ?></textarea>
+
+                                <button type="submit" class="btn btn-primary">Plaats review</button>
+                            </form>
+                        <?php else: ?>
+                            <p>U moet <a href="/login">inloggen</a> om een review te plaatsen.</p>
+                        <?php endif; ?>
+                    </div>
+
                     <div class="reviews-list">
-                        <?php foreach ($reviews as $review): ?>
-                            <article class="review-item">
-                                <div class="review-header">
-                                    <div class="review-stars">
-                                        <?php
-                                            $filledStars = (int) floor($review['rating'] ?? 0);
-                                            for ($i = 0; $i < 5; $i++) {
-                                                echo '<span class="star' . ($i < $filledStars ? ' filled' : '') . '">★</span>';
-                                            }
-                                        ?>
-                                    </div>
-                                    <div class="review-meta">
+                        <?php if (!empty($reviews)): ?>
+                            <?php foreach ($reviews as $review): ?>
+                                <article class="review-item">
+                                    <div class="review-header">
+                                        <div class="review-stars">
+                                            <?php
+                                                $filledStars = (int) floor($review['rating'] ?? 0);
+                                                for ($i = 0; $i < 5; $i++) {
+                                                    echo '<span class="star' . ($i < $filledStars ? ' filled' : '') . '">★</span>';
+                                                }
+                                            ?>
+                                        </div>
+                                        <div class="review-meta">
                                         <span class="review-author"><?php echo htmlspecialchars($review['author'] ?? 'Anoniem'); ?></span>
                                         <time datetime="<?php echo htmlspecialchars($review['created_at']); ?>"><?php echo date('d-m-Y', strtotime($review['created_at'])); ?></time>
                                     </div>
@@ -247,9 +291,11 @@ $reviewCount = $rating['review_count'] ?? 0;
                                 <p class="review-text"><?php echo htmlspecialchars($review['review']); ?></p>
                             </article>
                         <?php endforeach; ?>
+                        <?php else: ?>
+                            <p>Er zijn nog geen reviews voor dit product. Wees de eerste om er een te schrijven.</p>
+                        <?php endif; ?>
                     </div>
                 </section>
-            <?php endif; ?>
         </div>
     </main>
 

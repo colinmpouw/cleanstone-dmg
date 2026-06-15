@@ -143,6 +143,19 @@ document.head.appendChild(style);
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if product is in wishlist (if user is logged in)
-    // This would require checking from backend
+    const toggleReviewForm = document.getElementById('toggleReviewForm');
+    const reviewForm = document.getElementById('reviewForm');
+
+    if (toggleReviewForm && reviewForm) {
+        toggleReviewForm.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (reviewForm.style.display === 'none' || reviewForm.style.display === '') {
+                reviewForm.style.display = 'block';
+                toggleReviewForm.textContent = 'Verberg reviewformulier';
+            } else {
+                reviewForm.style.display = 'none';
+                toggleReviewForm.textContent = 'Schrijf een review';
+            }
+        });
+    }
 });

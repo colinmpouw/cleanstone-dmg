@@ -96,10 +96,14 @@ class ProductViewRepository
     public function getProductImages(int $productId): array
     {
         $query = "
-            SELECT id, image
+            SELECT 
+                id,
+                COALESCE(NULLIF(image, ''), url) AS image,
+                alt_text,
+                is_primary
             FROM product_images
             WHERE product_id = ?
-            ORDER BY id ASC
+            ORDER BY is_primary DESC, id ASC
         ";
 
         return $this->DB->read($query, [$productId]) ?: [];
@@ -112,14 +116,30 @@ class ProductViewRepository
                 r.id,
                 r.rating,
                 r.review,
-                CONCAT('Klant ', r.user_id) as author,
+                COALESCE(u.username, CONCAT('Klant ', r.user_id)) as author,
                 r.created_at
             FROM reviews r
+            LEFT JOIN users u ON u.id = r.user_id
             WHERE r.product_id = ?
             ORDER BY r.created_at DESC
             LIMIT " . intval($limit) . " OFFSET " . intval($offset);
 
         return $this->DB->read($query, [$productId]) ?: [];
+    }
+
+    public function createProductReview(array $data): bool
+    {
+        $query = "
+            INSERT INTO reviews (user_id, product_id, rating, review, created_at)
+            VALUES (?, ?, ?, ?, NOW())
+        ";
+
+        return $this->DB->save($query, [
+            $data['user_id'],
+            $data['product_id'],
+            $data['rating'],
+            $data['review'],
+        ]);
     }
 
     public function getAverageRating(int $productId): ?array

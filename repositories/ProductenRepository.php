@@ -21,20 +21,25 @@ class ProductenRepository
                 p.slug,
                 p.name,
                 p.price,
+                p.sale_price,
                 p.stock,
                 COALESCE(p.image, (
-                    SELECT image
+                    SELECT COALESCE(NULLIF(pi.image, ''), pi.url)
                     FROM product_images pi
                     WHERE pi.product_id = p.id
-                    ORDER BY pi.id ASC
+                    ORDER BY pi.is_primary DESC, pi.id ASC
                     LIMIT 1
                 )) as image,
                 c.name as category_name,
                 c.slug as category_slug,
-                b.name as brand_name     
+                b.name as brand_name,
+                COALESCE(ROUND(AVG(r.rating), 1), 0) as average_rating,
+                COUNT(r.id) as review_count
             FROM products p
             LEFT JOIN brands b ON p.brand_id = b.id
             LEFT JOIN categories c ON p.category_id = c.id
+            LEFT JOIN reviews r ON r.product_id = p.id
+            GROUP BY p.id
             ORDER BY p.id DESC
         ";
 
@@ -55,7 +60,34 @@ class ProductenRepository
 
     public function getTopProducts(int $limit = 4): array
     {
-        $query = "SELECT * FROM get_top_products LIMIT " . (int)$limit;
+        $query = "
+            SELECT 
+                p.id,
+                p.slug,
+                p.name,
+                p.price,
+                p.sale_price,
+                p.stock,
+                COALESCE(p.image, (
+                    SELECT COALESCE(NULLIF(pi.image, ''), pi.url)
+                    FROM product_images pi
+                    WHERE pi.product_id = p.id
+                    ORDER BY pi.is_primary DESC, pi.id ASC
+                    LIMIT 1
+                )) as image,
+                c.name as category_name,
+                c.slug as category_slug,
+                b.name as brand_name,
+                COALESCE(ROUND(AVG(r.rating), 1), 0) as average_rating,
+                COUNT(r.id) as review_count
+            FROM products p
+            LEFT JOIN brands b ON p.brand_id = b.id
+            LEFT JOIN categories c ON p.category_id = c.id
+            LEFT JOIN reviews r ON r.product_id = p.id
+            GROUP BY p.id
+            ORDER BY p.id DESC
+            LIMIT " . (int)$limit;
+
         return $this->DB->read($query) ?: [];
     }
     public function searchProductsForAi(string $searchTerm): array
