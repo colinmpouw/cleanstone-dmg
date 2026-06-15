@@ -21,4 +21,19 @@ class AdviesService
     {
         $this->repository->saveImage($request_id, $filename);
     }
+
+    public function getRequestById(int $id): ?array
+    {
+        return $this->repository->getRequestById($id);
+    }
+
+    public function getImages(int $request_id): array
+    {
+        return $this->repository->getImages($request_id);
+    }
+
+    public function getRequestsByUser(int $user_id): array
+    {
+        return $this->repository->getRequestsByUser($user_id);
+    }
 }
