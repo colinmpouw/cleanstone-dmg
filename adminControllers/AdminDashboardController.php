@@ -17,5 +17,6 @@ class AdminDashboardController
     public function dashboardPage(){
         echo "AdminDashboardController loaded<br>";
         require_once __DIR__ . '/../admin/dashboard.php';
+        die();
     }
 }
