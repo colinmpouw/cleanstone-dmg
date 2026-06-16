@@ -1,0 +1,22 @@
+
+/* ── CONTENT ── */
+.content {
+    flex: 1;
+    padding: 28px;
+    overflow-y: auto;
+}
+
+.page-heading {
+    margin-bottom: 24px;
+}
+
+.page-heading h1 {
+    font-size: 28px;
+    color: var(--charcoal-clay);
+}
+
+.page-heading p {
+    font-size: 13px;
+    color: var(--rustic-taupe);
+    margin-top: 4px;
+}

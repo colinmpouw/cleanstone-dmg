@@ -12,7 +12,7 @@ class AdminUsersController
     {
 
         $router->get('/admin/login', [$this, 'adminLoginPage']);
-
+        $router->get('/admin/Users', [$this, 'adminUsersPage']);
 
     }
 
@@ -21,4 +21,9 @@ class AdminUsersController
         require_once __DIR__ . '/../admin/adminLogin.php';
         die();
   }
+    public function adminUsersPage(){
+
+        require_once __DIR__ . '/../admin/adminUsers.php';
+        die();
+    }
 }
