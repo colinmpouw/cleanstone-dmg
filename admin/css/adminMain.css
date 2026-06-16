@@ -41,6 +41,7 @@ p{
 body{
     font-family: var(--body-font);
     background-color: #E8DDD0;
+    height: 100vh;
     color: var(--charcoal-clay);
     display: flex;
 }
