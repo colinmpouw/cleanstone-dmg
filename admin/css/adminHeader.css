@@ -1,0 +1,201 @@
+/* ── SIDEBAR ── */
+.sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    background: var(--charcoal-clay);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.sidebar-brand {
+    padding: 1rem;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-logo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-logo img {
+    object-fit: contain;
+    width: 100%;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 10px 0;
+    list-style: none;
+    overflow-y: auto;
+}
+
+.sidebar-nav li a,
+.sidebar-nav li button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    width: 100%;
+    text-decoration: none;
+    color: var(--warm-beige);
+    font-size: var( --button-size);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s, color 0.15s;
+    --active-color: var(--soft-white);
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li button:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--soft-white);
+    --active-color: var(--warm-beige);
+}
+
+.sidebar-nav li.active a {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--soft-white);
+    --active-color: var(--warm-beige);
+}
+.sidebar-nav li a svg,
+.sidebar-nav li button svg {
+    stroke-opacity: 0.6;
+    transition: 0.2s;
+}
+
+.sidebar-nav li.active a svg,
+.sidebar-nav li.active button svg {
+
+    stroke-opacity: 1;
+}
+
+.nav-arrow {
+    margin-left: auto;
+    font-size: 13px;
+    opacity: 0.4;
+}
+
+.nav-divider {
+    height: 0.5px;
+    background: rgba(255, 255, 255, 0.07);
+    margin: 8px 20px;
+}
+
+.sidebar-footer {
+    padding: 12px 0;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── MAIN ── */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ── HEADER ── */
+.header {
+    height: 58px;
+    background: var(--soft-white);
+    border-bottom: 0.5px solid rgba(58, 43, 32, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    flex-shrink: 0;
+}
+
+.header-title {
+    font-family: var(--title-font);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--charcoal-clay);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.notif-btn {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 0.5px solid rgba(58, 43, 32, 0.15);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--rustic-taupe);
+    transition: background 0.15s;
+}
+
+.notif-btn:hover {
+    background: var(--creamy-taupe);
+}
+
+.notif-btn i {
+    font-size: 18px;
+}
+
+.notif-dot {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #B85C2A;
+    border: 1.5px solid var(--soft-white);
+}
+
+.admin-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.admin-pill:hover {
+    background: var(--creamy-taupe);
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--charcoal-clay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--creamy-taupe);
+    flex-shrink: 0;
+}
+
+.admin-label-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--charcoal-clay);
+    line-height: 1.2;
+}
+
+.admin-label-role {
+    font-size: 11px;
+    color: var(--rustic-taupe);
+}

@@ -13,7 +13,7 @@
 
 </head>
 <body>
-<?php require_once __DIR__ . '/../adminComponent/adminHeader.php'; ?>
+<?php require_once __DIR__ . '/../adminComponent/adminSidebar.php'; ?>
 
 <main>
     <h1>404</h1>
