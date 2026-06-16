@@ -9,7 +9,7 @@ class AdminAdvicesController
     {
 
 
-        $router->get('/admin/advice', [$this, 'advicePage']);
+        $router->get('/admin/adviesaanvragen', [$this, 'advicePage']);
 
     }
     public function advicePage(){

@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Admin -Dashboard</title>
+    <title>Admin -Gebruikers</title>
     <link rel="icon" href="/public/assets/logo_icon.png" type="image/png">
     <link rel="stylesheet" href="/admin/css/adminMain.css">
     <link rel="stylesheet" href="/admin/css/adminHeader.css">
@@ -22,7 +22,7 @@
     <!-- CONTENT -->
     <main class="content">
         <div class="page-heading">
-            <h1>Bundels</h1>
+            <h1>Gebruikers</h1>
             <p>Welkom terug — overzicht van vandaag</p>
         </div>
         <!-- Dashboard content goes here -->

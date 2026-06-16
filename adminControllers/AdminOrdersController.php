@@ -8,7 +8,7 @@ class AdminOrdersController
     {
 
 
-        $router->get('/admin/orders', [$this, 'ordersPage']);
+        $router->get('/admin/bestellingen', [$this, 'ordersPage']);
 
     }
     public function ordersPage(){

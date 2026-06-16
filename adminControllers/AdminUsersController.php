@@ -12,7 +12,7 @@ class AdminUsersController
     {
 
         $router->get('/admin/login', [$this, 'adminLoginPage']);
-        $router->get('/admin/Users', [$this, 'adminUsersPage']);
+        $router->get('/admin/gebruikers', [$this, 'adminUsersPage']);
 
     }
 

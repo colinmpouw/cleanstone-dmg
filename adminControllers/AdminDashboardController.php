@@ -14,14 +14,14 @@ class AdminDashboardController
 
     }
     public function adminURL(){
-//        $user = $_SESSION['user'] ?? null;
-//        if (!$user || $user['role'] !== 'admin') {
-//            header('Location: /admin/login');
-//            die();
-//        }
-//
-//        header('Location: /admin/dashboard');
-//        die();
+        $user = $_SESSION['user'] ?? null;
+        if (!$user || $user['role'] !== 'admin') {
+            header('Location: /admin/login');
+            die();
+        }
+
+        header('Location: /admin/dashboard');
+        die();
     }
     public function dashboardPage(){
 //        $user = $_SESSION['user'] ?? null;

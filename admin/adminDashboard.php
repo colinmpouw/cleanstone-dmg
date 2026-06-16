@@ -22,7 +22,7 @@
     <!-- CONTENT -->
     <main class="content">
         <div class="page-heading">
-            <h1>Producten</h1>
+            <h1>Dashboard</h1>
             <p>Welkom terug — overzicht van vandaag</p>
         </div>
         <!-- Dashboard content goes here -->

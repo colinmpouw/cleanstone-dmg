@@ -8,7 +8,7 @@ class AdminProductsController
     {
 
 
-        $router->get('/admin/products', [$this, 'productsPage']);
+        $router->get('/admin/producten', [$this, 'productsPage']);
 
     }
     public function productsPage(){
