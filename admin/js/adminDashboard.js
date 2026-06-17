@@ -12,11 +12,11 @@ let categoryChart;
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
-    // loadStats();
-    // loadRevenue();
-    // loadCategories();
+    loadStats();
+    loadRevenue();
+    loadCategories();
     loadOrders();
-    // loadAdvice();
+    loadAdvice();
 }
 
 /* ===================================================== */
@@ -362,7 +362,55 @@ function renderAdviceList(items) {
 
     items.forEach(a => {
         const li = document.createElement('li');
-        li.textContent = `${a.name} - ${a.subject}`;
+
+        // LEFT (name + subject + date)
+        const left = document.createElement('div');
+        left.className = 'advice-left';
+
+        const name = document.createElement('div');
+        name.className = 'advice-name';
+        name.textContent = a.name;
+
+        const subject = document.createElement('div');
+        subject.className = 'advice-subject';
+        subject.textContent = a.subject;
+
+        const date = document.createElement('div');
+        date.className = 'advice-date';
+        date.textContent = a.date;
+
+        left.appendChild(name);
+        left.appendChild(subject);
+        left.appendChild(date);
+
+        // RIGHT (badge + extra info)
+        const right = document.createElement('div');
+        right.className = 'advice-right';
+
+        const badge = document.createElement('span');
+        badge.className = 'advice-badge';
+        badge.textContent = 'Nieuw';
+
+        const extra = document.createElement('div');
+        extra.className = 'advice-extra';
+
+        const icon = document.createElement('span');
+        icon.className = 'eye-icon';
+        icon.textContent = '👁'; // simple icon (replace with SVG if needed)
+
+        const text = document.createElement('span');
+        text.textContent = 'Foto bijgevoegd';
+
+        extra.appendChild(icon);
+        extra.appendChild(text);
+
+        right.appendChild(badge);
+        right.appendChild(extra);
+
+        // APPEND
+        li.appendChild(left);
+        li.appendChild(right);
+
         el.appendChild(li);
     });
 }
