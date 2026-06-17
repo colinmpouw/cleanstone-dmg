@@ -38,7 +38,7 @@ $currentPath = $currentPath === '' ? '/' : $currentPath;
                     <path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>
                 </svg>
             </a>
-            <button class="icon-btn cart" aria-label="Winkelwagen">
+            <a href="/winkelwagen" class="icon-btn cart" aria-label="Winkelwagen">
                 <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
                      stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="9" cy="20" r="1.4"/>
@@ -46,7 +46,7 @@ $currentPath = $currentPath === '' ? '/' : $currentPath;
                     <path d="M2 3h3l2.6 13h11l2-9H6"/>
                 </svg>
                 <span class="badge">0</span>
-            </button>
+            </a>
         </div>
     </nav>
 </header>

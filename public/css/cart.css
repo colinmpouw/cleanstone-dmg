@@ -1,0 +1,158 @@
+
+
+
+main {
+    max-width: 1300px;
+    margin: auto;
+    padding: 2rem;
+}
+
+main>h1{
+
+    font-family: var(--title-font);
+    font-size: var(--page-title-size);
+    margin-bottom: 2rem;
+
+}
+.cart-layout {
+    display: flex;
+    gap: 2rem;
+}
+
+/* LEFT */
+.cart-items {
+    flex: 2;
+}
+
+.cart-item {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-info {
+    display: flex;
+    gap: 1rem;
+}
+
+.image {
+    width: 90px;
+    height: 90px;
+    background: var(--warm-beige);
+    border-radius: 15px;
+}
+
+.brand {
+    color: var(--rustic-taupe);
+    font-size: 0.9rem;
+}
+
+.price {
+    margin-top: 0.5rem;
+}
+
+.product-actions {
+    text-align: right;
+}
+
+.delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: red;
+    font-size: 1.2rem;
+}
+
+.quantity {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 10px 0;
+}
+
+.quantity button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.total-price {
+    font-weight: bold;
+}
+
+.back {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: var(--rustic-taupe);
+}
+
+/* RIGHT */
+.summary {
+    flex: 1;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 1.5rem;
+}
+
+.summary h2 {
+    font-family: var(--title-font);
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.free {
+    font-weight: bold;
+}
+
+.total {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.discount {
+    display: flex;
+    gap: 10px;
+    margin: 1rem 0;
+}
+
+.discount input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--creamy-taupe);
+}
+
+.discount button {
+    background: var(--creamy-taupe);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.checkout {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: none;
+    background: var(--charcoal-clay);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.notes {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    font-size: 0.9rem;
+}

@@ -2,6 +2,7 @@ const chat = document.getElementById("AiChat-messages");
 const container = document.getElementById("AiChat-container");
 const input = document.getElementById("AiChat-input");
 const sendBtn = document.getElementById("AiChat-send-button");
+const closeBtn = document.getElementById("AiChat-close-button");
 
 // ── Toggle ────────────────────────────────────────────────
 let welcomed = false;
@@ -17,6 +18,10 @@ document.getElementById("AiChat-button").addEventListener("click", () => {
             typeWriter("Hallo! Waarmee kan ik je helpen? 👋");
         }
     }
+});
+closeBtn.addEventListener("click", () => {
+    const isHidden = container.style.display === "none" || container.style.display === "";
+    container.style.display = isHidden ? "flex" : "none";
 });
 
 // ── Messages ──────────────────────────────────────────────
