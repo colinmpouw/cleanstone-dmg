@@ -1,8 +1,31 @@
 <?php
-$blogs = $blogs ?? [];
+$loadedByController = isset($blogs);
 $errors = $errors ?? [];
 $old = $old ?? [];
 $successMessage = $successMessage ?? '';
+
+if (!$loadedByController) {
+    require_once __DIR__ . '/../autoloader.php';
+
+    $blogService = new \adminServices\AdminBlogsService();
+
+    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+        $result = $blogService->createBlog($_POST);
+
+        if ($result['success']) {
+            header('Location: /admin/adminblog.php?created=1');
+            die();
+        }
+
+        $errors = $result['errors'];
+        $old = $result['data'];
+    }
+
+    $blogs = $blogService->getAllBlogs();
+    $successMessage = isset($_GET['created']) ? 'Blog is toegevoegd.' : '';
+}
+
+$blogs = $blogs ?? [];
 
 function adminBlogValue(array $old, string $key): string
 {
@@ -109,7 +132,7 @@ function adminBlogDate(?string $date): string
                 <span>Nieuwe publicatie</span>
             </div>
 
-            <form class="blog-form" action="/admin/blog/toevoegen" method="post">
+            <form class="blog-form" action="/admin/adminblog.php" method="post">
                 <label>
                     Titel
                     <input type="text" name="title" maxlength="45" value="<?php echo adminBlogValue($old, 'title'); ?>" required>

@@ -13,7 +13,9 @@ class AdminBlogsController
         $this->blogService = new AdminBlogsService();
 
         $router->get('/admin/blog', [$this, 'blogPage']);
+        $router->get('/admin/adminblog.php', [$this, 'blogPage']);
         $router->post('/admin/blog/toevoegen', [$this, 'addBlog']);
+        $router->post('/admin/adminblog.php', [$this, 'addBlog']);
     }
 
     public function blogPage(): void
