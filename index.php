@@ -1,7 +1,11 @@
 <?php
 require_once __DIR__ . '/autoloader.php';
 require_once __DIR__ . '/Router.php';
-require_once __DIR__ . '/vendor/autoload.php';
+
+$composerAutoload = __DIR__ . '/vendor/autoload.php';
+if (file_exists($composerAutoload)) {
+    require_once $composerAutoload;
+}
 
 session_start();
 
