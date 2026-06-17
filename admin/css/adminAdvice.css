@@ -1,7 +1,7 @@
 /* === ADVIESAANVRAGEN PAGE === */
 .aanvragen-page {
     padding: 28px 32px;
-    background: var(--soft-white);
+    /*background: var(--soft-white);*/
     min-height: 100%;
 }
 
