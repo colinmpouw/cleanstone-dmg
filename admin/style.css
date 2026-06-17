@@ -133,6 +133,21 @@ button {
   padding: 13px 20px;
   font-weight: 700;
 }
+
+.action-button,
+.modal-actions button {
+  cursor: pointer;
+}
+
+.action-button {
+  background: linear-gradient(135deg, #222 0%, #4b4b4b 100%);
+  box-shadow: 0 10px 24px rgba(34, 34, 34, 0.18);
+}
+
+.ghost-button {
+  background: #f2f2f2;
+  color: #333;
+}
 .card {
   background: white;
   border: 1px solid #e5e5e5;
@@ -195,6 +210,114 @@ button {
   margin: 0 -20px 16px;
   padding: 0 20px 18px;
   border-bottom: 1px solid #eee;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 18, 18, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 50;
+}
+
+.modal-backdrop.is-open {
+  display: flex;
+}
+
+.modal-card {
+  width: min(720px, 100%);
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.modal-kicker {
+  display: inline-block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #777;
+}
+
+.modal-head h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.modal-close {
+  background: #f1f1f1;
+  color: #222;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.modal-form {
+  display: grid;
+  gap: 16px;
+}
+
+.modal-form label {
+  display: grid;
+  gap: 8px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.modal-form input,
+.modal-form select,
+.modal-form textarea {
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font: inherit;
+  background: #fff;
+}
+
+.modal-form textarea {
+  resize: vertical;
+  min-height: 180px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modal-actions button {
+  min-width: 140px;
+}
+
+.modal-form input:focus,
+.modal-form select:focus,
+.modal-form textarea:focus {
+  outline: 2px solid rgba(34, 34, 34, 0.16);
+  border-color: #222;
 }
 .row {
   display: flex;
