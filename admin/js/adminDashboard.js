@@ -12,11 +12,11 @@ let categoryChart;
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
-    loadStats();
-    loadRevenue();
-    loadCategories();
+    // loadStats();
+    // loadRevenue();
+    // loadCategories();
     loadOrders();
-    loadAdvice();
+    // loadAdvice();
 }
 
 /* ===================================================== */
@@ -94,25 +94,121 @@ function formatEuro(value) {
 /* ===================================================== */
 
 function renderStats(stats) {
-    const el = document.getElementById('statGrid');
-    el.innerHTML = '';
+    const upIcon=`<svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_526_120)">
+<path d="M11.9167 3.79167L7.31251 8.39584L4.60418 5.68751L1.08334 9.20834" stroke="#00A63E" stroke-width="1.08333" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8.66666 3.79167H11.9167V7.04167" stroke="#00A63E" stroke-width="1.08333" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_526_120">
+<rect width="13" height="13" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+`
+    const downIcon=`<svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_526_167)">
+<path d="M11.9167 9.20834L7.31254 4.60417L4.60421 7.31251L1.08337 3.79167" stroke="#FB2C36" stroke-width="1.08333" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8.66663 9.20833H11.9166V5.95833" stroke="#FB2C36" stroke-width="1.08333" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_526_167">
+<rect width="13" height="13" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+`
+    if (stats.revenue) {
+        document.querySelector('#revenue h2').textContent =
+            formatEuro(stats.revenue.value);
 
-    Object.keys(stats).forEach(key => {
-        const stat = stats[key];
+        const small = document.querySelector('#revenue small');
+        const delta = stats.revenue.delta;
 
-        const div = document.createElement('div');
-        div.className = 'stat-card';
-
-        div.innerHTML = `
-            <div>${key}</div>
-            <h2>${key === 'revenue' ? formatEuro(stat.value) : stat.value}</h2>
-            <small>${stat.delta}%</small>
+        if (delta > 0) {
+            small.style.color = '#00A63E'; // green
+            small.innerHTML = `
+            ${upIcon}
+            <span>${delta}%</span>
         `;
+        } else {
+            small.style.color = '#FB2C36'; // red
+            small.innerHTML = `
+            ${downIcon}
+            <span>${delta}%</span>
+        `;
+        }
+    }
 
-        el.appendChild(div);
-    });
+    if (stats.orders) {
+        document.querySelector('#orders h2').textContent =
+            stats.orders.value;
+
+        const small = document.querySelector('#orders small');
+        const delta = stats.orders.delta;
+
+        small.style.display = 'flex';
+        small.style.alignItems = 'center';
+        small.style.gap = '4px';
+
+        if (delta > 0) {
+            small.style.color = '#00A63E';
+            small.innerHTML = `${upIcon}<span>${delta}%</span>`;
+        } else if (delta < 0) {
+            small.style.color = '#FB2C36';
+            small.innerHTML = `${downIcon}<span>${delta}%</span>`;
+        } else {
+            small.style.color = '#999';
+            small.innerHTML = `<span>${delta}%</span>`;
+        }
+    }
+
+    if (stats.active_products) {
+        document.querySelector('#active_products h2').textContent =
+            stats.active_products.value;
+
+        const small = document.querySelector('#active_products small');
+        const delta = stats.active_products.delta;
+
+        small.style.display = 'flex';
+        small.style.alignItems = 'center';
+        small.style.gap = '4px';
+
+        if (delta > 0) {
+            small.style.color = '#00A63E';
+            small.innerHTML = `${upIcon}<span>${delta}%</span>`;
+        } else if (delta < 0) {
+            small.style.color = '#FB2C36';
+            small.innerHTML = `${downIcon}<span>${delta}%</span>`;
+        } else {
+            small.style.color = '#999';
+            small.innerHTML = `<span>${delta}%</span>`;
+        }
+    }
+
+    if (stats.advice_requests) {
+        document.querySelector('#advice_requests h2').textContent =
+            stats.advice_requests.value;
+
+        const small = document.querySelector('#advice_requests small');
+        const delta = stats.advice_requests.delta;
+
+        small.style.display = 'flex';
+        small.style.alignItems = 'center';
+        small.style.gap = '4px';
+
+        if (delta > 0) {
+            small.style.color = '#00A63E';
+            small.innerHTML = `${upIcon}<span>${delta}%</span>`;
+        } else if (delta < 0) {
+            small.style.color = '#FB2C36';
+            small.innerHTML = `${downIcon}<span>${delta}%</span>`;
+        } else {
+            small.style.color = '#999';
+            small.innerHTML = `<span>${delta}%</span>`;
+        }
+    }
 }
-
 /* ===================================================== */
 /* ✅ REVENUE CHART (Line)                                */
 /* ===================================================== */
@@ -175,14 +271,20 @@ function renderCategoryChart(categories) {
             labels: labels,
             datasets: [{
                 data: values,
-                backgroundColor: '#B89C82'
+                backgroundColor: '#B89C82',
+                borderRadius: 4,
+                barPercentage: 0.5,
+                categoryPercentage: 0.5
+
             }]
         },
         options: {
+            indexAxis: 'y',
             responsive: true,
             plugins: {
                 legend: { display: false }
             }
+
         }
     });
 }
@@ -197,10 +299,58 @@ function renderOrderList(orders) {
 
     orders.forEach(o => {
         const li = document.createElement('li');
-        li.textContent = `${o.customer} - ${formatEuro(o.amount)}`;
+
+        // LEFT SIDE
+        const left = document.createElement('div');
+        left.className = 'order-left';
+
+        const top = document.createElement('div');
+        top.className = 'order-top';
+
+        const strong = document.createElement('strong');
+        strong.textContent = `#${o.id}`;
+
+        const dot = document.createElement('span');
+        dot.className = 'dot';
+        dot.textContent = '·';
+
+        const name = document.createElement('span');
+        name.textContent = o.customer;
+
+        top.appendChild(strong);
+        top.appendChild(dot);
+        top.appendChild(name);
+
+        const date = document.createElement('div');
+        date.className = 'order-date';
+        date.textContent = o.date;
+
+        left.appendChild(top);
+        left.appendChild(date);
+
+        // RIGHT SIDE
+        const right = document.createElement('div');
+        right.className = 'order-right';
+
+        const price = document.createElement('span');
+        price.className = 'order-price';
+        price.textContent = formatEuro(o.amount);
+
+        const span = document.createElement('span');
+        span.className = 'order-btn';
+        span.textContent = 'Verzonden';
+
+        right.appendChild(price);
+        right.appendChild(span);
+
+        // APPEND ALL
+        li.appendChild(left);
+        li.appendChild(right);
+
         el.appendChild(li);
     });
 }
+
 
 /* ===================================================== */
 /* ADVICE                                                  */
