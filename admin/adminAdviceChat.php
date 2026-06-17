@@ -39,53 +39,6 @@
         <!-- MESSAGES -->
         <div class="chat-messages" id="chatMessages">
 
-            <div class="date-divider"><span>14 jun 2025</span></div>
-
-            <!-- klant: foto -->
-            <div class="msg-group">
-                <div class="msg-avatar msg-avatar--km">KM</div>
-                <div class="msg-bubbles">
-                    <div class="msg-image">
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=560&q=80" alt="Foto klant">
-                    </div>
-                    <span class="msg-meta">Karin Meijer · 10:14</span>
-                </div>
-            </div>
-
-            <!-- klant: bericht 1 -->
-            <div class="msg-group">
-                <div class="msg-avatar msg-avatar--km">KM</div>
-                <div class="msg-bubbles">
-                    <div class="msg-bubble">Hallo! Ik heb witte kalkafzetting op mijn travertin terras. Na elke regenbui komt het terug. Ik heb al verschillende reinigingsmiddelen geprobeerd maar niets helpt.</div>
-                    <span class="msg-meta">Karin Meijer · 10:14</span>
-                </div>
-            </div>
-
-            <!-- klant: bericht 2 -->
-            <div class="msg-group">
-                <div class="msg-avatar msg-avatar--km">KM</div>
-                <div class="msg-bubbles">
-                    <div class="msg-bubble">Ik heb ook een foto bijgevoegd zodat u kunt zien hoe erg het is.</div>
-                    <span class="msg-meta">Karin Meijer · 10:15</span>
-                </div>
-            </div>
-
-            <!-- admin: reply 1 -->
-            <div class="msg-group msg-group--right">
-                <div class="msg-bubbles">
-                    <div class="msg-bubble">hi</div>
-                    <span class="msg-meta">CleanStone · 09:08</span>
-                </div>
-                <div class="msg-avatar msg-avatar--cs">CS</div>
-            </div>
-
-            <!-- admin: reply 2 -->
-            <div class="msg-group msg-group--right">
-                <div class="msg-bubbles">
-                    <div class="msg-bubble">im very good at my job u bil</div>
-                    <span class="msg-meta">CleanStone · 09:09</span>
-                </div>
-                <div class="msg-avatar msg-avatar--cs">CS</div>
             </div>
 
         </div>
