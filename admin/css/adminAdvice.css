@@ -1,22 +1,217 @@
-
-/* ── CONTENT ── */
-.content {
-    flex: 1;
-    padding: 28px;
-    overflow-y: auto;
+/* === ADVIESAANVRAGEN PAGE === */
+.aanvragen-page {
+    padding: 28px 32px;
+    background: var(--soft-white);
+    min-height: 100%;
 }
 
-.page-heading {
-    margin-bottom: 24px;
+.aanvragen-page__header {
+    margin-bottom: 20px;
 }
 
-.page-heading h1 {
-    font-size: 28px;
+.aanvragen-page__header h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
     color: var(--charcoal-clay);
+    margin-bottom: 4px;
 }
 
-.page-heading p {
-    font-size: 13px;
+.aanvragen-page__header p {
+    font-size: 0.82rem;
     color: var(--rustic-taupe);
-    margin-top: 4px;
 }
+
+/* tabs */
+.aanvragen-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+.aanvragen-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--creamy-taupe);
+    background: transparent;
+    font-size: 0.8rem;
+    font-family: var(--body-font);
+    font-weight: 500;
+    color: var(--charcoal-clay);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.aanvragen-tab:hover {
+    border-color: var(--rustic-taupe);
+    background: var(--white);
+}
+
+.aanvragen-tab.active {
+    background: var(--charcoal-clay);
+    border-color: var(--charcoal-clay);
+    color: var(--white);
+}
+
+/* grid */
+.aanvragen-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+/* card */
+.aanvraag-card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 6px rgba(58,43,32,0.07);
+    transition: box-shadow 0.15s;
+}
+
+.aanvraag-card:hover {
+    box-shadow: 0 4px 16px rgba(58,43,32,0.12);
+}
+
+.aanvraag-card__img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+}
+
+.aanvraag-card__no-img {
+    width: 100%;
+    height: 160px;
+    background: var(--soft-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aanvraag-card__no-img svg {
+    width: 40px;
+    height: 40px;
+    color: var(--creamy-taupe);
+}
+
+.aanvraag-card__body {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.aanvraag-card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.aanvraag-card__name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    line-height: 1.2;
+}
+
+.aanvraag-card__sub {
+    font-size: 0.72rem;
+    color: var(--rustic-taupe);
+    margin-top: 2px;
+}
+
+.aanvraag-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 4px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.aanvraag-badge svg { width: 10px; height: 10px; }
+
+.aanvraag-badge--nieuw {
+    background: #f0f0f0;
+    color: #555;
+    border: 1px solid #ddd;
+}
+
+.aanvraag-badge--behandeling {
+    background: #fff4e0;
+    color: #c07a10;
+    border: 1px solid #fde3a0;
+}
+
+.aanvraag-badge--beantwoord {
+    background: #eafaf1;
+    color: #1a7a45;
+    border: 1px solid #b7e4c7;
+}
+
+.aanvraag-card__desc {
+    font-size: 0.78rem;
+    color: var(--rustic-taupe);
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.aanvraag-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 6px;
+}
+
+.aanvraag-card__date {
+    font-size: 0.7rem;
+    color: var(--warm-beige);
+}
+
+.aanvraag-card__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 7px;
+    font-size: 0.75rem;
+    font-family: var(--body-font);
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background 0.15s;
+    text-decoration: none;
+}
+
+.aanvraag-card__btn svg { width: 13px; height: 13px; }
+
+.aanvraag-card__btn--primary {
+    background: var(--charcoal-clay);
+    color: var(--white);
+}
+
+.aanvraag-card__btn--primary:hover { background: #2a1e15; }
+
+.aanvraag-card__btn--outline {
+    background: var(--soft-white);
+    color: var(--charcoal-clay);
+    border: 1px solid var(--creamy-taupe);
+}
+
+.aanvraag-card__btn--outline:hover { background: var(--creamy-taupe); }
