@@ -29,6 +29,12 @@
     </div>
 </div>
 
+<?php if (!empty($errorMessage)): ?>
+    <div class="login-error">
+        <?= htmlspecialchars($errorMessage) ?>
+    </div>
+<?php endif; ?>
+
 <!-- RIGHT -->
 <div class="right">
     <div class="form-wrap">
