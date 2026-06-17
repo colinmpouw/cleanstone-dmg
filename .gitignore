@@ -22,7 +22,8 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-
+[Vv]endor/
+.idea/
 [Dd]ebug/x64/
 [Dd]ebugPublic/x64/
 [Rr]elease/x64/
@@ -427,3 +428,4 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
