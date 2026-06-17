@@ -23,7 +23,7 @@ mono_crash.*
 [Rr]elease/
 [Rr]eleases/
 [Vv]endor/
-/.idea
+.idea/
 [Dd]ebug/x64/
 [Dd]ebugPublic/x64/
 [Rr]elease/x64/
