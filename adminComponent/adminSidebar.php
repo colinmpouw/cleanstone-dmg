@@ -82,7 +82,7 @@
             </a>
         </li>
         <li>
-            <a href="/admin/adminblog.php">
+            <a href="/admin/blog">
                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_526_60)">
                         <path d="M10.625 1.41666H4.25C3.87428 1.41666 3.51394 1.56591 3.24827 1.83159C2.98259 2.09726 2.83333 2.4576 2.83333 2.83332V14.1667C2.83333 14.5424 2.98259 14.9027 3.24827 15.1684C3.51394 15.4341 3.87428 15.5833 4.25 15.5833H12.75C13.1257 15.5833 13.4861 15.4341 13.7517 15.1684C14.0174 14.9027 14.1667 14.5424 14.1667 14.1667V4.95832L10.625 1.41666Z" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
