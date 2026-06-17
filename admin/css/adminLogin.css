@@ -22,6 +22,16 @@
     pointer-events: none;
 }
 
+.login-error {
+    background: #fdecea;
+    color: #c0392b;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.84rem;
+    margin-bottom: 16px;
+}
+
 .brand {
     display: flex;
     align-items: center;

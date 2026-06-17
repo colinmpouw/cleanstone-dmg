@@ -16,6 +16,9 @@ class AdviesController
         $router->get('/show-advies/{id}', [$this, 'pageShowAdvies']);
         $router->get('/api/advies/{id}', [$this, 'getRequest']);
         $router->get('/show-advies', [$this, 'pageAdviesOverzicht']);
+        $router->get('/api/advies/{id}/messages', [$this, 'getMessages']);
+        $router->post('/api/advies/message', [$this, 'sendMessage']);
+        $router->post('/api/advies/status', [$this, 'updateStatus']);
     }
 
     private function requireLogin(): void
@@ -123,5 +126,68 @@ class AdviesController
         // geen aanvraag — laad show-advies met leeg flag
         $no_request = true;
         require __DIR__ . '/../public/show-advies.php';
+    }
+
+    public function getMessages(int $id): void
+    {
+        $this->requireLogin();
+        header('Content-Type: application/json');
+
+        $request = $this->adviesService->getRequestById($id);
+        if (!$request) { echo json_encode([]); return; }
+
+        if ($_SESSION['user']['role'] !== 'admin' && $request['user_id'] != $_SESSION['user']['id']) {
+            echo json_encode([]); return;
+        }
+
+        echo json_encode($this->adviesService->getMessages($id));
+        exit;
+    }
+
+    public function sendMessage(): void
+    {
+        $this->requireLogin();
+        header('Content-Type: application/json');
+
+        $data       = json_decode(file_get_contents('php://input'), true);
+        $request_id = (int)($data['request_id'] ?? 0);
+        $message    = trim($data['message'] ?? '');
+
+        if (!$request_id || $message === '') {
+            echo json_encode(['success' => false]); return;
+        }
+
+        $request = $this->adviesService->getRequestById($request_id);
+        if (!$request) { echo json_encode(['success' => false]); return; }
+
+        if ($_SESSION['user']['role'] !== 'admin' && $request['user_id'] != $_SESSION['user']['id']) {
+            echo json_encode(['success' => false, 'message' => 'Geen toegang']); return;
+        }
+
+        $this->adviesService->sendMessage($request_id, $_SESSION['user']['id'], $message);
+        echo json_encode(['success' => true]);
+        exit;
+    }
+
+    public function updateStatus(): void
+    {
+        $this->requireLogin();
+        header('Content-Type: application/json');
+
+        if ($_SESSION['user']['role'] !== 'admin') {
+            echo json_encode(['success' => false]); return;
+        }
+
+        $data   = json_decode(file_get_contents('php://input'), true);
+        $id     = (int)($data['id'] ?? 0);
+        $status = $data['status'] ?? '';
+
+        if (!$id || !in_array($status, ['open', 'in_behandeling', 'gesloten'])) {
+            echo json_encode(['success' => false]); return;
+        }
+
+        $this->adviesService->updateStatus($id, $status);
+        echo json_encode(['success' => true]);
+        exit;
     }
 }

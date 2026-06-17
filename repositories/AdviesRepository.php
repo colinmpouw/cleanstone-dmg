@@ -55,5 +55,33 @@ class AdviesRepository
             ['user_id' => $user_id]
         ) ?: [];
     }
+
+    public function getMessages(int $request_id): array
+    {
+        return $this->DB->read(
+            "SELECT am.*, u.username, u.role FROM advice_messages am
+         JOIN users u ON am.user_id = u.id
+         WHERE am.request_id = :request_id
+         ORDER BY am.created_at ASC",
+            ['request_id' => $request_id]
+        ) ?: [];
+    }
+
+    public function sendMessage(int $request_id, int $user_id, string $message): void
+    {
+        $this->DB->save(
+            "INSERT INTO advice_messages (request_id, user_id, message)
+         VALUES (:request_id, :user_id, :message)",
+            ['request_id' => $request_id, 'user_id' => $user_id, 'message' => $message]
+        );
+    }
+
+    public function updateStatus(int $id, string $status): void
+    {
+        $this->DB->save(
+            "UPDATE advice_requests SET status = :status WHERE id = :id",
+            ['status' => $status, 'id' => $id]
+        );
+    }
 }
 

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/autoloader.php';
 require_once __DIR__ . '/Router.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 session_start();
 

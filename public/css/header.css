@@ -146,8 +146,12 @@ nav a.active {
 
 .cart {
     position: relative;
+    padding: 0;
 }
-
+.cart:hover{
+    color: var(--charcoal-clay);
+    background: none;
+}
 .cart .badge {
     position: absolute;
     top: -8px;

@@ -36,4 +36,19 @@ class AdviesService
     {
         return $this->repository->getRequestsByUser($user_id);
     }
+
+    public function getMessages(int $request_id): array
+    {
+        return $this->repository->getMessages($request_id);
+    }
+
+    public function sendMessage(int $request_id, int $user_id, string $message): void
+    {
+        $this->repository->sendMessage($request_id, $user_id, $message);
+    }
+
+    public function updateStatus(int $id, string $status): void
+    {
+        $this->repository->updateStatus($id, $status);
+    }
 }

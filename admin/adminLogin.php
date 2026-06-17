@@ -29,6 +29,12 @@
     </div>
 </div>
 
+<?php if (!empty($errorMessage)): ?>
+    <div class="login-error">
+        <?= htmlspecialchars($errorMessage) ?>
+    </div>
+<?php endif; ?>
+
 <!-- RIGHT -->
 <div class="right">
     <div class="form-wrap">
@@ -72,14 +78,6 @@
     </div>
 </div>
 
-<script>
-    function togglePassword() {
-        const input = document.getElementById('password');
-        const icon = document.getElementById('pw-icon');
-        const isHidden = input.type === 'password';
-        input.type = isHidden ? 'text' : 'password';
-        icon.className = isHidden ? 'ti ti-eye-off' : 'ti ti-eye';
-    }
-</script>
+<script src="/admin/js/adminLogin.js"></script>
 </body>
 </html>
