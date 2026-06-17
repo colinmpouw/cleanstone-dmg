@@ -107,41 +107,6 @@
     </div>
 </div>
 
-<script>
-    const input = document.getElementById('chatInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const messages = document.getElementById('chatMessages');
+<script src="/admin/js/adminAdviceChat.js"></script>
 
-    function sendMessage() {
-        const text = input.value.trim();
-        if (!text) return;
-        const now = new Date();
-        const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
-        const group = document.createElement('div');
-        group.className = 'msg-group msg-group--right';
-        group.innerHTML = `
-      <div class="msg-bubbles">
-        <div class="msg-bubble">${text}</div>
-        <span class="msg-meta">CleanStone · ${time}</span>
-      </div>
-      <div class="msg-avatar msg-avatar--cs">CS</div>`;
-        messages.appendChild(group);
-        input.value = '';
-        input.style.height = '40px';
-        messages.scrollTop = messages.scrollHeight;
-    }
-
-    sendBtn.addEventListener('click', sendMessage);
-
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
-
-    input.addEventListener('input', () => {
-        input.style.height = '40px';
-        input.style.height = Math.min(input.scrollHeight, 120) + 'px';
-    });
 </html>

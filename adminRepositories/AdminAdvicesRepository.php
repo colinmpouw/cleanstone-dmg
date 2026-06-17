@@ -37,4 +37,5 @@ class AdminAdvicesRepository
         }
         return $counts;
     }
+
 }

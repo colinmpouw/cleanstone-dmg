@@ -1,16 +1,36 @@
+const adviesId = window.advies_id;
+
 document.addEventListener('DOMContentLoaded', async () => {
-    const id = window.advies_id;
-    if (!id) return;
+    if (!adviesId) return;
+    await loadAdvies();
+    await loadMessages();
 
+    // poll elke 5 seconden
+    setInterval(loadMessages, 5000);
+
+    // send on enter
+    const input = document.getElementById('chat-input');
+    const btn   = document.getElementById('chat-send');
+
+    if (input) {
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    }
+    if (btn) btn.addEventListener('click', sendMessage);
+});
+
+async function loadAdvies() {
     try {
-        const res  = await fetch(`/api/advies/${id}`);
+        const res  = await fetch(`/api/advies/${adviesId}`);
         const data = await res.json();
-
         if (!data.success) return;
 
         const r = data.data;
 
-        // header
         document.getElementById('adv-title').textContent = r.stone_type
             ? `${r.stone_type} — ${r.stone_location || ''}`
             : 'Adviesaanvraag';
@@ -23,12 +43,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 : 'Gesloten';
         statusPill.className = 'status-pill status--' + r.status;
 
-        // detail
-        document.getElementById('adv-stone-type').textContent  = r.stone_type || '—';
+        document.getElementById('adv-stone-type').textContent     = r.stone_type || '—';
         document.getElementById('adv-stone-location').textContent = r.stone_location || '—';
-        document.getElementById('adv-message').textContent     = r.message;
+        document.getElementById('adv-message').textContent        = r.message;
 
-        // foto count
         const count = data.images.length;
         document.getElementById('adv-foto-count').textContent =
             count > 0 ? `${count} foto(s) bijgevoegd` : 'Geen foto\'s';
@@ -36,18 +54,58 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (err) {
         console.error(err);
     }
-});
+}
 
-document.querySelector('.chat-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && this.value.trim()) {
-        const messages = document.querySelector('.chat-messages');
-        const msg = document.createElement('div');
-        msg.className = 'msg msg--user';
-        const now = new Date();
-        const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
-        msg.innerHTML = `<div class="msg__bubble">${this.value}</div><span class="msg__time">${time}</span>`;
-        messages.appendChild(msg);
-        this.value = '';
-        messages.scrollTop = messages.scrollHeight;
+let lastMessageCount = 0;
+
+async function loadMessages() {
+    try {
+        const res  = await fetch(`/api/advies/${adviesId}/messages`);
+        const msgs = await res.json();
+
+        if (msgs.length === lastMessageCount) return;
+        lastMessageCount = msgs.length;
+
+        const container = document.getElementById('chat-messages');
+        container.innerHTML = '';
+
+        msgs.forEach(m => {
+            const isUser = m.role !== 'admin';
+            const div = document.createElement('div');
+            div.className = 'msg ' + (isUser ? 'msg--user' : 'msg--admin');
+
+            const time = new Date(m.created_at).toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+
+            div.innerHTML = `
+                <div class="msg__bubble">${m.message}</div>
+                <span class="msg__time">${isUser ? m.username : 'CleanStone'} · ${time}</span>
+            `;
+            container.appendChild(div);
+        });
+
+        container.scrollTop = container.scrollHeight;
+
+    } catch (err) {
+        console.error(err);
     }
-});
+}
+
+async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const message = input?.value.trim();
+    if (!message) return;
+
+    input.value = '';
+
+    try {
+        const res  = await fetch('/api/advies/message', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ request_id: adviesId, message })
+        });
+        const data = await res.json();
+        if (data.success) await loadMessages();
+    } catch (err) {
+        console.error(err);
+    }
+}
