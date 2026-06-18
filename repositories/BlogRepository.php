@@ -15,7 +15,27 @@ class BlogRepository
 
     public function getAllPosts(): array
     {
-        return $this->db->read('SELECT blog_id, title, article, arthor, tag, image, excerpt, date FROM blog ORDER BY date DESC');
+        return $this->db->read(
+            "SELECT b.blog_id,
+                    b.title,
+                    b.article,
+                    b.arthor,
+                    COALESCE(GROUP_CONCAT(bt.name ORDER BY bt.display_order ASC SEPARATOR ', '), b.tag) AS tag,
+                    COALESCE(GROUP_CONCAT(bt.name ORDER BY bt.display_order ASC SEPARATOR '|'), b.tag) AS tag_keys,
+                    b.image,
+                    b.excerpt,
+                    b.date
+             FROM blog b
+             LEFT JOIN blog_blogtags bbt ON b.blog_id = bbt.blog_id
+             LEFT JOIN blogtags bt ON bbt.blogtag_id = bt.id
+             GROUP BY b.blog_id, b.title, b.article, b.arthor, b.tag, b.image, b.excerpt, b.date
+             ORDER BY b.date DESC"
+        );
+    }
+
+    public function getBlogTags(): array
+    {
+        return $this->db->read('SELECT name FROM blogtags ORDER BY display_order ASC, name ASC');
     }
 
     public function createPost(array $data): bool

@@ -8,6 +8,7 @@ if (!$loadedByController) {
     require_once __DIR__ . '/../autoloader.php';
 
     $blogService = new \adminServices\AdminBlogsService();
+    $blogThemes = $blogService->getBlogThemes();
 
     if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         $result = $blogService->createBlog($_POST);
@@ -26,6 +27,15 @@ if (!$loadedByController) {
 }
 
 $blogs = $blogs ?? [];
+$blogThemes = $blogThemes ?? [
+    'Algemeen',
+    'Buitenplaatsen',
+    'Composiet',
+    'Graniet',
+    'Hardsteen',
+    'Marmer',
+    'Onze Merken',
+];
 
 function adminBlogValue(array $old, string $key): string
 {
@@ -37,6 +47,19 @@ function adminBlogDate(?string $date): string
     $timestamp = strtotime($date ?? '');
 
     return $timestamp ? date('d-m-Y H:i', $timestamp) : htmlspecialchars($date ?? '', ENT_QUOTES, 'UTF-8');
+}
+
+function adminBlogSelectedThemes(array $old): array
+{
+    if (isset($old['tags']) && is_array($old['tags'])) {
+        return $old['tags'];
+    }
+
+    if (!empty($old['tag'])) {
+        return [$old['tag']];
+    }
+
+    return [];
 }
 ?>
 <!doctype html>
@@ -94,7 +117,7 @@ function adminBlogDate(?string $date): string
                                 <th>ID</th>
                                 <th>Titel</th>
                                 <th>Auteur</th>
-                                <th>Tag</th>
+                                <th>Thema's</th>
                                 <th>Datum</th>
                                 <th>Actie</th>
                             </tr>
@@ -144,8 +167,15 @@ function adminBlogDate(?string $date): string
                 </label>
 
                 <label>
-                    Tag
-                    <input type="text" name="tag" maxlength="45" value="<?php echo adminBlogValue($old, 'tag'); ?>" required>
+                    Thema's
+                    <select name="tags[]" multiple required>
+                        <?php $selectedThemes = adminBlogSelectedThemes($old); ?>
+                        <?php foreach ($blogThemes as $theme): ?>
+                            <option value="<?php echo htmlspecialchars($theme, ENT_QUOTES, 'UTF-8'); ?>" <?php echo in_array($theme, $selectedThemes, true) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($theme); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </label>
 
                 <label>
