@@ -1,27 +1,22 @@
+let cartData = [];
 async function loadCart() {
     try {
         const response = await fetch('/api/get_all_cart_item');
         const result = await response.json();
 
+        if (!result.success) return;
+
+        cartData = result.data;
+
         const cartContainer = document.querySelector('.cart-items');
         cartContainer.innerHTML = '';
-        if (!result.success) {
-            console.error(result.message);
-            return;
-        }
-        const data = result.data;
-        data.forEach(item => {
+
+        cartData.forEach(item => {
             const cartItem = createCartItem(item);
             cartContainer.appendChild(cartItem);
         });
 
-        // Toevoegen van de "Verder winkelen" link
-        const backLink = document.createElement('a');
-        backLink.href = "#";
-        backLink.className = "back";
-        backLink.textContent = "← Verder winkelen";
-
-        cartContainer.appendChild(backLink);
+        updateSummary(cartData);
 
     } catch (error) {
         console.error(error);
@@ -76,13 +71,19 @@ function createCartItem(item) {
     `
     deleteBtn.className='delete';
 
+// ✅ DELETE
     deleteBtn.addEventListener('click', async () => {
         try {
             await fetch(`/api/remove_from_cart/${item.id}`, {
                 method: 'DELETE'
             });
 
-            cartItem.remove(); // remove from UI
+
+            cartData = cartData.filter(i => i.id !== item.id);
+
+            cartItem.remove();
+            updateSummary(cartData);
+
         } catch (err) {
             console.error('删除失败', err);
         }
@@ -131,21 +132,29 @@ function createCartItem(item) {
     }
 
     // ➕ PLUS
+
     plus.addEventListener('click', async () => {
         currentQty++;
         qty.textContent = currentQty;
-        loadCart();
+
+        item.quantity = currentQty;
         updateTotal();
+        updateSummary(cartData);
+
         await updateQuantityOnServer();
     });
+
 
     // ➖ MINUS
     minus.addEventListener('click', async () => {
         if (currentQty > 1) {
             currentQty--;
             qty.textContent = currentQty;
-            loadCart();
+
+            item.quantity = currentQty;
             updateTotal();
+            updateSummary(cartData);
+
             await updateQuantityOnServer();
         }
     });
@@ -156,6 +165,42 @@ function createCartItem(item) {
     cartItem.append(productInfo, actions);
 
     return cartItem;
+}
+function updateSummary(cartData) {
+    const receiptContainer = document.querySelector('.receipt-items');
+
+
+    receiptContainer.innerHTML = '';
+
+    let subtotal = 0;
+
+    cartData.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+
+        const row = document.createElement('div');
+        row.className = 'row';
+
+
+        const name = document.createElement('span');
+        name.textContent = `${item.name} x${item.quantity}`;
+
+
+        const price = document.createElement('span');
+        price.textContent = `€${itemTotal.toFixed(2)}`;
+
+        row.appendChild(name);
+        row.appendChild(price);
+
+        receiptContainer.appendChild(row);
+    });
+
+
+    document.querySelector('.subtotal-price').textContent =
+        `€${subtotal.toFixed(2)}`;
+
+    document.querySelector('.total-price').textContent =
+        `€${subtotal.toFixed(2)}`;
 }
 
 document.addEventListener('DOMContentLoaded', loadCart);

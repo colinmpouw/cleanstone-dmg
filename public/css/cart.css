@@ -103,6 +103,8 @@ main>h1{
 
 .summary h2 {
     font-family: var(--title-font);
+    border-bottom: 2px solid var( --rustic-taupe);
+    padding-bottom: 0.5rem;
 }
 
 .row {
@@ -153,6 +155,12 @@ main>h1{
 
 .notes {
     margin-top: 1rem;
-    padding-left: 1rem;
     font-size: 0.9rem;
+    list-style: none;
+}
+.notes li {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+
 }
