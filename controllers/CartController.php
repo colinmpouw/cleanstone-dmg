@@ -14,7 +14,7 @@ class CartController
         $this->cartService = new CartService();
 
         $router->get('/winkelwagen', [$this, 'cartPage']);
-        $router->post('/api/add_cart_item', [$this, 'cartPage']);
+        $router->post('/api/add_cart_item', [$this, 'addCartItem']);
         $router->get('/api/get_all_cart_item', [$this, 'getAllCartItems']);
         $router->delete('/api/remove_from_cart/{item_id}', [$this, 'removeFromCart']);
         $router->put('/api/change_cart_quantity', [$this, 'changeQuantity']);
@@ -28,6 +28,7 @@ class CartController
             header('Location: /login');
             exit;
         }
+
         require __DIR__ . '/../public/cart.php';
     }
 
@@ -39,7 +40,7 @@ class CartController
             exit;
         }
 
-        $data = $_POST;
+        $data = json_decode(file_get_contents("php://input"), true);
         $productId = $data['product_id'] ?? null;
         $quantity = $data['quantity'] ?? 1;
 
@@ -91,7 +92,14 @@ class CartController
             header('Location: /login');
             exit;
         }
-        $this->cartService->removeFromCart($item_id, $user_id);
+        $result = $this->cartService->removeFromCart($user_id, $item_id);
+        if ($result == null) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Failed to remove item from cart."
+            ]);
+            return;
+        }
         echo json_encode([
             "success" => true,
             "data" => "Item successfully removed from cart."

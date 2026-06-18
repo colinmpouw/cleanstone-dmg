@@ -28,7 +28,7 @@ function changeImage(thumbnail) {
 function addToCart(productId) {
     const quantity = parseInt(document.getElementById('quantity').value);
     
-    fetch('/api/cart/add', {
+    fetch('/api/add_cart_item', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

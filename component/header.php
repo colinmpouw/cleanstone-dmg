@@ -45,7 +45,7 @@ $currentPath = $currentPath === '' ? '/' : $currentPath;
                     <circle cx="18" cy="20" r="1.4"/>
                     <path d="M2 3h3l2.6 13h11l2-9H6"/>
                 </svg>
-                <span class="badge">0</span>
+                <span class="badge" id="cart-count">0</span>
             </a>
         </div>
     </nav>
@@ -71,4 +71,28 @@ $currentPath = $currentPath === '' ? '/' : $currentPath;
         });
     });
 })();
+
+async function loadCartItemCount() {
+    try {
+        const response = await fetch('/api/get_all_cart_item');
+        const result = await response.json();
+
+        if (!result.success) return;
+
+        const cartData = result.data;
+
+        const cartCount = cartData.length
+
+        const badge = document.querySelector('#cart-count');
+        if (badge) {
+            badge.textContent = cartCount;
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// ✅ 正确位置
+document.addEventListener('DOMContentLoaded', loadCartItemCount);
 </script>

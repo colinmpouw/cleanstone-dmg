@@ -144,7 +144,6 @@ function createCartItem(item) {
     // ✅ UPDATE API
     async function updateQuantityOnServer() {
         try {
-            const form=FormData
 
             await fetch('/api/change_cart_quantity', {
                 method: 'PUT',
@@ -207,6 +206,8 @@ function updateSummary(cartData) {
 
     cartData.forEach(item => {
         const itemTotal = item.price * item.quantity;
+        console.log( item.price+`*`+ item.quantity+`=`+`Item Total: ${itemTotal}`);
+
         subtotal += itemTotal;
 
         const row = document.createElement('div');
@@ -223,7 +224,7 @@ function updateSummary(cartData) {
 
         receiptContainer.appendChild(row);
     });
-
+console.log(subtotal);
     document.querySelector('.subtotal-price').textContent = `€${subtotal.toFixed(2)}`;
     document.querySelector('.total-price').textContent = `€${subtotal.toFixed(2)}`;
 }
