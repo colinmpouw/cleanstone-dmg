@@ -1,4 +1,5 @@
 let cartData = [];
+let discountData = null;
 
 async function loadCart() {
     try {
@@ -7,10 +8,11 @@ async function loadCart() {
 
         if (!result.success) return;
 
-        // normalize price to a number once, here, instead of everywhere else
         cartData = result.data.map(item => ({
             ...item,
-            price: parseFloat(item.price)
+            name: item.bundle_id ? item.bundle_name : item.product_name,
+            price: parseFloat(item.bundle_id ? item.bundle_price : item.product_price),
+            image: item.bundle_id ? item.bundle_image : item.product_image
         }));
 
         const cartContainer = document.querySelector('.cart-items');
@@ -32,7 +34,6 @@ function createCartItem(item) {
     const cartItem = document.createElement('div');
     cartItem.className = 'cart-item';
 
-    // ✅ product info
     const productInfo = document.createElement('div');
     productInfo.className = 'product-info';
 
@@ -41,15 +42,16 @@ function createCartItem(item) {
 
     if (item.image) {
         const img = document.createElement('img');
-        img.src = `/uploads/products/${item.image}`;
+        img.src = item.bundle_id
+            ? `/uploads/bundles/${item.image}`
+            : `/uploads/products/${item.image}`;
         img.alt = item.name;
         imageDiv.appendChild(img);
     }
 
     const infoText = document.createElement('div');
 
-    // brand can be null, so only render it if present
-    if (item.brand) {
+    if (item.brand && !item.bundle_id) {
         const brand = document.createElement('p');
         brand.className = 'brand';
         brand.textContent = item.brand;
@@ -65,7 +67,7 @@ function createCartItem(item) {
     price.textContent = `€${item.price.toFixed(2)}`;
     infoText.appendChild(price);
 
-    if (item.stock <= 0) {
+    if (!item.bundle_id && item.stock <= 0) {
         const outOfStock = document.createElement('p');
         outOfStock.className = 'out-of-stock';
         outOfStock.textContent = 'Out of stock';
@@ -74,43 +76,30 @@ function createCartItem(item) {
 
     productInfo.append(imageDiv, infoText);
 
-    // ✅ actions
     const actions = document.createElement('div');
     actions.className = 'product-actions';
 
-    // ✅ DELETE BUTTON
     const deleteBtn = document.createElement('button');
-    deleteBtn.innerHTML = `
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.5 5H17.5" stroke="#FB2C36" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M15.8333 5V16.6667C15.8333 17.5 15 18.3333 14.1666 18.3333H5.83329C4.99996 18.3333 4.16663 17.5 4.16663 16.6667V5" stroke="#FB2C36" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M6.66663 4.99935V3.33268C6.66663 2.49935 7.49996 1.66602 8.33329 1.66602H11.6666C12.5 1.66602 13.3333 2.49935 13.3333 3.33268V4.99935" stroke="#FB2C36" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M8.33337 9.16602V14.166" stroke="#FB2C36" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M11.6666 9.16602V14.166" stroke="#FB2C36" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    `;
     deleteBtn.className = 'delete';
+    deleteBtn.innerHTML = `🗑`;
 
-    // ✅ DELETE
     deleteBtn.addEventListener('click', async () => {
         try {
             const res = await fetch(`/api/remove_from_cart/${item.cart_item_id}`, {
                 method: 'DELETE'
             });
 
-            if (!res.ok) throw new Error('Delete request failed');
+            if (!res.ok) throw new Error();
 
             cartData = cartData.filter(i => i.cart_item_id !== item.cart_item_id);
-
             cartItem.remove();
             updateSummary(cartData);
 
         } catch (err) {
-            console.error('Failed to remove item from cart', err);
+            console.error(err);
         }
     });
 
-    // ✅ QUANTITY
     const quantity = document.createElement('div');
     quantity.className = 'quantity';
 
@@ -125,7 +114,6 @@ function createCartItem(item) {
     plus.textContent = '+';
     plus.type = 'button';
 
-    // ✅ total price
     const totalPrice = document.createElement('p');
     let currentQty = item.quantity;
 
@@ -135,39 +123,29 @@ function createCartItem(item) {
 
     function refreshButtonStates() {
         minus.disabled = currentQty <= 1;
-        plus.disabled = item.stock > 0 && currentQty >= item.stock;
-    }
-
-    updateTotal();
-    refreshButtonStates();
-
-    // ✅ UPDATE API
-    async function updateQuantityOnServer() {
-        try {
-
-            await fetch('/api/change_cart_quantity', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    cart_item_id: item.cart_item_id,
-                    quantity: currentQty
-                })
-            });
-        } catch (err) {
-            console.error('Failed to update quantity', err);
+        if (!item.bundle_id) {
+            plus.disabled = item.stock > 0 && currentQty >= item.stock;
         }
     }
 
-    // ➕ PLUS
-    plus.addEventListener('click', async () => {
-        if (item.stock > 0 && currentQty >= item.stock) return;
+    async function updateQuantityOnServer() {
+        await fetch('/api/change_cart_quantity', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cart_item_id: item.cart_item_id,
+                quantity: currentQty
+            })
+        });
+    }
 
+    plus.addEventListener('click', async () => {
         currentQty++;
         qty.textContent = currentQty;
-
         item.quantity = currentQty;
+
         updateTotal();
         refreshButtonStates();
         updateSummary(cartData);
@@ -175,13 +153,12 @@ function createCartItem(item) {
         await updateQuantityOnServer();
     });
 
-    // ➖ MINUS
     minus.addEventListener('click', async () => {
         if (currentQty > 1) {
             currentQty--;
             qty.textContent = currentQty;
-
             item.quantity = currentQty;
+
             updateTotal();
             refreshButtonStates();
             updateSummary(cartData);
@@ -189,6 +166,9 @@ function createCartItem(item) {
             await updateQuantityOnServer();
         }
     });
+
+    updateTotal();
+    refreshButtonStates();
 
     quantity.append(minus, qty, plus);
     actions.append(deleteBtn, quantity, totalPrice);
@@ -206,8 +186,6 @@ function updateSummary(cartData) {
 
     cartData.forEach(item => {
         const itemTotal = item.price * item.quantity;
-        console.log( item.price+`*`+ item.quantity+`=`+`Item Total: ${itemTotal}`);
-
         subtotal += itemTotal;
 
         const row = document.createElement('div');
@@ -219,14 +197,82 @@ function updateSummary(cartData) {
         const price = document.createElement('span');
         price.textContent = `€${itemTotal.toFixed(2)}`;
 
-        row.appendChild(name);
-        row.appendChild(price);
-
+        row.append(name, price);
         receiptContainer.appendChild(row);
     });
-console.log(subtotal);
+
+    let discountAmount = 0;
+
+    if (discountData) {
+        if (
+            !discountData.min_order_amount ||
+            subtotal >= parseFloat(discountData.min_order_amount)
+        ) {
+            if (discountData.type === 'percentage') {
+                discountAmount = subtotal * (discountData.value / 100);
+
+                if (discountData.max_discount) {
+                    discountAmount = Math.min(
+                        discountAmount,
+                        parseFloat(discountData.max_discount)
+                    );
+                }
+            } else {
+                discountAmount = parseFloat(discountData.value);
+            }
+        }
+
+        console.log(`Discount applied: €${discountAmount.toFixed(2)}`);
+        const discountRow = document.createElement('div');
+        discountRow.className = 'row discount-row';
+
+        const discountName = document.createElement('span');
+        discountName.textContent = `Discount (${discountData.code})`;
+
+        const discountPrice = document.createElement('span');
+        discountPrice.textContent = `-€${discountAmount.toFixed(2)}`;
+
+        discountRow.append(discountName, discountPrice);
+        document.querySelector('#discounted-value').appendChild(discountRow);
+    }
+
+    const total = subtotal - discountAmount;
+
     document.querySelector('.subtotal-price').textContent = `€${subtotal.toFixed(2)}`;
-    document.querySelector('.total-price').textContent = `€${subtotal.toFixed(2)}`;
+    document.querySelector('.total-price').textContent = `€${total.toFixed(2)}`;
+
+    const discountEl = document.querySelector('.discount-price');
+    if (discountEl) {
+        discountEl.textContent = `-€${discountAmount.toFixed(2)}`;
+    }
 }
+
+document.querySelector('.discount').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const input = document.querySelector('.discount input');
+
+    const formData = new FormData();
+    formData.append('discount', input.value);
+
+    fetch('/api/check_discount', {
+        method: 'POST',
+        body: formData
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                input.style.border = '2px solid green';
+                discountData = data.data;
+                console.log(discountData);
+            } else {
+                input.style.border = '2px solid red';
+                discountData = null;
+            }
+
+            updateSummary(cartData);
+        })
+        .catch(err => console.error(err));
+});
 
 document.addEventListener('DOMContentLoaded', loadCart);

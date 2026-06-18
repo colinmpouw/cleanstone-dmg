@@ -47,16 +47,16 @@
             </div>
 
             <hr>
-
+            <div id="discounted-value"></div>
             <div class="row total">
                 <span>Totaal</span>
                 <span class="total-price">€0.00</span>
             </div>
 
-            <div class="discount">
+            <form class="discount">
                 <input type="text" placeholder="Kortingscode">
-                <button>Toepassen</button>
-            </div>
+                <button type="submit">Toepassen</button>
+            </form>
 
             <button class="checkout">Naar betalen →</button>
 
