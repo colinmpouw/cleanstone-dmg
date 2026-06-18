@@ -144,6 +144,8 @@ function createCartItem(item) {
     // ✅ UPDATE API
     async function updateQuantityOnServer() {
         try {
+            const form=FormData
+
             await fetch('/api/change_cart_quantity', {
                 method: 'PUT',
                 headers: {

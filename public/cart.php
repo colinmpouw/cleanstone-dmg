@@ -24,55 +24,7 @@
         <!-- LEFT: PRODUCTS -->
         <div class="cart-items">
 
-            <!-- Item -->
-            <div class="cart-item">
-                <div class="product-info">
-                    <div class="image"></div>
 
-                    <div>
-                        <p class="brand">Lithofin</p>
-                        <h3>Lithofin MN Allesreiniger</h3>
-                        <p class="price">€24.95</p>
-                    </div>
-                </div>
-
-                <div class="product-actions">
-                    <button class="delete">🗑</button>
-
-                    <div class="quantity">
-                        <button>-</button>
-                        <span>2</span>
-                        <button>+</button>
-                    </div>
-
-                    <p class="total-price">€49.90</p>
-                </div>
-            </div>
-
-            <!-- Item -->
-            <div class="cart-item">
-                <div class="product-info">
-                    <div class="image"></div>
-
-                    <div>
-                        <p class="brand">Akemi</p>
-                        <h3>Akemi Marble Protector</h3>
-                        <p class="price">€39.95</p>
-                    </div>
-                </div>
-
-                <div class="product-actions">
-                    <button class="delete">🗑</button>
-
-                    <div class="quantity">
-                        <button>-</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-                    <p class="total-price">€39.95</p>
-                </div>
-            </div>
 
             <a href="#" class="back">← Verder winkelen</a>
 

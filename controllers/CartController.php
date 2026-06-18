@@ -1,7 +1,9 @@
 <?php
 
 namespace controllers;
+
 use services\CartService;
+
 class CartController
 {
 
@@ -9,9 +11,10 @@ class CartController
 
     public function __construct($router)
     {
-        $this->cartService= new CartService();
+        $this->cartService = new CartService();
 
         $router->get('/winkelwagen', [$this, 'cartPage']);
+        $router->post('/api/add_cart_item', [$this, 'cartPage']);
         $router->get('/api/get_all_cart_item', [$this, 'getAllCartItems']);
         $router->delete('/api/remove_from_cart/{item_id}', [$this, 'removeFromCart']);
         $router->put('/api/change_cart_quantity', [$this, 'changeQuantity']);
@@ -28,6 +31,40 @@ class CartController
         require __DIR__ . '/../public/cart.php';
     }
 
+    public function addCartItem(): void
+    {
+        $userId = $_SESSION['user']['id'] ?? null;
+        if ($userId === null || empty($userId)) {
+            header('Location: /login');
+            exit;
+        }
+
+        $data = $_POST;
+        $productId = $data['product_id'] ?? null;
+        $quantity = $data['quantity'] ?? 1;
+
+        if ($productId === null || $quantity === null) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Product ID and quantity are required."
+            ]);
+            return;
+        }
+
+        $result = $this->cartService->addCartItem($userId, $productId, $quantity);
+
+        if ($result) {
+            echo json_encode([
+                "success" => true,
+                "message" => "Item added to cart successfully."
+            ]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "Failed to add item to cart."
+            ]);
+        }
+    }
 
     public function getAllCartItems(): void
     {
@@ -37,8 +74,7 @@ class CartController
             header('Location: /login');
             exit;
         }
-
-       $cartItems = $this->cartService->getCartItems($userId);
+        $cartItems = $this->cartService->getCartItems($userId);
 
         header('Content-Type: application/json');
 
@@ -48,14 +84,55 @@ class CartController
         ]);
     }
 
-    public function removeFromCart(): void
+    public function removeFromCart($item_id): void
     {
-
+        $user_id = $_SESSION['user']['id'] ?? null;
+        if ($user_id === null || empty($user_id)) {
+            header('Location: /login');
+            exit;
+        }
+        $this->cartService->removeFromCart($item_id, $user_id);
+        echo json_encode([
+            "success" => true,
+            "data" => "Item successfully removed from cart."
+        ]);
     }
 
     public function changeQuantity(): void
     {
+        $userId = $_SESSION['user']['id'] ?? null;
+        if ($userId === null || empty($userId)) {
+            header('Location: /login');
+            exit;
+        }
 
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        $itemId = $data['cart_item_id'] ?? null;
+        $quantity = $data['quantity'] ?? 1;
+
+
+        if ($itemId === null || $quantity === null) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Item ID and quantity are required."
+            ]);
+            return;
+        }
+
+        $result = $this->cartService->changeQuantity($userId, $itemId, $quantity);
+
+        if ($result) {
+            echo json_encode([
+                "success" => true,
+                "message" => "Quantity updated successfully."
+            ]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "Failed to update quantity."
+            ]);
+        }
     }
 
 }
