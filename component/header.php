@@ -93,6 +93,6 @@ async function loadCartItemCount() {
     }
 }
 
-// ✅ 正确位置
+
 document.addEventListener('DOMContentLoaded', loadCartItemCount);
 </script>
