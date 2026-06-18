@@ -44,6 +44,11 @@ main>h1{
     background: var(--warm-beige);
     border-radius: 15px;
 }
+.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
 .brand {
     color: var(--rustic-taupe);

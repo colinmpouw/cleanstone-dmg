@@ -1,14 +1,15 @@
 <?php
 
 namespace controllers;
-
+use services\CartService;
 class CartController
 {
 
+    private $cartService;
 
     public function __construct($router)
     {
-
+        $this->cartService= new CartService();
 
         $router->get('/winkelwagen', [$this, 'cartPage']);
         $router->get('/api/get_all_cart_item', [$this, 'getAllCartItems']);
@@ -37,24 +38,7 @@ class CartController
             exit;
         }
 
-        $cartItems = [
-            [
-                "id" => 1,
-                "brand" => "Lithofin",
-                "name" => "Lithofin MN Allesreiniger",
-                "price" => 24.95,
-                "quantity" => 2,
-                "image" => ""
-            ],
-            [
-                "id" => 2,
-                "brand" => "Akemi",
-                "name" => "Akemi Marble Protector",
-                "price" => 39.95,
-                "quantity" => 1,
-                "image" => ""
-            ]
-        ];
+       $cartItems = $this->cartService->getCartItems($userId);
 
         header('Content-Type: application/json');
 
