@@ -53,43 +53,67 @@
             <div class="checkout-card tab active" id="tab-1">
                 <h2>Uw gegevens</h2>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Voornaam *</label>
-                        <input type="text" id="voornaam" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label>Achternaam *</label>
-                        <input type="text" id="achternaam" placeholder="">
-                    </div>
+                <div class="shipping-options" id="saved-addresses">
+                    <!-- populated by JS: existing addresses as radio options -->
                 </div>
 
-                <div class="form-group">
-                    <label>E-mailadres *</label>
-                    <input type="email" id="email" placeholder="">
-                </div>
-
-                <div class="form-group">
-                    <label>Telefoon *</label>
-                    <input type="tel" id="telefoon" placeholder="">
-                </div>
-
-                <h3 class="sub-heading">Bezorgadres</h3>
-
-                <div class="form-group">
-                    <label>Straat en huisnummer *</label>
-                    <input type="text" id="straat" placeholder="">
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Postcode *</label>
-                        <input type="text" id="postcode" placeholder="">
+                <label class="shipping-option" id="new-address-toggle">
+                    <input type="radio" name="address-choice" value="new" id="radio-new-address">
+                    <div class="ship-info">
+                        <span class="ship-name">+ Nieuw adres toevoegen</span>
                     </div>
-                    <div class="form-group">
-                        <label>Plaats *</label>
-                        <input type="text" id="plaats" placeholder="">
+                </label>
+
+                <div id="new-address-form" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Voornaam *</label>
+                            <input type="text" id="voornaam" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>Achternaam *</label>
+                            <input type="text" id="achternaam" placeholder="">
+                        </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>E-mailadres *</label>
+                        <input type="email" id="email" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Telefoon *</label>
+                        <input type="tel" id="telefoon" placeholder="">
+                    </div>
+
+                    <h3 class="sub-heading">Bezorgadres</h3>
+
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 2;">
+                            <label>Straat *</label>
+                            <input type="text" id="straat" placeholder="">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>Huisnummer *</label>
+                            <input type="text" id="huisnummer" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Postcode *</label>
+                            <input type="text" id="postcode" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>Plaats *</label>
+                            <input type="text" id="plaats" placeholder="">
+                        </div>
+                    </div>
+
+                    <label class="set-default">
+                        <input type="checkbox" id="set-as-default">
+                        Maak dit mijn standaardadres
+                    </label>
                 </div>
 
                 <div class="form-error" id="error-1"></div>

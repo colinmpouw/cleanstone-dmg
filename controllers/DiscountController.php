@@ -2,7 +2,7 @@
 
 namespace controllers;
 
-use services\BrandsService;
+
 use services\DiscountService;
 
 class DiscountController

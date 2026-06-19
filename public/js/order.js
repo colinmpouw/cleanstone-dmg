@@ -2,6 +2,8 @@ let cartData = [];
 let discountData = null;
 let currentStep = 1;
 let selectedShipping = { label: 'PostNL Standaard', price: 5.95 };
+let savedAddresses = [];
+let selectedAddressId = null; // null means "new address" is being used
 const FREE_SHIPPING_THRESHOLD = 50;
 
 function getShippingCost(subtotal, selectedShipping) {
@@ -10,6 +12,7 @@ function getShippingCost(subtotal, selectedShipping) {
     }
     return selectedShipping.price;
 }
+
 /* ── Step navigation ────────────────────────────────── */
 function goTo(n) {
     document.getElementById('tab-' + currentStep).classList.remove('active');
@@ -31,26 +34,143 @@ function updateStepper() {
     document.getElementById('line-2').classList.toggle('done', currentStep > 2);
 }
 
-/* ── Step 1 validation ──────────────────────────────── */
-document.getElementById('btn-to-2').addEventListener('click', () => {
-    const fields = ['voornaam', 'achternaam', 'email', 'telefoon', 'straat', 'postcode', 'plaats'];
-    let valid = true;
+/* ── Address loading ─────────────────────────────────── */
+async function loadAddresses() {
+    try {
+        const response = await fetch('/api/get_all_addresses');
+        const result = await response.json();
 
-    fields.forEach(id => {
-        const input = document.getElementById(id);
-        if (!input.value.trim()) {
-            input.classList.add('invalid');
-            valid = false;
-        } else {
-            input.classList.remove('invalid');
+        if (!result.success) return;
+
+        savedAddresses = result.data;
+        renderAddressPicker();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function renderAddressPicker() {
+    const container = document.getElementById('saved-addresses');
+    container.innerHTML = '';
+
+    savedAddresses.forEach(addr => {
+        const label = document.createElement('label');
+        label.className = 'shipping-option';
+        if (addr.invoice_address === 1 || addr.invoice_address === '1') {
+            label.classList.add('selected');
+            selectedAddressId = addr.id;
         }
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'address-choice';
+        radio.value = addr.id;
+        if (selectedAddressId === addr.id) radio.checked = true;
+
+        const info = document.createElement('div');
+        info.className = 'ship-info';
+
+        const name = document.createElement('span');
+        name.className = 'ship-name';
+        name.textContent = `${addr.first_name} ${addr.last_name}`;
+
+        const sub = document.createElement('span');
+        sub.className = 'ship-sub';
+        sub.textContent = `${addr.street} ${addr.house_number}, ${addr.postal_code} ${addr.city}`;
+
+        info.append(name, sub);
+        label.append(radio, info);
+        container.appendChild(label);
+
+        label.addEventListener('click', () => {
+            document.querySelectorAll('#saved-addresses .shipping-option, #new-address-toggle')
+                .forEach(o => o.classList.remove('selected'));
+            label.classList.add('selected');
+            radio.checked = true;
+            selectedAddressId = addr.id;
+            document.getElementById('new-address-form').style.display = 'none';
+        });
     });
 
+    // If no saved addresses at all, force the new-address form open
+    if (savedAddresses.length === 0) {
+        selectedAddressId = null;
+        document.getElementById('new-address-toggle').style.display = 'none';
+        document.getElementById('new-address-form').style.display = 'block';
+    }
+}
+
+document.getElementById('new-address-toggle').addEventListener('click', () => {
+    document.querySelectorAll('#saved-addresses .shipping-option, #new-address-toggle')
+        .forEach(o => o.classList.remove('selected'));
+    document.getElementById('new-address-toggle').classList.add('selected');
+    document.getElementById('radio-new-address').checked = true;
+    selectedAddressId = null;
+    document.getElementById('new-address-form').style.display = 'block';
+});
+
+/* ── Step 1 validation ──────────────────────────────── */
+document.getElementById('btn-to-2').addEventListener('click', async () => {
     const errorEl = document.getElementById('error-1');
-    if (!valid) {
-        errorEl.textContent = 'Vul alle verplichte velden in.';
+
+
+    const telefoonInput = document.getElementById('telefoon');
+
+    if (!emailInput.value.trim() || !telefoonInput.value.trim()) {
+        errorEl.textContent = 'Vul uw e-mailadres en telefoonnummer in.';
         return;
     }
+
+    if (selectedAddressId === null) {
+        const fields = ['voornaam', 'achternaam', 'straat', 'huisnummer', 'postcode', 'plaats'];
+        let valid = true;
+
+        fields.forEach(id => {
+            const input = document.getElementById(id);
+            if (!input.value.trim()) {
+                input.classList.add('invalid');
+                valid = false;
+            } else {
+                input.classList.remove('invalid');
+            }
+        });
+
+        if (!valid) {
+            errorEl.textContent = 'Vul alle verplichte velden in.';
+            return;
+        }
+
+        // Save the new address before continuing
+        try {
+            const res = await fetch('/api/add_address', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    first_name: document.getElementById('voornaam').value,
+                    last_name: document.getElementById('achternaam').value,
+                    street: document.getElementById('straat').value,
+                    house_number: document.getElementById('huisnummer').value,
+                    postal_code: document.getElementById('postcode').value,
+                    city: document.getElementById('plaats').value,
+                    country: 'Nederland',
+                    phone: telefoonInput.value,
+                    invoice_address: document.getElementById('set-as-default').checked ? 1 : 0
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                selectedAddressId = data.data.id;
+            } else {
+                errorEl.textContent = data.message || 'Kon adres niet opslaan.';
+                return;
+            }
+        } catch (err) {
+            console.error(err);
+            errorEl.textContent = 'Kon adres niet opslaan.';
+            return;
+        }
+    }
+
     errorEl.textContent = '';
     goTo(2);
 });
@@ -86,13 +206,9 @@ document.getElementById('btn-place-order').addEventListener('click', () => {
     if (!payment) return;
 
     const orderData = {
-        voornaam: document.getElementById('voornaam').value,
-        achternaam: document.getElementById('achternaam').value,
+        address_id: selectedAddressId,
         email: document.getElementById('email').value,
         telefoon: document.getElementById('telefoon').value,
-        straat: document.getElementById('straat').value,
-        postcode: document.getElementById('postcode').value,
-        plaats: document.getElementById('plaats').value,
         shipping: selectedShipping,
         payment: payment,
         discount: discountData ? discountData.code : null
@@ -100,10 +216,15 @@ document.getElementById('btn-place-order').addEventListener('click', () => {
 
     console.log('Order data:', orderData);
 
-    // TODO: POST to /api/place_order
-    // fetch('/api/place_order', { method: 'POST', body: JSON.stringify(orderData), headers: { 'Content-Type': 'application/json' } })
-    //     .then(res => res.json())
-    //     .then(data => { if (data.success) window.location.href = '/bedankt'; });
+    fetch('/api/place_order', {
+        method: 'POST',
+        body: JSON.stringify(orderData),
+        headers: {'Content-Type': 'application/json'}
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) window.location.href = '/bedankt';
+        });
 });
 
 /* ── Cart loading (reuse from cart.js) ──────────────── */
@@ -204,5 +325,7 @@ function updateSummary(cartData) {
     }
 }
 
-
-document.addEventListener('DOMContentLoaded', loadCart);
+document.addEventListener('DOMContentLoaded', () => {
+    loadCart();
+    loadAddresses();
+});
