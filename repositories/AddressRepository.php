@@ -22,8 +22,8 @@ class AddressRepository
     public function createAddress($input)
     {
         $sql = "INSERT INTO addresses 
-        (user_id, first_name, last_name, street, house_number, postal_code, city, country, phone, invoice_address) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    (user_id, first_name, last_name, street, house_number, postal_code, city, country, phone, email, invoice_address) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $params = [
             $input['user_id'],
@@ -35,10 +35,29 @@ class AddressRepository
             $input['city'],
             $input['country'],
             $input['phone'],
-            $input['invoice_address'] ?? 0 // default if not provided
+            $input['email'],
+            $input['invoice_address'] ?? 0
         ];
 
-         $this->DB->save($sql, $params);
+        $this->DB->save($sql, $params);
+
         return $this->DB->lastInsertId();
+    }
+
+    public function changeAddressInvoice($invoice_address, $id, $user_id)
+    {
+        $sql = "UPDATE addresses 
+            SET invoice_address = ? 
+            WHERE user_id = ? AND id = ?";
+
+        $params = [$invoice_address, $user_id, $id];
+
+        $this->DB->save($sql, $params);
+    }
+
+    public function resetInvoiceAddresses($user_id)
+    {
+        $sql = "UPDATE addresses SET invoice_address = 0 WHERE user_id = ?";
+        $this->DB->save($sql, [$user_id]);
     }
 }

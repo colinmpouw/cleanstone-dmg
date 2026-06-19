@@ -154,6 +154,7 @@ document.getElementById('btn-to-2').addEventListener('click', async () => {
                     city: document.getElementById('plaats').value,
                     country: 'Nederland',
                     phone: telefoonInput.value,
+                    email: emailInput.value,
                     invoice_address: document.getElementById('set-as-default').checked ? 1 : 0
                 })
             });
