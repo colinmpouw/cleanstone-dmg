@@ -23,6 +23,14 @@ class UserRepository
         return $result[0] ?? null;
     }
 
+    public function updatePassword(int $id, string $hash): void
+    {
+        $this->DB->save(
+            "UPDATE users SET password_hash = :hash WHERE id = :id",
+            ['hash' => $hash, 'id' => $id]
+        );
+    }
+
     public function findByUsername(string $username): ?array
     {
         $result = $this->DB->read(
