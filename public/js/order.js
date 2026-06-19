@@ -5,7 +5,7 @@ let selectedShipping = { label: 'PostNL Standaard', price: 5.95 };
 const FREE_SHIPPING_THRESHOLD = 50;
 
 function getShippingCost(subtotal, selectedShipping) {
-    if (subtotal >= FREE_SHIPPING_THRESHOLD && selectedShipping.label === 'PostNL Standaard') {
+    if (subtotal >= FREE_SHIPPING_THRESHOLD) {
         return 0;
     }
     return selectedShipping.price;

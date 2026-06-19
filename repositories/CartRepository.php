@@ -39,11 +39,25 @@ WHERE user_id = :user_id;
         $params = [':user_id' => $user_id, ':item_id' => $item_id, ':bundle_id' => $bundle_id];
         return $this->DB->save($sql, $params);
     }
-    public function changeQuantity($user_id, $item_id, $quantity){
-        $sql = "UPDATE cart_items"
-            . " SET quantity = :quantity"
-            . " WHERE user_id = :user_id AND product_id = :item_id";
-        $params = [':user_id' => $user_id, ':item_id' => $item_id, ':quantity' => $quantity];
+
+    public function changeQuantity($user_id, $quantity, $item_id = null, $bundle_id = null)
+    {
+        $sql = "UPDATE cart_items 
+            SET quantity = :quantity
+            WHERE user_id = :user_id
+            AND (
+                (:item_id IS NOT NULL AND id = :item_id)
+                OR
+                (:bundle_id IS NOT NULL AND bundle_id = :bundle_id)
+            )";
+
+        $params = [
+            ':user_id'   => $user_id,
+            ':item_id'   => $item_id,
+            ':bundle_id' => $bundle_id,
+            ':quantity'  => $quantity
+        ];
+
         return $this->DB->save($sql, $params);
     }
 }

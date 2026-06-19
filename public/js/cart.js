@@ -150,6 +150,7 @@ function createCartItem(item) {
             },
             body: JSON.stringify({
                 cart_item_id: item.cart_item_id,
+                bundle_id: item.bundle_id,
                 quantity: currentQty
             })
         });
@@ -159,12 +160,12 @@ function createCartItem(item) {
         currentQty++;
         qty.textContent = currentQty;
         item.quantity = currentQty;
-
+        await updateQuantityOnServer();
         updateTotal();
         refreshButtonStates();
         updateSummary(cartData);
 
-        await updateQuantityOnServer();
+
     });
 
     minus.addEventListener('click', async () => {

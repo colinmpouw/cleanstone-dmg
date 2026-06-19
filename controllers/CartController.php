@@ -97,7 +97,7 @@ class CartController
         $productId = $data['product_id'] ?? null;
         $bundleId = $data['bundle_id'] ?? null;
 
-        $result = $this->cartService->removeFromCart($user_id, $productId,$bundleId);
+        $result = $this->cartService->removeFromCart($user_id, $productId, $bundleId);
         if ($result == null) {
             echo json_encode([
                 "success" => false,
@@ -122,6 +122,7 @@ class CartController
         $data = json_decode(file_get_contents("php://input"), true);
 
         $itemId = $data['cart_item_id'] ?? null;
+        $bundle_id = $data['bundle_id'] ?? null;
         $quantity = $data['quantity'] ?? 1;
 
 
@@ -133,7 +134,7 @@ class CartController
             return;
         }
 
-        $result = $this->cartService->changeQuantity($userId, $itemId, $quantity);
+        $result = $this->cartService->changeQuantity($userId, $quantity, $itemId, $bundle_id);
 
         if ($result) {
             echo json_encode([
@@ -143,7 +144,8 @@ class CartController
         } else {
             echo json_encode([
                 "success" => false,
-                "message" => "Failed to update quantity."
+                "message" => "Failed to update quantity.",
+                "errors" => $data
             ]);
         }
     }
