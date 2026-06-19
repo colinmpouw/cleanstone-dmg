@@ -170,4 +170,46 @@ class MailService
             file_put_contents($logFile, $logLine, FILE_APPEND);
         }
     }
+
+    public function sendResetCode(string $toEmail, string $toName, string $code): void
+    {
+        try {
+            $this->mail->clearAddresses();
+            $this->mail->addAddress($toEmail, $toName);
+
+            $this->mail->Subject = 'Uw verificatiecode — CleanStone';
+            $this->mail->Body    = "
+            <div style='font-family: sans-serif; max-width: 600px; margin: 0 auto;'>
+                <h2 style='color: #3A2B20;'>Wachtwoord vergeten</h2>
+                <p>Beste {$toName},</p>
+                <p>Uw verificatiecode is:</p>
+                <div style='font-size: 36px; font-weight: bold; letter-spacing: 8px;
+                            color: #3A2B20; padding: 20px; background: #F9F5ED;
+                            border-radius: 10px; text-align: center; margin: 20px 0;'>
+                    {$code}
+                </div>
+                <p>Deze code is 15 minuten geldig.</p>
+                <p>Als u dit niet heeft aangevraagd, kunt u deze e-mail negeren.</p>
+                <p style='margin-top: 24px;'>Met vriendelijke groet,<br><strong>Team CleanStone</strong></p>
+            </div>
+        ";
+            $this->mail->AltBody = "Uw verificatiecode: {$code}. Geldig voor 15 minuten.";
+
+            $this->mail->send();
+        } catch (Exception $e) {
+            $this->writeLog($toEmail, $e);
+        }
+    }
+
+    private function writeLog(string $toEmail, Exception $e): void
+    {
+        $logFile = __DIR__ . '/../../logs/mail.log';
+        if (!is_dir(dirname($logFile))) mkdir(dirname($logFile), 0755, true);
+        $timestamp = date('Y-m-d H:i:s');
+        $log  = "[{$timestamp}] Verzenden mislukt naar: {$toEmail}\n";
+        $log .= "[{$timestamp}] PHPMailer fout: {$this->mail->ErrorInfo}\n";
+        $log .= "[{$timestamp}] Exception: {$e->getMessage()}\n";
+        $log .= str_repeat('-', 60) . "\n";
+        file_put_contents($logFile, $log, FILE_APPEND);
+    }
 }
