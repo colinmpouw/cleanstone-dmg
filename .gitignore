@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 *.env
+config/db_config.php
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -429,3 +430,4 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+/config/
