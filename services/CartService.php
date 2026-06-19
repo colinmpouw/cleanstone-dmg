@@ -29,11 +29,11 @@ class CartService
         return $this->repository->getCartItems($user_id);
     }
 
-    public function removeFromCart($user_id, $item_id){
+    public function removeFromCart($user_id, $item_id, $bundle_id){
         if ($user_id === null || empty($user_id)) {
             return null;
         }
-        return $this->repository->removeFromCart($user_id, $item_id);
+        return $this->repository->removeFromCart($user_id, $item_id, $bundle_id);
     }
     public function changeQuantity($user_id, $item_id, $quantity)
     {

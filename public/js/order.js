@@ -2,7 +2,14 @@ let cartData = [];
 let discountData = null;
 let currentStep = 1;
 let selectedShipping = { label: 'PostNL Standaard', price: 5.95 };
+const FREE_SHIPPING_THRESHOLD = 50;
 
+function getShippingCost(subtotal, selectedShipping) {
+    if (subtotal >= FREE_SHIPPING_THRESHOLD && selectedShipping.label === 'PostNL Standaard') {
+        return 0;
+    }
+    return selectedShipping.price;
+}
 /* ── Step navigation ────────────────────────────────── */
 function goTo(n) {
     document.getElementById('tab-' + currentStep).classList.remove('active');
@@ -123,7 +130,10 @@ async function loadCart() {
 /* ── Summary update ──────────────────────────────────── */
 function updateSummary(cartData) {
     const receiptContainer = document.querySelector('.receipt-items');
+    const discountContainer = document.querySelector('#discounted-value');
+
     receiptContainer.innerHTML = '';
+    discountContainer.innerHTML = '';
 
     let subtotal = 0;
 
@@ -132,7 +142,7 @@ function updateSummary(cartData) {
         subtotal += itemTotal;
 
         const row = document.createElement('div');
-        row.className = 'receipt-row';
+        row.className = 'row';
 
         const name = document.createElement('span');
         name.textContent = `${item.name} x${item.quantity}`;
@@ -146,35 +156,53 @@ function updateSummary(cartData) {
 
     let discountAmount = 0;
 
-    document.querySelector('#discounted-value').innerHTML = '';
-
     if (discountData) {
-        if (!discountData.min_order_amount || subtotal >= parseFloat(discountData.min_order_amount)) {
+        const meetsMinOrder =
+            !discountData.min_order_amount ||
+            subtotal >= parseFloat(discountData.min_order_amount);
+
+        if (meetsMinOrder) {
             if (discountData.type === 'percentage') {
                 discountAmount = subtotal * (discountData.value / 100);
+
                 if (discountData.max_discount) {
-                    discountAmount = Math.min(discountAmount, parseFloat(discountData.max_discount));
+                    discountAmount = Math.min(
+                        discountAmount,
+                        parseFloat(discountData.max_discount)
+                    );
                 }
             } else {
                 discountAmount = parseFloat(discountData.value);
             }
-        }
 
-        const discountRow = document.createElement('div');
-        discountRow.className = 'discount-row';
-        discountRow.innerHTML = `<span>Korting (${discountData.code})</span><span>-€${discountAmount.toFixed(2)}</span>`;
-        document.querySelector('#discounted-value').appendChild(discountRow);
+            const discountRow = document.createElement('div');
+            discountRow.className = 'row discount-row';
+
+            const discountName = document.createElement('span');
+            discountName.textContent = `Discount (${discountData.code})`;
+
+            const discountPrice = document.createElement('span');
+            discountPrice.textContent = `-€${discountAmount.toFixed(2)}`;
+
+            discountRow.append(discountName, discountPrice);
+            discountContainer.appendChild(discountRow);
+        }
     }
 
-    const shippingCost = selectedShipping.price;
-    const subtotalAfterDiscount = subtotal - discountAmount;
-    const btw = subtotalAfterDiscount * 0.21;
-    const total = subtotalAfterDiscount + shippingCost;
+    const shippingCost = getShippingCost(subtotal, selectedShipping);
+    const total = (subtotal - discountAmount) + shippingCost;
+    const btw = total * 21 / 121;
 
     document.querySelector('.subtotal-price').textContent = `€${subtotal.toFixed(2)}`;
-    document.querySelector('.shipping-price').textContent = `€${shippingCost.toFixed(2)}`;
+    document.querySelector('.shipping-price').textContent = shippingCost === 0 ? 'GRATIS' : `€${shippingCost.toFixed(2)}`;
     document.querySelector('.btw-price').textContent = `€${btw.toFixed(2)}`;
     document.querySelector('.total-price').textContent = `€${total.toFixed(2)}`;
+
+    const discountEl = document.querySelector('.discount-price');
+    if (discountEl) {
+        discountEl.textContent = `-€${discountAmount.toFixed(2)}`;
+    }
 }
+
 
 document.addEventListener('DOMContentLoaded', loadCart);

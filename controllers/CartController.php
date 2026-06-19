@@ -16,7 +16,7 @@ class CartController
         $router->get('/winkelwagen', [$this, 'cartPage']);
         $router->post('/api/add_cart_item', [$this, 'addCartItem']);
         $router->get('/api/get_all_cart_item', [$this, 'getAllCartItems']);
-        $router->delete('/api/remove_from_cart/{item_id}', [$this, 'removeFromCart']);
+        $router->delete('/api/remove_from_cart', [$this, 'removeFromCart']);
         $router->put('/api/change_cart_quantity', [$this, 'changeQuantity']);
 
     }
@@ -85,14 +85,19 @@ class CartController
         ]);
     }
 
-    public function removeFromCart($item_id): void
+    public function removeFromCart(): void
     {
         $user_id = $_SESSION['user']['id'] ?? null;
         if ($user_id === null || empty($user_id)) {
             header('Location: /login');
             exit;
         }
-        $result = $this->cartService->removeFromCart($user_id, $item_id);
+
+        $data = json_decode(file_get_contents("php://input"), true);
+        $productId = $data['product_id'] ?? null;
+        $bundleId = $data['bundle_id'] ?? null;
+
+        $result = $this->cartService->removeFromCart($user_id, $productId,$bundleId);
         if ($result == null) {
             echo json_encode([
                 "success" => false,

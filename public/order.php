@@ -186,7 +186,12 @@
 
             <div class="row">
                 <span>Verzendkosten</span>
-                <span class="free">GRATIS</span>
+                <span class="shipping-price free">GRATIS</span>
+            </div>
+
+            <div class="row">
+                <span>Waarvan BTW (21%)</span>
+                <span class="btw-price">€0.00</span>
             </div>
 
             <hr>
@@ -209,6 +214,6 @@
 <?php require_once __DIR__ . '/../component/footer.php'; ?>
 <?php require_once __DIR__ . '/../component/aiChat.php'; ?>
 <script src="/public/js/AiChat.js"></script>
-<script src="/public/js/checkout.js"></script>
+<script src="/public/js/order.js"></script>
 </body>
 </html>

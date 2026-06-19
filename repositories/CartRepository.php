@@ -32,11 +32,11 @@ WHERE user_id = :user_id;
         return $this->DB->read($sql, $params);
     }
 
-    public function removeFromCart($user_id, $item_id)
+    public function removeFromCart($user_id, $item_id, $bundle_id)
     {
         $sql = "DELETE FROM cart_items"
-            . " WHERE user_id = :user_id AND product_id = :item_id";
-        $params = [':user_id' => $user_id, ':item_id' => $item_id];
+            . " WHERE user_id = :user_id AND product_id = :item_id OR bundle_id = :bundle_id;";
+        $params = [':user_id' => $user_id, ':item_id' => $item_id, ':bundle_id' => $bundle_id];
         return $this->DB->save($sql, $params);
     }
     public function changeQuantity($user_id, $item_id, $quantity){

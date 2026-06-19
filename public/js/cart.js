@@ -1,5 +1,10 @@
 let cartData = [];
 let discountData = null;
+const FREE_SHIPPING_THRESHOLD = 50;
+
+function getShippingCost(subtotal) {
+    return subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 5.95;
+}
 
 async function loadCart() {
     try {
@@ -84,9 +89,18 @@ function createCartItem(item) {
     deleteBtn.innerHTML = `🗑`;
 
     deleteBtn.addEventListener('click', async () => {
+        let itemId
         try {
-            const res = await fetch(`/api/remove_from_cart/${item.cart_item_id}`, {
-                method: 'DELETE'
+            const res = await fetch(`/api/remove_from_cart`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cart_item_id: item.cart_item_id,
+                    bundle_id: item.bundle_id,
+                    quantity: currentQty
+                })
             });
 
             if (!res.ok) throw new Error();
@@ -180,7 +194,10 @@ function createCartItem(item) {
 
 function updateSummary(cartData) {
     const receiptContainer = document.querySelector('.receipt-items');
+    const discountContainer = document.querySelector('#discounted-value');
+
     receiptContainer.innerHTML = '';
+    discountContainer.innerHTML = '';
 
     let subtotal = 0;
 
@@ -204,10 +221,11 @@ function updateSummary(cartData) {
     let discountAmount = 0;
 
     if (discountData) {
-        if (
+        const meetsMinOrder =
             !discountData.min_order_amount ||
-            subtotal >= parseFloat(discountData.min_order_amount)
-        ) {
+            subtotal >= parseFloat(discountData.min_order_amount);
+
+        if (meetsMinOrder) {
             if (discountData.type === 'percentage') {
                 discountAmount = subtotal * (discountData.value / 100);
 
@@ -220,25 +238,28 @@ function updateSummary(cartData) {
             } else {
                 discountAmount = parseFloat(discountData.value);
             }
+
+            const discountRow = document.createElement('div');
+            discountRow.className = 'row discount-row';
+
+            const discountName = document.createElement('span');
+            discountName.textContent = `Discount (${discountData.code})`;
+
+            const discountPrice = document.createElement('span');
+            discountPrice.textContent = `-€${discountAmount.toFixed(2)}`;
+
+            discountRow.append(discountName, discountPrice);
+            discountContainer.appendChild(discountRow);
         }
-
-        console.log(`Discount applied: €${discountAmount.toFixed(2)}`);
-        const discountRow = document.createElement('div');
-        discountRow.className = 'row discount-row';
-
-        const discountName = document.createElement('span');
-        discountName.textContent = `Discount (${discountData.code})`;
-
-        const discountPrice = document.createElement('span');
-        discountPrice.textContent = `-€${discountAmount.toFixed(2)}`;
-
-        discountRow.append(discountName, discountPrice);
-        document.querySelector('#discounted-value').appendChild(discountRow);
     }
 
-    const total = subtotal - discountAmount;
+    const shippingCost = getShippingCost(subtotal);
+    const total = (subtotal - discountAmount) + shippingCost;
+    const btw = total * 21 / 121;
 
     document.querySelector('.subtotal-price').textContent = `€${subtotal.toFixed(2)}`;
+    document.querySelector('.shipping-price').textContent = shippingCost === 0 ? 'GRATIS' : `€${shippingCost.toFixed(2)}`;
+    document.querySelector('.btw-price').textContent = `€${btw.toFixed(2)}`;
     document.querySelector('.total-price').textContent = `€${total.toFixed(2)}`;
 
     const discountEl = document.querySelector('.discount-price');
