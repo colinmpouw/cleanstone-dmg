@@ -113,7 +113,7 @@ document.getElementById('new-address-toggle').addEventListener('click', () => {
 document.getElementById('btn-to-2').addEventListener('click', async () => {
     const errorEl = document.getElementById('error-1');
 
-
+    const emailInput = document.getElementById('email');
     const telefoonInput = document.getElementById('telefoon');
 
     if (!emailInput.value.trim() || !telefoonInput.value.trim()) {
