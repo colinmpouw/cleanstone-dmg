@@ -60,4 +60,10 @@ class AddressRepository
         $sql = "UPDATE addresses SET invoice_address = 0 WHERE user_id = ?";
         $this->DB->save($sql, [$user_id]);
     }
+    public function getUserInvoiceAdress($id)
+    {
+        $sql = "SELECT id FROM addresses WHERE user_id = ? AND invoice_address = 1";
+        $result = $this->DB->read($sql, [$id]);
+        return $result[0] ?? null;
+    }
 }

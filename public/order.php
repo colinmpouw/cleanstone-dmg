@@ -126,7 +126,7 @@
 
                 <div class="shipping-options">
                     <label class="shipping-option selected">
-                        <input type="radio" name="shipping" value="5.95" data-label="PostNL Standaard" checked>
+                        <input type="radio" name="shipping" value="5.95" data-label="postnl standaard" checked>
                         <div class="ship-info">
                             <span class="ship-name">PostNL Standaard</span>
                             <span class="ship-sub">2–3 werkdagen</span>
@@ -135,7 +135,7 @@
                     </label>
 
                     <label class="shipping-option">
-                        <input type="radio" name="shipping" value="9.95" data-label="PostNL Express">
+                        <input type="radio" name="shipping" value="9.95" data-label="postnl express">
                         <div class="ship-info">
                             <span class="ship-name">PostNL Express</span>
                             <span class="ship-sub">1 werkdag</span>
@@ -144,7 +144,7 @@
                     </label>
 
                     <label class="shipping-option">
-                        <input type="radio" name="shipping" value="12.95" data-label="DHL Express">
+                        <input type="radio" name="shipping" value="12.95" data-label="dhl express">
                         <div class="ship-info">
                             <span class="ship-name">DHL Express</span>
                             <span class="ship-sub">Volgende dag</span>

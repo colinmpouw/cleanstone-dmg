@@ -113,6 +113,12 @@ document.getElementById('new-address-toggle').addEventListener('click', () => {
 document.getElementById('btn-to-2').addEventListener('click', async () => {
     const errorEl = document.getElementById('error-1');
 
+
+    if (selectedAddressId !== null) {
+        errorEl.textContent = '';
+        goTo(2);
+    }
+
     const emailInput = document.getElementById('email');
     const telefoonInput = document.getElementById('telefoon');
 
@@ -208,9 +214,7 @@ document.getElementById('btn-place-order').addEventListener('click', () => {
 
     const orderData = {
         address_id: selectedAddressId,
-        email: document.getElementById('email').value,
-        telefoon: document.getElementById('telefoon').value,
-        shipping: selectedShipping,
+        shipping: selectedShipping.label,
         payment: payment,
         discount: discountData ? discountData.code : null
     };

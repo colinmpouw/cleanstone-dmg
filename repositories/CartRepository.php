@@ -60,4 +60,10 @@ WHERE user_id = :user_id;
 
         return $this->DB->save($sql, $params);
     }
+
+    public function clearCart($user_id){
+        $sql = "DELETE FROM cart_products_details WHERE user_id = :user_id;";
+        $params = [':user_id' => $user_id];
+        return $this->DB->save($sql, $params);
+    }
 }
