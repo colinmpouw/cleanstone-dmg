@@ -15,6 +15,7 @@ class OrderController
         $this->orderService = new OrderService();
 
         $router->get('/bestelling', [$this, 'orderPage']);
+        $router->get('/bedankt', [$this, 'thankYouPage']);
         $router->post('/api/place_order', [$this, 'placeOrder']);
 
     }
@@ -29,6 +30,17 @@ class OrderController
 
         require __DIR__ . '/../public/order.php';
     }
+    public function thankYouPage(): void
+    {
+        $userId = $_SESSION['user']['id'] ?? null;
+        if ($userId === null || empty($userId)) {
+            header('Location: /login');
+            exit;
+        }
+
+        require __DIR__ . '/../public/thankyou.php';
+    }
+
 
     public function placeOrder(): void
     {
