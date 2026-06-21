@@ -1,0 +1,276 @@
+/* ── WACHTWOORD VERGETEN PAGE ── */
+.ww-page {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 1.5rem;
+    background-color: var(--soft-white);
+}
+
+/* ── CARD ── */
+.ww-card {
+    width: 100%;
+    max-width: 480px;
+    background: var(--white);
+    border-radius: 24px;
+    padding: 44px 48px;
+    box-shadow: 0 8px 48px rgba(58, 43, 32, 0.1);
+    text-align: center;
+}
+
+/* ── LOGO ── */
+.ww-logo {
+    margin-bottom: 32px;
+}
+
+.ww-logo img {
+    height: 56px;
+    width: auto;
+}
+
+/* ── STEP ICON ── */
+.ww-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--soft-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+}
+
+.ww-icon svg {
+    width: 28px;
+    height: 28px;
+    color: var(--charcoal-clay);
+}
+
+/* ── HEADING ── */
+.ww-card h1 {
+    font-family: var(--title-font);
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    margin: 0 0 10px;
+}
+
+.ww-card > div > p,
+.ww-card .ww-desc {
+    font-size: 0.88rem;
+    color: var(--rustic-taupe);
+    line-height: 1.65;
+    margin: 0 0 28px;
+}
+
+/* ── ERROR ── */
+.ww-error {
+    background: #fdf0eb;
+    border: 1px solid #e8c4b0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.84rem;
+    color: #7a3520;
+    text-align: left;
+    display: none;
+}
+
+/* ── FORM GROUP ── */
+.ww-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.ww-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--charcoal-clay);
+}
+
+.ww-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.ww-input-wrap > svg:first-child {
+    position: absolute;
+    left: 14px;
+    width: 17px;
+    height: 17px;
+    color: var(--warm-beige);
+    pointer-events: none;
+}
+
+.ww-input-wrap input {
+    width: 100%;
+    border: 1.5px solid var(--creamy-taupe);
+    border-radius: 12px;
+    padding: 12px 16px 12px 44px;
+    font-size: 0.9rem;
+    font-family: var(--body-font);
+    color: var(--charcoal-clay);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.ww-input-wrap input::placeholder {
+    color: var(--warm-beige);
+}
+
+.ww-input-wrap input:focus {
+    border-color: var(--rustic-taupe);
+    box-shadow: 0 0 0 3px rgba(126, 106, 82, 0.1);
+}
+
+/* input zonder icoon */
+.ww-input-wrap--no-icon input {
+    padding-left: 16px;
+}
+
+/* password toggle */
+.ww-toggle-pw {
+    position: absolute;
+    right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    color: var(--warm-beige);
+    transition: color 0.15s;
+}
+.ww-toggle-pw:hover { color: var(--rustic-taupe); }
+.ww-toggle-pw svg { width: 17px; height: 17px; }
+
+/* ── CODE INPUTS (stap 2) ── */
+.ww-code-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.ww-code-row input {
+    width: 52px;
+    height: 60px;
+    border: 1.5px solid var(--creamy-taupe);
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-family: var(--title-font);
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ww-code-row input:focus {
+    border-color: var(--rustic-taupe);
+    box-shadow: 0 0 0 3px rgba(126, 106, 82, 0.1);
+}
+
+/* hidden master input voor code */
+#reset-code {
+    display: none;
+}
+
+/* ── SUBMIT BUTTON ── */
+.ww-btn {
+    width: 100%;
+    background: var(--charcoal-clay);
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: var(--button-size);
+    font-family: var(--body-font);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+
+.ww-btn:hover { background: #2a1e15; }
+.ww-btn svg { width: 16px; height: 16px; }
+
+/* ── BACK LINK ── */
+.ww-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 18px;
+    font-size: 0.82rem;
+    color: var(--rustic-taupe);
+    text-decoration: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--body-font);
+    transition: color 0.15s;
+}
+.ww-back:hover { color: var(--charcoal-clay); }
+.ww-back svg { width: 14px; height: 14px; }
+
+/* ── SUCCESS (stap 4) ── */
+.ww-success-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #eafaf1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+}
+
+.ww-success-icon svg {
+    width: 28px;
+    height: 28px;
+    color: #1a7a45;
+}
+
+.ww-login-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    background: var(--charcoal-clay);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 12px;
+    padding: 13px 28px;
+    font-size: var(--button-size);
+    font-family: var(--body-font);
+    font-weight: 600;
+    transition: background 0.2s;
+}
+.ww-login-link:hover { background: #2a1e15; }
+.ww-login-link svg { width: 15px; height: 15px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 560px) {
+    .ww-card {
+        padding: 32px 24px;
+    }
+    .ww-code-row input {
+        width: 44px;
+        height: 52px;
+        font-size: 1.3rem;
+    }
+}

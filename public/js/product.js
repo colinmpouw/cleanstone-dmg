@@ -110,8 +110,9 @@ function showNotification(message, type = 'info') {
 
 // Update Cart Count
 function updateCartCount() {
-    // This would update the cart count in the header
-    // Implementation depends on your cart system
+    // if (typeof loadCartItemCount === 'function') {
+    //     loadCartItemCount();
+    // }
 }
 
 // Add slide animations
