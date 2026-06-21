@@ -21,7 +21,13 @@ class CartService
         }
         return $this->repository->addCartItem($user_id, $product_id, $quantity);
     }
-
+    public function addCartBundle($user_id, $product_id)
+    {
+        if ($user_id === null || empty($user_id)) {
+            return null;
+        }
+        return $this->repository->addCartBundle($user_id, $product_id,1);
+    }
     public function getCartItems($user_id)
     {
 

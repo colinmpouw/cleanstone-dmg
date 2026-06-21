@@ -15,10 +15,40 @@ class CartRepository
 
     public function addCartItem($user_id, $product_id, $quantity)
     {
-        $sql = "INSERT INTO cart_items (user_id, product_id, quantity) VALUES (:user_id, :product_id, :quantity)";
-        $params = [':user_id' => $user_id, ':product_id' => $product_id, ':quantity' => $quantity];
+        $sql = "
+        INSERT INTO cart_items (user_id, product_id, quantity) 
+        VALUES (:user_id, :product_id, :quantity)
+        ON DUPLICATE KEY UPDATE 
+        quantity = quantity + VALUES(quantity)
+    ";
+
+        $params = [
+            ':user_id' => $user_id,
+            ':product_id' => $product_id,
+            ':quantity' => $quantity
+        ];
+
         return $this->DB->save($sql, $params);
     }
+
+    public function addCartBundle($user_id, $bundle_id, $quantity)
+    {
+        $sql = "
+        INSERT INTO cart_items (user_id, bundle_id, quantity) 
+        VALUES (:user_id, :bundle_id, :quantity)
+        ON DUPLICATE KEY UPDATE 
+        quantity = quantity + VALUES(quantity)
+    ";
+
+        $params = [
+            ':user_id' => $user_id,
+            ':bundle_id' => $bundle_id,
+            ':quantity' => $quantity
+        ];
+
+        return $this->DB->save($sql, $params);
+    }
+
 
     public function getCartItems($user_id)
     {

@@ -70,11 +70,13 @@ class OrderService
         $discountAmount = 0;
         $discountId = null;
 
-        if (!empty($data['discount_code'])) {
-            $discount = $this->discountRepository->check_discount($data['discount_code']);
+        if (!empty($data['discount'])) {
+            $discount = $this->discountRepository->check_discount($data['discount']);
+            $discount=$discount[0];
+            $this->debugLog('discount: ', $discount);
 
             if ($discount) {
-                $meetsMin = !$discount['min_order_amount'] || $subtotal >= $discount['min_order_amount'];
+                $meetsMin = !$discount['min_order_amount'];
 
                 if ($meetsMin) {
                     $discountId = $discount['id'];
@@ -134,8 +136,6 @@ class OrderService
                 $price = $isBundle
                     ? $product['bundle_price']
                     : $product['product_price'];
-                $this->debugLog('processing product', $product);
-                $this->debugLog('isBundle / price', ['isBundle' => $isBundle, 'price' => $price]);
                 if (!$isBundle) {
                     $this->orderRepository->addOrderItem([
                         'order_id' => $orderId,

@@ -15,6 +15,7 @@ class CartController
 
         $router->get('/winkelwagen', [$this, 'cartPage']);
         $router->post('/api/add_cart_item', [$this, 'addCartItem']);
+        $router->post('/api/add_cart_bundle', [$this, 'addCartBundle']);
         $router->get('/api/get_all_cart_item', [$this, 'getAllCartItems']);
         $router->delete('/api/remove_from_cart', [$this, 'removeFromCart']);
         $router->put('/api/change_cart_quantity', [$this, 'changeQuantity']);
@@ -53,6 +54,39 @@ class CartController
         }
 
         $result = $this->cartService->addCartItem($userId, $productId, $quantity);
+
+        if ($result) {
+            echo json_encode([
+                "success" => true,
+                "message" => "Item added to cart successfully."
+            ]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "Failed to add item to cart."
+            ]);
+        }
+    }
+    public function addCartBundle(): void
+    {
+        $userId = $_SESSION['user']['id'] ?? null;
+        if ($userId === null || empty($userId)) {
+            header('Location: /login');
+            exit;
+        }
+
+        $data = json_decode(file_get_contents("php://input"), true);
+        $bundleId = $data['bundle_id'] ?? null;
+
+        if ($bundleId === null ) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Product ID and quantity are required."
+            ]);
+            return;
+        }
+
+        $result = $this->cartService->addCartBundle($userId, $bundleId);
 
         if ($result) {
             echo json_encode([

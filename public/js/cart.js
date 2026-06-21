@@ -284,7 +284,7 @@ document.querySelector('.discount').addEventListener('submit', (e) => {
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                input.style.border = '2px solid green';
+                input.style.border = '2px solid var(--green)';
                 discountData = data.data;
                 console.log(discountData);
             } else {

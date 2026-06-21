@@ -354,13 +354,6 @@ main>h1{
     margin: 12px 0;
 }
 
-.discount-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: var(--paragraph-size);
-    color: var(--green);
-    margin: 6px 0;
-}
 
 .receipt-row {
     display: flex;

@@ -216,7 +216,7 @@ document.getElementById('btn-place-order').addEventListener('click', () => {
         address_id: selectedAddressId,
         shipping: selectedShipping.label,
         payment: payment,
-        discount: discountData ? discountData.code : null
+        discount: discountData.code
     };
 
     console.log('Order data:', orderData);
@@ -329,7 +329,32 @@ function updateSummary(cartData) {
         discountEl.textContent = `-€${discountAmount.toFixed(2)}`;
     }
 }
+document.querySelector('.discount').addEventListener('submit', (e) => {
+    e.preventDefault();
 
+    const input = document.querySelector('.discount input');
+
+    const formData = new FormData();
+    formData.append('discount', input.value);
+
+    fetch('/api/check_discount', {
+        method: 'POST',
+        body: formData
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                input.style.border = '2px solid var(--green)';
+                discountData = data.data;
+            } else {
+                input.style.border = '2px solid red';
+                discountData = null;
+            }
+
+            updateSummary(cartData);
+        })
+        .catch(err => console.error(err));
+});
 document.addEventListener('DOMContentLoaded', () => {
     loadCart();
     loadAddresses();

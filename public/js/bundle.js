@@ -58,8 +58,7 @@ async function loadBundle() {
         badgeDiscount.style.display = bundle.bundle_tags?.[0] ? '' : 'none';
 
 
-
-        bundle.bundle_tags.forEach((tag)=>{
+        bundle.bundle_tags.forEach((tag) => {
             const tagElement = document.createElement('span');
             tagElement.className = 'badge';
             tagElement.textContent = tag;
@@ -85,7 +84,7 @@ async function loadBundle() {
 
         const priceOriginal = document.getElementById('price-original');
         const priceSave = document.getElementById('price-save');
-        
+
         if (original && original > current) {
 
             priceOriginal.textContent = `€${original}`;
@@ -163,13 +162,14 @@ async function loadBundle() {
         console.error(err);
     }
 }
+
 async function loadBundleCards() {
     try {
         const res = await fetch(`/api/find_bundles_by_similar/${bundle_id}/${bundle_name}`);
         const data = await res.json();
 
         if (!data.success) {
-            console.error('Bundles not found');
+
             const title = document.getElementById('other-bundles');
             title.style.display = 'none';
             return;
@@ -216,7 +216,34 @@ async function loadBundleCards() {
     }
 }
 
+document.querySelector('#btn-cart').addEventListener('click', () => {
+    console.log('wooork')
 
+    fetch('/api/add_cart_bundle', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            bundle_id: bundle_id,
+        })
+    })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`Request failed with status ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(data => {
+            if (!data.success) {
+                console.error('Could not add bundle to cart:', data.message || data);
+            }
+            // TODO: trigger cart UI update / feedback toast here
+        })
+        .catch(err => {
+            console.error('add_cart_bundle failed:', err);
+        });
+});
 document.addEventListener('DOMContentLoaded', () => {
     loadBundle();
     loadBundleCards();
