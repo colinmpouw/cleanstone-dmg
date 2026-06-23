@@ -216,7 +216,7 @@ document.getElementById('btn-place-order').addEventListener('click', () => {
         address_id: selectedAddressId,
         shipping: selectedShipping.label,
         payment: payment,
-        discount: discountData.code
+        discount: discountData?.code ?? null
     };
 
     console.log('Order data:', orderData);

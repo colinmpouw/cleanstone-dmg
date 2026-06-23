@@ -123,11 +123,8 @@ class OrderService
 
         try {
 
-            // ✅ Create order
             $orderId = $this->orderRepository->createOrder($userId, $orderData);
 
-
-            // ✅ Insert order items / bundles
             foreach ($products as $product) {
 
                 $isBundle = !empty($product['bundle_id']);
@@ -135,6 +132,7 @@ class OrderService
                 $price = $isBundle
                     ? $product['bundle_price']
                     : $product['product_price'];
+
                 if (!$isBundle) {
                     $this->orderRepository->addOrderItem([
                         'order_id' => $orderId,
@@ -151,17 +149,31 @@ class OrderService
                     ]);
                 }
             }
-            if (!empty($data['discount'])) {
+
+            $paymentSuccess = $this->fakePayment($total);
+
+            if (!$paymentSuccess) {
+
+
+                $this->orderRepository->updateOrderStatus($orderId, 'failed');
+
+                throw new Exception("Betaling mislukt");
+            }
+
+            
+            if (!empty($discountId)) {
                 $this->discountRepository->add_user_usage($userId, $discountId, $orderId);
                 $this->discountRepository->change_discount_used_count($discountId);
             }
+
+            $this->orderRepository->updateOrderStatus($orderId, 'paid');
+
             $this->cartRepository->clearCart($userId);
 
-
         } catch (Exception $e) {
-            $this->debugLog('Error: ',explode("\n", $e->getMessage()));
-            throw new Exception($e->getMessage());
 
+            $this->debugLog('Error: ', explode("\n", $e->getMessage()));
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -170,4 +182,9 @@ class OrderService
         $entry = '[' . date('Y-m-d H:i:s') . '] ' . $label . ': ' . print_r($data, true) . PHP_EOL;
         file_put_contents(__DIR__ . '/../debug.log', $entry, FILE_APPEND);
     }
+    private function fakePayment($amount)
+    {
+        return rand(1, 10) <= 9;
+    }
+
 }

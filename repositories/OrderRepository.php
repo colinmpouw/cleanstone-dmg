@@ -94,4 +94,15 @@ class OrderRepository
         $this->DB->save($sql, $params);
     }
 
+
+    public function updateOrderStatus($orderId, $status)
+    {
+        $sql = "UPDATE orders SET status = :status WHERE id = :id";
+        return $this->DB->save($sql, [
+            'status' => $status,
+            'id' => $orderId
+        ]);
+    }
+
+
 }
