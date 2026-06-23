@@ -1,11 +1,9 @@
-/* ── WACHTWOORD VERGETEN PAGE ── */
 .ww-page {
     min-height: calc(100vh - 80px);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 60px 1.5rem;
-    background-color: var(--soft-white);
 }
 
 /* ── CARD ── */

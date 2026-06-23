@@ -411,7 +411,7 @@ async function loadTopProducts() {
         container.innerHTML = '';
 
         data.data.forEach(product => {
-            const avg = parseFloat(product.avg_rating) || 0;
+            const avg = parseFloat(product.average_rating) || 0;
             const count = parseInt(product.review_count) || 0;
             const price = parseFloat(product.price).toFixed(2);
             const inStock = parseInt(product.stock) > 0;
