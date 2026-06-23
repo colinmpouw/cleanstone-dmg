@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bundleCountEl = document.getElementById('bundleCount');
     const newBundleBtn = document.getElementById('newBundleBtn');
 
-    const PLACEHOLDER_IMAGE = '/public/assets/placeholder-bundle.png';
+    const PLACEHOLDER_IMAGE = '/uploads/bundles/placeholder.png';
 
     let allBundles = [];
 
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: raw.id,
             name: raw.name,
             description: raw.description ?? '',
-            image: raw.image, // already absolute/relative or null; no filename-prefixing needed per confirmed shape
+            image: `/uploads/bundles/${raw.image}`, // already absolute/relative or null; no filename-prefixing needed per confirmed shape
             price: bundlePrice,
             originalPrice: hasDiscount ? productsTotal : null,
             discountPercent,
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.dataset.bundleId = bundle.id;
 
         // Image or placeholder
-        if (bundle.image) {
+
             const img = document.createElement('img');
             img.className = 'bundle-card-image';
             img.src = bundle.image;
@@ -163,14 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 img.src = PLACEHOLDER_IMAGE;
             }, { once: true });
             card.append(img);
-        } else {
-            const placeholder = document.createElement('div');
-            placeholder.className = 'bundle-card-placeholder';
-            const icon = document.createElement('i');
-            icon.className = 'ti ti-package';
-            placeholder.append(icon);
-            card.append(placeholder);
-        }
+
 
         // Body
         const body = document.createElement('div');

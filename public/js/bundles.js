@@ -40,7 +40,7 @@ function createCardHTML(bundel) {
     imageWrap.className = 'card__image-wrap';
 
     const img = document.createElement('img');
-    img.src = bundel.image || PLACEHOLDER_IMAGE;
+    img.src = `/uploads/bundles/${bundel.image}` || PLACEHOLDER_IMAGE;
     img.alt = bundel.name || '';
     // Guard against infinite loop: fall back once, and only if we're
     // not already showing the placeholder.
