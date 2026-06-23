@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let payload;
 
         try {
-            const res = await fetch('/api/get_all_bundels');
+            const res = await fetch('/api/admin/get_all_bundels');
             if (!res.ok) {
                 throw new Error(`Request failed with status ${res.status}`);
             }
