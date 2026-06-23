@@ -23,6 +23,11 @@ class OrderService
         $this->discountRepository = new DiscountRepository();
     }
 
+    public function getOrdersByUser(int $user_id): array
+    {
+        return $this->orderRepository->getOrdersByUser($user_id);
+    }
+
     public function placeOrder($userId, $data): void
     {
         $required = ['address_id', 'payment', 'shipping'];

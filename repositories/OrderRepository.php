@@ -77,6 +77,33 @@ class OrderRepository
 
         $this->DB->save($sql, $params);
     }
+
+    public function getOrdersByUser(int $user_id): array
+    {
+        $orders = $this->DB->read(
+            "SELECT o.id, o.total_price, o.status, o.payment_method,
+                    o.delivery_option, o.created_at,
+                    COUNT(oi.id) as product_count
+             FROM orders o
+             LEFT JOIN order_items oi ON oi.order_id = o.id
+             WHERE o.user_id = :user_id
+             GROUP BY o.id
+             ORDER BY o.created_at DESC",
+            ['user_id' => $user_id]
+        ) ?: [];
+
+        foreach ($orders as &$order) {
+            $order['products'] = $this->DB->read(
+                "SELECT p.name, p.image, oi.quantity, oi.price
+                 FROM order_items oi
+                 LEFT JOIN products p ON p.id = oi.product_id
+                 WHERE oi.order_id = :order_id",
+                ['order_id' => $order['id']]
+            ) ?: [];
+        }
+
+        return $orders;
+    }
     public function addOrderBundle(array $order): void
     {
         $sql = "INSERT INTO order_bundles 

@@ -17,6 +17,9 @@ class OrderController
         $router->get('/bestelling', [$this, 'orderPage']);
         $router->get('/bedankt', [$this, 'thankYouPage']);
         $router->post('/api/place_order', [$this, 'placeOrder']);
+        $router->get('/account/bestellingen', [$this, 'pageBestellingen']);
+        $router->get('/bestellingen', [$this, 'pageBestellingen']);
+        $router->get('/api/account/bestellingen', [$this, 'getBestellingen']);
 
     }
 
@@ -30,6 +33,36 @@ class OrderController
 
         require __DIR__ . '/../public/order.php';
     }
+
+    private function requireLogin(): void
+    {
+        if (empty($_SESSION['user']['id'])) {
+            header('Location: /login');
+            exit;
+        }
+    }
+
+    public function pageBestellingen(): void
+    {
+        $this->requireLogin();
+        require __DIR__ . '/../public/account-bestellingen.php';
+    }
+
+    public function getBestellingen(): void
+    {
+        $this->requireLogin();
+        header('Content-Type: application/json');
+
+        $orders = $this->orderService->getOrdersByUser($_SESSION['user']['id']);
+
+        echo json_encode([
+            'success' => true,
+            'orders'  => $orders
+        ]);
+        exit;
+    }
+
+
     public function thankYouPage(): void
     {
         $userId = $_SESSION['user']['id'] ?? null;
