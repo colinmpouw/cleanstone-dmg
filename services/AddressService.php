@@ -19,6 +19,17 @@ class AddressService
         return $this->repository->getAddressByUser($userId);
     }
 
+    public function deleteAddress(int $id, int $user_id): bool
+    {
+        return $this->repository->deleteAddress($id, $user_id);
+    }
+
+    public function setDefaultAddress(int $id, int $user_id): void
+    {
+        $this->repository->resetInvoiceAddresses($user_id);
+        $this->repository->changeAddressInvoice(1, $id, $user_id);
+    }
+
     public function createAddress($request)
     {
         $required = [
@@ -30,18 +41,12 @@ class AddressService
             'city',
             'country',
             'phone',
-            'email'
         ];
 
         foreach ($required as $field) {
             if (empty($request[$field])) {
                 throw new Exception("Veld '$field' is verplicht");
             }
-        }
-
-
-        if (!filter_var($request['email'], FILTER_VALIDATE_EMAIL)) {
-            throw new Exception("Ongeldig email adres");
         }
 
 
@@ -58,5 +63,15 @@ class AddressService
         }
 
         return $id;
+    }
+
+    public function updateAddress(int $id, int $user_id, array $data): bool
+    {
+        return $this->repository->updateAddress($id, $user_id, $data);
+    }
+
+    public function getById(int $id, int $user_id): ?array
+    {
+        return $this->repository->getById($id, $user_id);
     }
 }

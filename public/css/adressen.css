@@ -231,6 +231,36 @@ body {
     cursor:pointer;
 }
 
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--charcoal-clay);
+    color: var(--white);
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-family: var(--body-font);
+    box-shadow: 0 4px 16px rgba(58,43,32,0.2);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    z-index: 99999;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast--error {
+    background: #c0392b;
+}
+
+.toast--success {
+    background: var(--charcoal-clay);
+}
+
 @media(max-width:850px){
 
     .addresses-main{

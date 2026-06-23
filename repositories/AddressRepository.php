@@ -18,6 +18,13 @@ class AddressRepository
         $sql = "SELECT * FROM addresses WHERE user_id = ?";
         return $this->DB->read($sql, [$userId]);
     }
+    public function deleteAddress(int $id, int $user_id): bool
+    {
+        return $this->DB->save(
+            "DELETE FROM addresses WHERE id = ? AND user_id = ?",
+            [$id, $user_id]
+        );
+    }
 
     public function createAddress($input)
     {
@@ -35,7 +42,7 @@ class AddressRepository
             $input['city'],
             $input['country'],
             $input['phone'],
-            $input['email'],
+            $input['email'] ?? null,
             $input['invoice_address'] ?? 0
         ];
 
@@ -65,5 +72,36 @@ class AddressRepository
         $sql = "SELECT id FROM addresses WHERE user_id = ? AND invoice_address = 1";
         $result = $this->DB->read($sql, [$id]);
         return $result[0] ?? null;
+    }
+
+    public function updateAddress(int $id, int $user_id, array $data): bool
+    {
+        return $this->DB->save(
+            "UPDATE addresses SET 
+            first_name = ?, last_name = ?, street = ?, house_number = ?,
+            postal_code = ?, city = ?, country = ?, phone = ?
+         WHERE id = ? AND user_id = ?",
+            [
+                $data['first_name'],
+                $data['last_name'],
+                $data['street'],
+                $data['house_number'],
+                $data['postal_code'],
+                $data['city'],
+                $data['country'],
+                $data['phone'],
+                $id,
+                $user_id
+            ]
+        );
+    }
+
+    public function getById(int $id, int $user_id): ?array
+    {
+        $rows = $this->DB->read(
+            "SELECT * FROM addresses WHERE id = ? AND user_id = ?",
+            [$id, $user_id]
+        );
+        return $rows[0] ?? null;
     }
 }
