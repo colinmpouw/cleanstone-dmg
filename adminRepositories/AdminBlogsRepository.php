@@ -10,7 +10,7 @@ class AdminBlogsRepository
 
     public function __construct()
     {
-        $this->db = new AatabaseController();
+        $this->db = new DatabaseController();
     }
 
     public function getAllBlogs(): array
