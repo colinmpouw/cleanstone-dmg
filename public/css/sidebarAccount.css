@@ -128,8 +128,8 @@
 ========================================== */
 
 .nav-item:hover:not(.active):not(.logout) {
-    background: var(--soft-white);
-    transform: translateX(4px);
+    /*background: var(--soft-white);*/
+    transform: translateX(4px); 
 }
 
 .nav-item:hover:not(.active):not(.logout) svg {
