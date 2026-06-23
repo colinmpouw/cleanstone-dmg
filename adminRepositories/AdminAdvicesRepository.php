@@ -2,11 +2,11 @@
 
 namespace adminRepositories;
 use adminControllers\AdminDatabaseController;
-use controllers\DatabaseController;
+
 
 class AdminAdvicesRepository
 {
-    private DatabaseController $DB;
+    private $DB;
 
     public function __construct()
     {
