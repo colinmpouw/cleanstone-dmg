@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     const tableBody = document.getElementById('productsTableBody');
     const productCountEl = document.getElementById('productCount');
@@ -10,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     init();
 
     async function init() {
+        renderSkeletons();
+
         allProducts = await loadProducts();
         renderTable(allProducts);
 
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Adjust if product images live somewhere else (e.g. an /uploads folder)
     const PRODUCT_IMAGE_BASE = '/uploads/products/';
+    const PLACEHOLDER_IMAGE = '/public/assets/placeholder-product.png';
 
     /**
      * Loads products from the API and maps the API shape onto the
@@ -56,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ? parseFloat(raw.sale_price)
             : null;
 
-        console.log(raw.image);
         return {
             id: raw.id,
             slug: raw.slug,
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             price: salePrice !== null ? salePrice : basePrice,
             originalPrice: salePrice !== null ? basePrice : null,
             stock: Number(raw.stock),
-            image: raw.image ? `${PRODUCT_IMAGE_BASE}${raw.image}` : '/public/assets/placeholder.png'
+            image: raw.image ? `${PRODUCT_IMAGE_BASE}${raw.image}` : PLACEHOLDER_IMAGE
         };
     }
 
@@ -78,6 +79,72 @@ document.addEventListener('DOMContentLoaded', () => {
         errorCell.textContent = 'Producten konden niet worden geladen. Probeer het later opnieuw.';
         errorRow.append(errorCell);
         tableBody.replaceChildren(errorRow);
+    }
+
+    /**
+     * Shows placeholder rows shaped like real product rows while the
+     * fetch is in flight, instead of a blank table.
+     */
+    function renderSkeletons(count = 6) {
+        const skeletons = Array.from({ length: count }, createSkeletonRow);
+        tableBody.replaceChildren(...skeletons);
+    }
+
+    function createSkeletonRow() {
+        const tr = document.createElement('tr');
+        tr.className = 'skeleton-row';
+
+        // Product cell (thumb + name + brand)
+        const tdProduct = document.createElement('td');
+        const productCell = document.createElement('div');
+        productCell.className = 'product-cell';
+
+        const thumb = document.createElement('div');
+        thumb.className = 'skeleton-block skeleton-thumb';
+
+        const infoWrap = document.createElement('div');
+        infoWrap.className = 'product-info';
+
+        const nameLine = document.createElement('div');
+        nameLine.className = 'skeleton-block skeleton-line skeleton-line--name';
+
+        const brandLine = document.createElement('div');
+        brandLine.className = 'skeleton-block skeleton-line skeleton-line--brand';
+
+        infoWrap.append(nameLine, brandLine);
+        productCell.append(thumb, infoWrap);
+        tdProduct.append(productCell);
+
+        // Category
+        const tdCategory = document.createElement('td');
+        const categoryLine = document.createElement('div');
+        categoryLine.className = 'skeleton-block skeleton-line skeleton-line--category';
+        tdCategory.append(categoryLine);
+
+        // Price
+        const tdPrice = document.createElement('td');
+        const priceLine = document.createElement('div');
+        priceLine.className = 'skeleton-block skeleton-line skeleton-line--price';
+        tdPrice.append(priceLine);
+
+        // Stock
+        const tdStock = document.createElement('td');
+        const stockLine = document.createElement('div');
+        stockLine.className = 'skeleton-block skeleton-line skeleton-line--stock';
+        tdStock.append(stockLine);
+
+        // Status
+        const tdStatus = document.createElement('td');
+        const statusPill = document.createElement('div');
+        statusPill.className = 'skeleton-block skeleton-pill';
+        tdStatus.append(statusPill);
+
+        // Actions (empty, just keeps column widths stable)
+        const tdActions = document.createElement('td');
+        tdActions.className = 'col-actions';
+
+        tr.append(tdProduct, tdCategory, tdPrice, tdStock, tdStatus, tdActions);
+        return tr;
     }
 
     function handleSearch() {
@@ -115,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const status = getStockStatus(product.stock);
 
         const tr = document.createElement('tr');
+        tr.className = 'product-row--enter';
         tr.dataset.productId = product.id;
 
         // Product cell (thumbnail + name + brand)
@@ -126,7 +194,12 @@ document.addEventListener('DOMContentLoaded', () => {
         img.className = 'product-thumb';
         img.src = product.image;
         img.alt = product.name;
-        img.onerror = () => { img.src = '/public/assets/placeholder-product.png'; };
+        // Guard against infinite loop: only fall back once, and only
+        // if we're not already showing the placeholder.
+        img.addEventListener('error', () => {
+            if (img.src.endsWith(PLACEHOLDER_IMAGE)) return;
+            img.src = PLACEHOLDER_IMAGE;
+        }, { once: true });
 
         const infoWrap = document.createElement('div');
         infoWrap.className = 'product-info';
@@ -219,6 +292,17 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const rows = products.map(createProductRow);
             tableBody.replaceChildren(...rows);
+
+            // Stagger the fade-in slightly per row, then clean up the
+            // animation class so it doesn't replay on later re-renders
+            // (e.g. after a delete or search filter).
+            rows.forEach((row, index) => {
+                row.style.animationDelay = `${index * 40}ms`;
+                row.addEventListener('animationend', () => {
+                    row.classList.remove('product-row--enter');
+                    row.style.animationDelay = '';
+                }, { once: true });
+            });
         }
 
         productCountEl.textContent = `${allProducts.length} producten in totaal`;
