@@ -36,12 +36,48 @@ document.addEventListener('DOMContentLoaded', () => {
     init();
 
     async function init() {
+        renderSkeletons();
+
         allBundles = await loadBundles();
         renderGrid(allBundles);
 
         newBundleBtn.addEventListener('click', () => {
             window.location.href = '/admin/bundles/new';
         });
+    }
+
+    /**
+     * Shows placeholder cards shaped like real bundle cards while the
+     * fetch is in flight, instead of a blank grid.
+     */
+    function renderSkeletons(count = 4) {
+        const skeletons = Array.from({ length: count }, createSkeletonCard);
+        grid.replaceChildren(...skeletons);
+    }
+
+    function createSkeletonCard() {
+        const card = document.createElement('div');
+        card.className = 'bundle-card bundle-card--skeleton';
+
+        const image = document.createElement('div');
+        image.className = 'skeleton-block skeleton-image';
+
+        const body = document.createElement('div');
+        body.className = 'bundle-card-body';
+
+        const title = document.createElement('div');
+        title.className = 'skeleton-block skeleton-line skeleton-line--title';
+
+        const price = document.createElement('div');
+        price.className = 'skeleton-block skeleton-line skeleton-line--price';
+
+        const footer = document.createElement('div');
+        footer.className = 'skeleton-block skeleton-line skeleton-line--footer';
+
+        body.append(title, price, footer);
+        card.append(image, body);
+
+        return card;
     }
 
     async function loadBundles() {
@@ -111,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createBundleCard(bundle) {
         const card = document.createElement('div');
-        card.className = 'bundle-card';
+        card.className = 'bundle-card bundle-card--enter';
         card.dataset.bundleId = bundle.id;
 
         // Image or placeholder
@@ -219,6 +255,17 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const cards = bundles.map(createBundleCard);
             grid.replaceChildren(...cards);
+
+            // Stagger the fade-in slightly per card, then clean up the
+            // animation class so it doesn't replay on later re-renders
+            // (e.g. after a delete).
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 60}ms`;
+                card.addEventListener('animationend', () => {
+                    card.classList.remove('bundle-card--enter');
+                    card.style.animationDelay = '';
+                }, { once: true });
+            });
         }
 
         bundleCountEl.textContent = `${allBundles.length} bundels in totaal`;
