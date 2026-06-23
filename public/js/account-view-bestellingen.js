@@ -64,20 +64,27 @@ function renderTimeline(order) {
 }
 
 function renderProducts(order) {
-    const rows = (order.products || []).map(p => `
+    const rows = (order.products || []).map(p => {
+        const isBundle = p.sku === 'BUNDEL';
+        const imgSrc = p.image
+            ? (isBundle ? `/uploads/bundles/${p.image}` : `/uploads/products/${p.image}`)
+            : '';
+
+        return `
         <div class="product-row">
-            <img class="product-thumb" src="${p.image || ''}" alt="${p.name}"
+            <img class="product-thumb" src="${imgSrc}" alt="${p.name}"
                  onerror="this.src=''">
             <div class="product-info">
                 <div class="product-info__name">${p.name}</div>
-                <div class="product-info__meta">${p.variant || ''} · ×${p.quantity || 1}</div>
+                <div class="product-info__meta">${isBundle ? 'Bundel' : (p.variant || '')} · ×${p.quantity || 1}</div>
             </div>
             <span class="product-price">${fmt(p.price * (p.quantity || 1))}</span>
-        </div>`).join('');
+        </div>`;
+    }).join('');
 
-    const subtotal  = order.subtotal  ?? order.total;
-    const shipping  = order.shipping  ?? 0;
-    const total     = order.total;
+    const subtotal = order.subtotal ?? order.total;
+    const shipping = order.shipping ?? 0;
+    const total    = order.total;
 
     return rows + `
         <div class="order-totals">

@@ -22,6 +22,7 @@ class OrderController
         $router->get('/api/account/bestellingen', [$this, 'getBestellingen']);
         $router->get('/account/bestellingen/{id}', [$this, 'pageViewBestelling']);
         $router->get('/api/account/bestellingen/{id}', [$this, 'getBestellingById']);
+        $router->get('/account/bestellingen/{id}/factuur', [$this, 'factuur']);
 
     }
 
@@ -36,7 +37,8 @@ class OrderController
         require __DIR__ . '/../public/order.php';
     }
 
-    public function pageViewBestelling(int $id): void
+
+    public function pageViewBestelling($id): void
     {
         $this->requireLogin();
         require __DIR__ . '/../public/account-view-bestellingen.php';
@@ -122,6 +124,21 @@ class OrderController
                 "message" => $e->getMessage()
             ]);
         }
+    }
+
+    public function factuur(int $id): void
+    {
+        $this->requireLogin();
+
+        $order = $this->orderService->getOrderForInvoice($id, $_SESSION['user']['id']);
+
+        if (!$order) {
+            http_response_code(404);
+            echo 'Bestelling niet gevonden.';
+            return;
+        }
+
+        require __DIR__ . '/../public/factuur.php';
     }
 
 

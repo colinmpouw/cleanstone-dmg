@@ -82,28 +82,40 @@ class OrderRepository
     {
         $orders = $this->DB->read(
             "SELECT o.id, o.total_price, o.status, o.payment_method,
-                    o.delivery_option, o.created_at,
-                    COUNT(oi.id) as product_count
-             FROM orders o
-             LEFT JOIN order_items oi ON oi.order_id = o.id
-             WHERE o.user_id = :user_id
-             GROUP BY o.id
-             ORDER BY o.created_at DESC",
+                o.delivery_option, o.created_at,
+                (SELECT COUNT(*) FROM order_items oi WHERE oi.order_id = o.id) +
+                (SELECT COUNT(*) FROM order_bundles ob WHERE ob.order_id = o.id) as product_count
+         FROM orders o
+         WHERE o.user_id = :user_id
+         ORDER BY o.created_at DESC",
             ['user_id' => $user_id]
         ) ?: [];
 
         foreach ($orders as &$order) {
-            $order['products'] = $this->DB->read(
-                "SELECT p.name, p.image, oi.quantity, oi.price
-                 FROM order_items oi
-                 LEFT JOIN products p ON p.id = oi.product_id
-                 WHERE oi.order_id = :order_id",
+            $products = $this->DB->read(
+                "SELECT p.name, p.image, p.sku, oi.quantity, oi.price
+             FROM order_items oi
+             LEFT JOIN products p ON p.id = oi.product_id
+             WHERE oi.order_id = :order_id",
                 ['order_id' => $order['id']]
             ) ?: [];
+
+            $bundles = $this->DB->read(
+                "SELECT b.name, b.image, 'BUNDEL' as sku, ob.quantity, ob.price
+             FROM order_bundles ob
+             LEFT JOIN bundles b ON b.id = ob.bundle_id
+             WHERE ob.order_id = :order_id",
+                ['order_id' => $order['id']]
+            ) ?: [];
+
+            $order['products'] = array_merge($products, $bundles);
         }
 
         return $orders;
     }
+
+
+
     public function addOrderBundle(array $order): void
     {
         $sql = "INSERT INTO order_bundles 
@@ -121,6 +133,44 @@ class OrderRepository
         $this->DB->save($sql, $params);
     }
 
+    public function getOrderForInvoice(int $order_id, int $user_id): ?array
+    {
+        $order = $this->DB->read(
+            "SELECT o.*,
+                a.first_name, a.last_name, a.street, a.house_number,
+                a.postal_code, a.city, a.country
+         FROM orders o
+         LEFT JOIN addresses a ON a.id = o.shipping_address_id
+         WHERE o.id = :order_id AND o.user_id = :user_id",
+            ['order_id' => $order_id, 'user_id' => $user_id]
+        );
+
+        if (empty($order)) return null;
+        $order = $order[0];
+
+        // producten
+        $products = $this->DB->read(
+            "SELECT p.name, p.sku, oi.quantity, oi.price
+         FROM order_items oi
+         LEFT JOIN products p ON p.id = oi.product_id
+         WHERE oi.order_id = :order_id",
+            ['order_id' => $order_id]
+        ) ?: [];
+
+        // bundels
+        $bundles = $this->DB->read(
+            "SELECT b.name, 'BUNDEL' as sku, ob.quantity, ob.price
+         FROM order_bundles ob
+         LEFT JOIN bundles b ON b.id = ob.bundle_id
+         WHERE ob.order_id = :order_id",
+            ['order_id' => $order_id]
+        ) ?: [];
+
+        $order['products'] = array_merge($products, $bundles);
+
+        return $order;
+    }
+
     public function getOrderById(int $order_id, int $user_id): ?array
     {
         $order = $this->DB->read(
@@ -135,18 +185,28 @@ class OrderRepository
         );
 
         if (empty($order)) return null;
-
         $order = $order[0];
 
-        $order['products'] = $this->DB->read(
-            "SELECT p.name, p.image, oi.quantity, oi.price
+        // producten
+        $products = $this->DB->read(
+            "SELECT p.name, p.image, p.sku, oi.quantity, oi.price
          FROM order_items oi
          LEFT JOIN products p ON p.id = oi.product_id
          WHERE oi.order_id = :order_id",
             ['order_id' => $order_id]
         ) ?: [];
 
-        // subtotal berekenen
+        // bundels
+        $bundles = $this->DB->read(
+            "SELECT b.name, b.image, ob.quantity, ob.price, 'BUNDEL' as sku
+         FROM order_bundles ob
+         LEFT JOIN bundles b ON b.id = ob.bundle_id
+         WHERE ob.order_id = :order_id",
+            ['order_id' => $order_id]
+        ) ?: [];
+
+        $order['products'] = array_merge($products, $bundles);
+
         $order['subtotal'] = array_sum(array_map(
             fn($p) => $p['price'] * $p['quantity'],
             $order['products']
@@ -162,6 +222,7 @@ class OrderRepository
             'processing' => 'verwerking',
             'shipped'    => 'verzonden',
             'completed'  => 'bezorgd',
+            'cancelled'  => 'geannuleerd',
         ];
         $order['status'] = $statusMap[$order['status']] ?? $order['status'];
 
