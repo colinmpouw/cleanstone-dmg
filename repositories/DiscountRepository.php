@@ -1,6 +1,7 @@
 <?php
 
 namespace repositories;
+
 use controllers\DatabaseController;
 
 class DiscountRepository
@@ -45,6 +46,39 @@ class DiscountRepository
         ]);
 
         return !empty($result);
+    }
+
+    public function add_user_usage($userId, $discountId, $orderId)
+    {
+        $sql = "
+        INSERT INTO discount_code_usages 
+        (user_id, discount_code_id, order_id)
+        VALUES (:user_id, :discount_code_id, :order_id)
+    ";
+
+        $params = [
+            'user_id' => $userId,
+            'discount_code_id' => $discountId,
+            'order_id' => $orderId
+        ];
+
+        $result = $this->DB->save($sql, $params);
+        return $result;
+    }
+
+    public function change_discount_used_count($discountId){
+        $sql = "
+        UPDATE discount_codes 
+        SET used_count = used_count + 1
+        WHERE id = :discount_id
+    ";
+
+        $params = [
+            'discount_id' => $discountId
+        ];
+
+        $result = $this->DB->save($sql, $params);
+        return $result;
     }
 
 }

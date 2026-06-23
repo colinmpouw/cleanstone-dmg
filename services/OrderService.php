@@ -72,14 +72,13 @@ class OrderService
 
         if (!empty($data['discount'])) {
             $discount = $this->discountRepository->check_discount($data['discount']);
-            $discount=$discount[0];
-            $this->debugLog('discount: ', $discount);
-
+            $discount = $discount[0];
+            $discountId = $discount['id'];
             if ($discount) {
                 $meetsMin = !$discount['min_order_amount'];
 
                 if ($meetsMin) {
-                    $discountId = $discount['id'];
+
 
                     if ($discount['type'] === 'percentage') {
                         $discountAmount = $subtotal * ($discount['value'] / 100);
@@ -126,7 +125,7 @@ class OrderService
 
             // ✅ Create order
             $orderId = $this->orderRepository->createOrder($userId, $orderData);
-            $this->debugLog('orderId after createOrder', $orderId);
+
 
             // ✅ Insert order items / bundles
             foreach ($products as $product) {
@@ -152,14 +151,20 @@ class OrderService
                     ]);
                 }
             }
-
+            if (!empty($data['discount'])) {
+                $this->discountRepository->add_user_usage($userId, $discountId, $orderId);
+                $this->discountRepository->change_discount_used_count($discountId);
+            }
             $this->cartRepository->clearCart($userId);
 
 
         } catch (Exception $e) {
+            $this->debugLog('Error: ',explode("\n", $e->getMessage()));
             throw new Exception($e->getMessage());
+
         }
     }
+
     function debugLog($label, $data): void
     {
         $entry = '[' . date('Y-m-d H:i:s') . '] ' . $label . ': ' . print_r($data, true) . PHP_EOL;
