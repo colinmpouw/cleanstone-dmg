@@ -20,6 +20,8 @@ class OrderController
         $router->get('/account/bestellingen', [$this, 'pageBestellingen']);
         $router->get('/bestellingen', [$this, 'pageBestellingen']);
         $router->get('/api/account/bestellingen', [$this, 'getBestellingen']);
+        $router->get('/account/bestellingen/{id}', [$this, 'pageViewBestelling']);
+        $router->get('/api/account/bestellingen/{id}', [$this, 'getBestellingById']);
 
     }
 
@@ -32,6 +34,29 @@ class OrderController
         }
 
         require __DIR__ . '/../public/order.php';
+    }
+
+    public function pageViewBestelling(int $id): void
+    {
+        $this->requireLogin();
+        require __DIR__ . '/../public/account-view-bestellingen.php';
+    }
+
+    public function getBestellingById(int $id): void
+    {
+        $this->requireLogin();
+        header('Content-Type: application/json');
+
+        $order = $this->orderService->getOrderById($id, $_SESSION['user']['id']);
+
+        if (!$order) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Niet gevonden']);
+            return;
+        }
+
+        echo json_encode($order);
+        exit;
     }
 
     private function requireLogin(): void

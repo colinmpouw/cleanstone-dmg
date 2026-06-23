@@ -121,6 +121,53 @@ class OrderRepository
         $this->DB->save($sql, $params);
     }
 
+    public function getOrderById(int $order_id, int $user_id): ?array
+    {
+        $order = $this->DB->read(
+            "SELECT o.id, o.total_price, o.status, o.payment_method,
+                o.delivery_option, o.delivery_price, o.discount_amount,
+                o.created_at,
+                CONCAT(a.street, ' ', a.house_number, ', ', a.postal_code, ' ', a.city) as address
+         FROM orders o
+         LEFT JOIN addresses a ON a.id = o.shipping_address_id
+         WHERE o.id = :order_id AND o.user_id = :user_id",
+            ['order_id' => $order_id, 'user_id' => $user_id]
+        );
+
+        if (empty($order)) return null;
+
+        $order = $order[0];
+
+        $order['products'] = $this->DB->read(
+            "SELECT p.name, p.image, oi.quantity, oi.price
+         FROM order_items oi
+         LEFT JOIN products p ON p.id = oi.product_id
+         WHERE oi.order_id = :order_id",
+            ['order_id' => $order_id]
+        ) ?: [];
+
+        // subtotal berekenen
+        $order['subtotal'] = array_sum(array_map(
+            fn($p) => $p['price'] * $p['quantity'],
+            $order['products']
+        ));
+
+        $order['shipping'] = $order['delivery_price'] ?? 0;
+        $order['total']    = $order['total_price'];
+
+        // status mappen naar timeline keys
+        $statusMap = [
+            'pending'    => 'geplaatst',
+            'paid'       => 'betaald',
+            'processing' => 'verwerking',
+            'shipped'    => 'verzonden',
+            'completed'  => 'bezorgd',
+        ];
+        $order['status'] = $statusMap[$order['status']] ?? $order['status'];
+
+        return $order;
+    }
+
 
     public function updateOrderStatus($orderId, $status)
     {

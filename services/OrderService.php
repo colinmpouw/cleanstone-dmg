@@ -28,6 +28,11 @@ class OrderService
         return $this->orderRepository->getOrdersByUser($user_id);
     }
 
+    public function getOrderById(int $order_id, int $user_id): ?array
+    {
+        return $this->orderRepository->getOrderById($order_id, $user_id);
+    }
+
     public function placeOrder($userId, $data): void
     {
         $required = ['address_id', 'payment', 'shipping'];
