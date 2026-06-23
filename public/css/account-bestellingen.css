@@ -20,8 +20,8 @@ body { background-color: var(--soft-white); }
 }
 
 .bestellingen-main h1 {
-    font-family: var(--title-font);
-    font-size: 1.6rem;
+    /*font-family: var(--title-font);*/
+    /*font-size: 1.6rem;*/
     font-weight: 700;
     color: var(--charcoal-clay);
 }
