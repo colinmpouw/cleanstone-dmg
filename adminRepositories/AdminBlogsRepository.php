@@ -2,7 +2,8 @@
 
 namespace adminRepositories;
 
-use controllers\DatabaseController;
+use adminControllers\AdminDatabaseController;
+
 
 class AdminBlogsRepository
 {
@@ -10,7 +11,7 @@ class AdminBlogsRepository
 
     public function __construct()
     {
-        $this->db = new DatabaseController();
+        $this->db = new AdminDatabaseController();
     }
 
     public function getAllBlogs(): array

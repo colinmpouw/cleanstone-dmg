@@ -1,6 +1,7 @@
 <?php
 
 namespace adminRepositories;
+use adminControllers\AdminDatabaseController;
 use controllers\DatabaseController;
 
 class AdminAdvicesRepository
@@ -9,7 +10,7 @@ class AdminAdvicesRepository
 
     public function __construct()
     {
-        $this->DB = new DatabaseController();
+        $this->DB = new AdminDatabaseController();
     }
 
     public function getAllRequests(): array
