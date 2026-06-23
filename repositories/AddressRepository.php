@@ -79,7 +79,7 @@ class AddressRepository
         return $this->DB->save(
             "UPDATE addresses SET 
             first_name = ?, last_name = ?, street = ?, house_number = ?,
-            postal_code = ?, city = ?, country = ?, phone = ?
+            postal_code = ?, city = ?, country = ?, phone = ? , email = ?
          WHERE id = ? AND user_id = ?",
             [
                 $data['first_name'],
@@ -90,6 +90,7 @@ class AddressRepository
                 $data['city'],
                 $data['country'],
                 $data['phone'],
+                $data['email'] ?? null,
                 $id,
                 $user_id
             ]

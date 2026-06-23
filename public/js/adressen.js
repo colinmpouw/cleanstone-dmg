@@ -120,6 +120,7 @@ async function loadAddresses() {
                 document.getElementById('addr-city').value        = a.city       || '';
                 document.getElementById('addr-country').value     = a.country    || 'Nederland';
                 document.getElementById('addr-phone').value       = a.phone      || '';
+                document.getElementById('addr-email').value       = a.email      || '';
 
                 modal.classList.add('show');
             });
@@ -181,6 +182,7 @@ document.getElementById('save-address-btn').addEventListener('click', async () =
         city:         get('addr-city'),
         country:      get('addr-country') || 'Nederland',
         phone:        get('addr-phone'),
+        email:        get('addr-email'),
         invoice_address: document.getElementById('addr-default')?.checked ? 1 : 0,
     };
 

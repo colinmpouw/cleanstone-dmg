@@ -40,6 +40,7 @@ class AddressService
             'postal_code',
             'city',
             'country',
+            'email',
             'phone',
         ];
 

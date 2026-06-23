@@ -103,7 +103,7 @@ class AddressController
 
         if (!$id) { echo json_encode(['success' => false, 'message' => 'Ongeldig ID']); return; }
 
-        $required = ['first_name', 'last_name', 'street', 'house_number', 'postal_code', 'city', 'country', 'phone'];
+        $required = ['first_name', 'last_name', 'street', 'house_number', 'postal_code', 'city', 'country', 'phone', 'email'];
         foreach ($required as $field) {
             if (empty($data[$field])) {
                 echo json_encode(['success' => false, 'message' => "Veld '$field' is verplicht"]);
