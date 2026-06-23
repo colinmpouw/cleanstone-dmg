@@ -12,6 +12,12 @@ class AddressController
         $this->addressService = new AddressService();
         $router->get('/api/get_all_addresses', [$this, 'getAll']);
         $router->post('/api/add_address', [$this, 'create']);
+        $router->get('/adressen', [$this, 'ShowAdressen']);
+    }
+
+    public function ShowAdressen()
+    {
+        require __DIR__ . '/../public/adressen.php';
     }
 
 
