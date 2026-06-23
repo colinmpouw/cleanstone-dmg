@@ -8,7 +8,6 @@
 
     <title>Admin -Producten</title>
     <link rel="icon" href="/public/assets/logo_icon.png" type="image/png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link rel="stylesheet" href="/admin/css/adminMain.css">
     <link rel="stylesheet" href="/admin/css/adminHeader.css">
     <link rel="stylesheet" href="/admin/css/adminProducts.css">
@@ -28,7 +27,14 @@
                 <p id="productCount">— producten in totaal</p>
             </div>
             <button class="btn-new-product" id="newProductBtn">
-                <i class="ti ti-plus"></i>
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path d="M6 12H18M12 6V18" stroke="var(--white)" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round"></path>
+                    </g>
+                </svg>
                 Nieuw product
             </button>
         </div>

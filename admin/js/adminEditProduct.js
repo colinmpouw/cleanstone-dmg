@@ -222,9 +222,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const photoAddTile = document.getElementById('photoAddTile');
         const photoCount = document.getElementById('photoCount');
 
-        // Show existing main photo if it exists
+
         if (existingImage) {
-            photoMainImg.src = existingImage;
+            photoMainImg.src = `/uploads/products/${existingImage}`;
             photoMainImg.hidden = false;
             photoMainEmpty.hidden = true;
         }
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             removeBtn.type = 'button';
             removeBtn.className = 'photo-thumb-remove';
             removeBtn.setAttribute('aria-label', 'Verwijderen');
-            removeBtn.innerHTML = '<i class="ti ti-x"></i>';
+            removeBtn.innerHTML = 'X';
             removeBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 thumb.remove();

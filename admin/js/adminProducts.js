@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         searchInput.addEventListener('input', handleSearch);
         newProductBtn.addEventListener('click', () => {
-            window.location.href = '/admin/products/new';
+            window.location.href = '/admin/producten/add';
         });
     }
 

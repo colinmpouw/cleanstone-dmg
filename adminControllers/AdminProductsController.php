@@ -13,6 +13,7 @@ class AdminProductsController
 
         $router->get('/admin/producten', [$this, 'productsPage']);
         $router->get('/admin/producten/{id}/edit', [$this, 'productsEditPage']);
+        $router->get('/admin/producten/add', [$this, 'productsAddPage']);
 
 
         $router->get('/api/admin/get_all_products', [$this, 'get_all_products']);
@@ -32,6 +33,10 @@ class AdminProductsController
 console.log(window.productId);
 </script>';
         require_once __DIR__ . '/../admin/adminEditProduct.php';
+    }
+    public function productsAddPage(){
+
+        require_once __DIR__ . '/../admin/adminAddProduct.php';
     }
     public function get_all_products()
     {
