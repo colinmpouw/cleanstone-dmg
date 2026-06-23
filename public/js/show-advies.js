@@ -5,10 +5,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadAdvies();
     await loadMessages();
 
-    // poll elke 5 seconden
     setInterval(loadMessages, 5000);
 
-    // send on enter
     const input = document.getElementById('chat-input');
     const btn   = document.getElementById('chat-send');
 
@@ -21,6 +19,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
     if (btn) btn.addEventListener('click', sendMessage);
+
+    // delete
+    const deleteBtn = document.getElementById('adv-delete');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', async () => {
+            if (!confirm('Weet u zeker dat u uw adviesaanvraag wilt verwijderen?')) return;
+
+            try {
+                const res  = await fetch('/api/advies/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: adviesId })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    window.location.href = '/show-advies';
+                } else {
+                    alert('Verwijderen mislukt.');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    }
 });
 
 async function loadAdvies() {
@@ -70,19 +93,22 @@ async function loadMessages() {
         container.innerHTML = '';
 
         msgs.forEach(m => {
-            const isUser = m.role !== 'admin';
+            const isAdmin = m.role === 'admin';
             const div = document.createElement('div');
-            div.className = 'msg ' + (isUser ? 'msg--user' : 'msg--admin');
+            div.className = 'msg ' + (isAdmin ? 'msg--admin' : 'msg--user');
 
-            const time = new Date(m.created_at).toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+            const time = new Date(m.created_at).toLocaleTimeString('nl-NL', {
+                hour: '2-digit', minute: '2-digit'
+            });
 
             div.innerHTML = `
                 <div class="msg__bubble">${m.message}</div>
-                <span class="msg__time">${isUser ? m.username : 'CleanStone'} · ${time}</span>
+                <span class="msg__time">${isAdmin ? 'CleanStone' : m.username} · ${time}</span>
             `;
             container.appendChild(div);
         });
 
+        // auto scroll
         container.scrollTop = container.scrollHeight;
 
     } catch (err) {
@@ -91,7 +117,7 @@ async function loadMessages() {
 }
 
 async function sendMessage() {
-    const input = document.getElementById('chat-input');
+    const input   = document.getElementById('chat-input');
     const message = input?.value.trim();
     if (!message) return;
 

@@ -30,6 +30,11 @@ class AdviesService
         $this->repository->saveImage($request_id, $filename);
     }
 
+    public function deleteRequest(int $id, int $user_id): bool
+    {
+        return $this->repository->deleteRequest($id, $user_id);
+    }
+
     public function getRequestById(int $id): ?array
     {
         return $this->repository->getRequestById($id);

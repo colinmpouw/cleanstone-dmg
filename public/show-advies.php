@@ -37,18 +37,22 @@
         <?php else: ?>
 
             <!-- header -->
-            <div class="aanvraag-header">
-                <div class="aanvraag-header__icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                </div>
-                <div class="aanvraag-header__info">
-                    <h2 id="adv-title">Laden...</h2>
-                    <div class="aanvraag-header__meta">
-                        <span id="adv-date"></span>
-                        <span id="adv-status" class="status-pill"></span>
-                    </div>
+            <div class="aanvraag-header__info">
+                <h2 id="adv-title">Laden...</h2>
+                <div class="aanvraag-header__meta">
+                    <span id="adv-date"></span>
+                    <span id="adv-status" class="status-pill"></span>
                 </div>
             </div>
+            <button id="adv-delete" class="adv-delete-btn" title="Aanvraag verwijderen">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                    <path d="M10 11v6M14 11v6"/>
+                    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                </svg>
+                Verwijderen
+            </button>
 
             <!-- detail -->
             <div class="aanvraag-detail">

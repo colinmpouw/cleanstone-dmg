@@ -20,6 +20,46 @@ body {
     flex-direction: column;
     gap: 20px;
 }
+/* admin bericht — andere kleur */
+.msg--admin {
+    align-self: flex-start;
+    align-items: flex-start;
+}
+
+.msg--admin .msg__bubble {
+    background: var(--soft-white);
+    color: var(--charcoal-clay);
+    border: 1px solid var(--creamy-taupe);
+    border-bottom-left-radius: 4px;
+}
+
+/* delete knop */
+.adv-delete-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    font-family: var(--body-font);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    flex-shrink: 0;
+}
+
+.adv-delete-btn:hover {
+    background: rgba(220, 50, 50, 0.3);
+    color: #fff;
+    border-color: rgba(220, 50, 50, 0.5);
+}
+
+.adv-delete-btn svg {
+    width: 15px;
+    height: 15px;
+}
 
 /* back link */
 .back-link {
