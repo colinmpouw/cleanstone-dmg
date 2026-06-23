@@ -17,6 +17,66 @@ if (!$user) {
     <link rel="stylesheet" href="/public/css/sidebarAccount.css">
     <link rel="stylesheet" href="/public/css/adressen.css">
 </head>
+
+<div class="modal-overlay" id="addressModal">
+
+    <div class="address-modal">
+
+        <div class="modal-header">
+            <h2>Nieuw adres toevoegen</h2>
+        </div>
+
+        <form>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Label</label>
+                    <input type="text" placeholder="Thuis, Werk...">
+                </div>
+
+                <div class="form-group">
+                    <label>Naam</label>
+                    <input type="text" placeholder="Voor- en achternaam">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Straat + huisnummer</label>
+                <input type="text" placeholder="Hoofdstraat 12">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Postcode</label>
+                    <input type="text" placeholder="1234 AB">
+                </div>
+
+                <div class="form-group">
+                    <label>Stad</label>
+                    <input type="text" placeholder="Amsterdam">
+                </div>
+            </div>
+
+            <label class="checkbox">
+                <input type="checkbox">
+                Instellen als standaard bezorgadres
+            </label>
+
+            <div class="modal-footer">
+                <button type="button" class="cancel-btn" onclick="closeModal()">
+                    Annuleren
+                </button>
+
+                <button class="save-btn">
+                    Toevoegen
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 <body>
 
 <?php require_once __DIR__ . '/../component/header.php'; ?>
@@ -30,7 +90,7 @@ if (!$user) {
         <div class="addresses-header">
             <h1>Mijn adressen</h1>
 
-            <button class="new-address-btn">
+            <button class="new-address-btn" id="openModal">
                 + Nieuw adres
             </button>
         </div>
