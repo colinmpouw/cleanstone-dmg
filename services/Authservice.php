@@ -132,6 +132,10 @@ class AuthService
             'role' => 'customer',
         ];
 
+        // welkom mail
+        $mailService = new \services\MailService();
+        $mailService->sendWelkomMail($email, $username);
+
         header('Location: /account');
         exit;
     }

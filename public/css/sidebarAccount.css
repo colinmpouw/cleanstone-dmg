@@ -1,35 +1,55 @@
-/* === SIDEBAR === */
+/* ==========================================
+   SIDEBAR
+========================================== */
+
 .sidebar {
     background: var(--white);
     border-radius: 20px;
     padding: 28px 20px;
     width: 240px;
-    box-shadow: 0 4px 24px rgba(58,43,32,0.08);
+    box-shadow: 0 4px 24px rgba(58, 43, 32, 0.08);
+
     display: flex;
     flex-direction: column;
-    gap: 0;
 }
 
-/* profile */
+/* ==========================================
+   PROFILE
+========================================== */
+
 .sidebar__profile {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
+
     padding-bottom: 20px;
-    border-bottom: 1px solid var(--creamy-taupe);
     margin-bottom: 16px;
+
+    border-bottom: 1px solid var(--creamy-taupe);
 }
 
 .sidebar__avatar {
     width: 72px;
     height: 72px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--creamy-taupe) 0%, var(--warm-beige) 100%);
+
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin-bottom: 4px;
+    align-items: center;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+            135deg,
+            var(--creamy-taupe),
+            var(--warm-beige)
+    );
+
+    transition: transform .25s ease;
+}
+
+.sidebar__profile:hover .sidebar__avatar {
+    transform: scale(1.04);
 }
 
 .sidebar__avatar svg {
@@ -46,50 +66,80 @@
 }
 
 .sidebar__email {
-    font-size: 0.78rem;
+    font-size: .78rem;
     color: var(--rustic-taupe);
 }
 
-/* nav */
+/* ==========================================
+   NAVIGATION
+========================================== */
+
 .sidebar__nav {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    width: 100%;
-    height: auto;
-    margin: 0;
-    justify-content: flex-start;
-    align-items: stretch;
-    padding: 0;
+    gap: 4px;
 }
+
+/* ==========================================
+   NAV ITEM
+========================================== */
 
 .nav-item {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     gap: 12px;
-    padding: 12px 14px;
-    border-radius: 10px;
-    font-size: 0.88rem;
-    font-weight: 500;
-    color: var(--charcoal-clay);
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.15s;
+
     width: 100%;
-    box-sizing: border-box;
+
+    padding: 12px 14px;
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    color: var(--charcoal-clay);
+
+    font-size: .88rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+            background-color .2s ease,
+            color .2s ease,
+            transform .2s ease;
 }
 
 .nav-item svg {
     width: 18px;
     height: 18px;
+
     flex-shrink: 0;
-    color: var(--charcoal-clay);
+
+    color: inherit;
+
+    transition:
+            color .2s ease,
+            transform .2s ease;
 }
+
+/* ==========================================
+   HOVER
+========================================== */
 
 .nav-item:hover:not(.active):not(.logout) {
     background: var(--soft-white);
+    transform: translateX(4px);
 }
+
+.nav-item:hover:not(.active):not(.logout) svg {
+    transform: scale(1.08);
+    color: var(--warm-beige);
+}
+
+/* ==========================================
+   ACTIVE
+========================================== */
 
 .nav-item.active {
     background: var(--charcoal-clay);
@@ -97,20 +147,42 @@
     font-weight: 600;
 }
 
-.nav-item.active:hover {
-    background: var(--charcoal-clay);
-    color: var(--white);
-}
-
 .nav-item.active svg {
     color: var(--white);
 }
 
+.nav-item.active:hover {
+    transform: none;
+}
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
 .nav-item.logout {
+    margin-top: 8px;
     color: #c0392b;
-    margin-top: 6px;
 }
 
 .nav-item.logout svg {
+    color: inherit;
+}
+
+.nav-item.logout:hover {
+    background: rgba(192, 57, 43, .08);
     color: #c0392b;
+    transform: translateX(4px);
+}
+
+.nav-item.logout:hover svg {
+    transform: scale(1.08);
+}
+
+/* ==========================================
+   FOCUS (Accessibility)
+========================================== */
+
+.nav-item:focus-visible {
+    outline: 2px solid var(--warm-beige);
+    outline-offset: 2px;
 }
