@@ -20,3 +20,324 @@
     color: var(--rustic-taupe);
     margin-top: 4px;
 }
+/* ==========================================================================
+   adminProducts.css
+   Page-specific styles for the Producten (Products) overview page.
+   Relies on tokens defined in adminMain.css (:root variables).
+   ========================================================================== */
+
+/* ---------- Page heading ---------- */
+.products-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+}
+
+.products-heading h1 {
+    font-family: var(--title-font);
+    font-size: var(--page-title-size);
+    color: var(--charcoal-clay);
+    margin: 0;
+    line-height: 1.1;
+}
+
+.products-heading p {
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--rustic-taupe);
+    margin: 0.35rem 0 0;
+}
+
+.btn-new-product {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--charcoal-clay);
+    color: var(--white);
+    border: none;
+    border-radius: 0.65rem;
+    padding: 0.85rem 1.4rem;
+    font-family: var(--body-font);
+    font-size: var(--button-size);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-new-product i {
+    font-size: 1.1rem;
+}
+
+.btn-new-product:hover {
+    background: #2a1f17;
+}
+
+.btn-new-product:active {
+    transform: scale(0.98);
+}
+
+/* ---------- Toolbar (search + filter) ---------- */
+.products-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.search-input {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input i {
+    position: absolute;
+    left: 1.1rem;
+    color: var(--warm-beige);
+    font-size: 1.1rem;
+    pointer-events: none;
+}
+
+.search-input input {
+    width: 100%;
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--charcoal-clay);
+    background: var(--white);
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 0.75rem;
+    padding: 0.9rem 1.1rem 0.9rem 2.75rem;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.search-input input::placeholder {
+    color: var(--warm-beige);
+}
+
+.search-input input:focus {
+    border-color: var(--rustic-taupe);
+}
+
+.btn-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--white);
+    color: var(--charcoal-clay);
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 0.75rem;
+    padding: 0.9rem 1.25rem;
+    font-family: var(--body-font);
+    font-size: var(--button-size);
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-filter i:first-child {
+    color: var(--rustic-taupe);
+    font-size: 1.05rem;
+}
+
+.btn-filter i:last-child {
+    font-size: 0.95rem;
+    color: var(--rustic-taupe);
+}
+
+.btn-filter:hover {
+    background: var(--soft-white);
+    border-color: var(--warm-beige);
+}
+
+/* ---------- Table ---------- */
+.products-table-wrapper {
+    background: var(--white);
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.products-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.products-table thead tr {
+    background: var(--soft-white);
+}
+
+.products-table thead th {
+    text-align: left;
+    font-family: var(--body-font);
+    font-size: var(--list-text-size);
+    letter-spacing: 0.04em;
+    color: var(--rustic-taupe);
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid var(--creamy-taupe);
+}
+
+.products-table tbody tr {
+    border-bottom: 1px solid var(--soft-white);
+    transition: background-color 0.15s ease;
+}
+
+.products-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.products-table tbody tr:hover {
+    background: var(--soft-white);
+}
+
+.products-table tbody td {
+    padding: 1rem 1.5rem;
+    vertical-align: middle;
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--charcoal-clay);
+}
+
+/* Product cell: thumbnail + name + brand */
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.product-thumb {
+    width: 52px;
+    height: 52px;
+    border-radius: 0.6rem;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--soft-white);
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-name {
+    font-weight: 600;
+    color: var(--charcoal-clay);
+    font-size: var(--paragraph-size);
+}
+
+.product-brand {
+    font-size: var(--list-text-size);
+    color: var(--warm-beige);
+    margin-top: 0.1rem;
+}
+
+.product-category {
+    color: var(--rustic-taupe);
+}
+
+.product-price {
+    font-weight: 700;
+    color: var(--charcoal-clay);
+}
+
+.product-price-original {
+    display: block;
+    font-size: var(--list-text-size);
+    font-weight: 500;
+    color: var(--warm-beige);
+    text-decoration: line-through;
+    margin-top: 0.1rem;
+}
+
+/* Stock column */
+.stock-value {
+    font-weight: 500;
+}
+
+.stock-value.stock-ok {
+    color: var(--charcoal-clay);
+}
+
+.stock-value.stock-low {
+    color: #D08700;
+}
+
+.stock-value.stock-out {
+    color: var(--red);
+}
+
+/* Status badges */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--body-font);
+    font-size: var(--badge-size);
+    font-weight: 600;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+}
+
+.status-badge.status-active {
+    background: rgba(0, 201, 80, 0.12);
+    color: #008236;
+}
+
+.status-badge.status-low {
+    background: rgba(208, 135, 0, 0.12);
+    color: #D08700;
+}
+
+.status-badge.status-sold-out {
+    background: rgba(251, 44, 54, 0.1);
+    color: var(--red);
+}
+
+/* Actions column */
+.col-actions {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.row-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.9rem;
+}
+
+.action-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    color: var(--rustic-taupe);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 1.05rem;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.action-icon:hover {
+    background: var(--soft-white);
+    color: var(--charcoal-clay);
+}
+
+.action-icon.action-delete:hover {
+    color: var(--red);
+}
+
+/* ---------- Empty state ---------- */
+.products-empty {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--rustic-taupe);
+    font-family: var(--body-font);
+}

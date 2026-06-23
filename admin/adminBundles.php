@@ -21,14 +21,23 @@
     <?php require_once __DIR__ . '/../adminComponent/adminHeader.php'; ?>
     <!-- CONTENT -->
     <main class="content">
-        <div class="page-heading">
-            <h1>Bundels</h1>
-            <p>Welkom terug — overzicht van vandaag</p>
+        <div class="bundles-heading">
+            <div>
+                <h1>Bundels</h1>
+                <p id="bundleCount">— actieve bundels</p>
+            </div>
+            <button class="btn-new-bundle" id="newBundleBtn">
+                <i class="ti ti-plus"></i>
+                Nieuwe bundel
+            </button>
         </div>
-        <!-- Dashboard content goes here -->
-    </main>
 
+        <div class="bundles-grid" id="bundlesGrid">
+            <!-- Cards injected by adminBundles.js -->
+        </div>
+    </main>
 </div>
 
+<script src="/admin/js/adminBundles.js"></script>
 </body>
 </html>
