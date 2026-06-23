@@ -4,7 +4,7 @@ namespace controllers;
 
 use services\BundlesService;
 
-class   BundlesController
+class BundlesController
 {
     private $bundlesService;
 
@@ -101,7 +101,7 @@ class   BundlesController
         exit();
     }
 
-    public function find_bundle($bundle_id, $bundle_name='')
+    public function find_bundle($bundle_id)
     {
 
         header('Content-Type: application/json');

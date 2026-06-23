@@ -12,4 +12,5 @@ class AdminProductsRepository
     {
         $this->DB = new AdminDatabaseController();
     }
+
 }
