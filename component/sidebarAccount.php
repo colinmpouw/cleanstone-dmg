@@ -23,7 +23,7 @@ $sidebarUser = $_SESSION['user'] ?? ($user ?? null);
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             Adviesaanvraag
         </a>
-        <a href="/bestellingen" class="nav-item  <?php echo str_starts_with($currentPath, '/bestellingen') || $currentPath === '/advies' ? 'active' : ''; ?> ">
+        <a href="/bestellingen" class="nav-item  <?php echo str_starts_with($currentPath, '/bestellingen') || $currentPath === '/bestellingen/{id}' ? 'active' : ''; ?> ">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
             Bestellingen
         </a>
