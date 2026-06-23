@@ -33,4 +33,20 @@ class AdminProductsRepository
         return !empty($result) ? $result[0] : null;
     }
 
+    public function getCategories(): array
+    {
+        $query = "SELECT id, name, slug FROM categories WHERE parent_id IS NULL ORDER BY name";
+        return $this->DB->read($query) ?: [];
+    }
+
+    public function getBrands(): array
+    {
+        $query = "SELECT id, name FROM brands ORDER BY name";
+        return $this->DB->read($query) ?: [];
+    }
+    public function getTags()
+    {
+        $query = "SELECT id, name FROM tags ORDER BY name";
+        return $this->DB->read($query) ?: [];
+    }
 }

@@ -15,7 +15,7 @@ class ProductenRepository
 
     public function getAllProducts(): array
     {
-        $query = "SELECT * FROM product_summary_view ORDER BY id DESC;";
+        $query = "SELECT * FROM products_full_details ORDER BY id DESC;";
 
         return $this->DB->read($query) ?: [];
     }
@@ -35,12 +35,30 @@ class ProductenRepository
     public function getTopProducts(int $limit = 4): array
     {
         $query = "
-             SELECT *
-             FROM product_summary_view
-             WHERE review_count > 0
-             ORDER BY average_rating DESC, review_count DESC
-            LIMIT 
-            " . (int)$limit;
+        SELECT 
+            p.id,
+            p.slug,
+            p.name,
+            p.price,
+            p.sale_price,
+            p.stock,
+            COALESCE(p.image, (
+                SELECT COALESCE(NULLIF(pi.image, ''), pi.url)
+                FROM product_images pi
+                WHERE pi.product_id = p.id
+                ORDER BY pi.is_primary DESC, pi.id ASC
+                LIMIT 1
+            )) as image,
+            b.name as brand_name,
+            ROUND(AVG(r.rating), 1) as average_rating,
+            COUNT(r.id) as review_count
+        FROM products p
+        LEFT JOIN brands b ON p.brand_id = b.id
+        LEFT JOIN reviews r ON r.product_id = p.id
+        GROUP BY p.id, p.slug, p.name, p.price, p.sale_price, p.stock, p.image, b.name
+        HAVING COUNT(r.id) > 0
+        ORDER BY AVG(r.rating) DESC, COUNT(r.id) DESC
+        LIMIT " . (int)$limit;
 
         return $this->DB->read($query) ?: [];
     }

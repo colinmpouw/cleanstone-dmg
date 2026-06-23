@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
         editIcon.className = 'ti ti-pencil';
         editBtn.append(editIcon);
         editBtn.addEventListener('click', () => {
-            window.location.href = `/admin/products/${product.id}/edit`;
+            window.location.href = `/admin/producten/${product.id}/edit`;
         });
 
         const deleteBtn = document.createElement('button');

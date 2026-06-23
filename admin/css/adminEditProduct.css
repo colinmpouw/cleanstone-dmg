@@ -1,0 +1,533 @@
+
+/* ── CONTENT ── */
+.content {
+    flex: 1;
+    padding: 28px;
+    overflow-y: auto;
+}
+
+.page-heading {
+    margin-bottom: 24px;
+}
+
+.page-heading h1 {
+    font-size: 28px;
+    color: var(--charcoal-clay);
+}
+
+.page-heading p {
+    font-size: 13px;
+    color: var(--rustic-taupe);
+    margin-top: 4px;
+}
+
+/* ==========================================================================
+   adminProductEdit.css
+   Admin "Product bewerken" page: photo manager + form panels.
+   Relies on tokens defined in adminMain.css (:root variables) — no
+   hardcoded colors outside those tokens.
+   ========================================================================== */
+
+/* ---------- Page heading ---------- */
+.edit-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+    gap: 1rem;
+}
+
+.edit-heading-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-top: 0.4rem;
+    border-radius: 0.5rem;
+    color: var(--charcoal-clay);
+    text-decoration: none;
+    font-size: 1.3rem;
+    transition: background-color 0.15s ease;
+}
+
+.back-link:hover {
+    background: var(--soft-white);
+}
+
+.edit-heading h1 {
+    font-family: var(--title-font);
+    font-size: var(--page-title-size);
+    color: var(--charcoal-clay);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.edit-heading p {
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--rustic-taupe);
+    margin: 0.35rem 0 0;
+}
+
+.edit-heading-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.btn-cancel {
+    display: inline-flex;
+    align-items: center;
+    background: var(--white);
+    color: var(--charcoal-clay);
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 0.65rem;
+    padding: 0.85rem 1.4rem;
+    font-family: var(--body-font);
+    font-size: var(--button-size);
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-cancel:hover {
+    background: var(--soft-white);
+    border-color: var(--warm-beige);
+}
+
+.btn-save {
+    display: inline-flex;
+    align-items: center;
+    background: var(--charcoal-clay);
+    color: var(--white);
+    border: none;
+    border-radius: 0.65rem;
+    padding: 0.85rem 1.4rem;
+    font-family: var(--body-font);
+    font-size: var(--button-size);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-save:hover {
+    background: #2a1f17;
+}
+
+.btn-save:active {
+    transform: scale(0.98);
+}
+
+.btn-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ---------- Layout grid ---------- */
+.edit-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+@media (max-width: 1000px) {
+    .edit-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.edit-col-left,
+.edit-col-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* ---------- Panel ---------- */
+.panel {
+    background: var(--white);
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.panel h2 {
+    font-family: var(--body-font);
+    font-size: var(--small-title-size);
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    margin: 0 0 1.25rem;
+}
+
+.panel-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.panel-header h2 {
+    margin: 0;
+}
+
+.panel-header-meta {
+    font-family: var(--body-font);
+    font-size: var(--list-text-size);
+    color: var(--rustic-taupe);
+}
+
+/* ---------- Photo manager ---------- */
+.photo-main {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.85rem;
+    overflow: hidden;
+    background: var(--soft-white);
+    margin-bottom: 0.85rem;
+}
+
+.photo-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-main-empty {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--creamy-taupe);
+    font-size: 3rem;
+}
+
+.photo-main-badge {
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--charcoal-clay);
+    color: var(--white);
+    font-family: var(--body-font);
+    font-size: var(--list-text-size);
+    font-weight: 600;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+}
+
+.photo-main-badge i {
+    font-size: 0.9rem;
+}
+
+.photo-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.65rem;
+}
+
+.photo-thumb {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.6rem;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--soft-white);
+}
+
+.photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-thumb-star {
+    position: absolute;
+    bottom: 0.3rem;
+    right: 0.3rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    background: var(--charcoal-clay);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+}
+
+.photo-thumb-remove {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    background: rgba(58, 43, 32, 0.75);
+    color: var(--white);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.photo-thumb:hover .photo-thumb-remove {
+    opacity: 1;
+}
+
+.photo-thumb--add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--creamy-taupe);
+    color: var(--warm-beige);
+    font-size: 1.3rem;
+    background: var(--white);
+    transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.photo-thumb--add:hover {
+    border-color: var(--rustic-taupe);
+    color: var(--rustic-taupe);
+}
+
+/* ---------- Tips box ---------- */
+.tips-box {
+    background: var(--soft-white);
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+}
+
+.tips-box h3 {
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    margin: 0 0 0.5rem;
+}
+
+.tips-box p {
+    font-family: var(--body-font);
+    font-size: var(--list-text-size);
+    color: var(--rustic-taupe);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ---------- Form fields ---------- */
+.field {
+    margin-bottom: 1.25rem;
+}
+
+.field:last-child {
+    margin-bottom: 0;
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.field-row:last-child {
+    margin-bottom: 0;
+}
+
+.field label {
+    display: block;
+    font-family: var(--body-font);
+    font-size: var(--list-text-size);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--rustic-taupe);
+    margin-bottom: 0.5rem;
+}
+
+.field-optional {
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+    color: var(--warm-beige);
+}
+
+.field input[type="text"],
+.field input[type="number"],
+.field select,
+.field textarea {
+    width: 100%;
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--charcoal-clay);
+    background: var(--white);
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 0.65rem;
+    padding: 0.85rem 1rem;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.field textarea {
+    resize: vertical;
+    font-family: var(--body-font);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+    color: var(--warm-beige);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    border-color: var(--rustic-taupe);
+}
+
+.field select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%237E6A52' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+/* ---------- Tag select ---------- */
+.tag-select {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 0.65rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--white);
+}
+
+.tag-select:focus-within {
+    border-color: var(--rustic-taupe);
+}
+
+.tag-select-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--soft-white);
+    color: var(--charcoal-clay);
+    font-family: var(--body-font);
+    font-size: var(--list-text-size);
+    font-weight: 600;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+}
+
+.tag-chip-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    color: var(--rustic-taupe);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0;
+}
+
+.tag-chip-remove:hover {
+    color: var(--red);
+}
+
+#tagSearchInput {
+    flex: 1;
+    min-width: 100px;
+    border: none;
+    outline: none;
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--charcoal-clay);
+    padding: 0.3rem 0;
+}
+
+#tagSearchInput::placeholder {
+    color: var(--warm-beige);
+}
+
+.tag-select-dropdown {
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: var(--white);
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 0.65rem;
+    box-shadow: 0 8px 24px rgba(58, 43, 32, 0.1);
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 0.4rem;
+}
+
+.tag-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.5rem;
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--charcoal-clay);
+    cursor: pointer;
+}
+
+.tag-option:hover {
+    background: var(--soft-white);
+}
+
+.tag-option-empty {
+    padding: 0.6rem 0.75rem;
+    font-family: var(--body-font);
+    font-size: var(--list-text-size);
+    color: var(--rustic-taupe);
+}
+
+/* ---------- Discount note ---------- */
+.discount-note {
+    margin-top: 1rem;
+    background: rgba(0, 201, 80, 0.1);
+    color: #008236;
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    font-weight: 600;
+    padding: 0.85rem 1rem;
+    border-radius: 0.65rem;
+}
