@@ -175,3 +175,41 @@ main>h1{
     align-items: center;
 
 }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+    main {
+        padding: 1.5rem 1rem;
+    }
+
+    .cart-layout {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 560px) {
+    main > h1 {
+        font-size: 2.2rem;
+    }
+
+    .cart-item {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .product-actions {
+        text-align: left;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .quantity {
+        margin: 10px 0 0;
+    }
+
+    .discount {
+        flex-direction: column;
+    }
+}

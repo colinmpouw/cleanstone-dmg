@@ -272,3 +272,17 @@
         font-size: 1.3rem;
     }
 }
+
+@media (max-width: 380px) {
+    .ww-card {
+        padding: 28px 16px;
+    }
+    .ww-code-row {
+        gap: 6px;
+    }
+    .ww-code-row input {
+        width: 36px;
+        height: 46px;
+        font-size: 1.1rem;
+    }
+}

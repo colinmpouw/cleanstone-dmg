@@ -267,3 +267,68 @@
 }
 
 .values-card--dark ul li::before { color: var(--warm-beige); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+    .missie-section,
+    .usp-section,
+    .verhaal-section,
+    .values-section {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .missie-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .missie-image-wrap {
+        order: -1;
+    }
+
+    .usp-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .missie-section,
+    .verhaal-section {
+        padding: 56px 20px;
+    }
+
+    .usp-section {
+        padding: 40px 20px;
+    }
+
+    .values-section {
+        padding: 40px 20px 56px;
+    }
+
+    .missie-left h2,
+    .verhaal-inner h2 {
+        font-size: 1.6rem;
+    }
+
+    .usp-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .verhaal-card {
+        padding: 28px 24px;
+    }
+
+    .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .values-card {
+        padding: 28px 24px;
+    }
+}

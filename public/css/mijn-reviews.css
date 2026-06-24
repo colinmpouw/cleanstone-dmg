@@ -208,3 +208,22 @@ body {
 }
 .toast.show { opacity: 1; transform: translateY(0); }
 .toast--error { background: #c0392b; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+    .account-layout {
+        grid-template-columns: 1fr;
+        padding: 24px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .reviews-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .review-footer {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}

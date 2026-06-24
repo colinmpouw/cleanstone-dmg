@@ -306,3 +306,9 @@ body { background-color: var(--soft-white); }
     }
     .bestelling-topbar { flex-wrap: wrap; }
 }
+
+@media (max-width: 480px) {
+    .detail-card {
+        padding: 20px;
+    }
+}

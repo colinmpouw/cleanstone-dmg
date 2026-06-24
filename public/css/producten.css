@@ -248,6 +248,8 @@
 
     .filters {
         order: 2;
+        position: static;
+        top: auto;
     }
 }
 

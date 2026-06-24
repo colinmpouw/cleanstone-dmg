@@ -263,8 +263,14 @@
   .card-grid {
     grid-template-columns: 1fr;
   }
+  .blog-hero {
+    padding: 40px 20px;
+  }
   .blog-hero h1 {
     font-size: 28px;
+  }
+  .subscribe-form {
+    flex-direction: column;
   }
 }
 

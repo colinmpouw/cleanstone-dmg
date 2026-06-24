@@ -4,6 +4,8 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 0 24px;
+    text-align: center;
 }
 
 main h1 {
@@ -37,4 +39,14 @@ main a:after {
 main a:hover:after {
     width: 0%;
     left: 50%;
+}
+
+@media (max-width: 560px) {
+    main h1 {
+        font-size: 3.5rem;
+    }
+
+    main h2 {
+        font-size: 1.4rem;
+    }
 }

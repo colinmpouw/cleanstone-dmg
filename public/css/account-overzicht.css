@@ -177,3 +177,33 @@ body {
     border-radius: 999px;
     white-space: nowrap;
 }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+    .account-layout {
+        grid-template-columns: 1fr;
+        padding: 24px 20px;
+    }
+
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+
+    .alert-banner {
+        padding: 24px;
+    }
+
+    .bestellingen-card {
+        padding: 20px;
+    }
+
+    .bestelling-item {
+        flex-wrap: wrap;
+    }
+}

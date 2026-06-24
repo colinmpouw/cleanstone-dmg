@@ -186,3 +186,13 @@
     outline: 2px solid var(--warm-beige);
     outline-offset: 2px;
 }
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 850px) {
+    .sidebar {
+        width: 100%;
+    }
+}

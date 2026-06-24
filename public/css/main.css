@@ -60,6 +60,24 @@ body{
     color: var(--white);
 }
 
+@media (max-width: 768px) {
+    .page-title {
+        padding: 44px 24px;
+    }
+    .page-title h1{
+        font-size: 2.4rem;
+    }
+    .page-title p{
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title h1{
+        font-size: 2rem;
+    }
+}
+
 
 
 
@@ -98,6 +116,17 @@ body{
     overflow: hidden;
     box-shadow: 0 4px 24px rgba(58, 43, 32, 0.10);
     z-index: 999;
+}
+
+@media (max-width: 420px) {
+    #AiChat-container {
+        right: 1rem;
+        left: 1rem;
+        width: auto;
+    }
+    #AiChat-button {
+        right: 1rem;
+    }
 }
 
 #AiChat-header {

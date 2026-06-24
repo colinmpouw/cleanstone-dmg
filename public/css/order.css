@@ -438,3 +438,55 @@ main>h1{
     align-items: center;
 
 }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+    main {
+        padding: 1.5rem 1rem;
+    }
+
+    .checkout-layout,
+    .cart-layout {
+        flex-direction: column;
+    }
+
+    .checkout-summary {
+        position: static;
+    }
+}
+
+@media (max-width: 560px) {
+    main > h1 {
+        font-size: 2.2rem;
+    }
+
+    .stepper {
+        gap: 0;
+    }
+
+    .step-line {
+        width: 32px;
+        margin-bottom: 22px;
+    }
+
+    .step-label {
+        font-size: 0.65rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-row .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn-row {
+        grid-template-columns: 1fr;
+    }
+
+    .discount {
+        flex-direction: column;
+    }
+}

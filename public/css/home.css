@@ -220,6 +220,54 @@ body {
     animation-delay: 0.4s;
 }
 
+@media (max-width: 1100px) {
+    .hero {
+        padding: 100px 40px 60px;
+    }
+
+    .hero__title {
+        font-size: 3.6rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero {
+        min-height: auto;
+        padding: 110px 24px 60px;
+    }
+
+    .hero__inner {
+        grid-template-columns: 1fr;
+        gap: 64px;
+    }
+
+    .hero__right {
+        justify-content: center;
+    }
+
+    .float-badge {
+        left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 100px 20px 56px;
+    }
+
+    .hero__title {
+        font-size: 2.6rem;
+    }
+
+    .hero__stats {
+        gap: 28px;
+    }
+
+    .slider-wrap {
+        height: 260px;
+    }
+}
+
 /* RIGHT */
 .hero__right {
     position: relative;
@@ -419,10 +467,9 @@ body {
 
 .show_all_badges {
     background: white;
-    /*padding: 50px 20px;*/
+    padding: 64px 20px;
     display: flex;
     justify-content: center;
-    height: 300px;
     align-items: center;
     border-bottom: 1px solid var(--creamy-taupe);
     width: 100%;
@@ -482,8 +529,18 @@ body {
     line-height: 1.4;
 }
 
+@media (max-width: 1300px) {
+    .all_badges {
+        gap: 60px;
+    }
+}
+
 /* Tablet */
 @media (max-width: 900px) {
+    .show_all_badges {
+        padding: 48px 20px;
+    }
+
     .all_badges {
         flex-wrap: wrap;
         justify-content: center;
@@ -1493,6 +1550,118 @@ body {
     color: var(--charcoal-clay);
     opacity: 0.7;
     margin-top: 3px;
+}
+
+/* ── RESPONSIVE: products / bundels / merken / advies / reviews ── */
+@media (max-width: 1200px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .popular_products {
+        padding: 64px 20px;
+    }
+
+    .popular_products .popular_header h1 {
+        font-size: 2.4rem;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .show_all_bundels {
+        padding: 56px 24px;
+    }
+
+    .bundels_header h1 {
+        font-size: 2.4rem;
+    }
+
+    .bundels-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .merken-section {
+        padding: 56px 24px;
+    }
+
+    .merken-header h1 {
+        font-size: 2.4rem;
+    }
+
+    .merken-banner {
+        padding: 40px 28px;
+    }
+
+    .advies-section {
+        padding: 56px 24px;
+    }
+
+    .advies-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+
+    .advies-left h1 {
+        font-size: 2.2rem;
+    }
+
+    .reviews-section {
+        padding: 56px 24px;
+    }
+
+    .reviews-header h1 {
+        font-size: 2.4rem;
+    }
+
+    .reviews-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .reviews-stats {
+        padding: 20px 24px;
+        flex-wrap: wrap;
+        gap: 12px;
+        border-radius: 24px;
+    }
+
+    .reviews-stat {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bundels-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .merken-banner__label {
+        flex-wrap: wrap;
+    }
+
+    .merken-banner__label .divider {
+        flex: 0 0 32px;
+    }
+
+    .advies-card {
+        padding: 24px;
+    }
+
+    .reviews-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .reviews-stat {
+        flex: 1 1 45%;
+    }
 }
 
 /* Scroll Animation Classes */

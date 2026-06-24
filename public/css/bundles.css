@@ -140,6 +140,7 @@
     border-radius: 20px;
     overflow: hidden;
     width: 360px;
+    max-width: 100%;
     box-shadow: 0 8px 40px rgba(58, 43, 32, 0.12);
 }
 
@@ -411,4 +412,30 @@
     width: 18px;
     height: 18px;
     stroke: currentColor;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+    #bundels-container {
+        padding: 2rem 1rem;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .bundels-info {
+        gap: 0.75rem;
+    }
+
+    .bundels-info > div {
+        width: calc(50% - 0.4rem);
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    .card__image-wrap {
+        height: 180px;
+    }
 }

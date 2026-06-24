@@ -263,6 +263,11 @@ body {
 
 @media(max-width:850px){
 
+    .account-layout {
+        grid-template-columns: 1fr;
+        padding: 24px 20px;
+    }
+
     .addresses-main{
         padding:25px;
     }
