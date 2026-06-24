@@ -62,16 +62,54 @@ CREATE TABLE `blog` (
                         `article` text NOT NULL,
                         `arthor` varchar(45) NOT NULL,
                         `tag` varchar(45) NOT NULL,
-                        `date` timestamp NOT NULL DEFAULT current_timestamp()
+                        `date` timestamp NOT NULL DEFAULT current_timestamp(),
+                        `image` varchar(255) DEFAULT NULL,
+                        `excerpt` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `blog`
 --
 
-INSERT INTO `blog` (`blog_id`, `title`, `article`, `arthor`, `tag`, `date`) VALUES
-                                                                                (1, 'Clean Stone Tips', 'How to clean stone', 'Admin', 'clean', '2026-06-06 17:44:23'),
-                                                                                (2, 'Protect Stone', 'Tips for protection', 'Admin', 'protect', '2026-06-06 17:44:23');
+INSERT INTO `blog` (`blog_id`, `title`, `article`, `arthor`, `tag`, `date`, `image`, `excerpt`) VALUES
+                                                                                                   (1, 'Clean Stone Tips', 'How to clean stone', 'Admin', 'clean', '2026-06-06 17:44:23', '/public/assets/schone_tegel.png', 'How to clean stone'),
+                                                                                                   (2, 'Protect Stone', 'Tips for protection', 'Admin', 'protect', '2026-06-06 17:44:23', '/public/assets/schone_tegel.png', 'Tips for protection');
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `blogtags`
+--
+
+CREATE TABLE `blogtags` (
+                            `id` int(11) NOT NULL,
+                            `name` varchar(45) NOT NULL,
+                            `display_order` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `blogtags`
+--
+
+INSERT INTO `blogtags` (`id`, `name`, `display_order`) VALUES
+                                                          (1, 'Algemeen', 1),
+                                                          (2, 'Buitenplaatsen', 2),
+                                                          (3, 'Composiet', 3),
+                                                          (4, 'Graniet', 4),
+                                                          (5, 'Hardsteen', 5),
+                                                          (6, 'Marmer', 6),
+                                                          (7, 'Onze Merken', 7);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `blog_blogtags`
+--
+
+CREATE TABLE `blog_blogtags` (
+                                 `blog_id` int(11) NOT NULL,
+                                 `blogtag_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -605,6 +643,20 @@ ALTER TABLE `blog`
     ADD PRIMARY KEY (`blog_id`);
 
 --
+-- Indexen voor tabel `blogtags`
+--
+ALTER TABLE `blogtags`
+    ADD PRIMARY KEY (`id`),
+    ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexen voor tabel `blog_blogtags`
+--
+ALTER TABLE `blog_blogtags`
+    ADD PRIMARY KEY (`blog_id`, `blogtag_id`),
+    ADD KEY `blogtag_id` (`blogtag_id`);
+
+--
 -- Indexen voor tabel `brands`
 --
 ALTER TABLE `brands`
@@ -748,6 +800,12 @@ ALTER TABLE `addresses`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT voor een tabel `blogtags`
+--
+ALTER TABLE `blogtags`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT voor een tabel `brands`
 --
 ALTER TABLE `brands`
@@ -845,6 +903,15 @@ ALTER TABLE `users`
 
 --
 -- Beperkingen voor geëxporteerde tabellen
+--
+
+--
+-- Beperkingen voor tabel `blog_blogtags`
+--
+ALTER TABLE `blog_blogtags`
+    ADD CONSTRAINT `blog_blogtags_blog_fk` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE CASCADE,
+    ADD CONSTRAINT `blog_blogtags_blogtag_fk` FOREIGN KEY (`blogtag_id`) REFERENCES `blogtags` (`id`) ON DELETE CASCADE;
+
 --
 
 --

@@ -21,6 +21,8 @@ class BlogController
     public function pageBlog(): void
     {
         $blogs = $this->blogRepository->getAllPosts();
+        $blogThemes = array_column($this->blogRepository->getBlogTags(), 'name');
+
         if (empty($blogs)) {
             $blogs = [$this->fallbackBlogPost()];
         }
