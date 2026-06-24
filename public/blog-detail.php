@@ -17,6 +17,9 @@
     <main class="blog-page blog-detail-page">
         <section class="blog-hero">
             <div class="container">
+                <a class="back-to-blog" href="/blog" aria-label="Terug naar blogoverzicht">
+                    <span aria-hidden="true">&larr;</span>
+                </a>
                 <p class="eyebrow">Blog &amp; Advies</p>
                 <h1><?php echo htmlspecialchars($blog['title']); ?></h1>
                 <p class="lead">Door <?php echo htmlspecialchars($blog['arthor']); ?> ·
@@ -45,17 +48,11 @@
                             </p>
                         </div>
 
-                        <h3>Wat je hieruit haalt</h3>
-                        <ul class="detail-list">
-                            <li>Praktische uitleg bij het onderwerp van dit blogartikel.</li>
-                            <li>De belangrijkste metadata uit de database, zoals auteur, datum en tag.</li>
-                            <li>Gerelateerde artikelen die op dezelfde tag zijn gebaseerd.</li>
-                        </ul>
                     </article>
 
                     <aside class="detail-aside">
                         <div class="entity-card">
-                            <h3>Entity Details</h3>
+                            <h3>Artikelinformatie</h3>
                             <div class="entity-row">
                                 <span>ID</span><strong><?php echo (int) $blog['blog_id']; ?></strong>
                             </div>
@@ -70,31 +67,26 @@
                             </div>
                         </div>
 
-                        <div class="entity-card muted">
-                            <h3>Snelle info</h3>
-                            <p>Deze pagina is bedoeld als detailweergave voor één blogpost, zodat de knop “Lees meer”
-                                een echte inhoudelijke pagina opent.</p>
-                        </div>
+                        <section class="entity-card muted related-entities">
+                            <h3>Gerelateerde artikelen</h3>
+                            <?php if (!empty($relatedBlogs)): ?>
+                                <div class="entity-grid">
+                                    <?php foreach ($relatedBlogs as $related): ?>
+                                        <a class="entity-chip entity-chip-link"
+                                            href="/blog/<?php echo (int) $related['blog_id']; ?>"><?php echo htmlspecialchars($related['title']); ?></a>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="entity-grid">
+                                    <div class="entity-chip">Nog geen gerelateerde artikelen gevonden</div>
+                                </div>
+                            <?php endif; ?>
+                        </section>
                     </aside>
                 </div>
             </div>
         </section>
 
-        <section class="related-entities container">
-            <h2>Gerelateerde onderdelen</h2>
-            <?php if (!empty($relatedBlogs)): ?>
-                <div class="entity-grid">
-                    <?php foreach ($relatedBlogs as $related): ?>
-                        <a class="entity-chip entity-chip-link"
-                            href="/blog/<?php echo (int) $related['blog_id']; ?>"><?php echo htmlspecialchars($related['title']); ?></a>
-                    <?php endforeach; ?>
-                </div>
-            <?php else: ?>
-                <div class="entity-grid">
-                    <div class="entity-chip">Nog geen gerelateerde artikelen gevonden</div>
-                </div>
-            <?php endif; ?>
-        </section>
     </main>
 
     <?php require_once __DIR__ . '/../component/footer.php'; ?>
