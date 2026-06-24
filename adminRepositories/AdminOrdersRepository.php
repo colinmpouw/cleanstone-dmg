@@ -12,4 +12,10 @@ class AdminOrdersRepository
     {
         $this->DB = new AdminDatabaseController();
     }
+
+    public function getAllOrders()
+    {
+        $sql = "SELECT * FROM order_details_view";
+        return $this->DB->read($sql);
+    }
 }

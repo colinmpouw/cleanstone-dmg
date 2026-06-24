@@ -1,0 +1,19 @@
+body {
+    background: var(--soft-white);
+    min-height: 100vh;
+}
+
+.account-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    align-items: start;
+    min-height: 70vh;
+}
+
+.reviews-main h1 {
+    font-weight: 700;
+}

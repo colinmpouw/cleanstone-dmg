@@ -47,7 +47,7 @@ class AdminDatabaseController
 
         } catch (PDOException $e) {
             file_put_contents(
-                __DIR__ . '/../debug.log',
+                __DIR__ . '/../admin-debug.log',
                 '[' . date('Y-m-d H:i:s') . '] SQL ERROR: ' . $e->getMessage() .
                 ' | Query: ' . $query .
                 ' | Params: ' . print_r($params, true) . PHP_EOL,
@@ -75,7 +75,7 @@ class AdminDatabaseController
             $stmt = $this->pdo->prepare($query);
             return $stmt->execute($params);
         } catch (PDOException $e) {
-            file_put_contents(__DIR__ . '/../debug.log', '[' . date('Y-m-d H:i:s') . '] SQL ERROR: ' . $e->getMessage() . ' | Query: ' . $query . ' | Params: ' . print_r($params, true) . PHP_EOL, FILE_APPEND);
+            file_put_contents(__DIR__ . '/../admin-debug.log', '[' . date('Y-m-d H:i:s') . '] SQL ERROR: ' . $e->getMessage() . ' | Query: ' . $query . ' | Params: ' . print_r($params, true) . PHP_EOL, FILE_APPEND);
             return false;
         }
     }
