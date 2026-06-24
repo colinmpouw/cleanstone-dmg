@@ -11,6 +11,7 @@ class AdminBlogsRepository
     public function __construct()
     {
         $this->db = new DatabaseController();
+        $this->ensureBlogTagTables();
     }
 
     public function getAllBlogs(): array
@@ -153,5 +154,48 @@ class AdminBlogsRepository
         }
 
         return true;
+    }
+
+    private function ensureBlogTagTables(): void
+    {
+        $this->db->save(
+            "CREATE TABLE IF NOT EXISTS blogtags (
+                id int(11) NOT NULL AUTO_INCREMENT,
+                name varchar(45) NOT NULL,
+                display_order int(11) NOT NULL DEFAULT 0,
+                PRIMARY KEY (id),
+                UNIQUE KEY name (name)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+        );
+
+        $this->db->save(
+            "CREATE TABLE IF NOT EXISTS blog_blogtags (
+                blog_id int(11) NOT NULL,
+                blogtag_id int(11) NOT NULL,
+                PRIMARY KEY (blog_id, blogtag_id),
+                KEY blogtag_id (blogtag_id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+        );
+
+        $this->db->save(
+            "INSERT INTO blogtags (id, name, display_order) VALUES
+                (1, 'Algemeen', 1),
+                (2, 'Buitenplaatsen', 2),
+                (3, 'Composiet', 3),
+                (4, 'Graniet', 4),
+                (5, 'Hardsteen', 5),
+                (6, 'Marmer', 6),
+                (7, 'Onze Merken', 7)
+             ON DUPLICATE KEY UPDATE
+                name = VALUES(name),
+                display_order = VALUES(display_order)"
+        );
+
+        $this->db->save(
+            "INSERT IGNORE INTO blog_blogtags (blog_id, blogtag_id)
+             SELECT b.blog_id, bt.id
+             FROM blog b
+             JOIN blogtags bt ON b.tag = bt.name"
+        );
     }
 }
