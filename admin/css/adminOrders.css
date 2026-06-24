@@ -382,3 +382,15 @@
     color: var(--rustic-taupe);
     font-family: var(--body-font);
 }
+
+.customer-name {
+    font-weight: 600;
+    display: block;
+}
+
+.customer-email {
+    font-size: 12px;
+    color: #888;
+    display: block;
+    margin-top: 2px;
+}

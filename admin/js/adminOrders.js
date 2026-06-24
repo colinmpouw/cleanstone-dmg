@@ -58,10 +58,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tdCustomer = document.createElement('td');
         const custNameLine = document.createElement('div');
         custNameLine.className = 'skeleton-block skeleton-line skeleton-line--customer-name';
+        tdCustomer.append(custNameLine);
+
+        const tdEmail = document.createElement('td');
         const custEmailLine = document.createElement('div');
         custEmailLine.className = 'skeleton-block skeleton-line skeleton-line--customer-email';
         custEmailLine.style.marginTop = '0.3rem';
-        tdCustomer.append(custNameLine, custEmailLine);
+        tdEmail.append(custEmailLine);
 
         // Date
         const tdDate = document.createElement('td');
@@ -91,7 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tdActions = document.createElement('td');
         tdActions.className = 'col-actions';
 
-        tr.append(tdOrder, tdCustomer, tdDate, tdItems, tdAmount, tdStatus, tdActions);
+        tr.append(tdOrder, tdCustomer,tdEmail, tdDate, tdItems, tdAmount, tdStatus, tdActions);
         return tr;
     }
 
@@ -203,64 +206,107 @@ document.addEventListener('DOMContentLoaded', async () => {
         tr.className = 'order-row--enter';
         tr.dataset.orderId = order.order_id;
 
-        // Order number
+        // ✅ Order number
         const tdOrder = document.createElement('td');
         const orderNum = document.createElement('span');
         orderNum.className = 'order-number';
         orderNum.textContent = `#CS-${String(order.order_id).padStart(4, '0')}`;
         tdOrder.append(orderNum);
 
-        // Customer info (from shipping address)
+        // ✅ Customer info (name + email separated cleanly)
         const tdCustomer = document.createElement('td');
-        const custNameEl = document.createElement('span');
-        custNameEl.className = 'customer-name';
-        const customerName = `${order.shipping_first_name || ''} ${order.shipping_last_name || ''}`.trim();
-        custNameEl.textContent = customerName || '—';
 
-        const custEmailEl = document.createElement('span');
-        custEmailEl.className = 'customer-email';
-        custEmailEl.textContent = order.email || '';
+        const nameEl = document.createElement('div');
+        nameEl.className = 'customer-name';
 
-        tdCustomer.append(custNameEl, custEmailEl);
+        const fullName = `${order.shipping_first_name || ''} ${order.shipping_last_name || ''}`.trim();
+        nameEl.textContent = fullName || order.email || '—';
 
-        // Date
+        const emailEl = document.createElement('div');
+        emailEl.className = 'customer-email';
+        emailEl.textContent = order.email || '';
+
+        tdCustomer.append(nameEl, emailEl);
+
+        // ✅ Date
         const tdDate = document.createElement('td');
         tdDate.textContent = formatDate(order.created_at);
 
-        // Items count (sum of product quantities)
+        // ✅ Items count (products + bundles)
         const tdItems = document.createElement('td');
-        const itemCount = order.products.reduce((sum, p) => sum + (p.quantity || 0), 0);
-        tdItems.textContent = `${itemCount} ${itemCount === 1 ? 'product' : 'producten'}`;
 
-        // Order amount
+        const products = Array.isArray(order.products) ? order.products : [];
+        const bundles = Array.isArray(order.bundles) ? order.bundles : [];
+
+        const productCount = products.reduce(
+            (sum, p) => sum + (Number(p.quantity) || 0),
+            0
+        );
+
+        const bundleCount = bundles.reduce(
+            (sum, b) => sum + (Number(b.quantity) || 0),
+            0
+        );
+
+        let parts = [];
+        if (productCount > 0) parts.push(`${productCount} producten`);
+        if (bundleCount > 0) parts.push(`${bundleCount} bundels`);
+
+        tdItems.textContent = parts.length ? parts.join(' + ') : '—';
+
+        // ✅ Order amount
         const tdAmount = document.createElement('td');
         const amountSpan = document.createElement('span');
         amountSpan.className = 'order-amount';
-        amountSpan.textContent = formatPrice(order.total_price);
+
+        const price = parseFloat(order.total_price || 0);
+        amountSpan.textContent = `€ ${formatPrice(price)}`;
+
         tdAmount.append(amountSpan);
 
-        // Status badge
+        // ✅ Status badge
         const tdStatus = document.createElement('td');
         const badge = document.createElement('span');
         badge.className = `status-badge ${statusInfo.badgeClass}`;
         badge.textContent = statusInfo.label;
         tdStatus.append(badge);
 
-        // View icon
+        // ✅ Actions (view button)
         const tdActions = document.createElement('td');
         tdActions.className = 'col-actions';
+
         const viewBtn = document.createElement('button');
         viewBtn.className = 'action-icon';
         viewBtn.setAttribute('aria-label', 'Bestelling weergeven');
+
         const viewIcon = document.createElement('i');
         viewIcon.className = 'ti ti-eye';
+
         viewBtn.append(viewIcon);
-        viewBtn.addEventListener('click', () => {
+
+        viewBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // ✅ prevents row click conflicts (important)
             window.location.href = `/admin/orders/${order.order_id}`;
         });
+
         tdActions.append(viewBtn);
 
-        tr.append(tdOrder, tdCustomer, tdDate, tdItems, tdAmount, tdStatus, tdActions);
+        // ✅ Optional: whole row clickable (better UX)
+        tr.addEventListener('click', () => {
+            window.location.href = `/admin/orders/${order.order_id}`;
+        });
+
+        // ✅ Append all cells
+        tr.append(
+            tdOrder,
+            tdCustomer,
+            tdDate,
+            tdItems,
+            tdAmount,
+            tdStatus,
+            tdActions
+        );
+
         return tr;
     }
 
