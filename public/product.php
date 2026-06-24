@@ -224,79 +224,146 @@ $reviewToggleText = $reviewFormOpen ? 'Verberg reviewformulier' : 'Schrijf een r
                 </div>
             <?php endif; ?>
 
-                <section class="product-section reviews-section">
-                    <h2>Reviews</h2>
-                    <div class="reviews-summary">
-                        <span class="reviews-score"><?php echo number_format($averageRating, 1, '.', ''); ?> / 5</span>
-                        <span class="reviews-count"><?php echo $reviewCount; ?> beoordelingen</span>
+            <!-- REVIEWS SECTION — vervang de bestaande <section class="product-section reviews-section"> -->
+
+            <section class="product-section reviews-section">
+
+                <!-- HEADER ROW -->
+                <div class="reviews-top">
+                    <h2>
+                        Klantreviews
+                        <span class="review-count-label">(<?= $reviewCount ?>)</span>
+                    </h2>
+                    <?php if (!empty($_SESSION['user']['id'])): ?>
+                        <button id="toggleReviewForm" class="btn-write-review">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                            Review schrijven
+                        </button>
+                    <?php endif; ?>
+                </div>
+
+                <!-- SUMMARY: score + bars -->
+                <div class="reviews-summary">
+                    <div class="reviews-score-block">
+                        <span class="reviews-score"><?= number_format($averageRating, 1, '.', '') ?></span>
+                        <div class="reviews-score-stars">
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                <?php if ($i <= floor($averageRating)): ?>
+                                    <svg viewBox="0 0 15 15" fill="#D4A843"><path d="M7.018.864 9.19 3.983l3.444.504-2.49 2.426.587 3.427-3.079-1.618-3.078 1.618.588-3.427L2.67 4.487l3.444-.504z" stroke="#D4A843" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <?php else: ?>
+                                    <svg viewBox="0 0 15 15" fill="none"><path d="M7.018.864 9.19 3.983l3.444.504-2.49 2.426.587 3.427-3.079-1.618-3.078 1.618.588-3.427L2.67 4.487l3.444-.504z" stroke="#D9CFC4" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <?php endif; ?>
+                            <?php endfor; ?>
+                        </div>
+                        <span class="reviews-count"><?= $reviewCount ?> reviews</span>
                     </div>
 
-                    <div class="review-submit">
-                        <?php if (!empty($reviewSuccess)): ?>
-                            <div class="review-success"><?php echo htmlspecialchars($reviewSuccess); ?></div>
-                        <?php endif; ?>
-
-                        <?php if (!empty($reviewErrors)): ?>
-                            <div class="review-errors">
-                                <ul>
-                                    <?php foreach ($reviewErrors as $error): ?>
-                                        <li><?php echo htmlspecialchars($error); ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
+                    <!-- Rating bars 5→1 -->
+                    <div class="reviews-bars">
+                        <?php
+                        $starCounts = [5 => 0, 4 => 0, 3 => 0, 2 => 0, 1 => 0];
+                        if (!empty($reviews)) {
+                            foreach ($reviews as $r) {
+                                $s = (int)($r['rating'] ?? 0);
+                                if (isset($starCounts[$s])) $starCounts[$s]++;
+                            }
+                        }
+                        foreach ([5,4,3,2,1] as $star):
+                            $pct = $reviewCount > 0 ? round($starCounts[$star] / $reviewCount * 100) : 0;
+                            ?>
+                            <div class="rating-bar-row">
+                                <span class="rating-bar-label"><?= $star ?></span>
+                                <svg class="rating-bar-star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                <div class="rating-bar-track">
+                                    <div class="rating-bar-fill" style="width: <?= $pct ?>%"></div>
+                                </div>
+                                <span class="rating-bar-count"><?= $starCounts[$star] ?></span>
                             </div>
-                        <?php endif; ?>
-
-                        <?php if (!empty($_SESSION['user']['id'])): ?>
-                            <button id="toggleReviewForm" class="btn btn-secondary">Schrijf een review</button>
-                            <form id="reviewForm" action="/product/<?php echo htmlspecialchars($product['slug']); ?>/review" method="post" class="review-form" style="display: none; margin-top: 1rem;">
-                                <label for="rating">Beoordeling</label>
-                                <select id="rating" name="rating" required>
-                                    <option value="">Kies...</option>
-                                    <?php for ($star = 5; $star >= 1; $star--): ?>
-                                        <option value="<?php echo $star; ?>" <?php echo isset($reviewOld['rating']) && (int)$reviewOld['rating'] === $star ? 'selected' : ''; ?>><?php echo $star; ?> sterren</option>
-                                    <?php endfor; ?>
-                                </select>
-
-                                <label for="review">Uw review</label>
-                                <textarea id="review" name="review" rows="4" required><?php echo htmlspecialchars($reviewOld['review']); ?></textarea>
-
-                                <button type="submit" class="btn btn-primary">Plaats review</button>
-                            </form>
-                        <?php else: ?>
-                            <p>U moet <a href="/login">inloggen</a> om een review te plaatsen.</p>
-                        <?php endif; ?>
+                        <?php endforeach; ?>
                     </div>
+                </div>
 
-                    <div class="reviews-list">
-                        <?php if (!empty($reviews)): ?>
-                            <?php foreach ($reviews as $review): ?>
-                                <article class="review-item">
-                                    <div class="review-header">
+                <!-- REVIEW FORM -->
+                <div class="review-submit">
+                    <?php if (!empty($reviewSuccess)): ?>
+                        <div class="review-success"><?= htmlspecialchars($reviewSuccess) ?></div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($reviewErrors)): ?>
+                        <div class="review-errors">
+                            <ul>
+                                <?php foreach ($reviewErrors as $error): ?>
+                                    <li><?= htmlspecialchars($error) ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($_SESSION['user']['id'])): ?>
+                        <form id="reviewForm" action="/product/<?= htmlspecialchars($product['slug']) ?>/review" method="post"
+                              class="review-form" style="<?= $reviewFormStyle ?>">
+                            <label for="rating">Beoordeling</label>
+                            <select id="rating" name="rating" required>
+                                <option value="">Kies een beoordeling...</option>
+                                <?php for ($star = 5; $star >= 1; $star--): ?>
+                                    <option value="<?= $star ?>" <?= isset($reviewOld['rating']) && (int)$reviewOld['rating'] === $star ? 'selected' : '' ?>>
+                                        <?= $star ?> <?= $star === 1 ? 'ster' : 'sterren' ?>
+                                    </option>
+                                <?php endfor; ?>
+                            </select>
+                            <label for="review">Uw review</label>
+                            <textarea id="review" name="review" rows="4" placeholder="Deel uw ervaring met dit product..." required><?= htmlspecialchars($reviewOld['review']) ?></textarea>
+                            <button type="submit" class="btn-primary">Plaats review</button>
+                        </form>
+                    <?php else: ?>
+                        <p style="font-size:0.88rem; color:var(--rustic-taupe);">
+                            U moet <a href="/login" style="color:var(--charcoal-clay); font-weight:600;">inloggen</a> om een review te plaatsen.
+                        </p>
+                    <?php endif; ?>
+                </div>
+
+                <!-- REVIEW CARDS -->
+                <div class="reviews-list">
+                    <?php if (!empty($reviews)): ?>
+                        <?php foreach ($reviews as $review):
+                            $initial = strtoupper(substr($review['author'] ?? 'A', 0, 1));
+                            $filledStars = (int) floor($review['rating'] ?? 0);
+                            ?>
+                            <article class="review-item">
+                                <div class="review-header">
+                                    <div class="review-avatar"><?= $initial ?></div>
+                                    <div class="review-header-info">
+                                        <div class="review-meta">
+                                            <span class="review-author"><?= htmlspecialchars($review['author'] ?? 'Anoniem') ?></span>
+                                            <time datetime="<?= htmlspecialchars($review['created_at']) ?>">
+                                                <?= date('j M Y', strtotime($review['created_at'])) ?>
+                                            </time>
+                                        </div>
                                         <div class="review-stars">
-                                            <?php
-                                            $filledStars = (int) floor($review['rating'] ?? 0);
-                                            for ($i = 1; $i <= 5; $i++):
-                                                ?>
+                                            <?php for ($i = 1; $i <= 5; $i++): ?>
                                                 <?php if ($i <= $filledStars): ?>
-                                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.01789 0.863588C7.0471 0.804562 7.09223 0.754876 7.14819 0.720138C7.20414 0.6854 7.26869 0.666992 7.33455 0.666992C7.40041 0.666992 7.46496 0.6854 7.52092 0.720138C7.57687 0.754876 7.622 0.804562 7.65122 0.863588L9.19122 3.98292C9.29267 4.18823 9.44243 4.36586 9.62764 4.50056C9.81285 4.63525 10.028 4.723 10.2546 4.75625L13.6986 5.26025C13.7638 5.26971 13.8251 5.29724 13.8755 5.33972C13.926 5.38221 13.9635 5.43795 13.9839 5.50066C14.0043 5.56336 14.0067 5.63053 13.9909 5.69455C13.9752 5.75857 13.9418 5.81689 13.8946 5.86292L11.4039 8.28826C11.2396 8.44832 11.1167 8.64591 11.0458 8.86401C10.9748 9.08211 10.9579 9.31418 10.9966 9.54026L11.5846 12.9669C11.5961 13.0321 11.589 13.0993 11.5642 13.1607C11.5394 13.2221 11.4978 13.2753 11.4442 13.3143C11.3907 13.3532 11.3272 13.3763 11.2611 13.3809C11.1951 13.3854 11.129 13.3714 11.0706 13.3403L7.99189 11.7216C7.78903 11.6151 7.56334 11.5594 7.33422 11.5594C7.1051 11.5594 6.87941 11.6151 6.67655 11.7216L3.59855 13.3403C3.54011 13.3712 3.47415 13.3851 3.40819 13.3804C3.34222 13.3757 3.2789 13.3526 3.22542 13.3137C3.17193 13.2748 3.13044 13.2217 3.10566 13.1604C3.08087 13.0991 3.07379 13.0321 3.08522 12.9669L3.67255 9.54092C3.71135 9.31474 3.69454 9.08252 3.62358 8.86429C3.55261 8.64605 3.42963 8.44836 3.26522 8.28826L0.774553 5.86359C0.726949 5.81761 0.693216 5.75919 0.677195 5.69497C0.661175 5.63076 0.663511 5.56333 0.683939 5.50038C0.704367 5.43743 0.742065 5.38148 0.792738 5.33891C0.843411 5.29634 0.905022 5.26885 0.970553 5.25959L4.41389 4.75625C4.64072 4.72325 4.85615 4.63563 5.04161 4.50091C5.22707 4.3662 5.37702 4.18844 5.47855 3.98292L7.01789 0.863588Z" fill="#7E6A52" stroke="#7E6A52" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                            <?php else: ?>
-                                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.01789 0.863588C7.0471 0.804562 7.09223 0.754876 7.14819 0.720138C7.20414 0.6854 7.26869 0.666992 7.33455 0.666992C7.40041 0.666992 7.46496 0.6854 7.52092 0.720138C7.57687 0.754876 7.622 0.804562 7.65122 0.863588L9.19122 3.98292C9.29267 4.18823 9.44243 4.36586 9.62764 4.50056C9.81284 4.63525 10.028 4.723 10.2546 4.75625L13.6986 5.26025C13.7638 5.26971 13.8251 5.29724 13.8755 5.33972C13.926 5.38221 13.9635 5.43795 13.9839 5.50066C14.0043 5.56336 14.0067 5.63053 13.9909 5.69455C13.9752 5.75857 13.9418 5.81689 13.8946 5.86292L11.4039 8.28826C11.2396 8.44832 11.1167 8.64591 11.0458 8.86401C10.9748 9.08211 10.9579 9.31418 10.9966 9.54026L11.5846 12.9669C11.5961 13.0321 11.589 13.0993 11.5642 13.1607C11.5394 13.2221 11.4978 13.2753 11.4442 13.3143C11.3907 13.3532 11.3272 13.3763 11.2611 13.3809C11.1951 13.3854 11.129 13.3714 11.0706 13.3403L7.99189 11.7216C7.78903 11.6151 7.56334 11.5594 7.33422 11.5594C7.1051 11.5594 6.87941 11.6151 6.67655 11.7216L3.59855 13.3403C3.54011 13.3712 3.47415 13.3851 3.40819 13.3804C3.34222 13.3757 3.2789 13.3526 3.22542 13.3137C3.17193 13.2748 3.13044 13.2217 3.10566 13.1604C3.08087 13.0991 3.07379 13.0321 3.08522 12.9669L3.67255 9.54092C3.71135 9.31474 3.69454 9.08252 3.62358 8.86429C3.55261 8.64605 3.42963 8.44836 3.26522 8.28826L0.774553 5.86359C0.726949 5.81761 0.693216 5.75919 0.677195 5.69497C0.661175 5.63076 0.663511 5.56333 0.683939 5.50038C0.704367 5.43743 0.742065 5.38148 0.792738 5.33891C0.843411 5.29634 0.905022 5.26885 0.970553 5.25959L4.41389 4.75625C4.64072 4.72325 4.85615 4.63563 5.04161 4.50091C5.22707 4.3662 5.37702 4.18844 5.47855 3.98292L7.01789 0.863588Z" stroke="#D1D5DC" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                            <?php endif; ?>
+                                                    <svg viewBox="0 0 15 15" fill="#D4A843"><path d="M7.018.864 9.19 3.983l3.444.504-2.49 2.426.587 3.427-3.079-1.618-3.078 1.618.588-3.427L2.67 4.487l3.444-.504z" stroke="#D4A843" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                                <?php else: ?>
+                                                    <svg viewBox="0 0 15 15" fill="none"><path d="M7.018.864 9.19 3.983l3.444.504-2.49 2.426.587 3.427-3.079-1.618-3.078 1.618.588-3.427L2.67 4.487l3.444-.504z" stroke="#D9CFC4" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                                <?php endif; ?>
                                             <?php endfor; ?>
                                         </div>
-                                        <div class="review-meta">
-                                        <span class="review-author"><?php echo htmlspecialchars($review['author'] ?? 'Anoniem'); ?></span>
-                                        <time datetime="<?php echo htmlspecialchars($review['created_at']); ?>"><?php echo date('d-m-Y', strtotime($review['created_at'])); ?></time>
                                     </div>
                                 </div>
-                                <p class="review-text"><?php echo htmlspecialchars($review['review']); ?></p>
+                                <p class="review-text"><?= htmlspecialchars($review['review']) ?></p>
                             </article>
                         <?php endforeach; ?>
-                        <?php else: ?>
-                            <p>Er zijn nog geen reviews voor dit product. Wees de eerste om er een te schrijven.</p>
-                        <?php endif; ?>
-                    </div>
-                </section>
+                    <?php else: ?>
+                        <div class="no-reviews">
+                            <p>Er zijn nog geen reviews voor dit product. Wees de eerste!</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+            </section>
+
         </div>
     </main>
 
@@ -304,6 +371,7 @@ $reviewToggleText = $reviewFormOpen ? 'Verberg reviewformulier' : 'Schrijf een r
     <?php require_once __DIR__ . '/../component/aiChat.php'; ?>
     <script src="/public/js/AiChat.js"></script>
     <script src="/public/js/product.js"></script>
+
 </body>
 
 </html>
