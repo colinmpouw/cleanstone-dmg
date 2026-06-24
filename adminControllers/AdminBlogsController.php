@@ -51,7 +51,7 @@ class AdminBlogsController
 
     private function addBlog(): void
     {
-        $result = $this->blogService->createBlog($_POST);
+        $result = $this->blogService->createBlog($_POST, $_FILES);
 
         if ($result['success']) {
             header('Location: /admin/adminblog.php?created=1');
@@ -72,7 +72,7 @@ class AdminBlogsController
     private function updateBlog(): void
     {
         $blogId = (int) ($_POST['blog_id'] ?? 0);
-        $result = $this->blogService->updateBlog($blogId, $_POST);
+        $result = $this->blogService->updateBlog($blogId, $_POST, $_FILES);
 
         if ($result['success']) {
             header('Location: /admin/adminblog.php?updated=1');

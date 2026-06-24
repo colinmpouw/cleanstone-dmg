@@ -22,7 +22,7 @@ if (!$loadedByController) {
 
         if ($action === 'update') {
             $editBlogId = (int) ($_POST['blog_id'] ?? 0);
-            $result = $blogService->updateBlog($editBlogId, $_POST);
+            $result = $blogService->updateBlog($editBlogId, $_POST, $_FILES);
 
             if ($result['success']) {
                 header('Location: /admin/adminblog.php?updated=1');
@@ -32,7 +32,7 @@ if (!$loadedByController) {
             $errors = $result['errors'];
             $old = $result['data'];
         } else {
-            $result = $blogService->createBlog($_POST);
+            $result = $blogService->createBlog($_POST, $_FILES);
 
             if ($result['success']) {
                 header('Location: /admin/adminblog.php?created=1');
@@ -195,11 +195,12 @@ function adminBlogSelectedThemes(array $old): array
                 <span><?php echo $isEditing ? 'Bestaande publicatie' : 'Nieuwe publicatie'; ?></span>
             </div>
 
-            <form class="blog-form" action="/admin/adminblog.php" method="post">
+            <form class="blog-form" action="/admin/adminblog.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="blog_action" value="<?php echo $isEditing ? 'update' : 'create'; ?>">
                 <?php if ($isEditing): ?>
                     <input type="hidden" name="blog_id" value="<?php echo (int) $editBlogId; ?>">
                 <?php endif; ?>
+                <input type="hidden" name="current_image" value="<?php echo adminBlogValue($old, 'image'); ?>">
 
                 <label>
                     Titel
@@ -229,8 +230,14 @@ function adminBlogSelectedThemes(array $old): array
                 </label>
 
                 <label>
-                    Afbeelding URL
-                    <input type="text" name="image" placeholder="/public/assets/schone_tegel.png" value="<?php echo adminBlogValue($old, 'image'); ?>">
+                    Afbeelding uploaden
+                    <span class="file-upload-control">
+                        <span>Klik om foto te uploaden</span>
+                        <input type="file" name="image" accept=".png,.jpg,.jpeg,.webp,.gif,image/png,image/jpeg,image/webp,image/gif">
+                    </span>
+                    <?php if (!empty($old['image'])): ?>
+                        <span class="current-image">Huidige afbeelding: <?php echo htmlspecialchars($old['image']); ?></span>
+                    <?php endif; ?>
                 </label>
 
                 <label>

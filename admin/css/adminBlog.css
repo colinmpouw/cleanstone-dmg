@@ -16,12 +16,12 @@
 }
 
 .page-heading h1 {
-    font-size: 28px;
+    font-size: var(--title-size);
     color: var(--charcoal-clay);
 }
 
 .page-heading p {
-    font-size: 13px;
+    font-size: var(--badge-size);
     color: var(--rustic-taupe);
     margin-top: 4px;
 }
@@ -35,7 +35,7 @@
     border: 0;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--button-size);
     font-weight: 700;
     text-decoration: none;
 }
@@ -50,9 +50,9 @@
 
 .blog-panel {
     background: var(--soft-white);
-    border: 1px solid rgba(58, 43, 32, 0.12);
+    border: 1px solid color-mix(in srgb, var(--charcoal-clay) 12%, transparent);
     border-radius: 8px;
-    box-shadow: 0 18px 40px rgba(58, 43, 32, 0.08);
+    box-shadow: 0 18px 40px color-mix(in srgb, var(--charcoal-clay) 8%, transparent);
     margin-bottom: 24px;
     padding: 22px;
 }
@@ -67,12 +67,12 @@
 
 .panel-title h2 {
     color: var(--charcoal-clay);
-    font-size: 22px;
+    font-size: var(--small-title-size);
 }
 
 .panel-title span {
     color: var(--rustic-taupe);
-    font-size: 13px;
+    font-size: var(--badge-size);
     font-weight: 700;
 }
 
@@ -88,7 +88,7 @@
 
 .blog-table th,
 .blog-table td {
-    border-bottom: 1px solid rgba(58, 43, 32, 0.1);
+    border-bottom: 1px solid color-mix(in srgb, var(--charcoal-clay) 10%, transparent);
     padding: 14px 12px;
     text-align: left;
     vertical-align: top;
@@ -96,14 +96,14 @@
 
 .blog-table th {
     color: var(--rustic-taupe);
-    font-size: 12px;
+    font-size: var(--list-text-size);
     letter-spacing: 0;
     text-transform: uppercase;
 }
 
 .blog-table td {
     color: var(--charcoal-clay);
-    font-size: 14px;
+    font-size: var(--button-size);
 }
 
 .blog-table td strong,
@@ -113,45 +113,45 @@
 
 .blog-table td span {
     color: var(--rustic-taupe);
-    font-size: 13px;
+    font-size: var(--badge-size);
     line-height: 1.45;
     margin-top: 5px;
     max-width: 360px;
 }
 
 .tag {
-    background: rgba(184, 156, 130, 0.2);
+    background: color-mix(in srgb, var(--warm-beige) 20%, transparent);
     border-radius: 999px;
     color: var(--charcoal-clay) !important;
     display: inline-block !important;
-    font-size: 12px !important;
+    font-size: var(--list-text-size) !important;
     margin-top: 0 !important;
     padding: 6px 10px;
 }
 
 .view-link {
-    background: rgba(58, 43, 32, 0.08);
+    background: color-mix(in srgb, var(--charcoal-clay) 8%, transparent);
     color: var(--charcoal-clay);
     display: inline-flex;
     padding: 9px 12px;
 }
 
 .edit-link {
-    background: rgba(184, 156, 130, 0.22);
+    background: color-mix(in srgb, var(--warm-beige) 22%, transparent);
     color: var(--charcoal-clay);
     display: inline-flex;
     padding: 9px 12px;
 }
 
 .delete-link {
-    background: rgba(176, 45, 45, 0.12);
-    color: #8f2626;
+    background: color-mix(in srgb, var(--red) 12%, transparent);
+    color: var(--red);
     display: inline-flex;
     padding: 9px 12px;
 }
 
 .cancel-edit {
-    background: rgba(58, 43, 32, 0.08);
+    background: color-mix(in srgb, var(--charcoal-clay) 8%, transparent);
     color: var(--charcoal-clay);
     display: inline-flex;
     padding: 12px 18px;
@@ -178,7 +178,7 @@
     color: var(--charcoal-clay);
     display: flex;
     flex-direction: column;
-    font-size: 13px;
+    font-size: var(--badge-size);
     font-weight: 700;
     gap: 8px;
 }
@@ -191,8 +191,8 @@
 .blog-form input,
 .blog-form select,
 .blog-form textarea {
-    background: #fff;
-    border: 1px solid rgba(58, 43, 32, 0.18);
+    background: var(--white);
+    border: 1px solid color-mix(in srgb, var(--charcoal-clay) 18%, transparent);
     border-radius: 8px;
     color: var(--charcoal-clay);
     font: inherit;
@@ -209,6 +209,38 @@
     min-height: 156px;
 }
 
+.current-image {
+    color: var(--rustic-taupe);
+    font-size: var(--list-text-size);
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.file-upload-control {
+    align-items: center;
+    background: var(--white);
+    border: 1px dashed color-mix(in srgb, var(--charcoal-clay) 28%, transparent);
+    border-radius: 8px;
+    color: var(--charcoal-clay);
+    cursor: pointer;
+    display: flex;
+    font-size: var(--button-size);
+    font-weight: 700;
+    justify-content: center;
+    min-height: 48px;
+    padding: 12px;
+    position: relative;
+    text-align: center;
+}
+
+.file-upload-control input[type="file"] {
+    cursor: pointer;
+    inset: 0;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+}
+
 .blog-form textarea {
     line-height: 1.5;
     resize: vertical;
@@ -222,20 +254,20 @@
 
 .alert {
     border-radius: 8px;
-    font-size: 14px;
+    font-size: var(--button-size);
     font-weight: 700;
     margin-bottom: 16px;
     padding: 12px 14px;
 }
 
 .alert.success {
-    background: rgba(0, 201, 80, 0.12);
-    color: #176d36;
+    background: color-mix(in srgb, var(--green) 12%, transparent);
+    color: var(--green);
 }
 
 .alert.error {
-    background: rgba(176, 45, 45, 0.12);
-    color: #8f2626;
+    background: color-mix(in srgb, var(--red) 12%, transparent);
+    color: var(--red);
 }
 
 .alert p + p {
@@ -243,20 +275,20 @@
 }
 
 .empty-state {
-    background: rgba(184, 156, 130, 0.16);
+    background: color-mix(in srgb, var(--warm-beige) 16%, transparent);
     border-radius: 8px;
     padding: 28px;
     text-align: center;
 }
 
 .empty-state h2 {
-    font-size: 22px;
+    font-size: var(--small-title-size);
     margin-bottom: 8px;
 }
 
 .empty-state p {
     color: var(--rustic-taupe);
-    font-size: 14px;
+    font-size: var(--button-size);
 }
 
 @media (max-width: 760px) {
