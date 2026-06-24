@@ -25,7 +25,12 @@ if (!$user) {
     <?php require_once __DIR__ . '/../component/sidebarAccount.php'; ?>
 
     <main class="reviews-main">
-        <h1>Mijn Reviews</h1>
+
+        <div class="reviews-header">
+            <h1>Mijn reviews</h1>
+            <p id="review-count">Laden...</p>
+        </div>
+        <div class="review-list" id="review-list"></div>
 
     </main>
 
