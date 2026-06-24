@@ -28,7 +28,10 @@
 
 .add-blog-button,
 .form-actions button,
-.view-link {
+.view-link,
+.edit-link,
+.delete-link,
+.cancel-edit {
     border: 0;
     border-radius: 8px;
     cursor: pointer;
@@ -133,6 +136,38 @@
     padding: 9px 12px;
 }
 
+.edit-link {
+    background: rgba(184, 156, 130, 0.22);
+    color: var(--charcoal-clay);
+    display: inline-flex;
+    padding: 9px 12px;
+}
+
+.delete-link {
+    background: rgba(176, 45, 45, 0.12);
+    color: #8f2626;
+    display: inline-flex;
+    padding: 9px 12px;
+}
+
+.cancel-edit {
+    background: rgba(58, 43, 32, 0.08);
+    color: var(--charcoal-clay);
+    display: inline-flex;
+    padding: 12px 18px;
+}
+
+.actions-cell {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 260px;
+}
+
+.actions-cell form {
+    display: inline-flex;
+}
+
 .blog-form {
     display: grid;
     gap: 16px;
@@ -154,6 +189,7 @@
 }
 
 .blog-form input,
+.blog-form select,
 .blog-form textarea {
     background: #fff;
     border: 1px solid rgba(58, 43, 32, 0.18);
@@ -165,6 +201,14 @@
     width: 100%;
 }
 
+.blog-form select {
+    cursor: pointer;
+}
+
+.blog-form select[multiple] {
+    min-height: 156px;
+}
+
 .blog-form textarea {
     line-height: 1.5;
     resize: vertical;
@@ -172,6 +216,7 @@
 
 .form-actions {
     display: flex;
+    gap: 10px;
     justify-content: flex-end;
 }
 

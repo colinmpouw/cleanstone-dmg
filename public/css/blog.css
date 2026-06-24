@@ -85,6 +85,19 @@
   display: flex;
   flex-direction: column;
 }
+
+.post-card[hidden] {
+  display: none;
+}
+
+.no-posts {
+  background: #fff;
+  border-radius: 12px;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 24px;
+  text-align: center;
+}
 .post-card .media {
   position: relative;
   height: 180px;

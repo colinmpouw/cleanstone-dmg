@@ -1,5 +1,8 @@
 <!doctype html>
 <html lang="nl">
+<?php
+$blogThemes = array_merge(['Alles'], $blogThemes ?? []);
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -24,11 +27,11 @@
                 <p class="lead">Tips, tricks en advies voor optimaal natuursteen onderhoud</p>
 
                 <div class="filters">
-                    <button class="pill active">Alle artikelen</button>
-                    <button class="pill">Onderhoudstips</button>
-                    <button class="pill">Productinformatie</button>
-                    <button class="pill">Probleemoplossing</button>
-                    <button class="pill">Seizoentips</button>
+                    <?php foreach ($blogThemes as $index => $theme): ?>
+                        <button class="pill <?php echo $index === 0 ? 'active' : ''; ?>" type="button" data-filter="<?php echo htmlspecialchars($theme, ENT_QUOTES, 'UTF-8'); ?>">
+                            <?php echo htmlspecialchars($theme); ?>
+                        </button>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
@@ -37,7 +40,7 @@
             <h2 class="section-title">Nieuwste artikelen</h2>
             <div class="card-grid">
                 <?php foreach (($blogs ?? []) as $item): ?>
-                    <article class="post-card">
+                    <article class="post-card" data-themes="<?php echo htmlspecialchars($item['tag_keys'] ?? $item['tag'], ENT_QUOTES, 'UTF-8'); ?>">
                         <div class="media">
                             <img src="<?php echo htmlspecialchars($item['image'] ?? '/public/assets/schone_tegel.png'); ?>"
                                 alt="<?php echo htmlspecialchars($item['title']); ?>">
@@ -60,6 +63,7 @@
                     </article>
                 <?php endforeach; ?>
             </div>
+            <p class="no-posts" hidden>Geen artikelen gevonden voor dit thema.</p>
         </section>
 
         <section class="subscribe alt">
@@ -83,6 +87,7 @@
     <?php require_once __DIR__ . '/../component/aiChat.php'; ?>
     <script src="/public/js/AiChat.js"></script>
     <script src="/public/js/home.js"></script>
+    <script src="/public/js/blog.js"></script>
 </body>
 
 </html>
