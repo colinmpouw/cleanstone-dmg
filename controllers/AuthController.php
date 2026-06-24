@@ -18,6 +18,7 @@ class AuthController
         $router->post('/register', [$this, 'processRegister']);
         $router->get('/logout', [$this, 'logout']);
         $router->get('/account', [$this, 'showAccount']);
+        $router->get('/api/account/data', [$this, 'getAccountData']);
     }
 
     public function showLogin(): void
@@ -28,6 +29,10 @@ class AuthController
     public function processLogin(): void
     {
         $this->authService->processLogin();
+    }
+    public function getAccountData(): void
+    {
+        $this->authService->getAccountData();
     }
 
     public function showRegister(): void

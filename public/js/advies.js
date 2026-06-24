@@ -1,10 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('adv-submit');
 
-    // don't bail out early - animations should run even when the submit button
-    // is not present (e.g. for anonymous users). Attach submit handler only
-    // when btn exists.
-
     // Animate elements when they come into view using IntersectionObserver
     const animateSelector = [
         '.page-title',
@@ -32,10 +28,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll(animateSelector).forEach(el => io.observe(el));
 
-    // Trigger page title appear with a small delay for nicer entrance
     const pageTitle = document.querySelector('.page-title');
     if (pageTitle) {
         setTimeout(() => pageTitle.classList.add('in-view'), 120);
+    }
+
+    // foto preview
+    const photosInput = document.getElementById('adv-photos');
+    if (photosInput) {
+        photosInput.addEventListener('change', () => {
+            const existing = document.getElementById('adv-preview');
+            if (existing) existing.remove();
+
+            const files = Array.from(photosInput.files);
+
+            if (files.length > 5) {
+                alert('U kunt maximaal 5 foto\'s uploaden.');
+                photosInput.value = '';
+                return;
+            }
+
+            if (!files.length) return;
+
+            const preview = document.createElement('div');
+            preview.id = 'adv-preview';
+            preview.className = 'adv-preview';
+
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const item = document.createElement('div');
+                    item.className = 'adv-preview__item';
+
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = file.name;
+
+                    const name = document.createElement('span');
+                    name.textContent = file.name.length > 20
+                        ? file.name.substring(0, 17) + '...'
+                        : file.name;
+
+                    item.appendChild(img);
+                    item.appendChild(name);
+                    preview.appendChild(item);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            photosInput.closest('div').appendChild(preview);
+        });
     }
 
     if (!btn) return;

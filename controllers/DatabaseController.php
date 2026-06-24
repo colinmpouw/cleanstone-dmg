@@ -34,7 +34,8 @@ class DatabaseController
 
         } catch (PDOException $e) {
 
-            die("DB ERROR: " . $e->getMessage());
+            file_put_contents(__DIR__ . '/../debug.log', '[' . date('Y-m-d H:i:s') . '] SQL ERROR: ' . $e->getMessage() . ' | Query: ' . $query . ' | Params: ' . print_r($params, true) . PHP_EOL, FILE_APPEND);
+            return false;
         }
     }
 
@@ -45,11 +46,10 @@ class DatabaseController
             $stmt = $this->pdo->prepare($query);
             return $stmt->execute($params);
         } catch (PDOException $e) {
-
+            file_put_contents(__DIR__ . '/../debug.log', '[' . date('Y-m-d H:i:s') . '] SQL ERROR: ' . $e->getMessage() . ' | Query: ' . $query . ' | Params: ' . print_r($params, true) . PHP_EOL, FILE_APPEND);
             return false;
         }
     }
-
     public function lastInsertId(): string
     {
         return $this->pdo->lastInsertId();

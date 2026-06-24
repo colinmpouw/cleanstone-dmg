@@ -1,0 +1,226 @@
+/* ── LAYOUT ── */
+body { background-color: var(--soft-white); }
+
+.account-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+/* ── MAIN ── */
+.bestellingen-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 70vh;
+}
+
+.bestellingen-main h1 {
+    /*font-family: var(--title-font);*/
+    /*font-size: 1.6rem;*/
+    font-weight: 700;
+    color: var(--charcoal-clay);
+}
+
+/* ── ORDER LIST ── */
+.order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ── ORDER CARD ── */
+.order-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 12px rgba(58,43,32,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.order-card:hover {
+    box-shadow: 0 6px 24px rgba(58,43,32,0.1);
+    transform: translateY(-1px);
+}
+
+/* top row */
+.order-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.order-card__id {
+    font-family: var(--title-font);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--charcoal-clay);
+}
+
+.order-card__right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.order-card__chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--warm-beige);
+}
+
+/* date */
+.order-card__date {
+    font-size: 0.78rem;
+    color: var(--rustic-taupe);
+    margin-top: -8px;
+}
+
+/* product thumbs */
+.order-card__products {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.order-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1.5px solid var(--creamy-taupe);
+    background: var(--soft-white);
+}
+
+.order-thumb--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--soft-white);
+}
+
+.order-thumb--placeholder svg {
+    width: 22px;
+    height: 22px;
+    color: var(--creamy-taupe);
+}
+
+.order-card__count {
+    font-size: 0.8rem;
+    color: var(--rustic-taupe);
+    margin-left: 4px;
+}
+
+/* price row */
+.order-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--creamy-taupe);
+    padding-top: 12px;
+}
+
+.order-card__price {
+    font-family: var(--title-font);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--charcoal-clay);
+}
+
+.order-card__btw {
+    font-size: 0.72rem;
+    color: var(--rustic-taupe);
+}
+
+/* ── STATUS BADGES ── */
+.order-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 5px 11px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.order-badge svg { width: 12px; height: 12px; }
+
+.order-badge--verzonden {
+    background: #eef2ff;
+    color: #3730a3;
+}
+
+.order-badge--geleverd {
+    background: #eafaf1;
+    color: #1a7a45;
+}
+
+.order-badge--verwerking {
+    background: #fff4e0;
+    color: #c07a10;
+}
+
+.order-badge--geannuleerd {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+/* ── EMPTY STATE ── */
+.orders-empty {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 56px 24px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(58,43,32,0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.orders-empty svg {
+    width: 44px;
+    height: 44px;
+    color: var(--creamy-taupe);
+}
+
+.orders-empty p {
+    font-size: 0.9rem;
+    color: var(--rustic-taupe);
+    margin: 0;
+}
+
+.orders-empty a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--charcoal-clay);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-size: var(--button-size);
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.orders-empty a:hover { background: #2a1e15; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+    .account-layout {
+        grid-template-columns: 1fr;
+        padding: 24px 20px;
+    }
+}

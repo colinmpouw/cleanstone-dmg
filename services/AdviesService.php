@@ -1,25 +1,38 @@
 <?php
 
 namespace services;
+use PHPMailer\PHPMailer\PHPMailer;
 use repositories\AdviesRepository;
+use services\MailService;
 
 class AdviesService
 {
     private AdviesRepository $repository;
+    private MailService $mail;
 
     public function __construct()
     {
         $this->repository = new AdviesRepository();
+        $this->mail = new MailService();
     }
 
     public function createRequest(array $data): int
     {
+
+        $this->mail->sendAdviesBevestiging($data['email'], $data['name']);
+
+
         return $this->repository->createRequest($data);
     }
 
     public function saveImage(int $request_id, string $filename): void
     {
         $this->repository->saveImage($request_id, $filename);
+    }
+
+    public function deleteRequest(int $id, int $user_id): bool
+    {
+        return $this->repository->deleteRequest($id, $user_id);
     }
 
     public function getRequestById(int $id): ?array

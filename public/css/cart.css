@@ -5,6 +5,7 @@ main {
     max-width: 1300px;
     margin: auto;
     padding: 2rem;
+    min-height: 80vh;
 }
 
 main>h1{
@@ -43,6 +44,11 @@ main>h1{
     height: 90px;
     background: var(--warm-beige);
     border-radius: 15px;
+}
+.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .brand {
@@ -103,6 +109,8 @@ main>h1{
 
 .summary h2 {
     font-family: var(--title-font);
+    border-bottom: 2px solid var( --rustic-taupe);
+    padding-bottom: 0.5rem;
 }
 
 .row {
@@ -141,6 +149,10 @@ main>h1{
 }
 
 .checkout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
     width: 100%;
     padding: 15px;
     border-radius: 12px;
@@ -149,10 +161,17 @@ main>h1{
     color: white;
     font-size: 1rem;
     cursor: pointer;
+    margin: 1rem auto;
 }
 
 .notes {
     margin-top: 1rem;
-    padding-left: 1rem;
     font-size: 0.9rem;
+    list-style: none;
+}
+.notes li {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+
 }

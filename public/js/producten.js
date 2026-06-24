@@ -121,7 +121,7 @@ function createProductCardHTML(product) {
 
     const btn = document.createElement('button');
     btn.className = product.stock > 0 ? 'btn-primary' : 'btn-disabled';
-    btn.textContent = product.stock > 0 ? 'In winkelwagen' : 'Uitverkocht';
+    btn.textContent = product.stock > 0 ? 'Bekijk Product' : 'Uitverkocht';
     if (product.stock > 0) {
         btn.addEventListener('click', (e) => {
             e.preventDefault();

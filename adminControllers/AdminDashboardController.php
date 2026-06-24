@@ -31,6 +31,10 @@ class AdminDashboardController
 
     public function dashboardPage()
     {
+        $user = $_SESSION['user'] ?? null;
+        if (!$user || $user['role'] !== 'admin') {
+            http_response_code(403);
+        }
         require_once __DIR__ . '/../admin/adminDashboard.php';
         exit();
     }

@@ -20,3 +20,290 @@
     color: var(--rustic-taupe);
     margin-top: 4px;
 }
+
+/* ==========================================================================
+   adminBundles.css
+   Admin-side Bundels overview: card grid with edit/delete actions.
+   Relies on tokens defined in adminMain.css (:root variables).
+   ========================================================================== */
+
+/* ---------- Page heading ---------- */
+.bundles-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+}
+
+.bundles-heading h1 {
+    font-family: var(--title-font);
+    font-size: var(--page-title-size);
+    color: var(--charcoal-clay);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.bundles-heading p {
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--rustic-taupe);
+    margin: 0.35rem 0 0;
+}
+
+.btn-new-bundle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--charcoal-clay);
+    color: var(--white);
+    border: none;
+    border-radius: 0.65rem;
+    padding: 0.85rem 1.4rem;
+    font-family: var(--body-font);
+    font-size: var(--button-size);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-new-bundle i {
+    font-size: 1.1rem;
+}
+
+.btn-new-bundle:hover {
+    background: #2a1f17;
+}
+
+.btn-new-bundle:active {
+    transform: scale(0.98);
+}
+
+/* ---------- Card grid ---------- */
+.bundles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+    .bundles-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Bundle card ---------- */
+.bundle-card {
+    display: flex;
+    align-items: stretch;
+    background: var(--white);
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: box-shadow 0.15s ease;
+}
+
+.bundle-card:hover {
+    box-shadow: 0 4px 16px rgba(58, 43, 32, 0.06);
+}
+
+/* ---------- Card entrance animation ---------- */
+@keyframes bundleCardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bundle-card--enter {
+    animation: bundleCardEnter 0.35s ease both;
+}
+
+/* ---------- Skeleton loading state ---------- */
+@keyframes skeletonShimmer {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+.skeleton-block {
+    background: linear-gradient(
+            90deg,
+            var(--soft-white) 25%,
+            var(--creamy-taupe) 37%,
+            var(--soft-white) 63%
+    );
+    background-size: 400px 100%;
+    animation: skeletonShimmer 1.4s ease-in-out infinite;
+    border-radius: 0.4rem;
+}
+
+.bundle-card--skeleton {
+    cursor: default;
+}
+
+.bundle-card--skeleton .skeleton-image {
+    width: 190px;
+    flex-shrink: 0;
+    border-radius: 0;
+}
+
+.bundle-card--skeleton .bundle-card-body {
+    justify-content: center;
+    gap: 0.9rem;
+}
+
+.skeleton-line {
+    height: 1rem;
+}
+
+.skeleton-line--title {
+    width: 60%;
+    height: 1.1rem;
+}
+
+.skeleton-line--price {
+    width: 40%;
+}
+
+.skeleton-line--footer {
+    width: 35%;
+    margin-top: 0.5rem;
+}
+
+.bundle-card-image {
+    width: 190px;
+    flex-shrink: 0;
+    object-fit: cover;
+    background: var(--soft-white);
+}
+
+/* Placeholder used when a bundle has no image set */
+.bundle-card-placeholder {
+    width: 190px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--soft-white);
+}
+
+.bundle-card-placeholder i {
+    font-size: 2.75rem;
+    color: var(--creamy-taupe);
+}
+
+.bundle-card-body {
+    flex: 1;
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 0;
+}
+
+.bundle-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.bundle-card-name {
+    font-family: var(--body-font);
+    font-size: var(--small-title-size);
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    margin: 0;
+}
+
+/* ---------- Price row ---------- */
+.bundle-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+}
+
+.bundle-price-current {
+    font-family: var(--body-font);
+    font-size: var(--small-title-size);
+    font-weight: 700;
+    color: var(--charcoal-clay);
+}
+
+.bundle-price-original {
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--warm-beige);
+    text-decoration: line-through;
+}
+
+.bundle-price-discount {
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    font-weight: 600;
+    color: #008236;
+}
+
+/* ---------- Meta row (product count) ---------- */
+.bundle-meta {
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--rustic-taupe);
+}
+
+/* ---------- Footer row (meta + actions) ---------- */
+.bundle-card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.row-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-shrink: 0;
+}
+
+.action-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    color: var(--rustic-taupe);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 1.05rem;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.action-icon:hover {
+    background: var(--soft-white);
+    color: var(--charcoal-clay);
+}
+
+.action-icon.action-delete:hover {
+    color: var(--red);
+}
+
+/* ---------- Empty / error state ---------- */
+.bundles-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--rustic-taupe);
+    font-family: var(--body-font);
+}

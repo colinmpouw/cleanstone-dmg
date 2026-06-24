@@ -132,6 +132,10 @@ class AuthService
             'role' => 'customer',
         ];
 
+        // welkom mail
+        $mailService = new \services\MailService();
+        $mailService->sendWelkomMail($email, $username);
+
         header('Location: /account');
         exit;
     }
@@ -150,6 +154,9 @@ class AuthService
             header('Location: /login');
             exit;
         }
+
+        $accountService = new \services\AccountService();
+        $accountData    = $accountService->getAccountData($user['id']);
 
         require __DIR__ . '/../public/account-overzicht.php';
     }
@@ -170,5 +177,21 @@ class AuthService
     private function verifyPassword(string $password, string $hash): bool
     {
         return password_verify($password, $hash) || $password === $hash;
+    }
+
+    public function getAccountData(): void
+    {
+        if (!$this->isLoggedIn()) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false]);
+            return;
+        }
+
+        $accountService = new \services\AccountService();
+        $data = $accountService->getAccountData($_SESSION['user']['id']);
+
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true, 'data' => $data]);
+        exit;
     }
 }

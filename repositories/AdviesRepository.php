@@ -83,5 +83,13 @@ class AdviesRepository
             ['status' => $status, 'id' => $id]
         );
     }
+
+    public function deleteRequest(int $id, int $user_id): bool
+    {
+        return $this->DB->save(
+            "DELETE FROM advice_requests WHERE id = :id AND user_id = :user_id",
+            ['id' => $id, 'user_id' => $user_id]
+        );
+    }
 }
 

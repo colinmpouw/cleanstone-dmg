@@ -19,6 +19,7 @@ class AdviesController
         $router->get('/api/advies/{id}/messages', [$this, 'getMessages']);
         $router->post('/api/advies/message', [$this, 'sendMessage']);
         $router->post('/api/advies/status', [$this, 'updateStatus']);
+        $router->post('/api/advies/delete', [$this, 'deleteRequest']);
     }
 
     private function requireLogin(): void
@@ -37,6 +38,25 @@ class AdviesController
             $existing = $requests[0] ?? null;
         }
         require __DIR__ . '/../public/advies.php';
+    }
+
+    public function deleteRequest(): void
+    {
+        $this->requireLogin();
+        header('Content-Type: application/json');
+
+        $data    = json_decode(file_get_contents('php://input'), true);
+        $id      = (int)($data['id'] ?? 0);
+        $user_id = $_SESSION['user']['id'];
+
+        if (!$id) {
+            echo json_encode(['success' => false]);
+            return;
+        }
+
+        $success = $this->adviesService->deleteRequest($id, $user_id);
+        echo json_encode(['success' => $success]);
+        exit;
     }
 
     public function pageShowAdvies(int $id): void

@@ -1,0 +1,308 @@
+/* ── LAYOUT ── */
+body { background-color: var(--soft-white); }
+
+.account-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+/* ── MAIN ── */
+.bestelling-main {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ── BACK + HEADER ROW ── */
+.bestelling-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.82rem;
+    color: var(--rustic-taupe);
+    text-decoration: none;
+    transition: color 0.15s;
+    flex-shrink: 0;
+}
+.back-link:hover { color: var(--charcoal-clay); }
+.back-link svg { width: 16px; height: 16px; }
+
+.bestelling-header {
+    flex: 1;
+}
+
+.bestelling-header h1 {
+    font-family: var(--title-font);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    margin-bottom: 3px;
+}
+
+.bestelling-header h1 span {
+    color: var(--rustic-taupe);
+    font-weight: 500;
+}
+
+.bestelling-header__date {
+    font-size: 0.78rem;
+    color: var(--rustic-taupe);
+}
+
+/* status badge */
+.order-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 6px 13px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.order-badge svg { width: 12px; height: 12px; }
+.order-badge--verzonden   { background: #eef2ff; color: #3730a3; }
+.order-badge--geleverd    { background: #eafaf1; color: #1a7a45; }
+.order-badge--verwerking  { background: #fff4e0; color: #c07a10; }
+.order-badge--geannuleerd { background: #fef2f2; color: #b91c1c; }
+
+/* ── CARD BASE ── */
+.detail-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 24px 28px;
+    box-shadow: 0 2px 12px rgba(58,43,32,0.06);
+}
+
+.detail-card__title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    margin-bottom: 20px;
+}
+
+/* ── VOORTGANG / TIMELINE ── */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.timeline-step {
+    display: flex;
+    gap: 14px;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.timeline-step:last-child { padding-bottom: 0; }
+
+/* vertical line */
+.timeline-step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 24px;
+    width: 1.5px;
+    height: calc(100% - 4px);
+    background: var(--creamy-taupe);
+}
+
+.timeline-step--done:not(:last-child)::before {
+    background: var(--charcoal-clay);
+}
+
+/* dot */
+.timeline-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    position: relative;
+    z-index: 1;
+}
+
+.timeline-step--done .timeline-dot {
+    background: var(--charcoal-clay);
+}
+
+.timeline-step--done .timeline-dot svg {
+    width: 12px;
+    height: 12px;
+    color: var(--white);
+}
+
+.timeline-step--pending .timeline-dot {
+    background: var(--soft-white);
+    border: 2px solid var(--creamy-taupe);
+}
+
+.timeline-step--pending .timeline-dot svg {
+    display: none;
+}
+
+.timeline-info strong {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    margin-bottom: 2px;
+}
+
+.timeline-step--pending .timeline-info strong {
+    color: var(--warm-beige);
+    font-weight: 500;
+}
+
+.timeline-info span {
+    font-size: 0.75rem;
+    color: var(--rustic-taupe);
+}
+
+/* ── PRODUCTEN ── */
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.product-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--soft-white);
+}
+
+.product-row:last-of-type { border-bottom: none; }
+
+.product-thumb {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    object-fit: cover;
+    background: var(--soft-white);
+    flex-shrink: 0;
+    border: 1.5px solid var(--creamy-taupe);
+}
+
+.product-info { flex: 1; min-width: 0; }
+
+.product-info__name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--charcoal-clay);
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-info__meta {
+    font-size: 0.74rem;
+    color: var(--rustic-taupe);
+}
+
+.product-price {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--charcoal-clay);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* totalen */
+.order-totals {
+    border-top: 1px solid var(--creamy-taupe);
+    margin-top: 8px;
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.totals-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--rustic-taupe);
+}
+
+.totals-row--total {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    margin-top: 4px;
+    padding-top: 10px;
+    border-top: 1px solid var(--creamy-taupe);
+}
+
+/* ── BEZORGADRES ── */
+.address-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: var(--charcoal-clay);
+    line-height: 1.6;
+}
+
+.address-row svg {
+    width: 16px;
+    height: 16px;
+    color: var(--rustic-taupe);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* ── FACTUUR KNOP ── */
+.factuur-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border: 1.5px solid var(--creamy-taupe);
+    border-radius: 10px;
+    background: var(--white);
+    font-size: 0.85rem;
+    font-family: var(--body-font);
+    font-weight: 600;
+    color: var(--charcoal-clay);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+    width: fit-content;
+}
+
+.factuur-btn:hover {
+    background: var(--soft-white);
+    border-color: var(--warm-beige);
+}
+
+.factuur-btn svg { width: 15px; height: 15px; color: var(--rustic-taupe); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+    .account-layout {
+        grid-template-columns: 1fr;
+        padding: 24px 20px;
+    }
+    .bestelling-topbar { flex-wrap: wrap; }
+}

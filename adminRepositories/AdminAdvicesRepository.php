@@ -1,15 +1,16 @@
 <?php
 
 namespace adminRepositories;
-use controllers\DatabaseController;
+use adminControllers\AdminDatabaseController;
+
 
 class AdminAdvicesRepository
 {
-    private DatabaseController $DB;
+    private $DB;
 
     public function __construct()
     {
-        $this->DB = new DatabaseController();
+        $this->DB = new AdminDatabaseController();
     }
 
     public function getAllRequests(): array

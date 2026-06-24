@@ -23,6 +23,25 @@ class Router
         $this->routes['POST'][$uri] = $callback;
     }
 
+    public function delete(string $uri, callable $callback): void
+    {
+        $uri = rtrim($uri, '/');
+        if ($uri === '') {
+            $uri = '/';
+        }
+
+        $this->routes['DELETE'][$uri] = $callback;
+    }
+
+    public function put(string $uri, callable $callback): void
+    {
+        $uri = rtrim($uri, '/');
+        if ($uri === '') {
+            $uri = '/';
+        }
+
+        $this->routes['PUT'][$uri] = $callback;
+    }
 
     public function dispatch(): void
     {

@@ -28,7 +28,7 @@ function changeImage(thumbnail) {
 function addToCart(productId) {
     const quantity = parseInt(document.getElementById('quantity').value);
     
-    fetch('/api/cart/add', {
+    fetch('/api/add_cart_item', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -110,8 +110,9 @@ function showNotification(message, type = 'info') {
 
 // Update Cart Count
 function updateCartCount() {
-    // This would update the cart count in the header
-    // Implementation depends on your cart system
+    // if (typeof loadCartItemCount === 'function') {
+    //     loadCartItemCount();
+    // }
 }
 
 // Add slide animations
