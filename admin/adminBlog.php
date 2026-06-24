@@ -2,6 +2,7 @@
 $loadedByController = isset($blogs);
 $errors = $errors ?? [];
 $old = $old ?? [];
+$editBlogId = $editBlogId ?? 0;
 $successMessage = $successMessage ?? '';
 
 if (!$loadedByController) {
@@ -11,19 +12,51 @@ if (!$loadedByController) {
     $blogThemes = $blogService->getBlogThemes();
 
     if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
-        $result = $blogService->createBlog($_POST);
+        $action = $_POST['blog_action'] ?? 'create';
 
-        if ($result['success']) {
-            header('Location: /admin/adminblog.php?created=1');
+        if ($action === 'delete') {
+            $deleted = $blogService->deleteBlog((int) ($_POST['blog_id'] ?? 0));
+            header('Location: /admin/adminblog.php?' . ($deleted ? 'deleted=1' : 'error=delete'));
             die();
         }
 
-        $errors = $result['errors'];
-        $old = $result['data'];
+        if ($action === 'update') {
+            $editBlogId = (int) ($_POST['blog_id'] ?? 0);
+            $result = $blogService->updateBlog($editBlogId, $_POST);
+
+            if ($result['success']) {
+                header('Location: /admin/adminblog.php?updated=1');
+                die();
+            }
+
+            $errors = $result['errors'];
+            $old = $result['data'];
+        } else {
+            $result = $blogService->createBlog($_POST);
+
+            if ($result['success']) {
+                header('Location: /admin/adminblog.php?created=1');
+                die();
+            }
+
+            $errors = $result['errors'];
+            $old = $result['data'];
+        }
+    } elseif (isset($_GET['edit'])) {
+        $editBlogId = (int) $_GET['edit'];
+        $old = $blogService->getBlogForEdit($editBlogId) ?? [];
     }
 
     $blogs = $blogService->getAllBlogs();
-    $successMessage = isset($_GET['created']) ? 'Blog is toegevoegd.' : '';
+    if (isset($_GET['created'])) {
+        $successMessage = 'Blog is toegevoegd.';
+    } elseif (isset($_GET['updated'])) {
+        $successMessage = 'Blog is bijgewerkt.';
+    } elseif (isset($_GET['deleted'])) {
+        $successMessage = 'Blog is verwijderd.';
+    } elseif (($_GET['error'] ?? '') === 'delete') {
+        $errors[] = 'Blog kon niet worden verwijderd.';
+    }
 }
 
 $blogs = $blogs ?? [];
@@ -36,6 +69,7 @@ $blogThemes = $blogThemes ?? [
     'Marmer',
     'Onze Merken',
 ];
+$isEditing = $editBlogId > 0 && !empty($old);
 
 function adminBlogValue(array $old, string $key): string
 {
@@ -119,7 +153,7 @@ function adminBlogSelectedThemes(array $old): array
                                 <th>Auteur</th>
                                 <th>Thema's</th>
                                 <th>Datum</th>
-                                <th>Actie</th>
+                                <th>Acties</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -133,8 +167,14 @@ function adminBlogSelectedThemes(array $old): array
                                     <td><?php echo htmlspecialchars($blog['arthor']); ?></td>
                                     <td><span class="tag"><?php echo htmlspecialchars($blog['tag']); ?></span></td>
                                     <td><?php echo adminBlogDate($blog['date']); ?></td>
-                                    <td>
+                                    <td class="actions-cell">
                                         <a class="view-link" href="/blog/<?php echo (int) $blog['blog_id']; ?>" target="_blank">Bekijken</a>
+                                        <a class="edit-link" href="/admin/adminblog.php?edit=<?php echo (int) $blog['blog_id']; ?>#blog-toevoegen">Bewerken</a>
+                                        <form action="/admin/adminblog.php" method="post" onsubmit="return confirm('Weet je zeker dat je deze blog wilt verwijderen?');">
+                                            <input type="hidden" name="blog_action" value="delete">
+                                            <input type="hidden" name="blog_id" value="<?php echo (int) $blog['blog_id']; ?>">
+                                            <button class="delete-link" type="submit">Verwijderen</button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -151,11 +191,16 @@ function adminBlogSelectedThemes(array $old): array
 
         <section id="blog-toevoegen" class="blog-panel blog-form-panel">
             <div class="panel-title">
-                <h2>Blog toevoegen</h2>
-                <span>Nieuwe publicatie</span>
+                <h2><?php echo $isEditing ? 'Blog bewerken' : 'Blog toevoegen'; ?></h2>
+                <span><?php echo $isEditing ? 'Bestaande publicatie' : 'Nieuwe publicatie'; ?></span>
             </div>
 
             <form class="blog-form" action="/admin/adminblog.php" method="post">
+                <input type="hidden" name="blog_action" value="<?php echo $isEditing ? 'update' : 'create'; ?>">
+                <?php if ($isEditing): ?>
+                    <input type="hidden" name="blog_id" value="<?php echo (int) $editBlogId; ?>">
+                <?php endif; ?>
+
                 <label>
                     Titel
                     <input type="text" name="title" maxlength="45" value="<?php echo adminBlogValue($old, 'title'); ?>" required>
@@ -199,7 +244,10 @@ function adminBlogSelectedThemes(array $old): array
                 </label>
 
                 <div class="form-actions">
-                    <button type="submit">Blog toevoegen</button>
+                    <?php if ($isEditing): ?>
+                        <a class="cancel-edit" href="/admin/adminblog.php">Annuleren</a>
+                    <?php endif; ?>
+                    <button type="submit"><?php echo $isEditing ? 'Blog bijwerken' : 'Blog toevoegen'; ?></button>
                 </div>
             </form>
         </section>
