@@ -65,7 +65,6 @@
     font-family: var(--title-font);
     font-size: var(--page-title-size);
     color: var(--charcoal-clay);
-    font-weight: 700;
     margin: 0;
     line-height: 1.1;
 }

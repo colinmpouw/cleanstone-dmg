@@ -170,7 +170,7 @@ class OrderService
             if (!$paymentSuccess) {
 
 
-                $this->orderRepository->updateOrderStatus($orderId, 'failed');
+                $this->orderRepository->updateOrderStatus($orderId, 'cancelled');
 
                 throw new Exception("Betaling mislukt");
             }

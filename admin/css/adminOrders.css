@@ -20,7 +20,6 @@
     color: var(--rustic-taupe);
     margin-top: 4px;
 }
-
 /* ==========================================================================
    adminOrders.css
    Admin orders list page: filter buttons, search, table with status badges.
@@ -39,7 +38,6 @@
     font-family: var(--title-font);
     font-size: var(--page-title-size);
     color: var(--charcoal-clay);
-    font-weight: 700;
     margin: 0;
     line-height: 1.1;
 }
@@ -213,20 +211,15 @@
 }
 
 /* Customer info */
-.customer-info {
-    display: flex;
-    flex-direction: column;
-}
-
 .customer-name {
     font-weight: 600;
     color: var(--charcoal-clay);
 }
 
-.customer-email {
-    font-size: var(--list-text-size);
+/* Email column */
+.order-email {
+    font-size: var(--paragraph-size);
     color: var(--warm-beige);
-    margin-top: 0.1rem;
 }
 
 /* Order amount */
@@ -383,14 +376,235 @@
     font-family: var(--body-font);
 }
 
-.customer-name {
-    font-weight: 600;
-    display: block;
+/* ---------- Order Detail Panel ---------- */
+.order-detail-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(58, 43, 32, 0.3);
+    z-index: 99;
+    animation: fadeIn 0.2s ease;
 }
 
-.customer-email {
-    font-size: 12px;
-    color: #888;
-    display: block;
-    margin-top: 2px;
+.order-detail-overlay[hidden] {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.order-detail-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 420px;
+    height: 100%;
+    background: var(--white);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -8px 0 24px rgba(58, 43, 32, 0.15);
+    animation: slideInRight 0.3s ease;
+    overflow-y: auto;
+}
+
+.order-detail-panel[hidden] {
+    display: none;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--soft-white);
+    gap: 1rem;
+}
+
+.panel-header h2 {
+    font-family: var(--body-font);
+    font-size: var(--small-title-size);
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    margin: 0;
+}
+
+.panel-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: none;
+    color: var(--rustic-taupe);
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.panel-close:hover {
+    background: var(--soft-white);
+    color: var(--charcoal-clay);
+}
+
+.panel-content {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.order-date {
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--rustic-taupe);
+    margin: 0 0 1.5rem;
+}
+
+.detail-section {
+    margin-bottom: 1.75rem;
+}
+
+.detail-section:last-child {
+    margin-bottom: 1rem;
+}
+
+.detail-section h3 {
+    font-family: var(--body-font);
+    font-size: var(--list-text-size);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--rustic-taupe);
+    font-weight: 600;
+    margin: 0 0 1rem;
+}
+
+.detail-group {
+    margin-bottom: 0.9rem;
+}
+
+.detail-group:last-child {
+    margin-bottom: 0;
+}
+
+.detail-label {
+    font-family: var(--body-font);
+    font-size: var(--list-text-size);
+    color: var(--warm-beige);
+    margin-bottom: 0.25rem;
+}
+
+.detail-value {
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--charcoal-clay);
+    line-height: 1.4;
+}
+
+.detail-select {
+    width: 100%;
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--charcoal-clay);
+    background: var(--white);
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 0.65rem;
+    padding: 0.85rem 1rem;
+    outline: none;
+    transition: border-color 0.15s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%237E6A52' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.detail-select:focus {
+    border-color: var(--rustic-taupe);
+}
+
+.detail-items {
+    margin-bottom: 1.25rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--soft-white);
+    font-family: var(--body-font);
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item-name {
+    font-size: var(--paragraph-size);
+    color: var(--charcoal-clay);
+    font-weight: 500;
+}
+
+.detail-item-qty {
+    font-size: var(--list-text-size);
+    color: var(--warm-beige);
+    margin: 0 0.75rem;
+}
+
+.detail-item-price {
+    font-size: var(--paragraph-size);
+    color: var(--charcoal-clay);
+    font-weight: 600;
+}
+
+.detail-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--creamy-taupe);
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    font-weight: 700;
+    color: var(--charcoal-clay);
+}
+
+.btn-save-status {
+    margin: 1.5rem;
+    background: var(--charcoal-clay);
+    color: var(--white);
+    border: none;
+    border-radius: 0.65rem;
+    padding: 0.85rem 1.4rem;
+    font-family: var(--body-font);
+    font-size: var(--button-size);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    width: calc(100% - 3rem);
+}
+
+.btn-save-status:hover {
+    background: #2a1f17;
+}
+
+.btn-save-status:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
