@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </svg>
         `;
         editBtn.addEventListener('click', () => {
-            window.location.href = `/admin/bundles/${bundle.id}/edit`;
+            window.location.href = `/admin/bundel/bewerking/${bundle.id}`;
         });
 
         const deleteBtn = document.createElement('button');
