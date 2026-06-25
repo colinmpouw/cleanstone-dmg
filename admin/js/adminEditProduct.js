@@ -12,10 +12,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Get product ID from URL (e.g. /admin/products/123/edit)
 
-    // if (!productId) {
-    //     alert('Product ID not found in URL');
-    //     return;
-    // }
+    if (!productId) {
+        showAlert({
+            type: 'error',
+            title: 'Niet Gelukt!',
+            message: `'Product ID not found in URL'`
+        });
+        return;
+    }
 
     let product = null;
     let selectedTags = [];
@@ -45,7 +49,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         productSubtitle.textContent = product.name || '—';
     } catch (error) {
         console.error('Failed to load product:', error);
-        alert('Kon product niet laden');
+
+        showAlert({
+            type: 'error',
+            title: 'Niet Gelukt!',
+            message: 'Kon product niet laden',
+            buttons: [
+                { text: 'OK', type: 'primary' }
+            ]
+        });
         return;
     }
 
@@ -97,11 +109,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (!photoRes.ok) throw new Error(`Photo upload failed: ${photoRes.status}`);
             }
 
-            alert('Product opgeslagen');
+
+            showAlert({
+                type: 'error',
+                title: 'Niet Gelukt!',
+                message: 'Product opgeslagen'
+            });
             window.location.href = '/admin/products';
         } catch (error) {
             console.error('Save error:', error);
-            alert(`Fout bij opslaan: ${error.message}`);
+
+            showAlert({
+                type: 'error',
+                title: 'Fout bij opslaan',
+                message: error.message
+            });
             saveBtn.disabled = false;
             saveBtn.textContent = 'Opslaan';
         }

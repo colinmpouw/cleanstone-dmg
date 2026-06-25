@@ -129,6 +129,7 @@
 
 </div>
 
+<script src="/admin/js/adminMain.js"></script>
 <script src="/admin/js/adminOrders.js"></script>
 </body>
 </html>

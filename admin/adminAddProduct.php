@@ -183,6 +183,7 @@
     </main>
 </div>
 
+<script src="/admin/js/adminMain.js"></script>
 <script src="/admin/js/adminAddProduct.js"></script>
 </body>
 </html>

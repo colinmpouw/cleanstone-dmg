@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     window.location.href = '/show-advies';
                 } else {
                     alert('Verwijderen mislukt.');
+
                 }
             } catch (err) {
                 console.error(err);
