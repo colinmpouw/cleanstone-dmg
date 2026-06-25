@@ -56,7 +56,7 @@ class PasswordResetController
         $token   = trim($data['token'] ?? '');
 
         if (!$user_id || !$token) {
-            echo json_encode(['success' => false, 'message' => 'Ongeldige gegevens.']);
+            echo json_encode(['success' => false, 'message' => 'Ongeldige gegevensController.']);
             return;
         }
 
@@ -74,7 +74,7 @@ class PasswordResetController
         $password = trim($data['password'] ?? '');
 
         if (!$user_id || !$token || strlen($password) < 6) {
-            echo json_encode(['success' => false, 'message' => 'Ongeldige gegevens.']);
+            echo json_encode(['success' => false, 'message' => 'Ongeldige gegevensController.']);
             return;
         }
 
