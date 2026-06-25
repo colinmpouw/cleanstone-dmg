@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderGrid(allBundles);
 
         newBundleBtn.addEventListener('click', () => {
-            window.location.href = '/admin/bundles/new';
+            window.location.href = '/admin/bundel/toevoegen';
         });
     }
 

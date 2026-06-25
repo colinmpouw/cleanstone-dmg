@@ -13,6 +13,7 @@ class AdminBundlesController
         $this->adminBundlesService = new AdminBundlesService();
         $router->get('/admin/bundels', [$this, 'bundlesPage']);
         $router->get('/admin/bundel/bewerking/{id}', [$this, 'bundleEditPage']);
+        $router->get('/admin/bundel/toevoegen', [$this, 'bundleAddPage']);
         $router->get('/api/admin/get_all_bundels', [$this, 'get_all_bundles']);
         $router->get('/api/admin/get_bundle/{bundle_id}', [$this, 'find_bundle']);
     }
@@ -30,6 +31,12 @@ class AdminBundlesController
         require_once __DIR__ . '/../admin/adminEditBundle.php';
         die();
     }
+    public function bundleAddPage()
+    {
+        require_once __DIR__ . '/../admin/adminAddBundle.php';
+        die();
+    }
+
 
     public function get_all_bundles()
     {
