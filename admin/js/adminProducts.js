@@ -334,12 +334,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleDelete(product) {
-        const confirmed = window.confirm(`Weet je zeker dat je "${product.name}" wilt verwijderen?`);
-        if (!confirmed) return;
+        showAlert({
+            type: 'warning',
+            title: 'Verwijderen bevestigen',
+            message: `Weet je zeker dat je "${product.name}" wilt verwijderen?`,
+            buttons: [
+                {
+                    text: 'Verwijderen',
+                    type: 'primary',
+                    action: async () => {
+                        try {
+                            // TODO: wire up real delete request, e.g.:
+                            // const res = await fetch(`/api/products/${product.id}`, { method: 'DELETE' });
+                            // if (!res.ok) throw new Error('Delete failed');
 
-        // TODO: wire up real delete request, e.g.:
-        // fetch(`/api/products/${product.id}`, { method: 'DELETE' })
-        allProducts = allProducts.filter(p => p.id !== product.id);
-        renderTable(allProducts);
+                            allProducts = allProducts.filter(p => p.id !== product.id);
+                            renderTable(allProducts);
+
+                            showAlert({
+                                type: 'success',
+                                title: 'Verwijderd!',
+                                message: `"${product.name}" is verwijderd.`
+                            });
+                        } catch (error) {
+                            showAlert({
+                                type: 'error',
+                                title: 'Fout',
+                                message: error.message
+                            });
+                        }
+                    }
+                },
+                {
+                    text: 'Annuleren',
+                    type: 'secondary'
+                }
+            ]
+        });
     }
 });

@@ -289,12 +289,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleDelete(bundle) {
-        const confirmed = window.confirm(`Weet je zeker dat je "${bundle.name}" wilt verwijderen?`);
-        if (!confirmed) return;
+        showAlert({
+            type: 'warning',
+            title: 'Verwijderen bevestigen',
+            message: `Weet je zeker dat je "${bundle.name}" wilt verwijderen?`,
+            buttons: [
+                {
+                    text: 'Verwijderen',
+                    type: 'primary',
+                    action: async () => {
+                        try {
+                            // TODO: wire up real delete request, e.g.:
+                            // const res = await fetch(`/api/bundles/${bundle.id}`, { method: 'DELETE' });
+                            // if (!res.ok) throw new Error('Delete failed');
 
-        // TODO: wire up real delete request, e.g.:
-        // fetch(`/api/bundles/${bundle.id}`, { method: 'DELETE' })
-        allBundles = allBundles.filter(b => b.id !== bundle.id);
-        renderGrid(allBundles);
+                            allBundles = allBundles.filter(b => b.id !== bundle.id);
+                            renderGrid(allBundles);
+
+                            showAlert({
+                                type: 'success',
+                                title: 'Verwijderd!',
+                                message: `"${bundle.name}" is verwijderd.`
+                            });
+                        } catch (error) {
+                            showAlert({
+                                type: 'error',
+                                title: 'Fout',
+                                message: error.message
+                            });
+                        }
+                    }
+                },
+                {
+                    text: 'Annuleren',
+                    type: 'secondary'
+                }
+            ]
+        });
     }
 });
