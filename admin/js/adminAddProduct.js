@@ -23,7 +23,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (error) {
         console.error(error);
-        alert('Kon data niet laden');
+        showAlert({
+            type: 'error',
+            title: 'Kon data niet laden',
+            message: error.message
+        });
         return;
     }
 
@@ -77,12 +81,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (!photoRes.ok) throw new Error('Photo upload failed');
             }
 
-            alert('Product aangemaakt');
+
+            showAlert({
+                type: 'error',
+                title: 'Kon data niet laden',
+                message: `Product aangemaakt`
+            });
             window.location.href = '/admin/producten';
 
         } catch (error) {
             console.error(error);
-            alert(`Fout: ${error.message}`);
+            showAlert({
+                type: 'error',
+                title: 'Niet Gelukt!',
+                message: `Fout: ${error.message}`
+            });
             saveBtn.disabled = false;
             saveBtn.textContent = 'Opslaan';
         }

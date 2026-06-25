@@ -12,11 +12,19 @@ class AdminBundlesController
     {
         $this->adminBundlesService = new AdminBundlesService();
         $router->get('/admin/bundels', [$this, 'bundlesPage']);
+        $router->get('/admin/bundel/bewerking/{id}', [$this, 'bundleEditPage']);
         $router->get('/api/admin/get_all_bundels', [$this, 'get_all_bundles']);
 
     }
     public function bundlesPage(){
         require_once __DIR__ . '/../admin/adminBundles.php';
+        die();
+    }
+    public function bundleEditPage($id){
+        echo '<script>window.bundleId = ' . json_encode((int)$id) . ';
+console.log(window.productId);
+</script>';
+        require_once __DIR__ . '/../admin/adminEditBundle.php';
         die();
     }
     public function get_all_bundles()

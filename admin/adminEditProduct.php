@@ -155,6 +155,7 @@
     </main>
 </div>
 
+<script src="/admin/js/adminMain.js"></script>
 <script src="/admin/js/adminEditProduct.js"></script>
 </body>
 </html>

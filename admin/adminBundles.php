@@ -27,7 +27,14 @@
                 <p id="bundleCount">— actieve bundels</p>
             </div>
             <button class="btn-new-bundle" id="newBundleBtn">
-                <i class="ti ti-plus"></i>
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path d="M6 12H18M12 6V18" stroke="var(--white)" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round"></path>
+                    </g>
+                </svg>
                 Nieuwe bundel
             </button>
         </div>
@@ -38,6 +45,7 @@
     </main>
 </div>
 
+<script src="/admin/js/adminMain.js"></script>
 <script src="/admin/js/adminBundles.js"></script>
 </body>
 </html>

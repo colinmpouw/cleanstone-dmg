@@ -43,7 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const files = Array.from(photosInput.files);
 
             if (files.length > 5) {
-                alert('U kunt maximaal 5 foto\'s uploaden.');
+                showAlert({
+                    type: 'error',
+                    title: 'Niet Gelukt!',
+                    message: 'U kunt maximaal 5 foto\'s uploaden.'
+                });
                 photosInput.value = '';
                 return;
             }
@@ -88,7 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const message = document.getElementById('adv-message')?.value.trim();
 
         if (!name || !email || !message) {
-            alert('Vul alle verplichte velden in.');
+
+            showAlert({
+                type: 'error',
+                title: 'Niet Gelukt!',
+                message: 'Vul alle verplichte velden in.'
+            });
             return;
         }
 

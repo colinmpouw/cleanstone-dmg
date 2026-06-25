@@ -46,3 +46,138 @@ body{
     color: var(--charcoal-clay);
     display: flex;
 }
+
+
+
+/* ==========================================================================
+   alertBox.css
+   Reusable alert modal using CleanStone design tokens.
+   ========================================================================== */
+
+.alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(58, 43, 32, 0.4);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.alert-overlay[hidden] {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.alert-box {
+    background: var(--white);
+    border-radius: 1rem;
+    box-shadow: 0 16px 40px rgba(58, 43, 32, 0.15);
+    max-width: 420px;
+    width: 90%;
+    padding: 2rem;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.alert-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.alert-icon.alert-success {
+    color: #22C55E;
+}
+
+.alert-icon.alert-error {
+    color: #EF4444;
+}
+
+.alert-icon.alert-warning {
+    color: #D08700;
+}
+
+.alert-icon.alert-info {
+    color: #3B82F6;
+}
+
+.alert-title {
+    font-family: var(--title-font);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+}
+
+.alert-message {
+    font-family: var(--body-font);
+    font-size: var(--paragraph-size);
+    color: var(--rustic-taupe);
+    margin: 0 0 1.75rem;
+    line-height: 1.5;
+}
+
+.alert-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+.alert-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.65rem;
+    padding: 0.75rem 1.25rem;
+    font-family: var(--body-font);
+    font-size: var(--button-size);
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.alert-btn-primary {
+    background: var(--charcoal-clay);
+    color: var(--white);
+}
+
+.alert-btn-primary:hover {
+    background: #2a1f17;
+    transform: translateY(-1px);
+}
+
+.alert-btn-secondary {
+    background: var(--soft-white);
+    color: var(--charcoal-clay);
+    border: 1px solid var(--creamy-taupe);
+}
+
+.alert-btn-secondary:hover {
+    background: var(--white);
+    border-color: var(--warm-beige);
+}
+
+.alert-btn:active {
+    transform: scale(0.98);
+}

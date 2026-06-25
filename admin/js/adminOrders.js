@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let allOrders = [];
     let activeStatusFilter = 'all';
+    let currentDetailOrder = null;
 
     init();
 
@@ -33,6 +34,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Search handler
         searchInput.addEventListener('input', applyFiltersAndSearch);
+
+        // Detail panel handlers
+        const panelCloseBtn = document.getElementById('panelCloseBtn');
+        const orderDetailOverlay = document.getElementById('orderDetailOverlay');
+        panelCloseBtn.addEventListener('click', closeDetailPanel);
+        orderDetailOverlay.addEventListener('click', closeDetailPanel);
     }
 
     /**
@@ -54,17 +61,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         orderLine.className = 'skeleton-block skeleton-line skeleton-line--order';
         tdOrder.append(orderLine);
 
-        // Customer info
+        // Customer name
         const tdCustomer = document.createElement('td');
         const custNameLine = document.createElement('div');
         custNameLine.className = 'skeleton-block skeleton-line skeleton-line--customer-name';
         tdCustomer.append(custNameLine);
-
-        const tdEmail = document.createElement('td');
-        const custEmailLine = document.createElement('div');
-        custEmailLine.className = 'skeleton-block skeleton-line skeleton-line--customer-email';
-        custEmailLine.style.marginTop = '0.3rem';
-        tdEmail.append(custEmailLine);
 
         // Date
         const tdDate = document.createElement('td');
@@ -94,7 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tdActions = document.createElement('td');
         tdActions.className = 'col-actions';
 
-        tr.append(tdOrder, tdCustomer,tdEmail, tdDate, tdItems, tdAmount, tdStatus, tdActions);
+        tr.append(tdOrder, tdCustomer, tdDate, tdItems, tdAmount, tdStatus, tdActions);
         return tr;
     }
 
@@ -260,7 +261,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         amountSpan.className = 'order-amount';
 
         const price = parseFloat(order.total_price || 0);
-        amountSpan.textContent = `€ ${formatPrice(price)}`;
+        amountSpan.textContent = `${formatPrice(price)}`;
 
         tdAmount.append(amountSpan);
 
@@ -279,21 +280,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         viewBtn.className = 'action-icon';
         viewBtn.setAttribute('aria-label', 'Bestelling weergeven');
 
-        const viewIcon = document.createElement('i');
-        viewIcon.className = 'ti ti-eye';
+        viewBtn.innerHTML=`
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_526_1481)">
+<path d="M1.20284 6.79697C1.15423 6.92793 1.15423 7.072 1.20284 7.20297C1.67634 8.35105 2.48006 9.33269 3.51213 10.0234C4.54419 10.7142 5.75812 11.0829 7.00001 11.0829C8.2419 11.0829 9.45583 10.7142 10.4879 10.0234C11.52 9.33269 12.3237 8.35105 12.7972 7.20297C12.8458 7.072 12.8458 6.92793 12.7972 6.79697C12.3237 5.64888 11.52 4.66724 10.4879 3.97649C9.45583 3.28574 8.2419 2.91699 7.00001 2.91699C5.75812 2.91699 4.54419 3.28574 3.51213 3.97649C2.48006 4.66724 1.67634 5.64888 1.20284 6.79697Z" stroke="#7E6A52" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7 8.75C7.9665 8.75 8.75 7.9665 8.75 7C8.75 6.0335 7.9665 5.25 7 5.25C6.0335 5.25 5.25 6.0335 5.25 7C5.25 7.9665 6.0335 8.75 7 8.75Z" stroke="#7E6A52" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_526_1481">
+<rect width="14" height="14" fill="white"/>
+</clipPath>
+</defs>
+</svg>
 
-        viewBtn.append(viewIcon);
+        `
 
         viewBtn.addEventListener('click', (e) => {
             e.stopPropagation(); // ✅ prevents row click conflicts (important)
-            window.location.href = `/admin/orders/${order.order_id}`;
+            openDetailPanel(order);
         });
 
         tdActions.append(viewBtn);
 
         // ✅ Optional: whole row clickable (better UX)
         tr.addEventListener('click', () => {
-            window.location.href = `/admin/orders/${order.order_id}`;
+            openDetailPanel(order);
         });
 
         // ✅ Append all cells
@@ -334,5 +345,96 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         orderCountEl.textContent = `${allOrders.length} bestellingen in totaal`;
+    }
+
+    function openDetailPanel(order) {
+        currentDetailOrder = order;
+        const panel = document.getElementById('orderDetailPanel');
+        const overlay = document.getElementById('orderDetailOverlay');
+
+        // Populate panel
+        document.getElementById('detailOrderNumber').textContent = `#CS-${String(order.order_id).padStart(4, '0')}`;
+        document.getElementById('detailOrderDate').textContent = formatDate(order.created_at);
+
+        // Customer info
+        const customerName = `${order.shipping_first_name || ''} ${order.shipping_last_name || ''}`.trim();
+        document.getElementById('detailCustomerName').textContent = customerName || '—';
+        document.getElementById('detailCustomerEmail').textContent = order.email || '—';
+
+        // Address
+        const address = [
+            order.shipping_street,
+            order.shipping_house_number,
+            order.shipping_postal_code,
+            order.shipping_city
+        ].filter(Boolean).join(' ');
+        document.getElementById('detailCustomerAddress').textContent = address || '—';
+
+        // Set current status
+        document.getElementById('detailStatusSelect').value = order.status;
+
+        // Render items
+        const itemsContainer = document.getElementById('detailOrderItems');
+        itemsContainer.replaceChildren();
+
+        const allItems = [];
+
+        // Add products
+        if (Array.isArray(order.products)) {
+            order.products.forEach(product => {
+                allItems.push({
+                    name: product.name,
+                    quantity: product.quantity,
+                    price: product.price
+                });
+            });
+        }
+
+        // Add bundles
+        if (Array.isArray(order.bundles)) {
+            order.bundles.forEach(bundle => {
+                allItems.push({
+                    name: bundle.name,
+                    quantity: bundle.quantity,
+                    price: bundle.price
+                });
+            });
+        }
+
+        // Render all items
+        allItems.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'detail-item';
+
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'detail-item-name';
+            nameSpan.textContent = item.name;
+
+            const qtySpan = document.createElement('span');
+            qtySpan.className = 'detail-item-qty';
+            qtySpan.textContent = `x${item.quantity}`;
+
+            const priceSpan = document.createElement('span');
+            priceSpan.className = 'detail-item-price';
+            priceSpan.textContent = formatPrice(item.price);
+
+            itemDiv.append(nameSpan, qtySpan, priceSpan);
+            itemsContainer.append(itemDiv);
+        });
+
+        // Set total
+        document.getElementById('detailOrderTotal').textContent = formatPrice(order.total_price);
+
+        // Show panel
+        overlay.hidden = false;
+        panel.hidden = false;
+    }
+
+    function closeDetailPanel() {
+        const panel = document.getElementById('orderDetailPanel');
+        const overlay = document.getElementById('orderDetailOverlay');
+        panel.hidden = true;
+        overlay.hidden = true;
+        currentDetailOrder = null;
     }
 });

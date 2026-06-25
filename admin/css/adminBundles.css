@@ -39,7 +39,6 @@
     font-family: var(--title-font);
     font-size: var(--page-title-size);
     color: var(--charcoal-clay);
-    font-weight: 700;
     margin: 0;
     line-height: 1.1;
 }
@@ -86,7 +85,7 @@
     gap: 1.5rem;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
     .bundles-grid {
         grid-template-columns: 1fr;
     }
@@ -101,6 +100,7 @@
     border-radius: 1rem;
     overflow: hidden;
     transition: box-shadow 0.15s ease;
+    min-width: 450px;
 }
 
 .bundle-card:hover {

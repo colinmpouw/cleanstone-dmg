@@ -8,7 +8,6 @@
 
     <title>Admin -Bestellingen</title>
     <link rel="icon" href="/public/assets/logo_icon.png" type="image/png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link rel="stylesheet" href="/admin/css/adminMain.css">
     <link rel="stylesheet" href="/admin/css/adminHeader.css">
     <link rel="stylesheet" href="/admin/css/adminOrders.css">
@@ -67,10 +66,70 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Order Detail Panel -->
+        <div class="order-detail-overlay" id="orderDetailOverlay" hidden></div>
+        <div class="order-detail-panel" id="orderDetailPanel" hidden>
+            <div class="panel-header">
+                <h2 id="detailOrderNumber">—</h2>
+                <button class="panel-close" id="panelCloseBtn" aria-label="Sluiten">
+                    <i class="ti ti-x"></i>
+                </button>
+            </div>
+
+            <div class="panel-content">
+                <p id="detailOrderDate" class="order-date">—</p>
+
+                <!-- Customer info -->
+                <section class="detail-section">
+                    <h3>Klantgegevens</h3>
+                    <div class="detail-group">
+                        <div class="detail-label">Naam</div>
+                        <div id="detailCustomerName" class="detail-value">—</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Email</div>
+                        <div id="detailCustomerEmail" class="detail-value">—</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Adres</div>
+                        <div id="detailCustomerAddress" class="detail-value">—</div>
+                    </div>
+                </section>
+
+                <!-- Status update -->
+                <section class="detail-section">
+                    <h3>Status bijwerken</h3>
+                    <select id="detailStatusSelect" class="detail-select">
+                        <option value="pending">Verwerking</option>
+                        <option value="paid">Betaald</option>
+                        <option value="processing">Verwerking</option>
+                        <option value="shipped">Verzonden</option>
+                        <option value="completed">Geleverd</option>
+                        <option value="cancelled">Geannuleerd</option>
+                    </select>
+                </section>
+
+                <!-- Order items -->
+                <section class="detail-section">
+                    <h3>Orderdetails</h3>
+                    <div id="detailOrderItems" class="detail-items">
+                        <!-- Items injected by JS -->
+                    </div>
+                    <div class="detail-total">
+                        <span>Totaal</span>
+                        <span id="detailOrderTotal">€ 0,00</span>
+                    </div>
+                </section>
+            </div>
+
+            <button class="btn-save-status" id="saveStatusBtn">Status opslaan</button>
+        </div>
     </main>
 
 </div>
 
+<script src="/admin/js/adminMain.js"></script>
 <script src="/admin/js/adminOrders.js"></script>
 </body>
 </html>

@@ -70,7 +70,7 @@
         </div>
     </main>
 </div>
-
+<script src="/admin/js/adminMain.js"></script>
 <script src="/admin/js/adminProducts.js"></script>
 </body>
 </html>

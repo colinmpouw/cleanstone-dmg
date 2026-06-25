@@ -19,11 +19,20 @@ class AuthController
         $router->get('/logout', [$this, 'logout']);
         $router->get('/account', [$this, 'showAccount']);
         $router->get('/api/account/data', [$this, 'getAccountData']);
+        $router->get('/mijn-gegevens', [$this, 'showGegevens']);
+        $router->get('/account/mijn-gegevens', [$this, 'showGegevens']);
+        $router->post('/api/account/mijn-gegevens/profiel', [$this, 'updateProfiel']);
+        $router->get('/api/account/gegevens', [$this, 'getGegevens']);
     }
 
     public function showLogin(): void
     {
         $this->authService->showLogin();
+    }
+
+    public function getGegevens(): void
+    {
+        $this->authService->getGegevens();
     }
 
     public function processLogin(): void
@@ -48,6 +57,21 @@ class AuthController
     public function showAccount(): void
     {
         $this->authService->showAccount();
+    }
+
+    public function showGegevens(): void
+    {
+        $this->authService->showGegevens();
+    }
+
+    public function updateProfiel(): void
+    {
+        $this->authService->updateProfiel();
+    }
+
+    public function updateWachtwoord(): void
+    {
+        $this->authService->updateWachtwoord();
     }
 
     public function logout(): void

@@ -23,11 +23,19 @@ class UserRepository
         return $result[0] ?? null;
     }
 
-    public function updatePassword(int $id, string $hash): void
+    public function updatePassword(int $id, string $hash): bool
     {
-        $this->DB->save(
+        return $this->DB->save(
             "UPDATE users SET password_hash = :hash WHERE id = :id",
             ['hash' => $hash, 'id' => $id]
+        );
+    }
+
+    public function updateProfile(int $id, array $data): bool
+    {
+        return $this->DB->save(
+            "UPDATE users SET username = :username, email = :email, phone = :phone WHERE id = :id",
+            ['username' => $data['username'], 'email' => $data['email'], 'phone' => $data['phone'], 'id' => $id]
         );
     }
 
