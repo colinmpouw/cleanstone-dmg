@@ -1,22 +1,15 @@
-/* ==========================================================================
-   adminProductEdit.js
-   Admin "Product bewerken" (edit product) page. Fetches product data,
-   populates form fields, manages photo uploads with previews, handles
-   multi-select tags, calculates discounts, and saves via API.
-   ========================================================================== */
-
 document.addEventListener('DOMContentLoaded', async () => {
+
     const form = document.getElementById('productForm');
+    const skeleton = document.getElementById('productSkeleton');
     const saveBtn = document.getElementById('saveBtn');
-    const productSubtitle = document.getElementById('productSubtitle');
+    const subtitle = document.getElementById('productSubtitle');
 
-    // Get product ID from URL (e.g. /admin/products/123/edit)
-
-    if (!productId) {
+    if (typeof productId === 'undefined') {
         showAlert({
             type: 'error',
-            title: 'Niet Gelukt!',
-            message: `'Product ID not found in URL'`
+            title: 'Fout',
+            message: 'Product ID niet gevonden'
         });
         return;
     }
@@ -25,7 +18,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     let selectedTags = [];
     let uploadedPhotos = [];
 
-    // ── Fetch product + metadata ──
+    // =========================
+    // INIT LOAD
+    // =========================
     try {
         const [productRes, categoriesRes, brandsRes, tagsRes] = await Promise.all([
             fetch(`/api/admin/get_product/${productId}`),
@@ -34,99 +29,55 @@ document.addEventListener('DOMContentLoaded', async () => {
             fetch('/api/admin/get_all_tags')
         ]);
 
-        if (!productRes.ok) throw new Error(`Product fetch failed: ${productRes.status}`);
+        if (!productRes.ok) throw new Error('Product laden mislukt');
 
-        product = await productRes.json();
-        const categories = await categoriesRes.json();
-        const brands = await brandsRes.json();
-        const tags = await tagsRes.json();
+        const productJson = await productRes.json();
+        const categoriesJson = await categoriesRes.json();
+        const brandsJson = await brandsRes.json();
+        const tagsJson = await tagsRes.json();
 
-        populateSelects(categories.data || [], brands.data || []);
+        product = productJson.data?.[0] || productJson;
+
         populateForm(product);
-        initTagSelect(tags.data || []);
+        populateSelects(categoriesJson.data || [], brandsJson.data || []);
+        initTagSelect(tagsJson.data || []);
         initPhotoManager(product.image);
+        initDiscount();
 
-        productSubtitle.textContent = product.name || '—';
+        subtitle.textContent = product.name || '—';
+        saveBtn.addEventListener('click', handleSave);
+
+        // ✅ SHOW FORM / HIDE SKELETON
+        skeleton.hidden = true;
+        form.hidden = false;
+
     } catch (error) {
-        console.error('Failed to load product:', error);
+        console.error('Load error:', error);
+
+        skeleton.hidden = true;
 
         showAlert({
             type: 'error',
-            title: 'Niet Gelukt!',
-            message: 'Kon product niet laden',
-            buttons: [
-                { text: 'OK', type: 'primary' }
-            ]
+            title: 'Fout',
+            message: error.message
         });
-        return;
     }
 
-    // ── Save button handler ──
-    saveBtn.addEventListener('click', handleSave);
+    // =========================
+    // FORM DATA
+    // =========================
+    function populateForm(data) {
+        document.getElementById('productName').value = data.name || '';
+        document.getElementById('productDescription').value = data.description || '';
+        document.getElementById('productPrice').value = data.price || '';
+        document.getElementById('productComparePrice').value = data.sale_price || '';
+        document.getElementById('productStock').value = data.stock || '';
+        document.getElementById('productSku').value = data.sku || '';
+        document.getElementById('productCategory').value = data.category_id || '';
+        document.getElementById('productBrand').value = data.brand_id || '';
 
-    // ── Handlers ──
-    async function handleSave() {
-        saveBtn.disabled = true;
-        saveBtn.textContent = 'Opslaan...';
-
-        try {
-            const formData = new FormData(form);
-            const tags = selectedTags.map(t => t.id);
-
-            const payload = {
-                name: formData.get('name'),
-                description: formData.get('description'),
-                price: parseFloat(formData.get('price')) || 0,
-                sale_price: parseFloat(formData.get('sale_price')) || null,
-                stock: parseInt(formData.get('stock')) || 0,
-                sku: formData.get('sku'),
-                brand_id: parseInt(formData.get('brand_id')) || null,
-                category_id: parseInt(formData.get('category_id')) || null,
-                tags
-            };
-
-            // TODO: adjust endpoint if your API uses a different route
-            const res = await fetch(`/api/update_product/${productId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!res.ok) throw new Error(`Save failed: ${res.status}`);
-
-            // Handle photo uploads separately (multipart form data)
-            if (uploadedPhotos.length > 0) {
-                const photoFormData = new FormData();
-                uploadedPhotos.forEach(file => {
-                    photoFormData.append('photos', file);
-                });
-
-                const photoRes = await fetch(`/api/upload_product_photos/${productId}`, {
-                    method: 'POST',
-                    body: photoFormData
-                });
-
-                if (!photoRes.ok) throw new Error(`Photo upload failed: ${photoRes.status}`);
-            }
-
-
-            showAlert({
-                type: 'error',
-                title: 'Niet Gelukt!',
-                message: 'Product opgeslagen'
-            });
-            window.location.href = '/admin/products';
-        } catch (error) {
-            console.error('Save error:', error);
-
-            showAlert({
-                type: 'error',
-                title: 'Fout bij opslaan',
-                message: error.message
-            });
-            saveBtn.disabled = false;
-            saveBtn.textContent = 'Opslaan';
-        }
+        selectedTags = data.tags || [];
+        renderTagChips();
     }
 
     function populateSelects(categories, brands) {
@@ -148,187 +99,210 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    function populateForm(data) {
-        document.getElementById('productName').value = data.name || '';
-        document.getElementById('productDescription').value = data.description || '';
-        document.getElementById('productPrice').value = data.price || '';
-        document.getElementById('productComparePrice').value = data.sale_price || '';
-        document.getElementById('productStock').value = data.stock || '';
-        document.getElementById('productSku').value = data.sku || '';
-        document.getElementById('productCategory').value = data.category_id || '';
-        document.getElementById('productBrand').value = data.brand_id || '';
-
-        updateDiscountNote();
-    }
-
+    // =========================
+    // TAG SELECT (same system)
+    // =========================
     function initTagSelect(allTags) {
-        const tagsInput = document.getElementById('tagSearchInput');
+        const input = document.getElementById('tagSearchInput');
         const dropdown = document.getElementById('tagDropdown');
-        const chips = document.getElementById('tagChips');
 
-        // Pre-populate if the product has tags (if your API returns them)
-        if (product.tags && Array.isArray(product.tags)) {
-            selectedTags = product.tags;
-            renderTagChips();
-        }
+        input.addEventListener('input', () => {
+            const query = input.value.toLowerCase();
 
-        tagsInput.addEventListener('input', () => {
-            const query = tagsInput.value.toLowerCase();
-            const available = allTags.filter(tag =>
-                !selectedTags.some(st => st.id === tag.id) &&
+            const results = allTags.filter(tag =>
+                !selectedTags.some(t => t.id === tag.id) &&
                 tag.name.toLowerCase().includes(query)
             );
 
-            renderDropdown(available);
-            dropdown.hidden = !available.length || !query;
+            renderDropdown(results);
+
+            dropdown.hidden = !query || !results.length;
         });
 
-        function renderDropdown(options) {
+        function renderDropdown(tags) {
             dropdown.replaceChildren();
-            if (!options.length) {
-                const empty = document.createElement('div');
-                empty.className = 'tag-option-empty';
-                empty.textContent = 'Geen tags gevonden';
-                dropdown.append(empty);
-                return;
-            }
 
-            options.forEach(tag => {
+            tags.forEach(tag => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.className = 'tag-option';
                 btn.textContent = tag.name;
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
+
+                btn.addEventListener('click', () => {
                     selectedTags.push(tag);
                     renderTagChips();
-                    tagsInput.value = '';
+                    input.value = '';
                     dropdown.hidden = true;
                 });
+
                 dropdown.append(btn);
             });
         }
-
-        function renderTagChips() {
-            chips.replaceChildren();
-            selectedTags.forEach(tag => {
-                const chip = document.createElement('div');
-                chip.className = 'tag-chip';
-
-                const name = document.createElement('span');
-                name.textContent = tag.name;
-
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'tag-chip-remove';
-                btn.setAttribute('aria-label', `${tag.name} verwijderen`);
-                btn.innerHTML = '<i class="ti ti-x"></i>';
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    selectedTags = selectedTags.filter(st => st.id !== tag.id);
-                    renderTagChips();
-                });
-
-                chip.append(name, btn);
-                chips.append(chip);
-            });
-        }
     }
 
-    function initPhotoManager(existingImage) {
-        const photoInput = document.getElementById('photoInput');
-        const photoMain = document.getElementById('photoMain');
-        const photoMainImg = document.getElementById('photoMainImg');
-        const photoMainEmpty = document.getElementById('photoMainEmpty');
-        const photoThumbs = document.getElementById('photoThumbs');
-        const photoAddTile = document.getElementById('photoAddTile');
-        const photoCount = document.getElementById('photoCount');
+    function renderTagChips() {
+        const container = document.getElementById('tagChips');
 
+        container.replaceChildren();
+
+        selectedTags.forEach(tag => {
+            const chip = document.createElement('div');
+            chip.className = 'tag-chip';
+
+            const text = document.createElement('span');
+            text.textContent = tag.name;
+
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'tag-chip-remove';
+            remove.innerHTML = '<i class="ti ti-x"></i>';
+
+            remove.addEventListener('click', () => {
+                selectedTags = selectedTags.filter(t => t.id !== tag.id);
+                renderTagChips();
+            });
+
+            chip.append(text, remove);
+            container.append(chip);
+        });
+    }
+
+    // =========================
+    // PHOTO (same as bundle simplified)
+    // =========================
+    function initPhotoManager(existingImage) {
+        const input = document.getElementById('photoInput');
+        const main = document.getElementById('photoMain');
+        const img = document.getElementById('photoMainImg');
+        const empty = document.getElementById('photoMainEmpty');
+
+        let selectedFile = null;
 
         if (existingImage) {
-            photoMainImg.src = `/uploads/products/${existingImage}`;
-            photoMainImg.hidden = false;
-            photoMainEmpty.hidden = true;
+            img.src = existingImage.startsWith('/uploads')
+                ? existingImage
+                : `/uploads/products/${existingImage}`;
+
+            img.hidden = false;
+            empty.hidden = true;
         }
 
-        photoInput.addEventListener('change', (e) => {
-            const files = Array.from(e.target.files || []);
-            uploadedPhotos.push(...files);
+        main.addEventListener('click', () => input.click());
 
-            files.forEach((file, idx) => {
-                const reader = new FileReader();
-                reader.onload = (evt) => {
-                    const thumb = createPhotoThumb(evt.target.result, () => {
-                        uploadedPhotos = uploadedPhotos.filter(f => f !== file);
-                        renderPhotoThumbs();
-                    });
-                    photoThumbs.insertBefore(thumb, photoAddTile);
-                };
-                reader.readAsDataURL(file);
-            });
+        input.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
 
-            renderPhotoThumbs();
-            photoInput.value = '';
+            selectedFile = file;
+
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                img.src = evt.target.result;
+                img.hidden = false;
+                empty.hidden = true;
+            };
+
+            reader.readAsDataURL(file);
         });
 
-        photoAddTile.addEventListener('click', () => {
-            photoInput.click();
-        });
+        window.uploadProductPhoto = async function (productId) {
+            if (!selectedFile) return;
 
-        function createPhotoThumb(src, onRemove) {
-            const thumb = document.createElement('div');
-            thumb.className = 'photo-thumb';
+            const fd = new FormData();
+            fd.append('photo', selectedFile);
 
-            const img = document.createElement('img');
-            img.src = src;
-            thumb.append(img);
-
-            const removeBtn = document.createElement('button');
-            removeBtn.type = 'button';
-            removeBtn.className = 'photo-thumb-remove';
-            removeBtn.setAttribute('aria-label', 'Verwijderen');
-            removeBtn.innerHTML = 'X';
-            removeBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                thumb.remove();
-                onRemove();
-            });
-            thumb.append(removeBtn);
-
-            thumb.addEventListener('click', () => {
-                photoMainImg.src = src;
-                photoMainImg.hidden = false;
-                photoMainEmpty.hidden = true;
+            const res = await fetch(`/api/upload_product_photo/${productId}`, {
+                method: 'POST',
+                body: fd
             });
 
-            return thumb;
-        }
-
-        function renderPhotoThumbs() {
-            photoCount.textContent = `${uploadedPhotos.length} foto's`;
-        }
+            if (!res.ok) throw new Error('Foto upload mislukt');
+        };
     }
 
-    // ── Discount calculator ──
-    function updateDiscountNote() {
-        const priceInput = document.getElementById('productPrice');
-        const comparePriceInput = document.getElementById('productComparePrice');
-        const discountNote = document.getElementById('discountNote');
+    // =========================
+    // DISCOUNT
+    // =========================
+    function initDiscount() {
+        const price = document.getElementById('productPrice');
+        const compare = document.getElementById('productComparePrice');
+        const note = document.getElementById('discountNote');
 
-        priceInput.addEventListener('change', calculateDiscount);
-        comparePriceInput.addEventListener('change', calculateDiscount);
+        function update() {
+            const p = parseFloat(price.value) || 0;
+            const c = parseFloat(compare.value) || 0;
 
-        function calculateDiscount() {
-            const price = parseFloat(priceInput.value) || 0;
-            const comparePrice = parseFloat(comparePriceInput.value) || 0;
-
-            if (comparePrice > price) {
-                const percent = Math.round(((comparePrice - price) / comparePrice) * 100);
-                discountNote.textContent = `Korting: ${percent}% — wordt weergegeven als kortingslabel`;
-                discountNote.hidden = false;
+            if (c > p) {
+                const percent = Math.round(((c - p) / c) * 100);
+                note.textContent = `Korting: ${percent}%`;
+                note.hidden = false;
             } else {
-                discountNote.hidden = true;
+                note.hidden = true;
             }
+        }
+
+        price.addEventListener('input', update);
+        compare.addEventListener('input', update);
+    }
+
+    // =========================
+    // SAVE
+    // =========================
+    async function handleSave() {
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Opslaan...';
+
+        try {
+            const formData = new FormData(form);
+
+            const payload = {
+                name: formData.get('name'),
+                description: formData.get('description'),
+                price: parseFloat(formData.get('price')) || 0,
+                sale_price: parseFloat(formData.get('sale_price')) || null,
+                stock: parseInt(formData.get('stock')) || 0,
+                sku: formData.get('sku'),
+                brand_id: parseInt(formData.get('brand_id')) || null,
+                category_id: parseInt(formData.get('category_id')) || null,
+                tags: selectedTags.map(t => t.id)
+            };
+
+            const res = await fetch(`/api/update_product/${productId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) throw new Error('Opslaan mislukt');
+
+            if (window.uploadProductPhoto) {
+                await window.uploadProductPhoto(productId);
+            }
+
+            showAlert({
+                type: 'success',
+                title: 'Gelukt!',
+                message: 'Product opgeslagen',
+                buttons: [
+                    {
+                        text: 'Terug',
+                        type: 'primary',
+                        action: () => window.location.href = '/admin/producten'
+                    }
+                ]
+            });
+
+        } catch (error) {
+            console.error('Save error:', error);
+
+            showAlert({
+                type: 'error',
+                title: 'Fout',
+                message: error.message
+            });
+
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Opslaan';
         }
     }
 });

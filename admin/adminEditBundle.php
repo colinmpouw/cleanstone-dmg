@@ -24,7 +24,7 @@
     <main class="content">
         <div class="edit-heading">
             <div class="edit-heading-left">
-                <a href="/admin/bundles" class="back-link" aria-label="Terug naar bundels">
+                <a href="/admin/bundels" class="back-link" aria-label="Terug naar bundels">
                     <i class="ti ti-arrow-left"></i>
                 </a>
                 <div>
@@ -33,12 +33,72 @@
                 </div>
             </div>
             <div class="edit-heading-actions">
-                <a href="/admin/bundles" class="btn-cancel">Annuleren</a>
+                <a href="/admin/bundels" class="btn-cancel">Annuleren</a>
                 <button class="btn-save" id="saveBtn">Opslaan</button>
             </div>
         </div>
 
-        <form id="bundleForm" class="edit-grid">
+        <!-- SKELETON (shown while loading) -->
+        <div class="edit-grid skeleton-grid" id="bundleSkeleton">
+            <!-- LEFT COLUMN -->
+            <div class="edit-col-left">
+                <div class="panel">
+                    <div class="skeleton-photo-main"></div>
+                    <div class="skeleton-thumbs">
+                        <div class="skeleton-thumb"></div>
+                        <div class="skeleton-thumb"></div>
+                        <div class="skeleton-thumb"></div>
+                        <div class="skeleton-thumb"></div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="skeleton-line" style="width: 40%; height: 18px; margin-bottom: 1.25rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 42px; margin-bottom: 1.25rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 42px;"></div>
+                </div>
+
+                <div class="panel">
+                    <div class="skeleton-line" style="width: 50%; height: 18px; margin-bottom: 1.25rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 20px; margin-bottom: 0.75rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 20px; margin-bottom: 0.75rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 50px;"></div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="edit-col-right">
+                <div class="panel">
+                    <div class="skeleton-line" style="width: 35%; height: 18px; margin-bottom: 1.25rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 42px; margin-bottom: 1.25rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 110px; margin-bottom: 1.25rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 42px;"></div>
+                </div>
+
+                <div class="panel">
+                    <div class="skeleton-line" style="width: 20%; height: 18px; margin-bottom: 1.25rem;"></div>
+                    <div class="skeleton-field-row">
+                        <div class="skeleton-line" style="height: 42px;"></div>
+                        <div class="skeleton-line" style="height: 42px;"></div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="skeleton-line" style="width: 45%; height: 18px; margin-bottom: 1.25rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 70px; margin-bottom: 0.85rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 70px; margin-bottom: 0.85rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 70px;"></div>
+                </div>
+
+                <div class="panel">
+                    <div class="skeleton-line" style="width: 30%; height: 18px; margin-bottom: 1.25rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 50px; margin-bottom: 0.85rem;"></div>
+                    <div class="skeleton-line" style="width: 100%; height: 50px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <form id="bundleForm" class="edit-grid" hidden>
             <!-- LEFT COLUMN -->
             <div class="edit-col-left">
                 <div class="panel">
@@ -191,7 +251,7 @@
         </form>
     </main>
 </div>
-
+<script src="/admin/js/adminMain.js"></script>
 <script src="/admin/js/adminEditBundle.js"></script>
 </body>
 </html>

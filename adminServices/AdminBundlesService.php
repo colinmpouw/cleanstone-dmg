@@ -20,6 +20,12 @@ class AdminBundlesService
         return $this->buildBundles($rows);
     }
 
+    public function find_bundle($bundle_id)
+    {
+        $rows = $this->repository->find_bundle($bundle_id);
+
+        return $this->buildBundles($rows);
+    }
     private function buildBundles($rows)
     {
         if (empty($rows)) {

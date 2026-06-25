@@ -14,19 +14,23 @@ class AdminBundlesController
         $router->get('/admin/bundels', [$this, 'bundlesPage']);
         $router->get('/admin/bundel/bewerking/{id}', [$this, 'bundleEditPage']);
         $router->get('/api/admin/get_all_bundels', [$this, 'get_all_bundles']);
-
+        $router->get('/api/admin/get_bundle/{bundle_id}', [$this, 'find_bundle']);
     }
-    public function bundlesPage(){
+
+    public function bundlesPage()
+    {
         require_once __DIR__ . '/../admin/adminBundles.php';
         die();
     }
-    public function bundleEditPage($id){
+
+    public function bundleEditPage($id)
+    {
         echo '<script>window.bundleId = ' . json_encode((int)$id) . ';
-console.log(window.productId);
 </script>';
         require_once __DIR__ . '/../admin/adminEditBundle.php';
         die();
     }
+
     public function get_all_bundles()
     {
 
@@ -51,12 +55,12 @@ console.log(window.productId);
 
         exit();
     }
-    public function find_bundle($bundle_id, $bundle_name='')
+    public function find_bundle($bundle_id)
     {
 
         header('Content-Type: application/json');
 
-        $result = $this->bundlesService->find_bundle($bundle_id);
+        $result = $this->adminBundlesService->find_bundle($bundle_id);
 
         if (!$result) {
             http_response_code(404);
