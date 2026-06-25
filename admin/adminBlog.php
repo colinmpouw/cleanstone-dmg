@@ -1,4 +1,9 @@
 <?php
+$user = $_SESSION['user'] ?? null;
+if (!$user) {
+    header('Location: /admin/login');
+    exit;
+}
 $loadedByController = isset($blogs);
 $errors = $errors ?? [];
 $old = $old ?? [];
@@ -98,10 +103,11 @@ function adminBlogSelectedThemes(array $old): array
 ?>
 <!doctype html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>Admin - Blog</title>
@@ -110,156 +116,169 @@ function adminBlogSelectedThemes(array $old): array
     <link rel="stylesheet" href="/admin/css/adminHeader.css">
     <link rel="stylesheet" href="/admin/css/adminBlog.css">
 </head>
+
 <body>
-<?php require_once __DIR__ . '/../adminComponent/adminSidebar.php'; ?>
+    <?php require_once __DIR__ . '/../adminComponent/adminSidebar.php'; ?>
 
-<div class="main">
-    <?php require_once __DIR__ . '/../adminComponent/adminHeader.php'; ?>
+    <div class="main">
+        <?php require_once __DIR__ . '/../adminComponent/adminHeader.php'; ?>
 
-    <main class="content">
-        <div class="page-heading blog-heading">
-            <div>
-                <h1>Blog</h1>
-                <p>Overzicht van alle blogs die nu online staan</p>
-            </div>
-            <a class="add-blog-button" href="#blog-toevoegen">Blog toevoegen</a>
-        </div>
-
-        <?php if ($successMessage): ?>
-            <div class="alert success"><?php echo htmlspecialchars($successMessage); ?></div>
-        <?php endif; ?>
-
-        <?php if (!empty($errors)): ?>
-            <div class="alert error">
-                <?php foreach ($errors as $error): ?>
-                    <p><?php echo htmlspecialchars($error); ?></p>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-
-        <section class="blog-panel">
-            <div class="panel-title">
-                <h2>Blogs online</h2>
-                <span><?php echo count($blogs); ?> blogs</span>
-            </div>
-
-            <?php if (!empty($blogs)): ?>
-                <div class="blog-table-wrap">
-                    <table class="blog-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Titel</th>
-                                <th>Auteur</th>
-                                <th>Thema's</th>
-                                <th>Datum</th>
-                                <th>Acties</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($blogs as $blog): ?>
-                                <tr>
-                                    <td><?php echo (int) $blog['blog_id']; ?></td>
-                                    <td>
-                                        <strong><?php echo htmlspecialchars($blog['title']); ?></strong>
-                                        <span><?php echo htmlspecialchars($blog['excerpt'] ?: substr($blog['article'], 0, 90)); ?></span>
-                                    </td>
-                                    <td><?php echo htmlspecialchars($blog['arthor']); ?></td>
-                                    <td><span class="tag"><?php echo htmlspecialchars($blog['tag']); ?></span></td>
-                                    <td><?php echo adminBlogDate($blog['date']); ?></td>
-                                    <td class="actions-cell">
-                                        <a class="view-link" href="/blog/<?php echo (int) $blog['blog_id']; ?>" target="_blank">Bekijken</a>
-                                        <a class="edit-link" href="/admin/adminblog.php?edit=<?php echo (int) $blog['blog_id']; ?>#blog-toevoegen">Bewerken</a>
-                                        <form action="/admin/adminblog.php" method="post" onsubmit="return confirm('Weet je zeker dat je deze blog wilt verwijderen?');">
-                                            <input type="hidden" name="blog_action" value="delete">
-                                            <input type="hidden" name="blog_id" value="<?php echo (int) $blog['blog_id']; ?>">
-                                            <button class="delete-link" type="submit">Verwijderen</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+        <main class="content">
+            <div class="page-heading blog-heading">
+                <div>
+                    <h1>Blog</h1>
+                    <p>Overzicht van alle blogs die nu online staan</p>
                 </div>
-            <?php else: ?>
-                <div class="empty-state">
-                    <h2>Nog geen blogs gevonden</h2>
-                    <p>Voeg hieronder de eerste blog toe voor de webshop.</p>
+                <a class="add-blog-button" href="#blog-toevoegen">Blog toevoegen</a>
+            </div>
+
+            <?php if ($successMessage): ?>
+                <div class="alert success"><?php echo htmlspecialchars($successMessage); ?></div>
+            <?php endif; ?>
+
+            <?php if (!empty($errors)): ?>
+                <div class="alert error">
+                    <?php foreach ($errors as $error): ?>
+                        <p><?php echo htmlspecialchars($error); ?></p>
+                    <?php endforeach; ?>
                 </div>
             <?php endif; ?>
-        </section>
 
-        <section id="blog-toevoegen" class="blog-panel blog-form-panel">
-            <div class="panel-title">
-                <h2><?php echo $isEditing ? 'Blog bewerken' : 'Blog toevoegen'; ?></h2>
-                <span><?php echo $isEditing ? 'Bestaande publicatie' : 'Nieuwe publicatie'; ?></span>
-            </div>
-
-            <form class="blog-form" action="/admin/adminblog.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="blog_action" value="<?php echo $isEditing ? 'update' : 'create'; ?>">
-                <?php if ($isEditing): ?>
-                    <input type="hidden" name="blog_id" value="<?php echo (int) $editBlogId; ?>">
-                <?php endif; ?>
-                <input type="hidden" name="current_image" value="<?php echo adminBlogValue($old, 'image'); ?>">
-
-                <label>
-                    Titel
-                    <input type="text" name="title" maxlength="45" value="<?php echo adminBlogValue($old, 'title'); ?>" required>
-                </label>
-
-                <label>
-                    Auteur
-                    <input type="text" name="arthor" maxlength="45" value="<?php echo adminBlogValue($old, 'arthor'); ?>" required>
-                </label>
-
-                <label>
-                    Thema's
-                    <select name="tags[]" multiple required>
-                        <?php $selectedThemes = adminBlogSelectedThemes($old); ?>
-                        <?php foreach ($blogThemes as $theme): ?>
-                            <option value="<?php echo htmlspecialchars($theme, ENT_QUOTES, 'UTF-8'); ?>" <?php echo in_array($theme, $selectedThemes, true) ? 'selected' : ''; ?>>
-                                <?php echo htmlspecialchars($theme); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </label>
-
-                <label>
-                    Datum
-                    <input type="text" name="date" placeholder="2026-06-17 12:00:00" value="<?php echo adminBlogValue($old, 'date'); ?>">
-                </label>
-
-                <label>
-                    Afbeelding uploaden
-                    <span class="file-upload-control">
-                        <span>Klik om foto te uploaden</span>
-                        <input type="file" name="image" accept=".png,.jpg,.jpeg,.webp,.gif,image/png,image/jpeg,image/webp,image/gif">
-                    </span>
-                    <?php if (!empty($old['image'])): ?>
-                        <span class="current-image">Huidige afbeelding: <?php echo htmlspecialchars($old['image']); ?></span>
-                    <?php endif; ?>
-                </label>
-
-                <label>
-                    Korte samenvatting
-                    <input type="text" name="excerpt" maxlength="255" value="<?php echo adminBlogValue($old, 'excerpt'); ?>">
-                </label>
-
-                <label class="full">
-                    Artikel
-                    <textarea name="article" rows="8" required><?php echo adminBlogValue($old, 'article'); ?></textarea>
-                </label>
-
-                <div class="form-actions">
-                    <?php if ($isEditing): ?>
-                        <a class="cancel-edit" href="/admin/adminblog.php">Annuleren</a>
-                    <?php endif; ?>
-                    <button type="submit"><?php echo $isEditing ? 'Blog bijwerken' : 'Blog toevoegen'; ?></button>
+            <section class="blog-panel">
+                <div class="panel-title">
+                    <h2>Blogs online</h2>
+                    <span><?php echo count($blogs); ?> blogs</span>
                 </div>
-            </form>
-        </section>
-    </main>
-</div>
+
+                <?php if (!empty($blogs)): ?>
+                    <div class="blog-table-wrap">
+                        <table class="blog-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Titel</th>
+                                    <th>Auteur</th>
+                                    <th>Thema's</th>
+                                    <th>Datum</th>
+                                    <th>Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($blogs as $blog): ?>
+                                    <tr>
+                                        <td><?php echo (int) $blog['blog_id']; ?></td>
+                                        <td>
+                                            <strong><?php echo htmlspecialchars($blog['title']); ?></strong>
+                                            <span><?php echo htmlspecialchars($blog['excerpt'] ?: substr($blog['article'], 0, 90)); ?></span>
+                                        </td>
+                                        <td><?php echo htmlspecialchars($blog['arthor']); ?></td>
+                                        <td><span class="tag"><?php echo htmlspecialchars($blog['tag']); ?></span></td>
+                                        <td><?php echo adminBlogDate($blog['date']); ?></td>
+                                        <td class="actions-cell">
+                                            <a class="view-link" href="/blog/<?php echo (int) $blog['blog_id']; ?>"
+                                                target="_blank">Bekijken</a>
+                                            <a class="edit-link"
+                                                href="/admin/adminblog.php?edit=<?php echo (int) $blog['blog_id']; ?>#blog-toevoegen">Bewerken</a>
+                                            <form action="/admin/adminblog.php" method="post"
+                                                onsubmit="return confirm('Weet je zeker dat je deze blog wilt verwijderen?');">
+                                                <input type="hidden" name="blog_action" value="delete">
+                                                <input type="hidden" name="blog_id"
+                                                    value="<?php echo (int) $blog['blog_id']; ?>">
+                                                <button class="delete-link" type="submit">Verwijderen</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else: ?>
+                    <div class="empty-state">
+                        <h2>Nog geen blogs gevonden</h2>
+                        <p>Voeg hieronder de eerste blog toe voor de webshop.</p>
+                    </div>
+                <?php endif; ?>
+            </section>
+
+            <section id="blog-toevoegen" class="blog-panel blog-form-panel">
+                <div class="panel-title">
+                    <h2><?php echo $isEditing ? 'Blog bewerken' : 'Blog toevoegen'; ?></h2>
+                    <span><?php echo $isEditing ? 'Bestaande publicatie' : 'Nieuwe publicatie'; ?></span>
+                </div>
+
+                <form class="blog-form" action="/admin/adminblog.php" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="blog_action" value="<?php echo $isEditing ? 'update' : 'create'; ?>">
+                    <?php if ($isEditing): ?>
+                        <input type="hidden" name="blog_id" value="<?php echo (int) $editBlogId; ?>">
+                    <?php endif; ?>
+                    <input type="hidden" name="current_image" value="<?php echo adminBlogValue($old, 'image'); ?>">
+
+                    <label>
+                        Titel
+                        <input type="text" name="title" maxlength="45"
+                            value="<?php echo adminBlogValue($old, 'title'); ?>" required>
+                    </label>
+
+                    <label>
+                        Auteur
+                        <input type="text" name="arthor" maxlength="45"
+                            value="<?php echo adminBlogValue($old, 'arthor'); ?>" required>
+                    </label>
+
+                    <label>
+                        Thema's
+                        <select name="tags[]" multiple required>
+                            <?php $selectedThemes = adminBlogSelectedThemes($old); ?>
+                            <?php foreach ($blogThemes as $theme): ?>
+                                <option value="<?php echo htmlspecialchars($theme, ENT_QUOTES, 'UTF-8'); ?>" <?php echo in_array($theme, $selectedThemes, true) ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($theme); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </label>
+
+                    <label>
+                        Datum
+                        <input type="text" name="date" placeholder="2026-06-17 12:00:00"
+                            value="<?php echo adminBlogValue($old, 'date'); ?>">
+                    </label>
+
+                    <label>
+                        Afbeelding uploaden
+                        <span class="file-upload-control">
+                            <span>Klik om foto te uploaden</span>
+                            <input type="file" name="image"
+                                accept=".png,.jpg,.jpeg,.webp,.gif,image/png,image/jpeg,image/webp,image/gif">
+                        </span>
+                        <?php if (!empty($old['image'])): ?>
+                            <span class="current-image">Huidige afbeelding:
+                                <?php echo htmlspecialchars($old['image']); ?></span>
+                        <?php endif; ?>
+                    </label>
+
+                    <label>
+                        Korte samenvatting
+                        <input type="text" name="excerpt" maxlength="255"
+                            value="<?php echo adminBlogValue($old, 'excerpt'); ?>">
+                    </label>
+
+                    <label class="full">
+                        Artikel
+                        <textarea name="article" rows="8"
+                            required><?php echo adminBlogValue($old, 'article'); ?></textarea>
+                    </label>
+
+                    <div class="form-actions">
+                        <?php if ($isEditing): ?>
+                            <a class="cancel-edit" href="/admin/adminblog.php">Annuleren</a>
+                        <?php endif; ?>
+                        <button type="submit"><?php echo $isEditing ? 'Blog bijwerken' : 'Blog toevoegen'; ?></button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
 
 </body>
+
 </html>
