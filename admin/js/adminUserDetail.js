@@ -87,6 +87,7 @@ document.querySelectorAll('.ud-role-btn').forEach(btn => {
 
 // ── REVIEWS ──
 function renderReviews(reviews) {
+    console.log('reviews:', reviews);
     const list  = document.getElementById('ud-reviews-list');
     const badge = document.getElementById('ud-review-count');
     badge.textContent = `${reviews.length} geplaatst`;
