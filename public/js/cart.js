@@ -6,12 +6,46 @@ function getShippingCost(subtotal) {
     return subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 5.95;
 }
 
+function renderSkeletons(count = 3) {
+    const cartContainer = document.querySelector('.cart-items');
+    cartContainer.innerHTML = '';
+
+    for (let i = 0; i < count; i++) {
+        const skeleton = document.createElement('div');
+        skeleton.className = 'cart-item skeleton-row';
+
+        skeleton.innerHTML = `
+            <div class="product-info">
+                <div class="image">
+                    <div class="skeleton-block" style="width: 80px; height: 80px; border-radius: 0.4rem;"></div>
+                </div>
+                <div style="flex: 1;">
+                    <div class="skeleton-block" style="width: 150px; height: 1rem; margin-bottom: 0.5rem;"></div>
+                    <div class="skeleton-block" style="width: 100px; height: 0.8rem;"></div>
+                </div>
+            </div>
+            <div class="product-actions">
+                <div class="skeleton-block" style="width: 30px; height: 30px; border-radius: 0.3rem;"></div>
+                <div class="skeleton-block" style="width: 80px; height: 30px; border-radius: 0.3rem;"></div>
+                <div class="skeleton-block" style="width: 70px; height: 1rem;"></div>
+            </div>
+        `;
+
+        cartContainer.appendChild(skeleton);
+    }
+}
+
 async function loadCart() {
     try {
+        renderSkeletons(3);
+
         const response = await fetch('/api/get_all_cart_item');
         const result = await response.json();
 
-        if (!result.success) return;
+        if (!result.success) {
+            document.querySelector('.cart-items').innerHTML = '<p>Winkelwagen is leeg</p>';
+            return;
+        }
 
         cartData = result.data.map(item => ({
             ...item,
@@ -23,8 +57,10 @@ async function loadCart() {
         const cartContainer = document.querySelector('.cart-items');
         cartContainer.innerHTML = '';
 
-        cartData.forEach(item => {
+        cartData.forEach((item, index) => {
             const cartItem = createCartItem(item);
+            cartItem.style.animationDelay = `${index * 50}ms`;
+            cartItem.classList.add('cart-item--enter');
             cartContainer.appendChild(cartItem);
         });
 
@@ -89,7 +125,6 @@ function createCartItem(item) {
     deleteBtn.innerHTML = `🗑`;
 
     deleteBtn.addEventListener('click', async () => {
-        let itemId
         try {
             const res = await fetch(`/api/remove_from_cart`, {
                 method: 'DELETE',
@@ -164,8 +199,6 @@ function createCartItem(item) {
         updateTotal();
         refreshButtonStates();
         updateSummary(cartData);
-
-
     });
 
     minus.addEventListener('click', async () => {
@@ -286,7 +319,6 @@ document.querySelector('.discount').addEventListener('submit', (e) => {
             if (data.success) {
                 input.style.border = '2px solid var(--green)';
                 discountData = data.data;
-                console.log(discountData);
             } else {
                 input.style.border = '2px solid red';
                 discountData = null;

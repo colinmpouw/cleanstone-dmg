@@ -149,6 +149,7 @@ $currentUser = $_SESSION['user'] ?? null;
 
             const count = result.data.length;
             document.querySelectorAll('#cart-count, #cart-count-mobile').forEach(el => {
+                el.style.display = 'flex';
                 el.textContent = count;
             });
         } catch (e) {
