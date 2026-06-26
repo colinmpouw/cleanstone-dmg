@@ -1,7 +1,8 @@
 .content {
     padding: 28px 32px;
     background: var(--soft-white);
-    min-height: 100%;
+    flex: 1;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 16px;

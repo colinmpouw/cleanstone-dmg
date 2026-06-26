@@ -6,10 +6,13 @@
 .content {
     padding: 28px 32px;
     background: var(--soft-white);
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.users-heading,
+.users-search {
+    margin-bottom: 16px;
 }
 
 /* ── HEADING ── */
