@@ -1,22 +1,193 @@
+/* ══════════════════════════════
+   ADMIN USERS
+══════════════════════════════ */
 
-/* ── CONTENT ── */
+/* ── CONTENT WRAPPER ── */
 .content {
-    flex: 1;
-    padding: 28px;
-    overflow-y: auto;
+    padding: 28px 32px;
+    background: var(--soft-white);
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
-.page-heading {
-    margin-bottom: 24px;
+/* ── HEADING ── */
+.users-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
 }
 
-.page-heading h1 {
-    font-size: 28px;
+.users-heading h1 {
+    font-family: var(--title-font);
+    font-size: 1.4rem;
+    font-weight: 700;
     color: var(--charcoal-clay);
+    margin-bottom: 4px;
 }
 
-.page-heading p {
-    font-size: 13px;
+.users-heading p,
+#userCount {
+    font-size: 0.82rem;
     color: var(--rustic-taupe);
-    margin-top: 4px;
+    margin: 0;
+}
+
+/* ── SEARCH ── */
+.users-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.users-search svg {
+    position: absolute;
+    left: 16px;
+    width: 17px;
+    height: 17px;
+    color: var(--warm-beige);
+    pointer-events: none;
+}
+
+.users-search input {
+    width: 100%;
+    border: 1.5px solid var(--creamy-taupe);
+    border-radius: 12px;
+    padding: 13px 16px 13px 44px;
+    font-size: 0.88rem;
+    font-family: var(--body-font);
+    color: var(--charcoal-clay);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.users-search input::placeholder { color: var(--warm-beige); }
+
+.users-search input:focus {
+    border-color: var(--rustic-taupe);
+    box-shadow: 0 0 0 3px rgba(126,106,82,0.1);
+}
+
+/* ── USER LIST ── */
+.users-list {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(58,43,32,0.06);
+}
+
+/* ── USER ROW ── */
+.user-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 22px;
+    border-bottom: 1px solid var(--soft-white);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.user-row:last-child { border-bottom: none; }
+.user-row:hover { background: var(--soft-white); }
+
+/* avatar */
+.user-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--white);
+    flex-shrink: 0;
+    font-family: var(--body-font);
+    letter-spacing: 0.5px;
+}
+
+/* info */
+.user-info { flex: 1; min-width: 0; }
+
+.user-info__top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 3px;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--charcoal-clay);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-admin-badge {
+    display: inline-flex;
+    align-items: center;
+    background: var(--charcoal-clay);
+    color: var(--white);
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-family: var(--body-font);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.user-email {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--rustic-taupe);
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-meta {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    color: var(--warm-beige);
+}
+
+.user-meta svg {
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
+}
+
+.user-meta .sep { color: var(--creamy-taupe); }
+
+.user-meta .user-orders {
+    color: var(--rustic-taupe);
+    font-weight: 500;
+}
+
+/* chevron */
+.user-chevron {
+    width: 16px;
+    height: 16px;
+    color: var(--creamy-taupe);
+    flex-shrink: 0;
+}
+
+/* ── EMPTY / ERROR ── */
+.users-empty {
+    padding: 48px 24px;
+    text-align: center;
+    font-size: 0.88rem;
+    color: var(--rustic-taupe);
 }
