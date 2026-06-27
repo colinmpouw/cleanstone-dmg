@@ -273,6 +273,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         tdStatus.append(badge);
 
         // ✅ Actions (view button)
+
+
+        const downloadActions = document.createElement('td');
+        downloadActions.className = 'col-actions';
+
+        const downloadtn = document.createElement('button');
+        downloadtn.className = 'action-icon';
+        downloadtn.setAttribute('aria-label', 'Bestelling weergeven');
+        downloadtn.innerHTML = `
+        
+        <svg width="20" height="20"  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 15C3 17.8284 3 19.2426 3.87868 20.1213C4.75736 21 6.17157 21 9 21H15C17.8284 21 19.2426 21 20.1213 20.1213C21 19.2426 21 17.8284 21 15" stroke="#7E6A52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 3V16M12 16L16 11.625M12 16L8 11.625" stroke="#7E6A52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+        
+        `;
+
+        downloadActions.appendChild(downloadtn);
+
         const tdActions = document.createElement('td');
         tdActions.className = 'col-actions';
 
@@ -281,7 +297,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         viewBtn.setAttribute('aria-label', 'Bestelling weergeven');
 
         viewBtn.innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_526_1481)">
 <path d="M1.20284 6.79697C1.15423 6.92793 1.15423 7.072 1.20284 7.20297C1.67634 8.35105 2.48006 9.33269 3.51213 10.0234C4.54419 10.7142 5.75812 11.0829 7.00001 11.0829C8.2419 11.0829 9.45583 10.7142 10.4879 10.0234C11.52 9.33269 12.3237 8.35105 12.7972 7.20297C12.8458 7.072 12.8458 6.92793 12.7972 6.79697C12.3237 5.64888 11.52 4.66724 10.4879 3.97649C9.45583 3.28574 8.2419 2.91699 7.00001 2.91699C5.75812 2.91699 4.54419 3.28574 3.51213 3.97649C2.48006 4.66724 1.67634 5.64888 1.20284 6.79697Z" stroke="#7E6A52" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M7 8.75C7.9665 8.75 8.75 7.9665 8.75 7C8.75 6.0335 7.9665 5.25 7 5.25C6.0335 5.25 5.25 6.0335 5.25 7C5.25 7.9665 6.0335 8.75 7 8.75Z" stroke="#7E6A52" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
@@ -306,7 +322,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         tr.addEventListener('click', () => {
             openDetailPanel(order);
         });
+        downloadtn.addEventListener('click', (e) => {
+            e.stopPropagation();
 
+            window.open(
+                `/admin/bestellingen/${order.user_id}/factuur/${order.order_id}`,
+                '_blank'
+            );
+
+        })
         // ✅ Append all cells
         tr.append(
             tdOrder,
@@ -315,6 +339,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             tdItems,
             tdAmount,
             tdStatus,
+            downloadActions,
             tdActions
         );
 

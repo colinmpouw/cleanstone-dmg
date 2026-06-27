@@ -19,6 +19,7 @@ class AdminOrdersService
         $data = $this->buildOrders($rows);
         return $data;
     }
+
     public function changeStatus($input)
     {
         if (empty($input)) {
@@ -26,6 +27,13 @@ class AdminOrdersService
         }
 
         return $this->repository->changeStatus($input);
+    }
+
+    public function getOrderForInvoice(int $order_id, int $user_id): ?array
+    {
+        $rows = $this->repository->getOrderForInvoice($order_id, $user_id);
+        $data = $this->buildOrders($rows);
+        return $data;
     }
 
     private function buildOrders($rows)
