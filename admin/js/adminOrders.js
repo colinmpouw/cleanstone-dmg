@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
      * fetch is in flight, instead of a blank table.
      */
     function renderSkeletons(count = 8) {
-        const skeletons = Array.from({ length: count }, createSkeletonRow);
+        const skeletons = Array.from({length: count}, createSkeletonRow);
         tableBody.replaceChildren(...skeletons);
     }
 
@@ -191,13 +191,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     function getStatusInfo(apiStatus) {
         const normalized = normalizeStatus(apiStatus);
         const statusMap = {
-            'verwerking': { label: 'Verwerking', badgeClass: 'status-verwerking' },
-            'betaald': { label: 'Betaald', badgeClass: 'status-betaald' },
-            'verzonden': { label: 'Verzonden', badgeClass: 'status-verzonden' },
-            'geleverd': { label: 'Geleverd', badgeClass: 'status-geleverd' },
-            'geannuleerd': { label: 'Geannuleerd', badgeClass: 'status-geannuleerd' }
+            'verwerking': {label: 'Verwerking', badgeClass: 'status-verwerking'},
+            'betaald': {label: 'Betaald', badgeClass: 'status-betaald'},
+            'verzonden': {label: 'Verzonden', badgeClass: 'status-verzonden'},
+            'geleverd': {label: 'Geleverd', badgeClass: 'status-geleverd'},
+            'geannuleerd': {label: 'Geannuleerd', badgeClass: 'status-geannuleerd'}
         };
-        return statusMap[normalized] || { label: '—', badgeClass: '' };
+        return statusMap[normalized] || {label: '—', badgeClass: ''};
     }
 
     function createOrderRow(order) {
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         viewBtn.className = 'action-icon';
         viewBtn.setAttribute('aria-label', 'Bestelling weergeven');
 
-        viewBtn.innerHTML=`
+        viewBtn.innerHTML = `
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_526_1481)">
 <path d="M1.20284 6.79697C1.15423 6.92793 1.15423 7.072 1.20284 7.20297C1.67634 8.35105 2.48006 9.33269 3.51213 10.0234C4.54419 10.7142 5.75812 11.0829 7.00001 11.0829C8.2419 11.0829 9.45583 10.7142 10.4879 10.0234C11.52 9.33269 12.3237 8.35105 12.7972 7.20297C12.8458 7.072 12.8458 6.92793 12.7972 6.79697C12.3237 5.64888 11.52 4.66724 10.4879 3.97649C9.45583 3.28574 8.2419 2.91699 7.00001 2.91699C5.75812 2.91699 4.54419 3.28574 3.51213 3.97649C2.48006 4.66724 1.67634 5.64888 1.20284 6.79697Z" stroke="#7E6A52" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 row.addEventListener('animationend', () => {
                     row.classList.remove('order-row--enter');
                     row.style.animationDelay = '';
-                }, { once: true });
+                }, {once: true});
             });
         }
 
@@ -437,4 +437,69 @@ document.addEventListener('DOMContentLoaded', async () => {
         overlay.hidden = true;
         currentDetailOrder = null;
     }
+
+
+    document.getElementById('saveStatusBtn').addEventListener('click', () => {
+
+        if (!currentDetailOrder) {
+            return showAlert({
+                type: 'error',
+                title: 'Fout',
+                message: 'Geen bestelling geselecteerd'
+            });
+        }
+
+        const newStatus = document.getElementById('detailStatusSelect').value;
+
+        fetch('/api/admin/orders/change_status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                order_id: currentDetailOrder.order_id,
+                status: newStatus
+            })
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Request failed');
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data.success) {
+
+                    currentDetailOrder.status = newStatus;
+
+                    const index = allOrders.findIndex(o => o.order_id == currentDetailOrder.order_id);
+                    if (index !== -1) {
+                        allOrders[index].status = newStatus;
+                    }
+
+                    applyFiltersAndSearch();
+
+                    showAlert({
+                        type: 'success',
+                        title: 'Succes!',
+                        message: `De status is gewijzigd`
+                    });
+
+                    closeDetailPanel(); // optional
+
+                } else {
+                    showAlert({
+                        type: 'error',
+                        title: 'Fout!',
+                        message: `De status is niet gewijzigd`
+                    });
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+            });
+    });
+
+
+
 });

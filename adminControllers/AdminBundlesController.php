@@ -26,8 +26,7 @@ class AdminBundlesController
 
     public function bundleEditPage($id)
     {
-        echo '<script>window.bundleId = ' . json_encode((int)$id) . ';
-</script>';
+        echo '<script>window.bundleId = ' . json_encode((int)$id) . ';</script>';
         require_once __DIR__ . '/../admin/adminEditBundle.php';
         die();
     }

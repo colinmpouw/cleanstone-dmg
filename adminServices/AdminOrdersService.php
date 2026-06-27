@@ -19,7 +19,14 @@ class AdminOrdersService
         $data = $this->buildOrders($rows);
         return $data;
     }
+    public function changeStatus($input)
+    {
+        if (empty($input)) {
+            return false;
+        }
 
+        return $this->repository->changeStatus($input);
+    }
 
     private function buildOrders($rows)
     {
