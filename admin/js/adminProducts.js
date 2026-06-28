@@ -32,11 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let rawProducts;
 
         try {
-            const res = await fetch('/api/get_all_products');
+            const res = await fetch('/api/admin/get_all_products');
             if (!res.ok) {
                 throw new Error(`Request failed with status ${res.status}`);
             }
-            rawProducts = await res.json();
+            const json = await res.json();
+            if (!json.success) throw new Error('Producten laden mislukt');
+            rawProducts = json.data;
         } catch (error) {
             console.error('Kon producten niet laden:', error);
             renderError();

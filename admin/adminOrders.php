@@ -58,7 +58,7 @@
                     <th>Items</th>
                     <th>Bedrag</th>
                     <th>Status</th>
-                    <th class="col-actions">Download</th>
+                    <th class="col-actions">Factuur</th>
                     <th class="col-actions">Bekijk</th>
                 </tr>
                 </thead>

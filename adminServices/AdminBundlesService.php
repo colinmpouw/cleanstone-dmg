@@ -64,6 +64,7 @@ class AdminBundlesService
             if ($productId && !isset($seenProducts[$id][$productId])) {
                 $bundels[$id]['products'][$productId] = [
                     "product_id" => $productId,
+                    "image" => $row['product_image'],
                     "product_name" => $row['product_name'],
                     "quantity" => $row['quantity'],
                     "price" => $row['product_price'],

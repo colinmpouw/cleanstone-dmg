@@ -53,12 +53,6 @@
                 </div>
 
                 <div class="panel">
-                    <div class="skeleton-line" style="width: 40%; height: 18px; margin-bottom: 1.25rem;"></div>
-                    <div class="skeleton-line" style="width: 100%; height: 42px; margin-bottom: 1.25rem;"></div>
-                    <div class="skeleton-line" style="width: 100%; height: 42px;"></div>
-                </div>
-
-                <div class="panel">
                     <div class="skeleton-line" style="width: 50%; height: 18px; margin-bottom: 1.25rem;"></div>
                     <div class="skeleton-line" style="width: 100%; height: 20px; margin-bottom: 0.75rem;"></div>
                     <div class="skeleton-line" style="width: 100%; height: 20px; margin-bottom: 0.75rem;"></div>
@@ -77,10 +71,7 @@
 
                 <div class="panel">
                     <div class="skeleton-line" style="width: 20%; height: 18px; margin-bottom: 1.25rem;"></div>
-                    <div class="skeleton-field-row">
-                        <div class="skeleton-line" style="height: 42px;"></div>
-                        <div class="skeleton-line" style="height: 42px;"></div>
-                    </div>
+                    <div class="skeleton-line" style="height: 42px;"></div>
                 </div>
 
                 <div class="panel">
@@ -88,12 +79,6 @@
                     <div class="skeleton-line" style="width: 100%; height: 70px; margin-bottom: 0.85rem;"></div>
                     <div class="skeleton-line" style="width: 100%; height: 70px; margin-bottom: 0.85rem;"></div>
                     <div class="skeleton-line" style="width: 100%; height: 70px;"></div>
-                </div>
-
-                <div class="panel">
-                    <div class="skeleton-line" style="width: 30%; height: 18px; margin-bottom: 1.25rem;"></div>
-                    <div class="skeleton-line" style="width: 100%; height: 50px; margin-bottom: 0.85rem;"></div>
-                    <div class="skeleton-line" style="width: 100%; height: 50px;"></div>
                 </div>
             </div>
         </div>
@@ -124,37 +109,6 @@
                             <i class="ti ti-plus"></i>
                             <input type="file" id="photoInput" accept="image/*" multiple hidden>
                         </label>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <h2>Status &amp; identificatie</h2>
-
-                    <div class="field">
-                        <label>Status</label>
-                        <div class="status-buttons">
-                            <button type="button" class="status-btn status-btn--active" data-status="actief">Actief</button>
-                            <button type="button" class="status-btn" data-status="concept">Concept</button>
-                        </div>
-                        <input type="hidden" id="bundleStatus" name="status" value="actief">
-                    </div>
-
-                    <div class="field">
-                        <label for="bundleSku">SKU / Artikelnummer</label>
-                        <input type="text" id="bundleSku" name="sku" placeholder="SKU">
-                    </div>
-
-                    <div class="field">
-                        <label for="bundleTags">Tags</label>
-                        <div class="tag-select" id="tagSelect">
-                            <div class="tag-select-chips" id="tagChips">
-                                <!-- Selected tags injected by JS -->
-                            </div>
-                            <input type="text" id="tagSearchInput" placeholder="Tag toevoegen...">
-                            <div class="tag-select-dropdown" id="tagDropdown" hidden>
-                                <!-- Available tags injected by JS -->
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -196,28 +150,18 @@
                     </div>
 
                     <div class="field">
-                        <label for="bundleTags">Tags</label>
-                        <input type="text" id="bundleTagsInput" name="bundle_tags" placeholder="Tags gescheiden door komma's">
+                        <label for="bundleTagsInput">Tag</label>
+                        <input type="text" id="bundleTagsInput" name="bundle_tags" placeholder="Bijv. Keuken">
                     </div>
                 </div>
 
                 <div class="panel">
                     <h2>Prijs</h2>
 
-                    <div class="field-row">
-                        <div class="field">
-                            <label for="bundlePrice">Bundelprijs (€)</label>
-                            <input type="number" id="bundlePrice" name="price" step="0.01" min="0" placeholder="0.00">
-                        </div>
-                        <div class="field">
-                            <label for="bundleComparePrice">
-                                Originele waarde (€) <span class="field-optional">optioneel</span>
-                            </label>
-                            <input type="number" id="bundleComparePrice" name="compare_price" step="0.01" min="0" placeholder="0.00">
-                        </div>
+                    <div class="field">
+                        <label for="bundlePrice">Bundelprijs (€)</label>
+                        <input type="number" id="bundlePrice" name="price" step="0.01" min="0" placeholder="0.00">
                     </div>
-
-                    <div class="discount-note" id="discountNote" hidden></div>
                 </div>
 
                 <div class="panel">
@@ -233,22 +177,29 @@
                         <!-- Products injected by JS -->
                     </div>
                 </div>
-
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2>Hoogtepunten</h2>
-                        <button type="button" class="btn-add-highlight" id="addHighlightBtn">
-                            <i class="ti ti-plus"></i>
-                            Toevoegen
-                        </button>
-                    </div>
-
-                    <div id="bundleHighlightsList" class="bundle-highlights-list">
-                        <!-- Highlights injected by JS -->
-                    </div>
-                </div>
             </div>
         </form>
+
+        <!-- PRODUCT PICKER MODAL -->
+        <div class="modal-overlay" id="productPickerOverlay" hidden>
+            <div class="modal-box" id="productPickerModal" role="dialog" aria-modal="true" aria-labelledby="productPickerTitle">
+                <div class="modal-header">
+                    <h2 id="productPickerTitle">Product toevoegen</h2>
+                    <button type="button" class="modal-close" id="productPickerClose" aria-label="Sluiten">
+                        <i class="ti ti-x"></i>
+                    </button>
+                </div>
+
+                <div class="modal-search">
+                    <i class="ti ti-search"></i>
+                    <input type="text" id="productPickerSearch" placeholder="Zoek op naam, SKU of categorie...">
+                </div>
+
+                <div class="modal-list" id="productPickerList">
+                    <!-- Product results injected by JS -->
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 <script src="/admin/js/adminMain.js"></script>

@@ -42,7 +42,11 @@ console.log(window.productId);
     {
         $products = $this->service->getAllProducts();
         header('Content-Type: application/json');
-        echo json_encode($products);
+
+        echo json_encode([
+            'success' => true,
+            'data' => $products
+        ]);
     }
     public function get_all_tags()
     {
