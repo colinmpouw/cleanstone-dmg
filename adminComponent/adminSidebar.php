@@ -102,17 +102,28 @@
             </a>
         </li>
         <li>
-            <a href="/admin/gebruikers">
-                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11.3333 14.875V13.4583C11.3333 12.7069 11.0348 11.9862 10.5035 11.4549C9.97212 10.9235 9.25145 10.625 8.5 10.625H4.25C3.49855 10.625 2.77788 10.9235 2.24653 11.4549C1.71518 11.9862 1.41667 12.7069 1.41667 13.4583V14.875" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M6.375 7.79167C7.93981 7.79167 9.20833 6.52314 9.20833 4.95833C9.20833 3.39353 7.93981 2.125 6.375 2.125C4.81019 2.125 3.54167 3.39353 3.54167 4.95833C3.54167 6.52314 4.81019 7.79167 6.375 7.79167Z" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M15.5833 14.875V13.4583C15.5829 12.8305 15.3739 12.2207 14.9893 11.7245C14.6047 11.2284 14.0662 10.874 13.4583 10.7171" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.3333 2.21707C11.9428 2.37312 12.483 2.72757 12.8687 3.22454C13.2545 3.72151 13.4639 4.33274 13.4639 4.96186C13.4639 5.59098 13.2545 6.20221 12.8687 6.69918C12.483 7.19616 11.9428 7.55061 11.3333 7.70665" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <a href="/admin/gebruikers">
+                    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.3333 14.875V13.4583C11.3333 12.7069 11.0348 11.9862 10.5035 11.4549C9.97212 10.9235 9.25145 10.625 8.5 10.625H4.25C3.49855 10.625 2.77788 10.9235 2.24653 11.4549C1.71518 11.9862 1.41667 12.7069 1.41667 13.4583V14.875" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6.375 7.79167C7.93981 7.79167 9.20833 6.52314 9.20833 4.95833C9.20833 3.39353 7.93981 2.125 6.375 2.125C4.81019 2.125 3.54167 3.39353 3.54167 4.95833C3.54167 6.52314 4.81019 7.79167 6.375 7.79167Z" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M15.5833 14.875V13.4583C15.5829 12.8305 15.3739 12.2207 14.9893 11.7245C14.6047 11.2284 14.0662 10.874 13.4583 10.7171" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M11.3333 2.21707C11.9428 2.37312 12.483 2.72757 12.8687 3.22454C13.2545 3.72151 13.4639 4.33274 13.4639 4.96186C13.4639 5.59098 13.2545 6.20221 12.8687 6.69918C12.483 7.19616 11.9428 7.55061 11.3333 7.70665" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
 
-                Gebruikers
-            </a>
-        </li>
+                    Gebruikers
+                </a>
+            </li>
+
+            <li>
+                <a href="/admin/discount-codes">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 15L15 9" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="9.5" cy="9.5" r="0.5" fill="var(--active-color)" stroke="var(--active-color)" stroke-width="1.41667"/>
+                        <circle cx="14.5" cy="14.5" r="0.5" fill="var(--active-color)" stroke="var(--active-color)" stroke-width="1.41667"/>
+                        <path d="M2.5 12C2.5 12 4 10.5 4 9V5.5C4 4.948 4.448 4.5 5 4.5H8.5C10 4.5 11.5 3 12 3C12.5 3 14 4.5 15.5 4.5H19C19.552 4.5 20 4.948 20 5.5V9C20 10.5 21.5 12 21.5 12C21.5 12 20 13.5 20 15V18.5C20 19.052 19.552 19.5 19 19.5H15.5C14 19.5 12.5 21 12 21C11.5 21 10 19.5 8.5 19.5H5C4.448 19.5 4 19.052 4 18.5V15C4 13.5 2.5 12 2.5 12Z" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>                    Kortingcodes
+                </a>
+            </li>
         <div class="nav-divider"></div>
         <li>
             <a href="/admin/instellingen">

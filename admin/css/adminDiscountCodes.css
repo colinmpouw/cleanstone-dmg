@@ -1,0 +1,20 @@
+.content {
+    padding: 28px 32px;
+    /*background: var(--soft-white);*/
+    flex: 1;
+    overflow-y: auto;
+}
+
+.korting-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.korting-heading h1 {
+    font-family: var(--title-font);
+    font-size: var(--page-title-size);
+    color: var(--charcoal-clay);
+    margin-bottom: 4px;
+}
