@@ -98,7 +98,7 @@
                     </defs>
                 </svg>
 
-                Blog
+                Blogs
             </a>
         </li>
         <li>
@@ -121,9 +121,20 @@
                         <circle cx="9.5" cy="9.5" r="0.5" fill="var(--active-color)" stroke="var(--active-color)" stroke-width="1.41667"/>
                         <circle cx="14.5" cy="14.5" r="0.5" fill="var(--active-color)" stroke="var(--active-color)" stroke-width="1.41667"/>
                         <path d="M2.5 12C2.5 12 4 10.5 4 9V5.5C4 4.948 4.448 4.5 5 4.5H8.5C10 4.5 11.5 3 12 3C12.5 3 14 4.5 15.5 4.5H19C19.552 4.5 20 4.948 20 5.5V9C20 10.5 21.5 12 21.5 12C21.5 12 20 13.5 20 15V18.5C20 19.052 19.552 19.5 19 19.5H15.5C14 19.5 12.5 21 12 21C11.5 21 10 19.5 8.5 19.5H5C4.448 19.5 4 19.052 4 18.5V15C4 13.5 2.5 12 2.5 12Z" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>                    Kortingcodes
+                    </svg>
+                    Kortingcodes
                 </a>
             </li>
+
+        <li>
+            <a href="/admin/merken">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.59 13.41L13.42 20.58C13.23 20.77 12.98 20.88 12.71 20.88C12.45 20.88 12.19 20.77 12 20.58L2.59 11.17C2.21 10.79 2 10.27 2 9.74V4C2 2.9 2.9 2 4 2H9.74C10.27 2 10.79 2.21 11.17 2.59L20.58 12C20.97 12.39 20.97 13.02 20.59 13.41Z" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="6.5" cy="6.5" r="1" fill="var(--active-color)" stroke="var(--active-color)" stroke-width="0.5"/>
+                </svg>
+                Merken
+            </a>
+        </li>
         <div class="nav-divider"></div>
         <li>
             <a href="/admin/instellingen">
