@@ -35,10 +35,30 @@ class ProductenService
 
     public function searchProductsForAi(string $searchTerm): array
     {
-        return $this->repository->searchProductsForAi($searchTerm);
+        $rows = $this->repository->searchProductsForAi($searchTerm);
+        return $this->buildSimpleProducts($rows);
     }
+
     public function getTopProductsForAi(): array
     {
-        return $this->repository->getTopProductsForAi();
+        $rows = $this->repository->getTopProductsForAi();
+        return $this->buildSimpleProducts($rows);
+    }
+
+    private function buildSimpleProducts($rows)
+    {
+        if (empty($rows)) {
+            return [];
+        }
+
+        return array_map(function ($row) {
+            return [
+                "id" => $row['id'],
+                "name" => $row['name'],
+                "price" => $row['price'],
+                "avg_rating" => $row['avg_rating'] ?? null,
+                "review_count" => $row['review_count'] ?? 0
+            ];
+        }, $rows);
     }
 }

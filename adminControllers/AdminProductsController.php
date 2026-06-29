@@ -40,8 +40,9 @@ console.log(window.productId);
     }
     public function get_all_products()
     {
-        $products = $this->service->getAllProducts();
         header('Content-Type: application/json');
+        $products = $this->service->getAllProducts();
+
 
         echo json_encode([
             'success' => true,
@@ -50,25 +51,39 @@ console.log(window.productId);
     }
     public function get_all_tags()
     {
-        $products = $this->service->getTags();
         header('Content-Type: application/json');
-        echo json_encode($products);
+        $products = $this->service->getTags();
+
+        echo json_encode([
+            'success' => true,
+            'data' => $products
+        ]);
     }
     public function get_all_brands()
     {
-        $products = $this->service->getBrands();
         header('Content-Type: application/json');
-        echo json_encode($products);
+        $products = $this->service->getBrands();
+
+        echo json_encode([
+            'success' => true,
+            'data' => $products
+        ]);
     }
     public function get_all_categories()
-    {
+    {   header('Content-Type: application/json');
         $products = $this->service->getCategories();
-        header('Content-Type: application/json');
-        echo json_encode($products);
+
+        echo json_encode([
+            'success' => true,
+            'data' => $products
+        ]);
     }
     public function findProductById($id){
         $products = $this->service->getProductById($id);
-        echo json_encode($products);
+        echo json_encode([
+            'success' => true,
+            'data' => $products
+        ]);
     }
 
 }

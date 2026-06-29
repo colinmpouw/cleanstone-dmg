@@ -36,10 +36,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         const brandsJson = await brandsRes.json();
         const tagsJson = await tagsRes.json();
 
-        product = productJson.data?.[0] || productJson;
+        // FIX 1: `data` is a bare object for this endpoint, not an array.
+        // (was: productJson.data?.[0] || productJson)
+        product = productJson.data || productJson;
 
-        populateForm(product);
+        // FIX 4: populate the <select> options BEFORE setting .value on them.
+        // Setting .value on a <select> with no <option> elements yet silently
+        // fails to select anything, so category/brand never appeared pre-selected.
         populateSelects(categoriesJson.data || [], brandsJson.data || []);
+        populateForm(product);
+
         initTagSelect(tagsJson.data || []);
         initPhotoManager(product.image);
         initDiscount();
@@ -73,9 +79,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('productComparePrice').value = data.sale_price || '';
         document.getElementById('productStock').value = data.stock || '';
         document.getElementById('productSku').value = data.sku || '';
-        document.getElementById('productCategory').value = data.category_id || '';
-        document.getElementById('productBrand').value = data.brand_id || '';
+        document.getElementById('productCategory').value = data.category.name || '';
+        document.getElementById('productBrand').value = data.brand.name || '';
 
+        console.log('category'+ data.category.name )
+        console.log('brand'+ data.brand.name )
         selectedTags = data.tags || [];
         renderTagChips();
     }
@@ -83,6 +91,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     function populateSelects(categories, brands) {
         const categorySelect = document.getElementById('productCategory');
         const brandSelect = document.getElementById('productBrand');
+
+        // FIX 3: add blank placeholder options so a product with no brand/category
+        // doesn't silently default to whatever option happens to be first.
+        const blankCat = document.createElement('option');
+        blankCat.value = '';
+        blankCat.textContent = '— Kies een categorie —';
+        categorySelect.append(blankCat);
+
+        const blankBrand = document.createElement('option');
+        blankBrand.value = '';
+        blankBrand.textContent = '— Kies een merk —';
+        brandSelect.append(blankBrand);
 
         categories.forEach(cat => {
             const opt = document.createElement('option');
@@ -175,6 +195,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const main = document.getElementById('photoMain');
         const img = document.getElementById('photoMainImg');
         const empty = document.getElementById('photoMainEmpty');
+        const photoCount = document.getElementById('photoCount'); // FIX 2
 
         let selectedFile = null;
 
@@ -185,6 +206,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             img.hidden = false;
             empty.hidden = true;
+            photoCount.textContent = "1 foto's"; // FIX 2
         }
 
         main.addEventListener('click', () => input.click());
@@ -200,6 +222,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 img.src = evt.target.result;
                 img.hidden = false;
                 empty.hidden = true;
+                photoCount.textContent = "1 foto's"; // FIX 2
             };
 
             reader.readAsDataURL(file);
