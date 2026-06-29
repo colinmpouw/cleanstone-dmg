@@ -104,7 +104,11 @@ class AdminProductsService
             mkdir($uploadDir, 0777, true);
         }
 
-        $filename = uniqid('product_', true) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+        $extension = strtolower(
+            pathinfo($file['name'], PATHINFO_EXTENSION)
+        );
+
+        $filename = uniqid('product_', true) . '.' . $extension;
         $filepath = $uploadDir . $filename;
 
         if (!move_uploaded_file($file['tmp_name'], $filepath)) {
@@ -112,13 +116,22 @@ class AdminProductsService
         }
 
         if ($isPrimary) {
-            $this->repository->clearPrimaryImage($productId);
+
+            $this->repository->updateProductMainImage(
+                $productId,
+                $filename
+            );
+
+            return [
+                'image' => $filename,
+                'type' => 'main'
+            ];
         }
+
 
         return $this->repository->insertImage([
             'product_id' => $productId,
-            'image' => $filename,
-            'is_primary' => $isPrimary
+            'image' => $filename
         ]);
     }
     private function buildProduct($rows)

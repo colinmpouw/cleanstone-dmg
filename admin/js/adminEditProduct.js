@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let features = [];      // array of strings
     let specifications = []; // array of { id, name, value }
     let instructions = [];   // array of { id, step, instruction }
-
+    let selectedMainImage = null;
     let rowIdCounter = 0;
     const nextRowId = () => `row_${Date.now()}_${rowIdCounter++}`;
 
@@ -321,46 +321,42 @@ document.addEventListener('DOMContentLoaded', async () => {
         function buildInitialGallery(legacyImage, imagesArray) {
             const items = [];
 
-            // images[] entries can have either `image` (filename in /uploads/products/)
-            // or `url` (already a full path) populated, per the sample data.
+
+            if (legacyImage) {
+                items.push({
+                    id: 'main-image',
+                    url: legacyImage.startsWith('/uploads')
+                        ? legacyImage
+                        : `/uploads/products/${legacyImage}`,
+                    file: null,
+                    isPrimary: true,
+                    isNew: false,
+                    isMainImage: true
+                });
+
+                selectedMainImage = items[0];
+            }
+
             imagesArray.forEach(img => {
                 const src = img.url
-                    ? (img.url.startsWith('/') ? img.url : `/uploads/products/${img.url}`)
-                    : (img.image ? `/uploads/products/${img.image}` : null);
+                    ? (img.url.startsWith('/')
+                        ? img.url
+                        : `/uploads/products/${img.url}`)
+                    : (img.image
+                        ? `/uploads/products/${img.image}`
+                        : null);
 
                 if (!src) return;
 
                 items.push({
-                    id: img.id ?? nextRowId(),
+                    id: img.id,
                     url: src,
                     file: null,
-                    isPrimary: !!img.is_primary,
-                    isNew: false
+                    isPrimary: false,
+                    isNew: false,
+                    isMainImage: false
                 });
             });
-
-            // If nothing in images[] is marked primary, but a legacy `image` field
-            // exists, make sure that photo is represented and marked primary.
-            if (legacyImage) {
-                const legacySrc = legacyImage.startsWith('/uploads')
-                    ? legacyImage
-                    : `/uploads/products/${legacyImage}`;
-
-                const alreadyPresent = items.some(item => item.url === legacySrc);
-                if (!alreadyPresent) {
-                    items.unshift({
-                        id: nextRowId(),
-                        url: legacySrc,
-                        file: null,
-                        isPrimary: true,
-                        isNew: false
-                    });
-                }
-            }
-
-            if (items.length && !items.some(i => i.isPrimary)) {
-                items[0].isPrimary = true;
-            }
 
             return items;
         }
@@ -401,8 +397,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 thumb.addEventListener('click', (e) => {
                     if (e.target.closest('.photo-thumb-remove')) return;
+
                     gallery.forEach(g => g.isPrimary = false);
+
                     item.isPrimary = true;
+
+                    selectedMainImage = item;
+
                     renderGallery();
                 });
 
@@ -412,12 +413,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                 removeBtn.innerHTML = '<i class="ti ti-x"></i>';
                 removeBtn.addEventListener('click', () => {
                     const wasPrimary = item.isPrimary;
+
                     gallery = gallery.filter(g => g.id !== item.id);
+
                     if (wasPrimary && gallery.length) {
                         gallery[0].isPrimary = true;
+                        selectedMainImage = gallery[0];
                     }
+
+                    if (!gallery.length) {
+                        selectedMainImage = null;
+                    }
+
                     renderGallery();
                 });
+
                 thumb.append(removeBtn);
 
                 thumbsContainer.insertBefore(thumb, addLabel);
@@ -441,8 +451,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         window.getRemovedImageIds = function () {
-            // Existing (non-new) image ids that survived into the final gallery
-            return gallery.filter(g => !g.isNew).map(g => g.id);
+            return gallery
+                .filter(g => !g.isNew && !g.isMainImage)
+                .map(g => g.id);
         };
     }
 
@@ -660,16 +671,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                 brand_id: parseInt(formData.get('brand_id')) || null,
                 category_id: parseInt(formData.get('category_id')) || null,
                 tags: selectedTags.map(t => t.id),
-                // Drop empty rows so blank add-row clicks don't get saved.
+
                 features: features.map(f => f.trim()).filter(Boolean),
+
                 specifications: specifications
                     .filter(s => s.name.trim() || s.value.trim())
-                    .map(s => ({ name: s.name.trim(), value: s.value.trim() })),
+                    .map(s => ({
+                        name: s.name.trim(),
+                        value: s.value.trim()
+                    })),
+
                 instructions: instructions
                     .filter(i => i.instruction.trim())
-                    .map(i => ({ step: i.step, instruction: i.instruction.trim() })),
-                kept_image_ids: window.getRemovedImageIds ? window.getRemovedImageIds() : [],
-                primary_image_id: (gallery.find(g => g.isPrimary && !g.isNew) || {}).id || null
+                    .map(i => ({
+                        step: i.step,
+                        instruction: i.instruction.trim()
+                    })),
+
+                kept_image_ids: window.getRemovedImageIds
+                    ? window.getRemovedImageIds()
+                    : []
             };
             // Note: avg_rating / review_count are intentionally NOT included —
             // they're calculated by the DB view and never sent from this form.

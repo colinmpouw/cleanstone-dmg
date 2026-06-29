@@ -129,7 +129,11 @@
 
                 <div class="panel">
                     <h2>Tips</h2>
-                    <p>Gebruik vierkante foto's (≥800×800px). Eerste foto is hoofdfoto.</p>
+                    <p>
+                        Upload duidelijke vierkante foto's (minimaal 800×800 px).
+                        Klik op een foto om deze als hoofdfoto in te stellen.
+                        De hoofdfoto wordt gebruikt op productpagina's en in productoverzichten.
+                    </p>
                 </div>
             </div>
 

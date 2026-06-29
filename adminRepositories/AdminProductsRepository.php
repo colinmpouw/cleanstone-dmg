@@ -95,11 +95,20 @@ class AdminProductsRepository
             'filename' => $data['image']
         ];
     }
-    public function clearPrimaryImage($productId)
+//    public function clearPrimaryImage($productId)
+//    {
+//        $this->DB->save(
+//            "UPDATE product_images SET is_primary = 0 WHERE product_id = ?",
+//            [$productId]
+//        );
+//    }
+    public function updateProductMainImage($productId, $filename)
     {
         $this->DB->save(
-            "UPDATE product_images SET is_primary = 0 WHERE product_id = ?",
-            [$productId]
+            "UPDATE products
+         SET image = ?
+         WHERE id = ?",
+            [$filename, $productId]
         );
     }
 
