@@ -5,10 +5,12 @@ namespace services;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use repositories\OrderRepository;
 
 class   MailService
 {
     private PHPMailer $mail;
+    private OrderRepository $orderRepository;
 
     public function __construct()
     {
@@ -19,8 +21,11 @@ class   MailService
         $this->mail->SMTPAuth   = false;
         $this->mail->SMTPSecure = '';
         $this->mail->SMTPAutoTLS = false;
+        $this->mail->CharSet    = 'UTF-8';
         $this->mail->isHTML(true);
         $this->mail->setFrom('info@cleanstone.nl', 'CleanStone');
+
+        $this->orderRepository = new OrderRepository();
     }
 
     public function sendAdviesBevestiging(string $toEmail, string $toName): void
@@ -315,6 +320,230 @@ class   MailService
             $this->writeLog($toEmail, $e);
         }
     }
+
+    public function sendBestellingMail(int $orderId): void
+    {
+        try {
+            $order = $this->orderRepository->getOrderForMail($orderId);
+
+            if (!$order) {
+                return;
+            }
+
+            $this->mail->clearAddresses();
+            $this->mail->addAddress(
+                $order['email'],
+                $order['first_name'] . ' ' . $order['last_name']
+            );
+
+            $subtotal = 0;
+            $productenHtml = '';
+
+            foreach ($order['products'] as $product) {
+                $line      = $product['price'] * $product['quantity'];
+                $subtotal += $line;
+
+                $productenHtml .= "
+                  <tr>
+                    <td style='padding: 14px 16px; border-bottom: 1px solid #EDE8DF; font-size: 14px; color: #3A2B20;'>" . htmlspecialchars($product['name']) . "</td>
+                    <td style='padding: 14px 16px; border-bottom: 1px solid #EDE8DF; font-size: 14px; color: #7E6A52; text-align: center;'>" . (int)$product['quantity'] . "</td>
+                    <td style='padding: 14px 16px; border-bottom: 1px solid #EDE8DF; font-size: 14px; color: #3A2B20; text-align: right; white-space: nowrap;'>&euro;&nbsp;" . number_format($line, 2, ',', '.') . "</td>
+                  </tr>";
+            }
+
+            $deliveryPrice   = (float)($order['delivery_price'] ?? 0);
+            $discountAmount  = (float)($order['discount_amount'] ?? 0);
+            $totalPrice      = (float)$order['total_price'];
+            $deliveryLabel   = $deliveryPrice > 0
+                ? '&euro;&nbsp;' . number_format($deliveryPrice, 2, ',', '.')
+                : '<span style="color:#4CAF50; font-weight:600;">Gratis</span>';
+
+            $discountRow = '';
+            if ($discountAmount > 0) {
+                $discountRow = "
+                  <tr>
+                    <td colspan='2' style='padding: 10px 16px; font-size: 14px; color: #7E6A52;'>Korting</td>
+                    <td style='padding: 10px 16px; font-size: 14px; color: #4CAF50; text-align: right; white-space: nowrap;'>- &euro;&nbsp;" . number_format($discountAmount, 2, ',', '.') . "</td>
+                  </tr>";
+            }
+
+            $orderDate = date('d-m-Y', strtotime($order['created_at']));
+
+            $this->mail->Subject = "Bevestiging bestelling #" . $order['id'] . " \xe2\x80\x94 CleanStone";
+
+            $this->mail->Body = "<!DOCTYPE html>
+<html lang='nl'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+</head>
+<body style='margin:0; padding:0; background-color:#F2EDE4; font-family: Arial, Helvetica, sans-serif;'>
+
+  <table width='100%' cellpadding='0' cellspacing='0' style='background-color:#F2EDE4; padding: 48px 16px;'>
+    <tr>
+      <td align='center'>
+        <table width='600' cellpadding='0' cellspacing='0' style='max-width:600px; width:100%;'>
+
+          <!-- LOGO BALK -->
+          <tr>
+            <td align='center' style='padding-bottom: 28px;'>
+              <p style='margin:0; font-family: Georgia, serif; font-size: 22px; font-weight: 700; color: #3A2B20; letter-spacing: 2px; text-transform: uppercase;'>CleanStone</p>
+              <p style='margin: 4px 0 0; font-size: 12px; color: #9C8672; letter-spacing: 1px; text-transform: uppercase;'>Specialist in natuursteen onderhoud</p>
+            </td>
+          </tr>
+
+          <!-- MAIN CARD -->
+          <tr>
+            <td style='background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 20px rgba(58,43,32,0.10);'>
+
+              <!-- HEADER -->
+              <table width='100%' cellpadding='0' cellspacing='0'>
+                <tr>
+                  <td style='background: linear-gradient(135deg, #3A2B20 0%, #6B5440 100%); padding: 40px 40px 36px; text-align: center;'>
+                    <p style='margin: 0 0 10px; font-size: 40px; line-height: 1;'>&#10003;</p>
+                    <h1 style='margin: 0 0 8px; font-family: Georgia, serif; font-size: 24px; font-weight: 700; color: #ffffff; letter-spacing: -0.3px;'>Bestelling bevestigd!</h1>
+                    <p style='margin: 0; font-size: 14px; color: rgba(255,255,255,0.70);'>Bedankt voor uw aankoop bij CleanStone</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- BODY -->
+              <table width='100%' cellpadding='0' cellspacing='0'>
+                <tr>
+                  <td style='padding: 36px 40px 0;'>
+
+                    <p style='margin: 0 0 6px; font-size: 15px; color: #3A2B20; line-height: 1.6;'>Beste <strong>" . htmlspecialchars($order['first_name']) . "</strong>,</p>
+                    <p style='margin: 0 0 28px; font-size: 14px; color: #7E6A52; line-height: 1.7;'>Wij hebben uw bestelling in goede orde ontvangen en gaan deze zo snel mogelijk verwerken. Hieronder vindt u een overzicht van uw bestelling.</p>
+
+                    <!-- ORDER META -->
+                    <table width='100%' cellpadding='0' cellspacing='0' style='background: #F9F5EE; border-radius: 10px; margin-bottom: 28px;'>
+                      <tr>
+                        <td style='padding: 20px 24px;'>
+                          <table width='100%' cellpadding='0' cellspacing='0'>
+                            <tr>
+                              <td style='padding: 6px 0; font-size: 13px; color: #9C8672; width: 50%;'>Bestelnummer</td>
+                              <td style='padding: 6px 0; font-size: 13px; color: #3A2B20; font-weight: 700; text-align: right;'>#" . $order['id'] . "</td>
+                            </tr>
+                            <tr>
+                              <td style='padding: 6px 0; font-size: 13px; color: #9C8672;'>Besteldatum</td>
+                              <td style='padding: 6px 0; font-size: 13px; color: #3A2B20; text-align: right;'>" . $orderDate . "</td>
+                            </tr>
+                            <tr>
+                              <td style='padding: 6px 0; font-size: 13px; color: #9C8672;'>Betaalmethode</td>
+                              <td style='padding: 6px 0; font-size: 13px; color: #3A2B20; text-align: right; text-transform: capitalize;'>" . htmlspecialchars($order['payment_method']) . "</td>
+                            </tr>
+                            <tr>
+                              <td style='padding: 6px 0; font-size: 13px; color: #9C8672;'>Verzendmethode</td>
+                              <td style='padding: 6px 0; font-size: 13px; color: #3A2B20; text-align: right; text-transform: capitalize;'>" . htmlspecialchars($order['delivery_option']) . "</td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- PRODUCTS HEADER -->
+                    <p style='margin: 0 0 10px; font-size: 13px; font-weight: 700; color: #3A2B20; text-transform: uppercase; letter-spacing: 0.07em;'>Uw bestelling</p>
+
+                  </td>
+                </tr>
+              </table>
+
+              <!-- PRODUCT TABLE -->
+              <table width='100%' cellpadding='0' cellspacing='0' style='border-collapse: collapse;'>
+                <tr style='background: #3A2B20;'>
+                  <th style='padding: 12px 16px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.85); text-align: left; letter-spacing: 0.05em; text-transform: uppercase;'>Product</th>
+                  <th style='padding: 12px 16px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.85); text-align: center; letter-spacing: 0.05em; text-transform: uppercase; width: 60px;'>Qty</th>
+                  <th style='padding: 12px 16px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.85); text-align: right; letter-spacing: 0.05em; text-transform: uppercase;'>Prijs</th>
+                </tr>
+                " . $productenHtml . "
+              </table>
+
+              <!-- PRICE SUMMARY -->
+              <table width='100%' cellpadding='0' cellspacing='0'>
+                <tr>
+                  <td style='padding: 0 40px 32px;'>
+                    <table width='100%' cellpadding='0' cellspacing='0' style='margin-top: 4px;'>
+                      <tr>
+                        <td colspan='2' style='padding: 10px 16px; font-size: 14px; color: #7E6A52;'>Subtotaal</td>
+                        <td style='padding: 10px 16px; font-size: 14px; color: #3A2B20; text-align: right; white-space: nowrap;'>&euro;&nbsp;" . number_format($subtotal, 2, ',', '.') . "</td>
+                      </tr>
+                      <tr>
+                        <td colspan='2' style='padding: 10px 16px; font-size: 14px; color: #7E6A52;'>Verzendkosten</td>
+                        <td style='padding: 10px 16px; font-size: 14px; color: #3A2B20; text-align: right; white-space: nowrap;'>" . $deliveryLabel . "</td>
+                      </tr>
+                      " . $discountRow . "
+                      <tr>
+                        <td colspan='3' style='padding: 0; border-top: 2px solid #EDE8DF;'></td>
+                      </tr>
+                      <tr>
+                        <td colspan='2' style='padding: 14px 16px; font-size: 16px; font-weight: 700; color: #3A2B20;'>Totaal</td>
+                        <td style='padding: 14px 16px; font-size: 16px; font-weight: 700; color: #3A2B20; text-align: right; white-space: nowrap;'>&euro;&nbsp;" . number_format($totalPrice, 2, ',', '.') . "</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- SHIPPING ADDRESS -->
+              <table width='100%' cellpadding='0' cellspacing='0'>
+                <tr>
+                  <td style='padding: 0 40px 36px;'>
+                    <table width='100%' cellpadding='0' cellspacing='0' style='background: #F9F5EE; border-radius: 10px;'>
+                      <tr>
+                        <td style='padding: 20px 24px;'>
+                          <p style='margin: 0 0 10px; font-size: 12px; font-weight: 700; color: #3A2B20; text-transform: uppercase; letter-spacing: 0.07em;'>Verzendadres</p>
+                          <p style='margin: 0; font-size: 14px; color: #7E6A52; line-height: 1.7;'>
+                            " . htmlspecialchars($order['first_name'] . ' ' . $order['last_name']) . "<br>
+                            " . htmlspecialchars($order['street'] . ' ' . $order['house_number']) . "<br>
+                            " . htmlspecialchars($order['postal_code'] . ' ' . $order['city']) . "<br>
+                            " . htmlspecialchars($order['country']) . "
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- CLOSING TEXT -->
+              <table width='100%' cellpadding='0' cellspacing='0'>
+                <tr>
+                  <td style='padding: 0 40px 40px;'>
+                    <p style='margin: 0 0 20px; font-size: 14px; color: #7E6A52; line-height: 1.7;'>Zodra uw bestelling is verzonden ontvangt u een e-mail met de trackinginformatie.</p>
+                    <p style='margin: 0; font-size: 14px; color: #3A2B20; line-height: 1.7;'>Met vriendelijke groet,<br><strong>Team CleanStone</strong></p>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- FOOTER -->
+          <tr>
+            <td align='center' style='padding-top: 28px; padding-bottom: 12px;'>
+              <p style='margin: 0 0 4px; font-size: 12px; color: #B89C82;'>CleanStone &middot; Specialist in natuursteen onderhoud</p>
+              <p style='margin: 0; font-size: 11px; color: #C4B09A;'>U ontvangt deze e-mail omdat u een bestelling heeft geplaatst.</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>";
+
+            $this->mail->AltBody = "Beste {$order['first_name']}, bedankt voor uw bestelling #" . $order['id'] . " bij CleanStone. Totaal: EUR " . number_format($totalPrice, 2, ',', '.');
+
+            $this->mail->send();
+
+        } catch (Exception $e) {
+            $this->writeLog($order['email'] ?? '', $e);
+        }
+    }
+
+
 
     private function writeLog(string $toEmail, Exception $e): void
     {
