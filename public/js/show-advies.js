@@ -20,6 +20,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     if (btn) btn.addEventListener('click', sendMessage);
 
+    // chat image upload
+    const imageInput = document.getElementById('chat-image-input');
+    if (imageInput) {
+        imageInput.addEventListener('change', async () => {
+            const file = imageInput.files[0];
+            if (!file) return;
+
+            const caption = input?.value.trim() || '';
+            if (input) input.value = '';
+            imageInput.value = '';
+
+            const formData = new FormData();
+            formData.append('request_id', adviesId);
+            formData.append('message', caption);
+            formData.append('image', file);
+
+            try {
+                const res  = await fetch('/api/advies/message/upload', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (data.success) await loadMessages();
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    }
+
     // delete
     const deleteBtn = document.getElementById('adv-delete');
     if (deleteBtn) {
@@ -38,7 +64,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     window.location.href = '/show-advies';
                 } else {
                     alert('Verwijderen mislukt.');
-
                 }
             } catch (err) {
                 console.error(err);
@@ -75,6 +100,25 @@ async function loadAdvies() {
         document.getElementById('adv-foto-count').textContent =
             count > 0 ? `${count} foto(s) bijgevoegd` : 'Geen foto\'s';
 
+        // render image gallery
+        const gallery = document.getElementById('adv-gallery');
+        if (gallery && count > 0) {
+            gallery.innerHTML = '';
+            data.images.forEach(img => {
+                const a = document.createElement('a');
+                a.href   = `/uploads/advies/${img.filename}`;
+                a.target = '_blank';
+                a.className = 'adv-gallery__item';
+
+                const el = document.createElement('img');
+                el.src = `/uploads/advies/${img.filename}`;
+                el.alt = 'Bijgevoegde foto';
+
+                a.appendChild(el);
+                gallery.appendChild(a);
+            });
+        }
+
     } catch (err) {
         console.error(err);
     }
@@ -102,14 +146,21 @@ async function loadMessages() {
                 hour: '2-digit', minute: '2-digit'
             });
 
+            let bubbleContent = '';
+            if (m.image_filename) {
+                bubbleContent += `<a href="/uploads/advies/${m.image_filename}" target="_blank"><img class="msg__img" src="/uploads/advies/${m.image_filename}" alt="foto"></a>`;
+            }
+            if (m.message) {
+                bubbleContent += `<span class="msg__text">${escapeHtml(m.message)}</span>`;
+            }
+
             div.innerHTML = `
-                <div class="msg__bubble">${m.message}</div>
+                <div class="msg__bubble">${bubbleContent}</div>
                 <span class="msg__time">${isAdmin ? 'CleanStone' : m.username} · ${time}</span>
             `;
             container.appendChild(div);
         });
 
-        // auto scroll
         container.scrollTop = container.scrollHeight;
 
     } catch (err) {
@@ -135,4 +186,12 @@ async function sendMessage() {
     } catch (err) {
         console.error(err);
     }
+}
+
+function escapeHtml(str) {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
 }

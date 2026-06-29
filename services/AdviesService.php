@@ -60,6 +60,11 @@ class AdviesService
         $this->repository->sendMessage($request_id, $user_id, $message);
     }
 
+    public function sendMessageWithImage(int $request_id, int $user_id, string $message, ?string $image_filename): void
+    {
+        $this->repository->sendMessageWithImage($request_id, $user_id, $message, $image_filename);
+    }
+
     public function updateStatus(int $id, string $status): void
     {
         $this->repository->updateStatus($id, $status);

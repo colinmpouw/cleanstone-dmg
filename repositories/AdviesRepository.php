@@ -76,6 +76,15 @@ class AdviesRepository
         );
     }
 
+    public function sendMessageWithImage(int $request_id, int $user_id, string $message, ?string $image_filename): void
+    {
+        $this->DB->save(
+            "INSERT INTO advice_messages (request_id, user_id, message, image_filename)
+         VALUES (:request_id, :user_id, :message, :image_filename)",
+            ['request_id' => $request_id, 'user_id' => $user_id, 'message' => $message, 'image_filename' => $image_filename]
+        );
+    }
+
     public function updateStatus(int $id, string $status): void
     {
         $this->DB->save(

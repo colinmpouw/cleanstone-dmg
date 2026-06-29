@@ -18,6 +18,7 @@ class AdviesController
         $router->get('/show-advies', [$this, 'pageAdviesOverzicht']);
         $router->get('/api/advies/{id}/messages', [$this, 'getMessages']);
         $router->post('/api/advies/message', [$this, 'sendMessage']);
+        $router->post('/api/advies/message/upload', [$this, 'uploadMessageImage']);
         $router->post('/api/advies/status', [$this, 'updateStatus']);
         $router->post('/api/advies/delete', [$this, 'deleteRequest']);
     }
@@ -185,6 +186,49 @@ class AdviesController
         }
 
         $this->adviesService->sendMessage($request_id, $_SESSION['user']['id'], $message);
+        echo json_encode(['success' => true]);
+        exit;
+    }
+
+    public function uploadMessageImage(): void
+    {
+        $this->requireLogin();
+        header('Content-Type: application/json');
+
+        $request_id = (int)($_POST['request_id'] ?? 0);
+        $message    = trim($_POST['message'] ?? '');
+
+        if (!$request_id) {
+            echo json_encode(['success' => false, 'message' => 'Ongeldige aanvraag']);
+            return;
+        }
+
+        $request = $this->adviesService->getRequestById($request_id);
+        if (!$request) { echo json_encode(['success' => false]); return; }
+
+        if ($_SESSION['user']['role'] !== 'admin' && $request['user_id'] != $_SESSION['user']['id']) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Geen toegang']);
+            return;
+        }
+
+        $filename = null;
+        if (!empty($_FILES['image']['tmp_name']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $allowed = ['jpg', 'jpeg', 'png', 'heic', 'webp'];
+            $ext     = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+            if (in_array($ext, $allowed)) {
+                $uploadDir = __DIR__ . '/../uploads/advies/';
+                $filename  = uniqid('chat_') . '.' . $ext;
+                move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . $filename);
+            }
+        }
+
+        if (!$filename && $message === '') {
+            echo json_encode(['success' => false, 'message' => 'Geen inhoud']);
+            return;
+        }
+
+        $this->adviesService->sendMessageWithImage($request_id, $_SESSION['user']['id'], $message, $filename);
         echo json_encode(['success' => true]);
         exit;
     }

@@ -35,52 +35,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // foto preview
     const photosInput = document.getElementById('adv-photos');
+    let selectedFiles = [];
+
+    function renderPreview() {
+        const existing = document.getElementById('adv-preview');
+        if (existing) existing.remove();
+        if (!selectedFiles.length) return;
+
+        const preview = document.createElement('div');
+        preview.id = 'adv-preview';
+        preview.className = 'adv-preview';
+
+        selectedFiles.forEach((file, idx) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const item = document.createElement('div');
+                item.className = 'adv-preview__item';
+                item.style.position = 'relative';
+
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = file.name;
+
+                const name = document.createElement('span');
+                name.textContent = file.name.length > 20
+                    ? file.name.substring(0, 17) + '...'
+                    : file.name;
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.textContent = '×';
+                removeBtn.style.cssText = 'position:absolute;top:2px;right:2px;background:#e53e3e;color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:14px;line-height:1;padding:0';
+                removeBtn.addEventListener('click', () => {
+                    selectedFiles.splice(idx, 1);
+                    renderPreview();
+                });
+
+                item.appendChild(removeBtn);
+                item.appendChild(img);
+                item.appendChild(name);
+                preview.appendChild(item);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        photosInput.closest('div').appendChild(preview);
+    }
+
     if (photosInput) {
         photosInput.addEventListener('change', () => {
-            const existing = document.getElementById('adv-preview');
-            if (existing) existing.remove();
+            const newFiles = Array.from(photosInput.files);
+            photosInput.value = '';
 
-            const files = Array.from(photosInput.files);
-
-            if (files.length > 5) {
-                showAlert({
-                    type: 'error',
-                    title: 'Niet Gelukt!',
-                    message: 'U kunt maximaal 5 foto\'s uploaden.'
-                });
-                photosInput.value = '';
-                return;
+            for (const file of newFiles) {
+                if (selectedFiles.length >= 5) {
+                    showAlert({
+                        type: 'error',
+                        title: 'Niet Gelukt!',
+                        message: 'U kunt maximaal 5 foto\'s uploaden.'
+                    });
+                    break;
+                }
+                const duplicate = selectedFiles.some(f => f.name === file.name && f.size === file.size);
+                if (!duplicate) selectedFiles.push(file);
             }
 
-            if (!files.length) return;
-
-            const preview = document.createElement('div');
-            preview.id = 'adv-preview';
-            preview.className = 'adv-preview';
-
-            files.forEach(file => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const item = document.createElement('div');
-                    item.className = 'adv-preview__item';
-
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.alt = file.name;
-
-                    const name = document.createElement('span');
-                    name.textContent = file.name.length > 20
-                        ? file.name.substring(0, 17) + '...'
-                        : file.name;
-
-                    item.appendChild(img);
-                    item.appendChild(name);
-                    preview.appendChild(item);
-                };
-                reader.readAsDataURL(file);
-            });
-
-            photosInput.closest('div').appendChild(preview);
+            renderPreview();
         });
     }
 
@@ -109,12 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('stone_location', document.getElementById('adv-stone-location')?.value.trim() || '');
         formData.append('message',        message);
 
-        const photos = document.getElementById('adv-photos')?.files;
-        if (photos) {
-            Array.from(photos).slice(0, 5).forEach(file => {
-                formData.append('photos[]', file);
-            });
-        }
+        selectedFiles.slice(0, 5).forEach(file => {
+            formData.append('photos[]', file);
+        });
 
         btn.disabled = true;
         btn.textContent = 'Versturen...';

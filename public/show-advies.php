@@ -81,6 +81,8 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                     <span id="adv-foto-count">Laden...</span>
                 </div>
+
+                <div class="adv-gallery" id="adv-gallery"></div>
             </div>
 
             <!-- CHAT -->
@@ -88,6 +90,10 @@
                 <h3>Gesprek met specialist</h3>
                 <div class="chat-messages" id="chat-messages"></div>
                 <div class="chat-input-row">
+                    <label class="chat-upload-btn" title="Foto uploaden">
+                        <input type="file" id="chat-image-input" accept="image/*" style="display:none">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </label>
                     <input class="chat-input" id="chat-input" type="text" placeholder="Typ uw bericht...">
                     <button class="chat-send" id="chat-send">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
