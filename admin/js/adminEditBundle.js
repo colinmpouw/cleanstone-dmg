@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const formData = new FormData();
             formData.append('photo', selectedFile);
 
-            const res = await fetch(`/api/upload_bundle_photo/${bundleId}`, {
+            const res = await fetch(`/api/admin/upload_bundle_photo/${bundleId}`, {
                 method: 'POST',
                 body: formData
             });
@@ -341,6 +341,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function addProductToBundle(product) {
+        fetch()
         bundleProducts.push({
             product_id: product.id,
             product_image: product.image || '',
@@ -403,7 +404,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 products: bundleProducts
             };
 
-            const res = await fetch(`/api/update_bundle/${bundleId}`, {
+            const res = await fetch(`/api/admin/update_bundle/${bundleId}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
@@ -423,7 +424,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     {
                         text: 'Terug',
                         type: 'primary',
-                        action: () => window.location.href = '/admin/bundles'
+                        action: () => window.location.href = '/admin/bundels'
                     }
                 ]
             });

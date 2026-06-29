@@ -3,6 +3,7 @@
 namespace adminServices;
 
 use adminRepositories\AdminBundlesRepository;
+use Exception;
 
 class AdminBundlesService
 {
@@ -25,6 +26,88 @@ class AdminBundlesService
         $rows = $this->repository->find_bundle($bundle_id);
 
         return $this->buildBundles($rows);
+    }
+    public function uploadPhoto($bundle_id, $photo)
+    {
+        // 1. Validate upload
+        if (!isset($photo) || $photo['error'] !== UPLOAD_ERR_OK) {
+            throw new Exception("Invalid file upload");
+        }
+
+        // 2. Validate file type (important!)
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!in_array($photo['type'], $allowedTypes)) {
+            throw new Exception("Unsupported file type");
+        }
+
+        // 3. Generate safe unique filename
+        $extension = pathinfo($photo['name'], PATHINFO_EXTENSION);
+        $fileName = uniqid('bundle_', true) . '.' . $extension;
+
+
+        $uploadDir = __DIR__ . '/../uploads/bundles/';
+
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        $destination = $uploadDir . $fileName;
+
+
+        if (!move_uploaded_file($photo['tmp_name'], $destination)) {
+            throw new Exception("Failed to save file");
+        }
+
+
+         $this->repository->updatePhoto($bundle_id, $fileName);
+
+
+        return [
+            'bundle_id' => $bundle_id,
+            'file_name' => $fileName,
+            'path' => '/uploads/bundles/' . $fileName // public URL path
+        ];
+    }
+
+    public function updateBundle($bundle_id, $data)
+    {
+        // ✅ 1. validation
+        if (empty($data['name'])) {
+            throw new Exception("Name is required");
+        }
+
+        $name = $data['name'];
+        $description = $data['description'] ?? '';
+        $price = $data['price'] ?? 0;
+        $bundle_tag = $data['bundle_tag'] ?? '';
+        $products = $data['products'] ?? [];
+
+        // ✅ 2. update bundle main info
+        $this->repository->updateBundle(
+            $bundle_id,
+            $name,
+            $description,
+            $price,
+            $bundle_tag
+        );
+
+        // ✅ 3. sync products
+        $this->repository->deleteBundleProducts($bundle_id);
+
+        foreach ($products as $p) {
+            $this->repository->addBundleProduct([
+                'bundle_id'   => $bundle_id,
+                'product_id'  => $p['product_id'],
+                'quantity'    => $p['quantity'],
+                'price'       => $p['product_price']
+            ]);
+        }
+
+        // ✅ 4. 返回
+        return [
+            "bundle_id" => $bundle_id,
+            "updated_products" => count($products)
+        ];
     }
     private function buildBundles($rows)
     {

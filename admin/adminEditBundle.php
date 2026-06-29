@@ -107,7 +107,7 @@
                         <!-- Existing photo thumbnails injected by JS -->
                         <label class="photo-thumb photo-thumb--add" id="photoAddTile">
                             <i class="ti ti-plus"></i>
-                            <input type="file" id="photoInput" accept="image/*" multiple hidden>
+                            <input type="file" id="photoInput" accept="image/*" hidden>
                         </label>
                     </div>
                 </div>

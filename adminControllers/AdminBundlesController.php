@@ -3,6 +3,7 @@
 namespace adminControllers;
 
 use adminServices\AdminBundlesService;
+use Exception;
 
 class AdminBundlesController
 {
@@ -16,6 +17,9 @@ class AdminBundlesController
         $router->get('/admin/bundel/toevoegen', [$this, 'bundleAddPage']);
         $router->get('/api/admin/get_all_bundels', [$this, 'get_all_bundles']);
         $router->get('/api/admin/get_bundle/{bundle_id}', [$this, 'find_bundle']);
+
+        $router->post('/api/admin/upload_bundle_photo/{bundle_id}', [$this, 'upload_bundle_photo']);
+        $router->put('/api/admin/update_bundle/{bundle_id}', [$this, 'update_bundle']);
     }
 
     public function bundlesPage()
@@ -23,7 +27,6 @@ class AdminBundlesController
         require_once __DIR__ . '/../admin/adminBundles.php';
         die();
     }
-
     public function bundleEditPage($id)
     {
         echo '<script>window.bundleId = ' . json_encode((int)$id) . ';</script>';
@@ -35,8 +38,6 @@ class AdminBundlesController
         require_once __DIR__ . '/../admin/adminAddBundle.php';
         die();
     }
-
-
     public function get_all_bundles()
     {
 
@@ -87,6 +88,69 @@ class AdminBundlesController
 
 
         exit();
+    }
+
+    public function upload_bundle_photo($bundle_id)
+    {
+        header('Content-Type: application/json');
+
+        if (!isset($_FILES['photo'])) {
+            http_response_code(400);
+            echo json_encode([
+                "success" => false,
+                "message" => "No file uploaded"
+            ]);
+            exit;
+        }
+
+        try {
+            $result = $this->adminBundlesService->uploadPhoto($bundle_id, $_FILES['photo']);
+
+            echo json_encode([
+                "success" => true,
+                "message" => "Photo uploaded successfully",
+                "data" => $result
+            ]);
+        } catch (Exception $e) {
+            http_response_code(500);
+
+            echo json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+
+        exit;
+    }
+
+    public function update_bundle($bundle_id)
+    {
+        header('Content-Type: application/json');
+
+        try {
+            $input = json_decode(file_get_contents('php://input'), true);
+
+            if (!$input) {
+                throw new Exception("Invalid JSON");
+            }
+
+            $result = $this->adminBundlesService->updateBundle($bundle_id, $input);
+
+            echo json_encode([
+                "success" => true,
+                "message" => "Bundle updated successfully",
+                "data" => $result
+            ]);
+        } catch (Exception $e) {
+            http_response_code(400);
+
+            echo json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+
+        exit;
     }
 
 }
