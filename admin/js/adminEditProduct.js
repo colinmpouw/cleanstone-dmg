@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 fd.append('photo', item.file);
                 fd.append('is_primary', item.isPrimary ? '1' : '0');
 
-                const res = await fetch(`/api/upload_product_photo/${productId}`, {
+                const res = await fetch(`/api/admin/upload_product_photo/${productId}`, {
                     method: 'POST',
                     body: fd
                 });
@@ -674,7 +674,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Note: avg_rating / review_count are intentionally NOT included —
             // they're calculated by the DB view and never sent from this form.
 
-            const res = await fetch(`/api/update_product/${productId}`, {
+            const res = await fetch(`/api/admin/update_product/${productId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

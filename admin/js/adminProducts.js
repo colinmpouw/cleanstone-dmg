@@ -56,9 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     function mapProduct(raw) {
         const basePrice = parseFloat(raw.price);
-        const salePrice = raw.sale_price !== null && raw.sale_price !== undefined
-            ? parseFloat(raw.sale_price)
-            : null;
+        const salePrice = raw.sale_price !== null && raw.sale_price !== undefined ? parseFloat(raw.sale_price) : null;
 
         return {
             id: raw.id,
@@ -88,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * fetch is in flight, instead of a blank table.
      */
     function renderSkeletons(count = 6) {
-        const skeletons = Array.from({ length: count }, createSkeletonRow);
+        const skeletons = Array.from({length: count}, createSkeletonRow);
         tableBody.replaceChildren(...skeletons);
     }
 
@@ -158,9 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const filtered = allProducts.filter(product => {
-            return product.name.toLowerCase().includes(query)
-                || product.brand.toLowerCase().includes(query)
-                || product.category.toLowerCase().includes(query);
+            return product.name.toLowerCase().includes(query) || product.brand.toLowerCase().includes(query) || product.category.toLowerCase().includes(query);
         });
 
         renderTable(filtered);
@@ -168,12 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getStockStatus(stock) {
         if (stock === 0) {
-            return { label: 'Uitverkocht', badgeClass: 'status-sold-out', stockClass: 'stock-out' };
+            return {label: 'Uitverkocht', badgeClass: 'status-sold-out', stockClass: 'stock-out'};
         }
         if (stock <= 5) {
-            return { label: 'Laag', badgeClass: 'status-low', stockClass: 'stock-low' };
+            return {label: 'Laag', badgeClass: 'status-low', stockClass: 'stock-low'};
         }
-        return { label: 'Actief', badgeClass: 'status-active', stockClass: 'stock-ok' };
+        return {label: 'Actief', badgeClass: 'status-active', stockClass: 'stock-ok'};
     }
 
     function formatPrice(price) {
@@ -201,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         img.addEventListener('error', () => {
             if (img.src.endsWith(PLACEHOLDER_IMAGE)) return;
             img.src = PLACEHOLDER_IMAGE;
-        }, { once: true });
+        }, {once: true});
 
         const infoWrap = document.createElement('div');
         infoWrap.className = 'product-info';
@@ -261,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
         editBtn.className = 'action-icon action-edit';
         editBtn.setAttribute('aria-label', 'Product bewerken');
 
-        editBtn.innerHTML=`
+        editBtn.innerHTML = `
 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_526_896)">
 <path d="M12.3515 3.97366C12.66 3.66533 12.8333 3.2471 12.8333 2.811C12.8334 2.37489 12.6602 1.95662 12.3518 1.64821C12.0435 1.33979 11.6253 1.1665 11.1892 1.16644C10.7531 1.16639 10.3348 1.33958 10.0264 1.64792L2.24121 9.43483C2.10577 9.56987 2.00561 9.73614 1.94954 9.919L1.17896 12.4577C1.16388 12.5081 1.16275 12.5617 1.17566 12.6127C1.18858 12.6638 1.21508 12.7104 1.25234 12.7476C1.2896 12.7848 1.33624 12.8112 1.3873 12.824C1.43837 12.8369 1.49195 12.8357 1.54238 12.8205L4.08163 12.0505C4.26431 11.9949 4.43056 11.8954 4.56579 11.7606L12.3515 3.97366Z" stroke="#7E6A52" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
@@ -281,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteBtn.className = 'action-icon action-delete';
         deleteBtn.setAttribute('aria-label', 'Product verwijderen');
 
-        deleteBtn.innerHTML=`
+        deleteBtn.innerHTML = `
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_526_899)">
 <path d="M1.75 3.5H12.25" stroke="#7E6A52" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
@@ -328,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.addEventListener('animationend', () => {
                     row.classList.remove('product-row--enter');
                     row.style.animationDelay = '';
-                }, { once: true });
+                }, {once: true});
             });
         }
 
@@ -340,38 +336,29 @@ document.addEventListener('DOMContentLoaded', () => {
             type: 'warning',
             title: 'Verwijderen bevestigen',
             message: `Weet je zeker dat je "${product.name}" wilt verwijderen?`,
-            buttons: [
-                {
-                    text: 'Verwijderen',
-                    type: 'primary',
-                    action: async () => {
-                        try {
-                            // TODO: wire up real delete request, e.g.:
-                            // const res = await fetch(`/api/products/${product.id}`, { method: 'DELETE' });
-                            // if (!res.ok) throw new Error('Delete failed');
+            buttons: [{
+                text: 'Verwijderen', type: 'primary', action: async () => {
+                    try {
+                        // TODO: wire up real delete request, e.g.:
+                        const res = await fetch(`/api/admin/delete_product/${product.id}`,
+                            {method: 'DELETE'});
+                        if (!res.ok) throw new Error('Delete failed');
 
-                            allProducts = allProducts.filter(p => p.id !== product.id);
-                            renderTable(allProducts);
+                        allProducts = allProducts.filter(p => p.id !== product.id);
+                        renderTable(allProducts);
 
-                            showAlert({
-                                type: 'success',
-                                title: 'Verwijderd!',
-                                message: `"${product.name}" is verwijderd.`
-                            });
-                        } catch (error) {
-                            showAlert({
-                                type: 'error',
-                                title: 'Fout',
-                                message: error.message
-                            });
-                        }
+                        showAlert({
+                            type: 'success', title: 'Verwijderd!', message: `"${product.name}" is verwijderd.`
+                        });
+                    } catch (error) {
+                        showAlert({
+                            type: 'error', title: 'Fout', message: error.message
+                        });
                     }
-                },
-                {
-                    text: 'Annuleren',
-                    type: 'secondary'
                 }
-            ]
+            }, {
+                text: 'Annuleren', type: 'secondary'
+            }]
         });
     }
 });

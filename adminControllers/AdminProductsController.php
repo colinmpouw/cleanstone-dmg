@@ -21,6 +21,10 @@ class AdminProductsController
         $router->get('/api/admin/get_all_brands', [$this, 'get_all_brands']);
         $router->get('/api/admin/get_all_tags', [$this, 'get_all_tags']);
         $router->get('/api/admin/get_all_categories', [$this, 'get_all_categories']);
+        $router->delete('/api/admin/delete_product/{id}', [$this, 'deleteProduct']);
+
+
+        $router->put('/api/admin/update_product/{productId}', [$this, 'updateProduct']);
 
 
     }
@@ -85,5 +89,33 @@ console.log(window.productId);
             'data' => $products
         ]);
     }
+    public function deleteProduct($id){
+        header('Content-Type: application/json');
+        $products = $this->service->deleteProduct($id);
 
+
+        echo json_encode([
+            'success' => true,
+            'data' => $products
+        ]);
+    }
+    public function updateProduct($id)
+    {
+        $input = json_decode(file_get_contents("php://input"), true);
+
+        try {
+            $this->service->updateProduct($id, $input);
+
+            echo json_encode([
+                "success" => true
+            ]);
+        } catch (Exception $e) {
+            http_response_code(500);
+
+            echo json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
 }

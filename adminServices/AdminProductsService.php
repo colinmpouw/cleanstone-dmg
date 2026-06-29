@@ -3,6 +3,7 @@
 namespace adminServices;
 
 use adminRepositories\AdminProductsRepository;
+use Exception;
 
 class AdminProductsService
 {
@@ -36,6 +37,62 @@ class AdminProductsService
 
         return $this->buildProduct($rows);
     }
+    public function deleteProduct($id)
+    {
+        $result=$this->repository->deleteProduct($id);
+        return $result;
+    }
+
+    public function updateProduct($productId, $data)
+    {
+        try {
+
+            $this->repository->updateProduct($productId, [
+                'name' => $data['name'],
+                'short_description' => $data['short_description'],
+                'description' => $data['description'],
+                'price' => $data['price'],
+                'sale_price' => $data['sale_price'],
+                'stock' => $data['stock'],
+                'sku' => $data['sku'],
+                'brand_id' => $data['brand_id'],
+                'category_id' => $data['category_id'],
+            ]);
+
+            // ✅ TAGS
+            $this->repository->syncTags($productId, $data['tags'] ?? []);
+
+            // ✅ FEATURES
+            $this->repository->replaceFeatures($productId, $data['features'] ?? []);
+
+            // ✅ SPECS
+            $this->repository->replaceSpecifications($productId, $data['specifications'] ?? []);
+
+            // ✅ INSTRUCTIONS
+            $this->repository->replaceInstructions($productId, $data['instructions'] ?? []);
+
+            // ✅ ✅ fake image IDs
+            $keptIds = array_filter($data['kept_image_ids'] ?? [], function ($id) {
+                return is_numeric($id);
+            });
+
+            $this->repository->deleteRemovedImages($productId, $keptIds);
+
+            // ✅ ✅ primary image
+            $primaryId = !empty($data['primary_image_id']) && is_numeric($data['primary_image_id'])
+                ? $data['primary_image_id']
+                : null;
+
+            if ($primaryId) {
+                $this->repository->setPrimaryImage($productId, $primaryId);
+            }
+
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+
     private function buildProduct($rows)
     {
         if (empty($rows)) {
@@ -54,7 +111,7 @@ class AdminProductsService
 
             $id = $row['id'];
 
-            /* ✅ 初始化 product */
+            /* ✅ format product */
             if (!$product) {
                 $product = [
                     "id" => $id,
