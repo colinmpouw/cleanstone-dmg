@@ -2,6 +2,8 @@ let allRequests = [];
 let activeFilter = 'all';
 
 async function loadAdviesAanvragen() {
+    renderSkeletons();
+
     try {
         const res  = await fetch('/api/admin/adviesaanvragen');
         const data = await res.json();
@@ -11,12 +13,12 @@ async function loadAdviesAanvragen() {
         allRequests = data.data;
 
         // counts
-        document.getElementById('count-all').textContent          = data.total;
-        document.getElementById('count-open').textContent         = data.counts.open || 0;
+        document.getElementById('count-all').textContent            = data.total;
+        document.getElementById('count-open').textContent           = data.counts.open || 0;
         document.getElementById('count-in_behandeling').textContent = data.counts.in_behandeling || 0;
-        document.getElementById('count-gesloten').textContent     = data.counts.gesloten || 0;
+        document.getElementById('count-gesloten').textContent       = data.counts.gesloten || 0;
 
-        // header
+        // header subtitle
         const nieuweCount = data.counts.open || 0;
         document.querySelector('.aanvragen-page__header p').textContent =
             nieuweCount > 0
@@ -30,6 +32,38 @@ async function loadAdviesAanvragen() {
     }
 }
 
+function renderSkeletons(count = 6) {
+    const grid = document.getElementById('aanvragen-grid');
+    grid.replaceChildren(...Array.from({ length: count }, createSkeletonCard));
+}
+
+function createSkeletonCard() {
+    const card = document.createElement('div');
+    card.className = 'aanvraag-card skeleton-card';
+    card.innerHTML = `
+        <div class="skeleton-block skeleton-card-img"></div>
+        <div class="aanvraag-card__body">
+            <div class="aanvraag-card__top">
+                <div>
+                    <div class="skeleton-block skeleton-card-name"></div>
+                    <div class="skeleton-block skeleton-card-sub"></div>
+                </div>
+                <div class="skeleton-block skeleton-card-badge"></div>
+            </div>
+            <div>
+                <div class="skeleton-block skeleton-card-text-1"></div>
+                <div class="skeleton-block skeleton-card-text-2"></div>
+                <div class="skeleton-block skeleton-card-text-3"></div>
+            </div>
+            <div class="aanvraag-card__footer">
+                <div class="skeleton-block skeleton-card-date"></div>
+                <div class="skeleton-block skeleton-card-btn"></div>
+            </div>
+        </div>
+    `;
+    return card;
+}
+
 function renderGrid(requests) {
     const grid = document.getElementById('aanvragen-grid');
 
@@ -40,9 +74,9 @@ function renderGrid(requests) {
 
     grid.innerHTML = '';
 
-    requests.forEach(r => {
+    requests.forEach((r, index) => {
         const card = document.createElement('div');
-        card.className = 'aanvraag-card';
+        card.className = 'aanvraag-card aanvraag-card--enter';
 
         const imgHTML = r.first_image
             ? `<img class="aanvraag-card__img" src="/uploads/advies/${r.first_image}" alt="foto">`
@@ -89,6 +123,12 @@ function renderGrid(requests) {
                 </div>
             </div>
         `;
+
+        card.style.animationDelay = `${index * 60}ms`;
+        card.addEventListener('animationend', () => {
+            card.classList.remove('aanvraag-card--enter');
+            card.style.animationDelay = '';
+        }, { once: true });
 
         grid.appendChild(card);
     });

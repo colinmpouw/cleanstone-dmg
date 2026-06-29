@@ -30,11 +30,36 @@ function starSVG(filled) {
 
 // ── LOAD USER ──
 async function loadUser() {
+    document.querySelector('.content').classList.add('detail-loading');
+
     try {
         const res  = await fetch(`/api/admin/gebruikers/${userId}`);
         const data = await res.json();
+
+        document.querySelector('.content').classList.remove('detail-loading');
         renderUser(data);
+
+        // Animate stats and cards in with stagger
+        document.querySelectorAll('.ud-stat').forEach((el, i) => {
+            el.classList.add('ud-stat--enter');
+            el.style.animationDelay = `${i * 50}ms`;
+            el.addEventListener('animationend', () => {
+                el.classList.remove('ud-stat--enter');
+                el.style.animationDelay = '';
+            }, { once: true });
+        });
+
+        document.querySelectorAll('.ud-card').forEach((el, i) => {
+            el.classList.add('ud-card--enter');
+            el.style.animationDelay = `${i * 70}ms`;
+            el.addEventListener('animationend', () => {
+                el.classList.remove('ud-card--enter');
+                el.style.animationDelay = '';
+            }, { once: true });
+        });
+
     } catch {
+        document.querySelector('.content').classList.remove('detail-loading');
         document.querySelector('.content').innerHTML =
             '<p style="color:var(--rustic-taupe);padding:32px;">Gebruiker niet gevonden.</p>';
     }

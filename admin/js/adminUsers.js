@@ -19,6 +19,25 @@ function formatDate(str) {
     return new Date(str).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
+function renderSkeletons(count = 6) {
+    const list = document.getElementById('usersList');
+    list.replaceChildren(...Array.from({ length: count }, createSkeletonRow));
+}
+
+function createSkeletonRow() {
+    const row = document.createElement('div');
+    row.className = 'user-row skeleton-user-row';
+    row.innerHTML = `
+        <div class="skeleton-block user-skeleton-avatar"></div>
+        <div class="user-skeleton-info">
+            <div class="skeleton-block user-skeleton-name"></div>
+            <div class="skeleton-block user-skeleton-email"></div>
+            <div class="skeleton-block user-skeleton-meta"></div>
+        </div>
+    `;
+    return row;
+}
+
 function renderRows(users) {
     const list  = document.getElementById('usersList');
     const count = document.getElementById('userCount');
@@ -59,11 +78,23 @@ function renderRows(users) {
             </svg>
         </a>`;
     }).join('');
+
+    // Stagger entrance animation
+    list.querySelectorAll('.user-row').forEach((row, index) => {
+        row.classList.add('user-row--enter');
+        row.style.animationDelay = `${index * 40}ms`;
+        row.addEventListener('animationend', () => {
+            row.classList.remove('user-row--enter');
+            row.style.animationDelay = '';
+        }, { once: true });
+    });
 }
 
 let allUsers = [];
 
 async function loadUsers() {
+    renderSkeletons();
+
     try {
         const res  = await fetch('/api/admin/gebruikers');
         const data = await res.json();

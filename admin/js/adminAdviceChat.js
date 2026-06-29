@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function loadChatInfo() {
+    document.querySelector('.chat-header').classList.add('chat-header--loading');
+
     try {
         const res  = await fetch(`/api/advies/${adviesId}`);
         const data = await res.json();
@@ -46,6 +48,8 @@ async function loadChatInfo() {
 
     } catch (err) {
         console.error(err);
+    } finally {
+        document.querySelector('.chat-header').classList.remove('chat-header--loading');
     }
 }
 
@@ -57,18 +61,20 @@ async function loadMessages() {
         const msgs = await res.json();
 
         if (msgs.length === lastCount) return;
+
+        const isInitialLoad = lastCount === 0;
         lastCount = msgs.length;
 
         const container = document.getElementById('chatMessages');
         container.innerHTML = '';
 
-        msgs.forEach(m => {
+        msgs.forEach((m, index) => {
             const isAdmin = m.role === 'admin';
             const time = new Date(m.created_at).toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
             const initials = m.username.substring(0, 2).toUpperCase();
 
             const group = document.createElement('div');
-            group.className = 'msg-group' + (isAdmin ? ' msg-group--right' : '');
+            group.className = 'msg-group' + (isAdmin ? ' msg-group--right' : '') + ' msg-group--enter';
 
             if (isAdmin) {
                 group.innerHTML = `
@@ -87,6 +93,12 @@ async function loadMessages() {
                     </div>
                 `;
             }
+
+            group.style.animationDelay = isInitialLoad ? `${index * 35}ms` : '0ms';
+            group.addEventListener('animationend', () => {
+                group.classList.remove('msg-group--enter');
+                group.style.animationDelay = '';
+            }, { once: true });
 
             container.appendChild(group);
         });

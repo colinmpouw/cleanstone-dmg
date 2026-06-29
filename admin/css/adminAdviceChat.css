@@ -253,3 +253,45 @@ body {
     color: var(--rustic-taupe);
     padding-left: 2px;
 }
+
+/* ---------- Message entrance animation ---------- */
+@keyframes msgEnter {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.msg-group--enter {
+    animation: msgEnter 0.25s ease both;
+}
+
+/* ---------- Chat header skeleton (uses skeletonShimmer from adminAdvice.css) ---------- */
+.chat-header--loading .chat-header__avatar {
+    background: linear-gradient(90deg, var(--soft-white) 25%, var(--creamy-taupe) 37%, var(--soft-white) 63%) !important;
+    background-size: 400px 100% !important;
+    animation: skeletonShimmer 1.4s ease-in-out infinite;
+    color: transparent;
+}
+
+.chat-header--loading .chat-header__info h3 {
+    color: transparent;
+    background: linear-gradient(90deg, var(--soft-white) 25%, var(--creamy-taupe) 37%, var(--soft-white) 63%);
+    background-size: 400px 100%;
+    animation: skeletonShimmer 1.4s ease-in-out infinite;
+    border-radius: 0.3rem;
+}
+
+.chat-header--loading .chat-header__info span {
+    color: transparent;
+    background: linear-gradient(90deg, var(--soft-white) 25%, var(--creamy-taupe) 37%, var(--soft-white) 63%);
+    background-size: 400px 100%;
+    animation: skeletonShimmer 1.4s ease-in-out infinite;
+    border-radius: 0.3rem;
+}
+
+.chat-header--loading .status-pill {
+    background: linear-gradient(90deg, var(--soft-white) 25%, var(--creamy-taupe) 37%, var(--soft-white) 63%);
+    background-size: 400px 100%;
+    animation: skeletonShimmer 1.4s ease-in-out infinite;
+    color: transparent;
+    border: none;
+}

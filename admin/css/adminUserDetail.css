@@ -374,3 +374,40 @@
     padding: 16px 0;
     margin: 0;
 }
+
+/* ---------- Skeleton loading state ---------- */
+@keyframes skeletonShimmer {
+    0%   { background-position: -200px 0; }
+    100% { background-position: calc(200px + 100%) 0; }
+}
+
+.detail-loading .ud-card,
+.detail-loading .ud-stat {
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.detail-loading .ud-avatar {
+    background: linear-gradient(90deg, var(--soft-white) 25%, var(--creamy-taupe) 37%, var(--soft-white) 63%) !important;
+    background-size: 400px 100% !important;
+    animation: skeletonShimmer 1.4s ease-in-out infinite;
+    color: transparent;
+}
+
+.detail-loading .ud-stat__num {
+    color: var(--creamy-taupe);
+}
+
+/* ---------- Card & stat entrance animations ---------- */
+@keyframes detailCardEnter {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.ud-card--enter {
+    animation: detailCardEnter 0.35s ease both;
+}
+
+.ud-stat--enter {
+    animation: detailCardEnter 0.3s ease both;
+}
