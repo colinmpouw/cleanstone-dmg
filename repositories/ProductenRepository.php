@@ -65,7 +65,8 @@ class ProductenRepository
     public function searchProductsForAi(string $searchTerm): array
     {
         $query = "
-        SELECT * FROM products_full_details
+        SELECT DISTINCT id
+        FROM products_full_details
         WHERE name LIKE ?
            OR category_name LIKE ?
            OR short_description LIKE ?
@@ -75,19 +76,42 @@ class ProductenRepository
 
         $likeTerm = '%' . $searchTerm . '%';
 
-        return $this->DB->read($query, [
+        $ids = $this->DB->read($query, [
             $likeTerm,
             $likeTerm,
             $likeTerm,
             $likeTerm
         ]) ?: [];
+        if (empty($ids)) {
+            return [];
+        }
+
+        $idList = array_column($ids, 'id');
+
+        $placeholders = implode(',', array_fill(0, count($idList), '?'));
+
+        $rows = $this->DB->read("
+        SELECT *
+        FROM products_full_details
+        WHERE id IN ($placeholders)
+    ", $idList);
+
+        return $rows ?: [];
     }
+
 
     public function getTopProductsForAi(): array
     {
         return $this->DB->read("
-        SELECT name, price FROM products_full_details
+        SELECT 
+            id,
+            name,
+            price,
+            MAX(avg_rating) as avg_rating,
+            MAX(review_count) as review_count
+        FROM products_full_details
         WHERE avg_rating IS NOT NULL
+        GROUP BY id, name, price
         ORDER BY avg_rating DESC, review_count DESC
         LIMIT 5
     ") ?: [];
