@@ -3,6 +3,7 @@
 namespace adminControllers;
 
 use adminServices\AdminProductsService;
+use Exception;
 
 class AdminProductsController
 {
@@ -25,6 +26,7 @@ class AdminProductsController
 
 
         $router->put('/api/admin/update_product/{productId}', [$this, 'updateProduct']);
+        $router->post('/api/admin/upload_product_photo/{productId}', [$this, 'updateProductPhoto']);
 
 
     }
@@ -109,6 +111,42 @@ console.log(window.productId);
             echo json_encode([
                 "success" => true
             ]);
+        } catch (Exception $e) {
+            http_response_code(500);
+
+            echo json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
+    public function updateProductPhoto($productId)
+    {
+        header('Content-Type: application/json');
+
+        if (!isset($_FILES['photo'])) {
+            http_response_code(400);
+
+            echo json_encode([
+                "success" => false,
+                "message" => "No file uploaded"
+            ]);
+            return;
+        }
+
+        try {
+            $result = $this->service->uploadPhoto(
+                $productId,
+                $_FILES['photo'],
+                $_POST['is_primary'] ?? 0
+            );
+
+            echo json_encode([
+                "success" => true,
+                "message" => "Photo uploaded successfully",
+                "data" => $result
+            ]);
+
         } catch (Exception $e) {
             http_response_code(500);
 

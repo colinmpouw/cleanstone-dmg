@@ -75,6 +75,33 @@ class AdminProductsRepository
 
         return $this->DB->save($sql, $data);
     }
+    public function insertImage($data)
+    {
+        $url =  $data['image'];
+
+        $this->DB->save(
+            "INSERT INTO product_images (product_id, url, image, is_primary)
+         VALUES (?, ?, ?, ?)",
+            [
+                $data['product_id'],
+                $url,
+                $data['image'],
+                $data['is_primary']
+            ]
+        );
+
+        return [
+            'url' => $url,
+            'filename' => $data['image']
+        ];
+    }
+    public function clearPrimaryImage($productId)
+    {
+        $this->DB->save(
+            "UPDATE product_images SET is_primary = 0 WHERE product_id = ?",
+            [$productId]
+        );
+    }
 
     public function syncTags($productId, $tags)
     {
