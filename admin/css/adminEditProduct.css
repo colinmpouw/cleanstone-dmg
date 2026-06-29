@@ -68,6 +68,8 @@
     border-radius: 0.65rem;
     padding: 0.85rem 1.4rem;
     font-weight: 600;
+    text-decoration: none;
+    color: var(--charcoal-clay);
 }
 
 .btn-cancel:hover {
@@ -219,13 +221,28 @@
     border-radius: 0.65rem;
     padding: 0.6rem;
 }
-
+.tag-select-chips{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.5rem;
+}
 .tag-chip {
     background: var(--soft-white);
     padding: 0.3rem 0.6rem;
     border-radius: 999px;
+    position: relative;
 }
-
+.tag-chip-remove{
+    border: none;
+    background: var(--red);
+    position: absolute;
+    color: var(--white);
+    cursor: pointer;
+    top: -0.25rem;
+    right: -0.25rem;
+    border-radius: 50%;
+}
 .tag-select-dropdown {
     margin-top: 0.4rem;
 }
@@ -272,4 +289,200 @@
 @keyframes skeleton-pulse {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
+}
+/* ==========================================================
+   RATING DISPLAY
+   ========================================================== */
+
+.rating-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--creamy-taupe);
+    border: 1px solid var(--warm-beige);
+    border-radius: 8px;
+}
+
+.rating-display-stars {
+    color: var(--warm-beige);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.rating-display-value {
+    font-family: var(--title-font);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--charcoal-clay);
+}
+
+.rating-display-count {
+    font-family: var(--body-font);
+    font-size: 0.85rem;
+    color: var(--rustic-taupe);
+}
+
+.rating-display-note {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--rustic-taupe);
+}
+
+
+/* ==========================================================
+   PHOTO GALLERY THUMBNAILS
+   ========================================================== */
+
+.photo-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.photo-thumb {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid var(--warm-beige);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-thumb.is-primary {
+    border-color: var(--charcoal-clay);
+    box-shadow: 0 0 0 1px var(--charcoal-clay);
+}
+
+.photo-thumb-remove {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: var(--white);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.photo-thumb-remove:hover {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.photo-thumb--add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: dashed;
+    color: var(--rustic-taupe);
+    font-size: 1.3rem;
+    background: var(--creamy-taupe);
+}
+
+.photo-thumb--add:hover {
+    border-color: var(--warm-beige);
+    color: var(--warm-beige);
+}
+
+
+/* ==========================================================
+   LIST EDITORS
+   ========================================================== */
+
+.list-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.list-editor-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.list-editor-row input[type="text"],
+.list-editor-row input[type="number"],
+.list-editor-row textarea {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--warm-beige);
+    border-radius: 6px;
+    font-family: var(--body-font);
+    font-size: 0.9rem;
+    background: var(--white);
+    color: var(--charcoal-clay);
+}
+
+/* Specification rows */
+.list-editor--spec .list-editor-row input.spec-name {
+    flex: 0 0 38%;
+}
+
+/* Instruction rows */
+.list-editor--step .list-editor-row .step-number-input {
+    flex: 0 0 48px;
+    text-align: center;
+}
+
+.list-editor-row .btn-remove-row {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid var(--warm-beige);
+    background: var(--white);
+    color: var(--rustic-taupe);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.list-editor-row .btn-remove-row:hover {
+    border-color: var(--red);
+    color: var(--red);
+}
+
+.list-editor-empty {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--rustic-taupe);
+    font-style: italic;
+}
+
+.btn-add-row {
+    margin-top: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px dashed var(--warm-beige);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--warm-beige);
+    font-family: var(--body-font);
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.btn-add-row:hover {
+    background: var(--creamy-taupe);
 }

@@ -87,6 +87,8 @@
 
             <!-- LEFT -->
             <div class="edit-col-left">
+
+                <!-- PHOTO GALLERY -->
                 <div class="panel">
                     <div class="panel-header">
                         <h2>Productfoto's</h2>
@@ -104,12 +106,25 @@
                         </div>
                     </div>
 
-                    <div class="photo-thumbs">
+                    <!-- ✅ Gallery thumbnails: existing images[] + newly added uploads.
+                         Click a thumb to make it primary; × removes it. -->
+                    <div class="photo-thumbs" id="photoThumbs">
                         <label class="photo-thumb photo-thumb--add">
                             <i class="ti ti-plus"></i>
-                            <input type="file" id="photoInput" hidden>
+                            <input type="file" id="photoInput" accept="image/*" multiple hidden>
                         </label>
                     </div>
+                </div>
+
+                <!-- RATING (read-only, calculated by DB view) -->
+                <div class="panel">
+                    <h2>Beoordeling</h2>
+                    <div class="rating-display" id="ratingDisplay">
+                        <span class="rating-display-stars" id="ratingStars" aria-hidden="true"></span>
+                        <span class="rating-display-value" id="ratingValue">—</span>
+                        <span class="rating-display-count" id="ratingCount">(0 reviews)</span>
+                    </div>
+                    <p class="rating-display-note">Wordt automatisch berekend op basis van klantreviews.</p>
                 </div>
 
                 <div class="panel">
@@ -128,6 +143,11 @@
                     <div class="field">
                         <label>Naam</label>
                         <input type="text" name="name" id="productName">
+                    </div>
+
+                    <div class="field">
+                        <label>Korte beschrijving</label>
+                        <input type="text" name="short_description" id="productShortDescription">
                     </div>
 
                     <div class="field">
@@ -192,6 +212,51 @@
                             <input type="text" name="sku" id="productSku">
                         </div>
                     </div>
+                </div>
+
+                <!-- ✅ FEATURES (Belangrijkste kenmerken) -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Belangrijkste kenmerken</h2>
+                        <span id="featuresCount" class="panel-header-meta">0 items</span>
+                    </div>
+
+                    <div class="list-editor" id="featuresList"></div>
+
+                    <button type="button" class="btn-add-row" id="addFeatureBtn">
+                        <i class="ti ti-plus"></i>
+                        Kenmerk toevoegen
+                    </button>
+                </div>
+
+                <!-- ✅ SPECIFICATIONS -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Specificaties</h2>
+                        <span id="specsCount" class="panel-header-meta">0 items</span>
+                    </div>
+
+                    <div class="list-editor list-editor--spec" id="specsList"></div>
+
+                    <button type="button" class="btn-add-row" id="addSpecBtn">
+                        <i class="ti ti-plus"></i>
+                        Specificatie toevoegen
+                    </button>
+                </div>
+
+                <!-- ✅ INSTRUCTIONS (Gebruiksinstructies) -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Gebruiksinstructies</h2>
+                        <span id="instructionsCount" class="panel-header-meta">0 stappen</span>
+                    </div>
+
+                    <div class="list-editor list-editor--step" id="instructionsList"></div>
+
+                    <button type="button" class="btn-add-row" id="addInstructionBtn">
+                        <i class="ti ti-plus"></i>
+                        Stap toevoegen
+                    </button>
                 </div>
 
             </div>

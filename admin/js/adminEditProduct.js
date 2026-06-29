@@ -16,7 +16,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let product = null;
     let selectedTags = [];
-    let uploadedPhotos = [];
+
+    // Gallery state: array of { id, url, file, isPrimary, isNew }
+    // - existing images come from images[] (and the legacy `image` field)
+    // - newly added photos get isNew: true and carry the raw File for upload
+    let gallery = [];
+
+    // List-editor state
+    let features = [];      // array of strings
+    let specifications = []; // array of { id, name, value }
+    let instructions = [];   // array of { id, step, instruction }
+
+    let rowIdCounter = 0;
+    const nextRowId = () => `row_${Date.now()}_${rowIdCounter++}`;
 
     // =========================
     // INIT LOAD
@@ -36,19 +48,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         const brandsJson = await brandsRes.json();
         const tagsJson = await tagsRes.json();
 
-        // FIX 1: `data` is a bare object for this endpoint, not an array.
-        // (was: productJson.data?.[0] || productJson)
+        // The get_product endpoint returns the product directly (no envelope),
+        // but fall back to `.data` in case that ever changes.
         product = productJson.data || productJson;
 
-        // FIX 4: populate the <select> options BEFORE setting .value on them.
-        // Setting .value on a <select> with no <option> elements yet silently
-        // fails to select anything, so category/brand never appeared pre-selected.
+        // Build the <option> lists first, THEN populate the form — selects need
+        // their options to exist before we can select one by value or by text.
         populateSelects(categoriesJson.data || [], brandsJson.data || []);
         populateForm(product);
 
         initTagSelect(tagsJson.data || []);
-        initPhotoManager(product.image);
+        initGallery(product.image, product.images || []);
         initDiscount();
+        initListEditors();
 
         subtitle.textContent = product.name || '—';
         saveBtn.addEventListener('click', handleSave);
@@ -74,26 +86,70 @@ document.addEventListener('DOMContentLoaded', async () => {
     // =========================
     function populateForm(data) {
         document.getElementById('productName').value = data.name || '';
+        document.getElementById('productShortDescription').value = data.short_description || '';
         document.getElementById('productDescription').value = data.description || '';
         document.getElementById('productPrice').value = data.price || '';
         document.getElementById('productComparePrice').value = data.sale_price || '';
         document.getElementById('productStock').value = data.stock || '';
         document.getElementById('productSku').value = data.sku || '';
-        document.getElementById('productCategory').value = data.category.name || '';
-        document.getElementById('productBrand').value = data.brand.name || '';
 
-        console.log('category'+ data.category.name )
-        console.log('brand'+ data.brand.name )
+        // The product object has no category_id/brand_id — only nested
+        // { name, slug } / { name, logo } objects. Match the <select>
+        // by visible option text instead of by value/id.
+        selectOptionByText('productCategory', data.category?.name);
+        selectOptionByText('productBrand', data.brand?.name);
+
         selectedTags = data.tags || [];
         renderTagChips();
+
+        // ✅ Read-only rating, calculated by the DB view — never editable.
+        renderRating(data.avg_rating, data.review_count);
+
+        // Dedupe + load list-editor state. The live product page shows each
+        // feature/spec/instruction repeated 2-3x (a backend join fan-out) —
+        // this is a frontend safety net so the edit form doesn't show or
+        // re-save the duplicates.
+        features = dedupeFeatures(data.features || []);
+        specifications = dedupeSpecifications(data.specifications || []);
+        instructions = dedupeInstructions(data.instructions || []);
+    }
+
+    function selectOptionByText(selectId, text) {
+        const select = document.getElementById(selectId);
+        if (!text) {
+            select.value = ''; // falls back to the blank placeholder option
+            return;
+        }
+
+        const match = Array.from(select.options).find(
+            opt => opt.textContent.trim().toLowerCase() === text.trim().toLowerCase()
+        );
+
+        select.value = match ? match.value : '';
+    }
+
+    function renderRating(avgRating, reviewCount) {
+        const starsEl = document.getElementById('ratingStars');
+        const valueEl = document.getElementById('ratingValue');
+        const countEl = document.getElementById('ratingCount');
+
+        // avg_rating / review_count can be null (new product, zero reviews)
+        const rating = parseFloat(avgRating) || 0;
+        const count = parseInt(reviewCount) || 0;
+
+        const fullStars = Math.round(rating);
+        starsEl.textContent = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+
+        valueEl.textContent = rating > 0 ? rating.toFixed(1) : '—';
+        countEl.textContent = count === 1 ? '(1 review)' : `(${count} reviews)`;
     }
 
     function populateSelects(categories, brands) {
         const categorySelect = document.getElementById('productCategory');
         const brandSelect = document.getElementById('productBrand');
 
-        // FIX 3: add blank placeholder options so a product with no brand/category
-        // doesn't silently default to whatever option happens to be first.
+        // Blank placeholder so a product with no brand/category doesn't
+        // silently default to whichever option happens to be first.
         const blankCat = document.createElement('option');
         blankCat.value = '';
         blankCat.textContent = '— Kies een categorie —';
@@ -117,6 +173,47 @@ document.addEventListener('DOMContentLoaded', async () => {
             opt.textContent = brand.name;
             brandSelect.append(opt);
         });
+    }
+
+    // =========================
+    // DEDUPE HELPERS (safety net for backend join fan-out)
+    // =========================
+    function dedupeFeatures(list) {
+        const seen = new Set();
+        const result = [];
+        list.forEach(text => {
+            const key = (text || '').trim().toLowerCase();
+            if (!key || seen.has(key)) return;
+            seen.add(key);
+            result.push(text);
+        });
+        return result;
+    }
+
+    function dedupeSpecifications(list) {
+        const seen = new Set();
+        const result = [];
+        list.forEach(spec => {
+            const key = `${(spec.name || '').trim().toLowerCase()}::${(spec.value || '').trim().toLowerCase()}`;
+            if (seen.has(key)) return;
+            seen.add(key);
+            result.push({ id: spec.id ?? nextRowId(), name: spec.name || '', value: spec.value || '' });
+        });
+        return result;
+    }
+
+    function dedupeInstructions(list) {
+        const seen = new Set();
+        const result = [];
+        list.forEach(step => {
+            const key = `${step.step}::${(step.instruction || '').trim().toLowerCase()}`;
+            if (seen.has(key)) return;
+            seen.add(key);
+            result.push({ id: step.id ?? nextRowId(), step: step.step, instruction: step.instruction || '' });
+        });
+        // Keep step numbers in order regardless of how the backend returned them.
+        result.sort((a, b) => (a.step || 0) - (b.step || 0));
+        return result;
     }
 
     // =========================
@@ -188,58 +285,164 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // =========================
-    // PHOTO (same as bundle simplified)
+    // PHOTO GALLERY
+    // Merges the legacy single `image` field with the `images[]` array into
+    // one gallery list. Clicking a thumb makes it primary; × removes it.
+    // New uploads are added to the same list (isNew: true) and uploaded on save.
     // =========================
-    function initPhotoManager(existingImage) {
+    function initGallery(legacyImage, imagesArray) {
         const input = document.getElementById('photoInput');
-        const main = document.getElementById('photoMain');
-        const img = document.getElementById('photoMainImg');
-        const empty = document.getElementById('photoMainEmpty');
-        const photoCount = document.getElementById('photoCount'); // FIX 2
+        const thumbsContainer = document.getElementById('photoThumbs');
+        const addLabel = thumbsContainer.querySelector('.photo-thumb--add');
 
-        let selectedFile = null;
-
-        if (existingImage) {
-            img.src = existingImage.startsWith('/uploads')
-                ? existingImage
-                : `/uploads/products/${existingImage}`;
-
-            img.hidden = false;
-            empty.hidden = true;
-            photoCount.textContent = "1 foto's"; // FIX 2
-        }
-
-        main.addEventListener('click', () => input.click());
+        gallery = buildInitialGallery(legacyImage, imagesArray);
 
         input.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            selectedFile = file;
-
-            const reader = new FileReader();
-            reader.onload = (evt) => {
-                img.src = evt.target.result;
-                img.hidden = false;
-                empty.hidden = true;
-                photoCount.textContent = "1 foto's"; // FIX 2
-            };
-
-            reader.readAsDataURL(file);
+            const files = Array.from(e.target.files || []);
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (evt) => {
+                    gallery.push({
+                        id: nextRowId(),
+                        url: evt.target.result,
+                        file,
+                        isPrimary: gallery.length === 0, // first photo added becomes primary if gallery was empty
+                        isNew: true
+                    });
+                    renderGallery();
+                };
+                reader.readAsDataURL(file);
+            });
+            input.value = ''; // allow re-selecting the same file later
         });
 
-        window.uploadProductPhoto = async function (productId) {
-            if (!selectedFile) return;
+        renderGallery();
 
-            const fd = new FormData();
-            fd.append('photo', selectedFile);
+        function buildInitialGallery(legacyImage, imagesArray) {
+            const items = [];
 
-            const res = await fetch(`/api/upload_product_photo/${productId}`, {
-                method: 'POST',
-                body: fd
+            // images[] entries can have either `image` (filename in /uploads/products/)
+            // or `url` (already a full path) populated, per the sample data.
+            imagesArray.forEach(img => {
+                const src = img.url
+                    ? (img.url.startsWith('/') ? img.url : `/uploads/products/${img.url}`)
+                    : (img.image ? `/uploads/products/${img.image}` : null);
+
+                if (!src) return;
+
+                items.push({
+                    id: img.id ?? nextRowId(),
+                    url: src,
+                    file: null,
+                    isPrimary: !!img.is_primary,
+                    isNew: false
+                });
             });
 
-            if (!res.ok) throw new Error('Foto upload mislukt');
+            // If nothing in images[] is marked primary, but a legacy `image` field
+            // exists, make sure that photo is represented and marked primary.
+            if (legacyImage) {
+                const legacySrc = legacyImage.startsWith('/uploads')
+                    ? legacyImage
+                    : `/uploads/products/${legacyImage}`;
+
+                const alreadyPresent = items.some(item => item.url === legacySrc);
+                if (!alreadyPresent) {
+                    items.unshift({
+                        id: nextRowId(),
+                        url: legacySrc,
+                        file: null,
+                        isPrimary: true,
+                        isNew: false
+                    });
+                }
+            }
+
+            if (items.length && !items.some(i => i.isPrimary)) {
+                items[0].isPrimary = true;
+            }
+
+            return items;
+        }
+
+        function renderGallery() {
+            // Update main photo display
+            const mainImg = document.getElementById('photoMainImg');
+            const mainEmpty = document.getElementById('photoMainEmpty');
+            const photoCount = document.getElementById('photoCount');
+
+            const primary = gallery.find(g => g.isPrimary) || gallery[0];
+
+            if (primary) {
+                mainImg.src = primary.url;
+                mainImg.hidden = false;
+                mainEmpty.hidden = true;
+            } else {
+                mainImg.hidden = true;
+                mainEmpty.hidden = false;
+            }
+
+            photoCount.textContent = gallery.length === 1
+                ? "1 foto's"
+                : `${gallery.length} foto's`;
+
+            // Rebuild thumbnail row, keep the "add" tile at the end
+            Array.from(thumbsContainer.querySelectorAll('.photo-thumb:not(.photo-thumb--add)'))
+                .forEach(el => el.remove());
+
+            gallery.forEach(item => {
+                const thumb = document.createElement('div');
+                thumb.className = 'photo-thumb' + (item.isPrimary ? ' is-primary' : '');
+
+                const img = document.createElement('img');
+                img.src = item.url;
+                img.alt = '';
+                thumb.append(img);
+
+                thumb.addEventListener('click', (e) => {
+                    if (e.target.closest('.photo-thumb-remove')) return;
+                    gallery.forEach(g => g.isPrimary = false);
+                    item.isPrimary = true;
+                    renderGallery();
+                });
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'photo-thumb-remove';
+                removeBtn.innerHTML = '<i class="ti ti-x"></i>';
+                removeBtn.addEventListener('click', () => {
+                    const wasPrimary = item.isPrimary;
+                    gallery = gallery.filter(g => g.id !== item.id);
+                    if (wasPrimary && gallery.length) {
+                        gallery[0].isPrimary = true;
+                    }
+                    renderGallery();
+                });
+                thumb.append(removeBtn);
+
+                thumbsContainer.insertBefore(thumb, addLabel);
+            });
+        }
+
+        window.uploadGalleryPhotos = async function (productId) {
+            const newItems = gallery.filter(g => g.isNew && g.file);
+            for (const item of newItems) {
+                const fd = new FormData();
+                fd.append('photo', item.file);
+                fd.append('is_primary', item.isPrimary ? '1' : '0');
+
+                const res = await fetch(`/api/upload_product_photo/${productId}`, {
+                    method: 'POST',
+                    body: fd
+                });
+
+                if (!res.ok) throw new Error('Foto upload mislukt');
+            }
+        };
+
+        window.getRemovedImageIds = function () {
+            // Existing (non-new) image ids that survived into the final gallery
+            return gallery.filter(g => !g.isNew).map(g => g.id);
         };
     }
 
@@ -269,6 +472,174 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // =========================
+    // LIST EDITORS: features / specifications / instructions
+    // =========================
+    function initListEditors() {
+        document.getElementById('addFeatureBtn').addEventListener('click', () => {
+            features.push('');
+            renderFeatures();
+        });
+
+        document.getElementById('addSpecBtn').addEventListener('click', () => {
+            specifications.push({ id: nextRowId(), name: '', value: '' });
+            renderSpecifications();
+        });
+
+        document.getElementById('addInstructionBtn').addEventListener('click', () => {
+            const nextStep = instructions.length
+                ? Math.max(...instructions.map(i => i.step || 0)) + 1
+                : 1;
+            instructions.push({ id: nextRowId(), step: nextStep, instruction: '' });
+            renderInstructions();
+        });
+
+        renderFeatures();
+        renderSpecifications();
+        renderInstructions();
+    }
+
+    function renderFeatures() {
+        const container = document.getElementById('featuresList');
+        const count = document.getElementById('featuresCount');
+        container.replaceChildren();
+
+        count.textContent = features.length === 1 ? '1 item' : `${features.length} items`;
+
+        if (!features.length) {
+            const empty = document.createElement('p');
+            empty.className = 'list-editor-empty';
+            empty.textContent = 'Nog geen kenmerken toegevoegd.';
+            container.append(empty);
+            return;
+        }
+
+        features.forEach((text, index) => {
+            const row = document.createElement('div');
+            row.className = 'list-editor-row';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = text;
+            input.placeholder = 'Bijv. pH-neutraal en veilig voor natuursteen';
+            input.addEventListener('input', () => {
+                features[index] = input.value;
+            });
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'btn-remove-row';
+            removeBtn.innerHTML = '<i class="ti ti-trash"></i>';
+            removeBtn.addEventListener('click', () => {
+                features.splice(index, 1);
+                renderFeatures();
+            });
+
+            row.append(input, removeBtn);
+            container.append(row);
+        });
+    }
+
+    function renderSpecifications() {
+        const container = document.getElementById('specsList');
+        const count = document.getElementById('specsCount');
+        container.replaceChildren();
+
+        count.textContent = specifications.length === 1 ? '1 item' : `${specifications.length} items`;
+
+        if (!specifications.length) {
+            const empty = document.createElement('p');
+            empty.className = 'list-editor-empty';
+            empty.textContent = 'Nog geen specificaties toegevoegd.';
+            container.append(empty);
+            return;
+        }
+
+        specifications.forEach((spec, index) => {
+            const row = document.createElement('div');
+            row.className = 'list-editor-row';
+
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.className = 'spec-name';
+            nameInput.value = spec.name;
+            nameInput.placeholder = 'Naam (bijv. Inhoud)';
+            nameInput.addEventListener('input', () => {
+                specifications[index].name = nameInput.value;
+            });
+
+            const valueInput = document.createElement('input');
+            valueInput.type = 'text';
+            valueInput.value = spec.value;
+            valueInput.placeholder = 'Waarde (bijv. 1 liter)';
+            valueInput.addEventListener('input', () => {
+                specifications[index].value = valueInput.value;
+            });
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'btn-remove-row';
+            removeBtn.innerHTML = '<i class="ti ti-trash"></i>';
+            removeBtn.addEventListener('click', () => {
+                specifications.splice(index, 1);
+                renderSpecifications();
+            });
+
+            row.append(nameInput, valueInput, removeBtn);
+            container.append(row);
+        });
+    }
+
+    function renderInstructions() {
+        const container = document.getElementById('instructionsList');
+        const count = document.getElementById('instructionsCount');
+        container.replaceChildren();
+
+        count.textContent = instructions.length === 1 ? '1 stap' : `${instructions.length} stappen`;
+
+        if (!instructions.length) {
+            const empty = document.createElement('p');
+            empty.className = 'list-editor-empty';
+            empty.textContent = 'Nog geen instructies toegevoegd.';
+            container.append(empty);
+            return;
+        }
+
+        instructions.forEach((step, index) => {
+            const row = document.createElement('div');
+            row.className = 'list-editor-row';
+
+            const stepInput = document.createElement('input');
+            stepInput.type = 'number';
+            stepInput.min = '1';
+            stepInput.className = 'step-number-input';
+            stepInput.value = step.step;
+            stepInput.addEventListener('input', () => {
+                instructions[index].step = parseInt(stepInput.value) || 1;
+            });
+
+            const textInput = document.createElement('input');
+            textInput.type = 'text';
+            textInput.value = step.instruction;
+            textInput.placeholder = 'Bijv. Verdun 10ml reiniger in 1 liter water';
+            textInput.addEventListener('input', () => {
+                instructions[index].instruction = textInput.value;
+            });
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'btn-remove-row';
+            removeBtn.innerHTML = '<i class="ti ti-trash"></i>';
+            removeBtn.addEventListener('click', () => {
+                instructions.splice(index, 1);
+                renderInstructions();
+            });
+
+            row.append(stepInput, textInput, removeBtn);
+            container.append(row);
+        });
+    }
+
+    // =========================
     // SAVE
     // =========================
     async function handleSave() {
@@ -280,6 +651,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const payload = {
                 name: formData.get('name'),
+                short_description: formData.get('short_description'),
                 description: formData.get('description'),
                 price: parseFloat(formData.get('price')) || 0,
                 sale_price: parseFloat(formData.get('sale_price')) || null,
@@ -287,8 +659,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                 sku: formData.get('sku'),
                 brand_id: parseInt(formData.get('brand_id')) || null,
                 category_id: parseInt(formData.get('category_id')) || null,
-                tags: selectedTags.map(t => t.id)
+                tags: selectedTags.map(t => t.id),
+                // Drop empty rows so blank add-row clicks don't get saved.
+                features: features.map(f => f.trim()).filter(Boolean),
+                specifications: specifications
+                    .filter(s => s.name.trim() || s.value.trim())
+                    .map(s => ({ name: s.name.trim(), value: s.value.trim() })),
+                instructions: instructions
+                    .filter(i => i.instruction.trim())
+                    .map(i => ({ step: i.step, instruction: i.instruction.trim() })),
+                kept_image_ids: window.getRemovedImageIds ? window.getRemovedImageIds() : [],
+                primary_image_id: (gallery.find(g => g.isPrimary && !g.isNew) || {}).id || null
             };
+            // Note: avg_rating / review_count are intentionally NOT included —
+            // they're calculated by the DB view and never sent from this form.
 
             const res = await fetch(`/api/update_product/${productId}`, {
                 method: 'PUT',
@@ -298,8 +682,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (!res.ok) throw new Error('Opslaan mislukt');
 
-            if (window.uploadProductPhoto) {
-                await window.uploadProductPhoto(productId);
+            if (window.uploadGalleryPhotos) {
+                await window.uploadGalleryPhotos(productId);
             }
 
             showAlert({
