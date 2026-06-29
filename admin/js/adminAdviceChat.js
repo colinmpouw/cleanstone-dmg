@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadMessages();
     setInterval(loadMessages, 5000);
 
-    const input  = document.getElementById('chatInput');
+    const input   = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
 
     sendBtn.addEventListener('click', sendMessage);
@@ -22,6 +22,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         input.style.height = '40px';
         input.style.height = Math.min(input.scrollHeight, 120) + 'px';
     });
+
+    // image upload in chat
+    const imageInput = document.getElementById('chatImageInput');
+    if (imageInput) {
+        imageInput.addEventListener('change', async () => {
+            const file = imageInput.files[0];
+            if (!file) return;
+
+            const caption = input?.value.trim() || '';
+            if (input) { input.value = ''; input.style.height = '40px'; }
+            imageInput.value = '';
+
+            const formData = new FormData();
+            formData.append('request_id', adviesId);
+            formData.append('message', caption);
+            formData.append('image', file);
+
+            try {
+                const res  = await fetch('/api/advies/message/upload', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (data.success) await loadMessages();
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    }
 });
 
 async function loadChatInfo() {
@@ -45,6 +71,26 @@ async function loadChatInfo() {
         statusPill.textContent = r.status === 'open' ? 'Nieuw'
             : r.status === 'in_behandeling' ? 'In behandeling'
                 : 'Gesloten';
+
+        // render submitted images strip
+        if (data.images && data.images.length > 0) {
+            const strip = document.getElementById('advImagesStrip');
+            const grid  = document.getElementById('advImagesGrid');
+            strip.style.display = '';
+            data.images.forEach(img => {
+                const a = document.createElement('a');
+                a.href   = `/uploads/advies/${img.filename}`;
+                a.target = '_blank';
+                a.className = 'adv-strip-img';
+
+                const el = document.createElement('img');
+                el.src = `/uploads/advies/${img.filename}`;
+                el.alt = 'Bijgevoegde foto';
+
+                a.appendChild(el);
+                grid.appendChild(a);
+            });
+        }
 
     } catch (err) {
         console.error(err);
@@ -76,10 +122,18 @@ async function loadMessages() {
             const group = document.createElement('div');
             group.className = 'msg-group' + (isAdmin ? ' msg-group--right' : '') + ' msg-group--enter';
 
+            let bubbleContent = '';
+            if (m.image_filename) {
+                bubbleContent += `<a href="/uploads/advies/${m.image_filename}" target="_blank" class="msg-image"><img src="/uploads/advies/${m.image_filename}" alt="foto"></a>`;
+            }
+            if (m.message) {
+                bubbleContent += `<div class="msg-bubble">${escapeHtml(m.message)}</div>`;
+            }
+
             if (isAdmin) {
                 group.innerHTML = `
                     <div class="msg-bubbles">
-                        <div class="msg-bubble">${m.message}</div>
+                        ${bubbleContent}
                         <span class="msg-meta">CleanStone · ${time}</span>
                     </div>
                     <div class="msg-avatar msg-avatar--cs">CS</div>
@@ -88,8 +142,8 @@ async function loadMessages() {
                 group.innerHTML = `
                     <div class="msg-avatar msg-avatar--km">${initials}</div>
                     <div class="msg-bubbles">
-                        <div class="msg-bubble">${m.message}</div>
-                        <span class="msg-meta">${m.username} · ${time}</span>
+                        ${bubbleContent}
+                        <span class="msg-meta">${escapeHtml(m.username)} · ${time}</span>
                     </div>
                 `;
             }
@@ -105,7 +159,6 @@ async function loadMessages() {
 
         container.scrollTop = container.scrollHeight;
 
-        // update status naar in_behandeling als admin eerste keer reageert
         await updateStatusIfNeeded();
 
     } catch (err) {
@@ -146,4 +199,12 @@ async function sendMessage() {
     } catch (err) {
         console.error(err);
     }
+}
+
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
 }
