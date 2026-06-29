@@ -36,12 +36,12 @@ class AdminBundlesRepository
         return $result;
     }
 
-    public function updateBundle($id, $name, $description, $price, $tag)
+    public function updateBundle($id, $name, $description, $price)
     {
         $sql = "UPDATE bundles 
-            SET name = ?, description = ?, price = ?, bundle_tag = ?
+            SET name = ?, description = ?, price = ?
             WHERE id = ?";
-        $result = $this->DB->save($sql, [$name, $description, $price, $tag, $id]);
+        $result = $this->DB->save($sql, [$name, $description, $price, $id]);
         return $result;
 
     }
@@ -62,6 +62,31 @@ class AdminBundlesRepository
         $result = $this->DB->read($sql, [$data['bundle_id'], $data['product_id'], $data['quantity']]);
         return $result;
     }
+
+    public function createBundle($name, $description, $price)
+    {
+        $sql = "INSERT INTO bundles (name, description, price)
+            VALUES (?, ?, ?)";
+
+        $this->DB->save($sql, [$name, $description, $price]);
+
+        return $this->DB->lastInsertId();
+    }
+    public function replaceBundleTag($bundle_id, $tag)
+    {
+
+        $this->DB->save(
+            "DELETE FROM bundle_tags WHERE bundle_id = ?",
+            [$bundle_id]
+        );
+
+
+        return $this->DB->save(
+            "INSERT INTO bundle_tags (bundle_id, tag) VALUES (?, ?)",
+            [$bundle_id, $tag]
+        );
+    }
+
 
 
 }

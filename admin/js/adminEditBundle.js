@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('bundleName').value = data.name || '';
         document.getElementById('bundleDescription').value = data.description || '';
         document.getElementById('bundlePrice').value = data.price || '';
-        document.getElementById('bundleTagsInput').value = data.bundle_tag || '';
+        document.getElementById('bundleTagsInput').value = data.bundle_tags[0] || '';
 
         // Each row from the API is one bundle+product join row, so the
         // product fields are collected per row into bundleProducts here.

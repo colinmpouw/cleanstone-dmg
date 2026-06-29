@@ -8,6 +8,7 @@ use Exception;
 class AdminBundlesService
 {
     private $repository;
+
     public function __construct()
     {
         $this->repository = new AdminBundlesRepository();
@@ -27,6 +28,7 @@ class AdminBundlesService
 
         return $this->buildBundles($rows);
     }
+
     public function uploadPhoto($bundle_id, $photo)
     {
         // 1. Validate upload
@@ -59,7 +61,7 @@ class AdminBundlesService
         }
 
 
-         $this->repository->updatePhoto($bundle_id, $fileName);
+        $this->repository->updatePhoto($bundle_id, $fileName);
 
 
         return [
@@ -88,18 +90,17 @@ class AdminBundlesService
             $name,
             $description,
             $price,
-            $bundle_tag
         );
-
+        $this->repository->replaceBundleTag($bundle_id, $bundle_tag);
         // ✅ 3. sync products
         $this->repository->deleteBundleProducts($bundle_id);
 
         foreach ($products as $p) {
             $this->repository->addBundleProduct([
-                'bundle_id'   => $bundle_id,
-                'product_id'  => $p['product_id'],
-                'quantity'    => $p['quantity'],
-                'price'       => $p['product_price']
+                'bundle_id' => $bundle_id,
+                'product_id' => $p['product_id'],
+                'quantity' => $p['quantity'],
+                'price' => $p['product_price']
             ]);
         }
 
@@ -109,6 +110,51 @@ class AdminBundlesService
             "updated_products" => count($products)
         ];
     }
+
+    public function createBundle($data, $photo = null)
+    {
+        // ✅ 1. validation
+        if (empty($data['name'])) {
+            throw new Exception("Name is required");
+        }
+
+        $name = $data['name'];
+        $description = $data['description'] ?? '';
+        $price = $data['price'] ?? 0;
+        $bundle_tag = $data['bundle_tag'] ?? '';
+        $products = $data['products'] ?? [];
+
+        // ✅ 2. create bundle main info
+        $bundle_id = $this->repository->createBundle(
+            $name,
+            $description,
+            $price
+        );
+        $this->repository->replaceBundleTag($bundle_id, $bundle_tag);
+
+        // ✅ 3. add products
+        foreach ($products as $p) {
+            $this->repository->addBundleProduct([
+                'bundle_id' => $bundle_id,
+                'product_id' => $p['product_id'],
+                'quantity' => $p['quantity'],
+            ]);
+        }
+
+        // ✅ 4. handle photo (optional)
+        $photo_result = null;
+        if ($photo !== null && $photo['error'] !== UPLOAD_ERR_NO_FILE) {
+            $photo_result = $this->uploadPhoto($bundle_id, $photo);
+        }
+
+        // ✅ 5. return
+        return [
+            "bundle_id" => $bundle_id,
+            "added_products" => count($products),
+            "photo" => $photo_result
+        ];
+    }
+
     private function buildBundles($rows)
     {
         if (empty($rows)) {

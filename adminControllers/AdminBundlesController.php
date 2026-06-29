@@ -20,6 +20,7 @@ class AdminBundlesController
 
         $router->post('/api/admin/upload_bundle_photo/{bundle_id}', [$this, 'upload_bundle_photo']);
         $router->put('/api/admin/update_bundle/{bundle_id}', [$this, 'update_bundle']);
+        $router->post('/api/admin/create_bundle', [$this, 'create_bundle']);
     }
 
     public function bundlesPage()
@@ -27,17 +28,20 @@ class AdminBundlesController
         require_once __DIR__ . '/../admin/adminBundles.php';
         die();
     }
+
     public function bundleEditPage($id)
     {
         echo '<script>window.bundleId = ' . json_encode((int)$id) . ';</script>';
         require_once __DIR__ . '/../admin/adminEditBundle.php';
         die();
     }
+
     public function bundleAddPage()
     {
         require_once __DIR__ . '/../admin/adminAddBundle.php';
         die();
     }
+
     public function get_all_bundles()
     {
 
@@ -62,6 +66,7 @@ class AdminBundlesController
 
         exit();
     }
+
     public function find_bundle($bundle_id)
     {
 
@@ -153,4 +158,38 @@ class AdminBundlesController
         exit;
     }
 
+    public function create_bundle()
+    {
+        header('Content-Type: application/json');
+
+        try {
+            $input = $_POST;
+            $photo = $_FILES['photo'] ?? null;
+
+            if (empty($input)) {
+                throw new Exception("Invalid form data");
+            }
+
+            if (isset($input['products']) && is_string($input['products'])) {
+                $input['products'] = json_decode($input['products'], true) ?? [];
+            }
+
+            $result = $this->adminBundlesService->createBundle($input, $photo);
+
+            echo json_encode([
+                "success" => true,
+                "message" => "Bundle created successfully",
+                "data" => $result
+            ]);
+        } catch (Exception $e) {
+            http_response_code(400);
+
+            echo json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+
+        exit;
+    }
 }
