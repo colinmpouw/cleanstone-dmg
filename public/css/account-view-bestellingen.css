@@ -312,3 +312,6 @@ body { background-color: var(--soft-white); }
         padding: 20px;
     }
 }
+
+/* ── Skeleton ── */
+.detail-card--skeleton { pointer-events: none; }

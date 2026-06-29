@@ -1,4 +1,22 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    // skeleton placeholders
+    ['stat-orders', 'stat-advies', 'stat-messages'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = '<span class="stat-num-skeleton skeleton-block"></span>';
+    });
+    const list = document.getElementById('bestelling-list');
+    if (list) {
+        list.innerHTML = Array(3).fill(`
+            <div class="bestelling-item-skeleton">
+                <div class="skeleton-block" style="width:40px;height:40px;flex-shrink:0;border-radius:10px;"></div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+                    <div class="skeleton-block" style="width:50%;height:13px;border-radius:6px;"></div>
+                    <div class="skeleton-block" style="width:35%;height:11px;border-radius:6px;"></div>
+                </div>
+                <div class="skeleton-block" style="width:64px;height:22px;border-radius:20px;flex-shrink:0;"></div>
+            </div>`).join('');
+    }
+
     try {
         const res  = await fetch('/api/account/data');
         const data = await res.json();

@@ -12,7 +12,7 @@ if (!isset($products, $categories, $brands)) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Producten — CleanStone</title>
+    <title>Cleanstone -Producten</title>
     <link rel="stylesheet" href="/public/css/main.css">
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">

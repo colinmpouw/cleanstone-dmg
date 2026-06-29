@@ -38,7 +38,24 @@ function renderStarsEdit(rating, reviewId) {
 async function loadReviews() {
     const list  = document.getElementById('review-list');
     const count = document.getElementById('review-count');
-    list.innerHTML = '<p style="color:var(--rustic-taupe)">Laden...</p>';
+    list.innerHTML = Array(3).fill(`
+        <article class="review-card review-card--skeleton">
+            <div style="display:flex;gap:16px;margin-bottom:16px;">
+                <div class="skeleton-block" style="width:64px;height:64px;border-radius:10px;flex-shrink:0;"></div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:8px;justify-content:center;">
+                    <div class="skeleton-block" style="width:60%;height:16px;border-radius:6px;"></div>
+                    <div class="skeleton-block" style="width:80px;height:14px;border-radius:6px;"></div>
+                </div>
+            </div>
+            <div class="skeleton-block" style="width:100%;height:56px;border-radius:8px;margin-bottom:16px;"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div class="skeleton-block" style="width:100px;height:12px;border-radius:6px;"></div>
+                <div style="display:flex;gap:8px;">
+                    <div class="skeleton-block" style="width:70px;height:28px;border-radius:8px;"></div>
+                    <div class="skeleton-block" style="width:70px;height:28px;border-radius:8px;"></div>
+                </div>
+            </div>
+        </article>`).join('');
 
     try {
         const res  = await fetch('/api/mijn-reviews');

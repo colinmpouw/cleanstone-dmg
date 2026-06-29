@@ -10,12 +10,13 @@ if (!$user) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>adressen — CleanStone</title>
     <link rel="stylesheet" href="/public/css/main.css">
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
     <link rel="stylesheet" href="/public/css/sidebarAccount.css">
     <link rel="stylesheet" href="/public/css/adressen.css">
+    <title>Cleanstone -Mijn adressen</title>
+    <link rel="icon" href="/public/assets/logo_icon.png" type="image/png">
 </head>
 
 <div class="modal-overlay" id="addressModal">

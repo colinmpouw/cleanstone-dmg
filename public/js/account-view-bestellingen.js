@@ -150,6 +150,20 @@ function render(order) {
 
 async function load() {
     const main = document.getElementById('bestelling-main');
+    main.innerHTML = `
+        <div style="display:flex;align-items:center;gap:16px;padding:20px 0;">
+            <div class="skeleton-block" style="width:40px;height:40px;border-radius:50%;flex-shrink:0;"></div>
+            <div style="flex:1;">
+                <div class="skeleton-block" style="width:200px;height:24px;margin-bottom:8px;border-radius:8px;"></div>
+                <div class="skeleton-block" style="width:120px;height:12px;border-radius:6px;"></div>
+            </div>
+            <div class="skeleton-block" style="width:90px;height:28px;border-radius:20px;flex-shrink:0;"></div>
+        </div>
+        ${Array(3).fill(`
+            <div class="detail-card detail-card--skeleton">
+                <div class="skeleton-block" style="width:100px;height:14px;margin-bottom:16px;border-radius:6px;"></div>
+                <div class="skeleton-block" style="width:100%;height:60px;border-radius:8px;"></div>
+            </div>`).join('')}`;
     try {
         const res  = await fetch(`/api/account/bestellingen/${orderId}`);
         const data = await res.json();

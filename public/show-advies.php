@@ -3,13 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Adviesaanvraag — CleanStone</title>
     <link rel="stylesheet" href="/public/css/main.css">
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
     <link rel="stylesheet" href="/public/css/auth.css">
     <link rel="stylesheet" href="/public/css/show-advies.css">
     <link rel="stylesheet" href="/public/css/sidebarAccount.css">
+    <title>Cleanstone -Mijn Adviesaanvraag</title>
+    <link rel="icon" href="/public/assets/logo_icon.png" type="image/png">
 </head>
 <body>
 <?php require_once __DIR__ . '/../component/header.php'; ?>

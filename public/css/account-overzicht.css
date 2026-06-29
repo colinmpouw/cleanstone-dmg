@@ -207,3 +207,25 @@ body {
         flex-wrap: wrap;
     }
 }
+
+/* ── Skeleton ── */
+.stat-num-skeleton {
+    display: inline-block;
+    width: 60px;
+    height: 28px;
+    border-radius: 8px;
+}
+.bestelling-item-skeleton {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--creamy-taupe);
+}
+.bestelling-item-skeleton:last-child { border-bottom: none; }
+
+/* ── Entrance animations ── */
+.account-main h1       { animation: fadeInUp 0.4s ease both; }
+.stats-row             { animation: fadeInUp 0.45s ease 0.06s both; }
+.alert-banner          { animation: fadeInUp 0.45s ease 0.1s both; }
+.bestellingen-card     { animation: fadeInUp 0.45s ease 0.14s both; }

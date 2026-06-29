@@ -239,3 +239,15 @@ body { background-color: var(--soft-white); }
         gap: 8px;
     }
 }
+
+/* ── Skeleton ── */
+.order-card--skeleton {
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ── Entrance animations ── */
+.bestellingen-main h1 { animation: fadeInUp 0.4s ease both; }
+.order-list           { animation: fadeInUp 0.45s ease 0.08s both; }

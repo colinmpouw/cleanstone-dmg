@@ -80,6 +80,25 @@ function formatDate(dateStr) {
 }
 
 async function loadOrders() {
+    const list = document.getElementById('order-list');
+    if (list) {
+        list.innerHTML = Array(4).fill(`
+            <div class="order-card order-card--skeleton">
+                <div class="order-card__top">
+                    <div class="skeleton-block" style="width:70px;height:14px;border-radius:6px;"></div>
+                    <div class="skeleton-block" style="width:100px;height:24px;border-radius:20px;"></div>
+                </div>
+                <div class="skeleton-block" style="width:140px;height:12px;border-radius:6px;margin-bottom:12px;"></div>
+                <div style="display:flex;gap:8px;margin-bottom:12px;">
+                    <div class="skeleton-block" style="width:52px;height:52px;border-radius:8px;flex-shrink:0;"></div>
+                    <div class="skeleton-block" style="width:52px;height:52px;border-radius:8px;flex-shrink:0;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;">
+                    <div class="skeleton-block" style="width:80px;height:16px;border-radius:6px;"></div>
+                    <div class="skeleton-block" style="width:50px;height:12px;border-radius:6px;"></div>
+                </div>
+            </div>`).join('');
+    }
     try {
         const res = await fetch('/api/account/bestellingen');
         const data = await res.json();

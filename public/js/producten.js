@@ -179,7 +179,7 @@ async function loadProducts() {
         });
     }
 
-    grid.innerHTML = '<p>Laden...</p>';
+    renderProductSkeletons(grid);
 
     try {
         const res = await fetch('/api/get_all_products');
@@ -202,6 +202,24 @@ async function loadProducts() {
         console.error('Failed to load products:', err);
         grid.innerHTML = '<p>Er is iets misgegaan met het laden van de producten.</p>';
         count.textContent = '0 producten gevonden';
+    }
+}
+
+function renderProductSkeletons(grid, count = 8) {
+    grid.innerHTML = '';
+    for (let i = 0; i < count; i++) {
+        const card = document.createElement('article');
+        card.className = 'product-card product-card--skeleton';
+        card.innerHTML = `
+            <div class="skeleton-block sk-media"></div>
+            <div class="sk-meta-body">
+                <div class="skeleton-block sk-line" style="width:42%;height:12px;margin-bottom:8px;border-radius:6px;"></div>
+                <div class="skeleton-block sk-line" style="width:78%;height:16px;margin-bottom:8px;border-radius:6px;"></div>
+                <div class="skeleton-block sk-line" style="width:55%;height:12px;margin-bottom:12px;border-radius:6px;"></div>
+                <div class="skeleton-block sk-line" style="width:32%;height:18px;margin-bottom:16px;border-radius:6px;"></div>
+                <div class="skeleton-block sk-btn"></div>
+            </div>`;
+        grid.appendChild(card);
     }
 }
 

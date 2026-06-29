@@ -36,7 +36,21 @@ modal.addEventListener('click', e => {
 // ── Load adressen ──
 async function loadAddresses() {
     const container = document.getElementById('addresses-container');
-    container.innerHTML = '<p style="color:var(--rustic-taupe)">Laden...</p>';
+    container.innerHTML = Array(2).fill(`
+        <div class="address-card address-card--skeleton" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+            <div style="display:flex;align-items:center;gap:16px;flex:1;">
+                <div class="skeleton-block" style="width:44px;height:44px;border-radius:12px;flex-shrink:0;"></div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+                    <div class="skeleton-block" style="width:140px;height:16px;border-radius:6px;"></div>
+                    <div class="skeleton-block" style="width:200px;height:12px;border-radius:6px;"></div>
+                    <div class="skeleton-block" style="width:120px;height:12px;border-radius:6px;"></div>
+                </div>
+            </div>
+            <div style="display:flex;gap:8px;align-self:flex-start;flex-shrink:0;">
+                <div class="skeleton-block" style="width:36px;height:36px;border-radius:8px;"></div>
+                <div class="skeleton-block" style="width:36px;height:36px;border-radius:8px;"></div>
+            </div>
+        </div>`).join('');
 
     try {
         const res  = await fetch('/api/get_all_addresses');

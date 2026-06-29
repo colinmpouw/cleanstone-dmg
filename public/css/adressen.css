@@ -288,3 +288,9 @@ body {
     }
 
 }
+
+/* ── Skeleton ── */
+.address-card--skeleton { pointer-events: none; }
+
+/* ── Entrance animations ── */
+.addresses-header { animation: fadeInUp 0.4s ease both; }

@@ -238,3 +238,8 @@ body { background-color: var(--soft-white); }
         font-size: 1.3rem;
     }
 }
+
+/* ── Entrance animations ── */
+.gegevens-main h1       { animation: fadeInUp 0.4s ease both; }
+.profile-header-card    { animation: fadeInUp 0.45s ease 0.06s both; }
+.gegevens-card          { animation: fadeInUp 0.45s ease 0.12s both; }
