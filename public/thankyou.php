@@ -23,7 +23,7 @@
 
 <main>
     <img src="/public/assets/thankyou.png" alt="thank you">
-    <h2>Hell erg bedankt, betaald succesvol</h2>
+    <h2>Heel erg bedankt, betaald succesvol</h2>
     <a href="/" class="home-link">Ga terug naar de homepage</a>
 </main>
 

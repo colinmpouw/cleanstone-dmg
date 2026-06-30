@@ -14,6 +14,7 @@ class OrderService
     private $addressRepository;
     private $cartRepository;
     private $discountRepository;
+    private $mailService;
 
     public function __construct()
     {
@@ -21,6 +22,7 @@ class OrderService
         $this->addressRepository = new AddressRepository();
         $this->cartRepository = new CartRepository();
         $this->discountRepository = new DiscountRepository();
+        $this->mailService = new MailService();
     }
 
     public function getOrdersByUser(int $user_id): array
@@ -168,14 +170,10 @@ class OrderService
             $paymentSuccess = $this->fakePayment($total);
 
             if (!$paymentSuccess) {
-
-
                 $this->orderRepository->updateOrderStatus($orderId, 'cancelled');
-
                 throw new Exception("Betaling mislukt");
             }
 
-            
             if (!empty($discountId)) {
                 $this->discountRepository->add_user_usage($userId, $discountId, $orderId);
                 $this->discountRepository->change_discount_used_count($discountId);
@@ -184,6 +182,8 @@ class OrderService
             $this->orderRepository->updateOrderStatus($orderId, 'paid');
 
             $this->cartRepository->clearCart($userId);
+
+            $this->mailService->sendBestellingMail($orderId);
 
         } catch (Exception $e) {
 

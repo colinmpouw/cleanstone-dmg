@@ -239,5 +239,58 @@ class OrderRepository
         ]);
     }
 
+    public function getOrderForMail(int $orderId): ?array
+    {
+        $order = $this->DB->read(
+            "SELECT
+            o.*,
+            u.email,
+            a.first_name,
+            a.last_name,
+            a.street,
+            a.house_number,
+            a.postal_code,
+            a.city,
+            a.country
+        FROM orders o
+        JOIN users u ON u.id = o.user_id
+        LEFT JOIN addresses a ON a.id = o.shipping_address_id
+        WHERE o.id = :order_id",
+            ['order_id' => $orderId]
+        );
+
+        if (empty($order)) {
+            return null;
+        }
+
+        $order = $order[0];
+
+        $products = $this->DB->read(
+            "SELECT
+            p.name,
+            oi.quantity,
+            oi.price
+        FROM order_items oi
+        LEFT JOIN products p ON p.id = oi.product_id
+        WHERE oi.order_id = :order_id",
+            ['order_id' => $orderId]
+        ) ?: [];
+
+        $bundles = $this->DB->read(
+            "SELECT
+            b.name,
+            ob.quantity,
+            ob.price
+        FROM order_bundles ob
+        LEFT JOIN bundles b ON b.id = ob.bundle_id
+        WHERE ob.order_id = :order_id",
+            ['order_id' => $orderId]
+        ) ?: [];
+
+        $order['products'] = array_merge($products, $bundles);
+
+        return $order;
+    }
+
 
 }
