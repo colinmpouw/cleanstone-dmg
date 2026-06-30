@@ -453,6 +453,76 @@ async function loadTopProducts() {
 
 document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('home-adv-submit');
+    const photosInput = document.getElementById('home-adv-photos');
+    let selectedFiles = [];
+
+    function renderPreview() {
+        const existing = document.getElementById('home-adv-preview');
+        if (existing) existing.remove();
+        if (!selectedFiles.length) return;
+
+        const preview = document.createElement('div');
+        preview.id = 'home-adv-preview';
+        preview.className = 'adv-preview';
+
+        selectedFiles.forEach((file, idx) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const item = document.createElement('div');
+                item.className = 'adv-preview__item';
+                item.style.position = 'relative';
+
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = file.name;
+
+                const name = document.createElement('span');
+                name.textContent = file.name.length > 20
+                    ? file.name.substring(0, 17) + '...'
+                    : file.name;
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.textContent = '×';
+                removeBtn.style.cssText = 'position:absolute;top:2px;right:2px;background:#e53e3e;color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:14px;line-height:1;padding:0';
+                removeBtn.addEventListener('click', () => {
+                    selectedFiles.splice(idx, 1);
+                    renderPreview();
+                });
+
+                item.appendChild(removeBtn);
+                item.appendChild(img);
+                item.appendChild(name);
+                preview.appendChild(item);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        photosInput.closest('div').appendChild(preview);
+    }
+
+    if (photosInput) {
+        photosInput.addEventListener('change', () => {
+            const newFiles = Array.from(photosInput.files);
+            photosInput.value = '';
+
+            for (const file of newFiles) {
+                if (selectedFiles.length >= 5) {
+                    showAlert({
+                        type: 'error',
+                        title: 'Niet Gelukt!',
+                        message: 'U kunt maximaal 5 foto\'s uploaden.'
+                    });
+                    break;
+                }
+                const duplicate = selectedFiles.some(f => f.name === file.name && f.size === file.size);
+                if (!duplicate) selectedFiles.push(file);
+            }
+
+            renderPreview();
+        });
+    }
+
     if (!btn) return;
 
     btn.addEventListener('click', async () => {
@@ -461,24 +531,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const message = document.getElementById('home-adv-message')?.value.trim();
 
         if (!name || !email || !message) {
-            alert('Vul alle verplichte velden in.');
+            showAlert({
+                type: 'error',
+                title: 'Niet Gelukt!',
+                message: 'Vul alle verplichte velden in.'
+            });
             return;
         }
 
         const formData = new FormData();
-        formData.append('name',    name);
-        formData.append('email',   email);
-        formData.append('message', message);
+        formData.append('name',           name);
+        formData.append('email',          email);
+        formData.append('phone',          document.getElementById('home-adv-phone')?.value.trim() || '');
+        formData.append('stone_type',     document.getElementById('home-adv-stone-type')?.value.trim() || '');
+        formData.append('stone_location', document.getElementById('home-adv-stone-location')?.value.trim() || '');
+        formData.append('message',        message);
 
-        const photos = document.getElementById('home-adv-photos')?.files;
-        if (photos) {
-            Array.from(photos).slice(0, 5).forEach(file => {
-                formData.append('photos[]', file);
-            });
-        }
+        selectedFiles.slice(0, 5).forEach(file => {
+            formData.append('photos[]', file);
+        });
 
         btn.disabled = true;
-        btn.textContent = 'Versturen...';
+        btn.innerHTML = 'Versturen...';
 
         try {
             const res  = await fetch('/api/advies/submit', { method: 'POST', body: formData });
@@ -487,14 +561,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 window.location.href = '/show-advies/' + data.request_id;
             } else {
-                alert(data.message || 'Er is iets misgegaan.');
+                showAlert({ type: 'error', title: 'Niet Gelukt!', message: data.message || 'Er is iets misgegaan.' });
                 btn.disabled = false;
-                btn.textContent = 'Verstuur adviesaanvraag';
+                btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Verstuur adviesaanvraag`;
             }
         } catch (err) {
             console.error(err);
             btn.disabled = false;
-            btn.textContent = 'Verstuur adviesaanvraag';
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Verstuur adviesaanvraag`;
         }
     });
 });

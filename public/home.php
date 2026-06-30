@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
     <link rel="stylesheet" href="/public/css/home.css">
+    <link rel="stylesheet" href="/public/css/advies.css">
     <link rel="icon" href="/public/assets/logo_icon.png" type="image/png">
     <title>CleanStone -Home</title>
 </head>
@@ -222,19 +223,19 @@
                 persoonlijk advies van onze specialisten.</p>
 
             <div class="advies-steps">
-                <div class="advies-step">
+                <div class="advies-step scroll-animate">
                     <div class="advies-step__num">1</div>
                     <span>Upload foto van uw steen</span>
                 </div>
-                <div class="advies-step">
+                <div class="advies-step scroll-animate">
                     <div class="advies-step__num">2</div>
                     <span>Beschrijf het probleem</span>
                 </div>
-                <div class="advies-step">
+                <div class="advies-step scroll-animate">
                     <div class="advies-step__num">3</div>
                     <span>Ontvang advies op maat</span>
                 </div>
-                <div class="advies-step">
+                <div class="advies-step scroll-animate">
                     <div class="advies-step__num">4</div>
                     <span>Bestel direct het juiste product</span>
                 </div>
@@ -254,15 +255,17 @@
 
 
         <div class="advies-card scroll-animate">
-            <h2>Upload uw foto</h2>
+            <h2>Advies aanvragen</h2>
 
             <?php if (!empty($_SESSION['user'])): ?>
 
                 <?php if (!empty($homeExisting)): ?>
                     <div class="existing-notice">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/>
-                        </svg>
+                        <div class="existing-notice__icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
                         <p>U heeft al een adviesaanvraag ingediend.</p>
                         <a href="/show-advies/<?= $homeExisting['id'] ?>" class="advies-submit" style="text-align:center; display:block;">
                             Bekijk uw aanvraag
@@ -270,20 +273,51 @@
                     </div>
                 <?php else: ?>
 
-                    <label class="upload-zone">
-                        <input type="file" id="home-adv-photos" accept="image/*">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="17 8 12 3 7 8"/>
-                            <line x1="12" y1="3" x2="12" y2="15"/>
-                        </svg>
-                        <p>Sleep uw foto hierheen of klik om te uploaden</p>
-                        <span>JPG, PNG of HEIC tot 10MB</span>
-                    </label>
+                    <div class="form-group">
+                        <label>Uw naam <span class="req">*</span></label>
+                        <input type="text" id="home-adv-name" placeholder="Volledige naam"
+                               value="<?= htmlspecialchars($_SESSION['user']['username']) ?>">
+                    </div>
 
-                    <input type="text" id="home-adv-name" placeholder="Uw naam" value="<?= htmlspecialchars($_SESSION['user']['username']) ?>">
-                    <input type="email" id="home-adv-email" placeholder="E-mailadres" value="<?= htmlspecialchars($_SESSION['user']['email']) ?>">
-                    <textarea id="home-adv-message" placeholder="Beschrijf uw vraag of probleem..."></textarea>
+                    <div class="form-group">
+                        <label>E-mailadres <span class="req">*</span></label>
+                        <input type="email" id="home-adv-email" placeholder="uw@email.nl"
+                               value="<?= htmlspecialchars($_SESSION['user']['email']) ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Telefoonnummer</label>
+                        <input type="tel" id="home-adv-phone" placeholder="06 12345678">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type natuursteen</label>
+                        <input type="text" id="home-adv-stone-type">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Waar bevindt de steen zich?</label>
+                        <input type="text" id="home-adv-stone-location">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Beschrijf uw vraag of probleem <span class="req">*</span></label>
+                        <textarea id="home-adv-message" placeholder="Beschrijf zo gedetailleerd mogelijk wat u wilt bereiken of welk probleem u heeft..."></textarea>
+                    </div>
+
+                    <div>
+                        <span class="upload-label">Upload foto's (max 5 stuks)</span>
+                        <label class="upload-zone scroll-animate">
+                            <input type="file" id="home-adv-photos" accept="image/*" multiple>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            <p>Sleep uw foto's hierheen of klik om te uploaden</p>
+                            <span>JPG, PNG of HEIC; maximaal 10MB per foto</span>
+                        </label>
+                    </div>
 
                     <button id="home-adv-submit" class="advies-submit">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -293,11 +327,15 @@
                         Verstuur adviesaanvraag
                     </button>
 
+                    <p class="submit-note">Gemiddelde reactietijd: 4 uur op werkdagen</p>
+
                 <?php endif; ?>
 
             <?php else: ?>
-                <p>U moet ingelogd zijn om advies aan te vragen.</p>
-                <a href="/login" class="advies-submit" style="text-align:center; display:block;">Inloggen</a>
+                <div class="login-notice">
+                    <p>U moet ingelogd zijn om een adviesaanvraag te doen.</p>
+                    <a href="/login" class="advies-submit" style="text-align:center; display:block;">Inloggen</a>
+                </div>
             <?php endif; ?>
 
         </div>

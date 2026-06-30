@@ -127,6 +127,18 @@
             </li>
 
         <li>
+            <a href="/admin/categories-tags">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 3H10V10H3V3Z" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 3H21V10H14V3Z" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 14H10V21H3V14Z" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 14H21V21H14V14Z" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Categorieën & Tags
+            </a>
+        </li>
+
+        <li>
             <a href="/admin/merken">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20.59 13.41L13.42 20.58C13.23 20.77 12.98 20.88 12.71 20.88C12.45 20.88 12.19 20.77 12 20.58L2.59 11.17C2.21 10.79 2 10.27 2 9.74V4C2 2.9 2.9 2 4 2H9.74C10.27 2 10.79 2.21 11.17 2.59L20.58 12C20.97 12.39 20.97 13.02 20.59 13.41Z" stroke="var(--active-color)" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round"/>
