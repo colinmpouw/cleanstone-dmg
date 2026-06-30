@@ -24,7 +24,53 @@
         Terug naar alle bundels
     </a>
 
-    <section class="product-section">
+    <!-- ✅ SKELETON -->
+    <section class="product-section skeleton-section" id="bundleSkeleton">
+
+        <div class="image-col">
+            <div class="image-wrap">
+                <div class="skeleton skeleton-image"></div>
+            </div>
+            <div class="trust-row">
+                <div class="skeleton skeleton-trust"></div>
+                <div class="skeleton skeleton-trust"></div>
+                <div class="skeleton skeleton-trust"></div>
+            </div>
+        </div>
+
+        <div class="info-col">
+            <div class="skeleton skeleton-line" style="width: 140px; height: 18px;"></div>
+
+            <div>
+                <div class="skeleton skeleton-line" style="width: 70%; height: 34px; margin-bottom: 0.6rem;"></div>
+                <div class="skeleton skeleton-line" style="width: 90%; height: 18px;"></div>
+            </div>
+
+            <div class="price-card">
+                <div class="skeleton skeleton-line" style="width: 150px; height: 28px; margin-bottom: 0.75rem;"></div>
+                <div class="skeleton skeleton-line" style="width: 100%; height: 48px;"></div>
+            </div>
+
+            <div class="package-card">
+                <div class="skeleton skeleton-line" style="width: 160px; height: 20px; margin-bottom: 1rem;"></div>
+                <div class="skeleton skeleton-line" style="width: 100%; height: 16px; margin-bottom: 0.6rem;"></div>
+                <div class="skeleton skeleton-line" style="width: 85%; height: 16px; margin-bottom: 0.6rem;"></div>
+                <div class="skeleton skeleton-line" style="width: 90%; height: 16px;"></div>
+            </div>
+
+            <div class="suitable-section">
+                <div class="skeleton skeleton-line" style="width: 110px; height: 16px; margin-bottom: 0.6rem;"></div>
+                <div style="display:flex; gap: 0.5rem;">
+                    <div class="skeleton skeleton-tag"></div>
+                    <div class="skeleton skeleton-tag"></div>
+                    <div class="skeleton skeleton-tag"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ✅ REAL CONTENT -->
+    <section class="product-section" id="bundleContent" hidden>
 
         <!-- LEFT -->
         <div class="image-col">
