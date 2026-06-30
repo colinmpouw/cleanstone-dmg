@@ -181,3 +181,27 @@ body{
 .alert-btn:active {
     transform: scale(0.98);
 }
+
+/* ── Skeleton loading utilities (shared across all admin pages) ── */
+@keyframes skeletonShimmer {
+    0%   { background-position: -200px 0; }
+    100% { background-position: calc(200px + 100%) 0; }
+}
+
+.skeleton-block {
+    display: block;
+    background: linear-gradient(
+        90deg,
+        var(--soft-white) 25%,
+        var(--creamy-taupe) 37%,
+        var(--soft-white) 63%
+    );
+    background-size: 400px 100%;
+    animation: skeletonShimmer 1.4s ease-in-out infinite;
+    border-radius: 0.4rem;
+}
+
+.skeleton-row:hover { background: none !important; }
+.skeleton-line  { height: 0.9rem; }
+.skeleton-pill  { height: 1.5rem; border-radius: 999px; }
+.skeleton-circle { border-radius: 50%; }

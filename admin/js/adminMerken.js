@@ -43,7 +43,21 @@ function closeModal() {
 modal?.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 document.getElementById('btn-new-merk')?.addEventListener('click', () => openModal());
 
+function renderSkeletons(count = 6) {
+    const grid = document.getElementById('merken-grid');
+    grid.innerHTML = Array.from({ length: count }, () => `
+        <div class="merk-card merk-card--skeleton">
+            <div class="skeleton-block merk-skel-logo"></div>
+            <div class="merk-card__info">
+                <span class="skeleton-block skeleton-line merk-skel-name"></span>
+                <span class="skeleton-block skeleton-line merk-skel-desc"></span>
+                <span class="skeleton-block skeleton-line merk-skel-file"></span>
+            </div>
+        </div>`).join('');
+}
+
 async function loadMerken() {
+    renderSkeletons();
     try {
         const res  = await fetch('/api/admin/merken');
         const data = await res.json();

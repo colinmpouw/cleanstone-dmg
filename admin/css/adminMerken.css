@@ -313,3 +313,10 @@
 }
 #logo-upload-placeholder svg { width: 24px; height: 24px; }
 #logo-upload-placeholder span { font-size: 0.8rem; }
+
+/* ── Skeleton ── */
+.merk-skel-logo  { width: 56px; height: 56px; border-radius: 8px; }
+.merk-skel-name  { width: 100px; margin-bottom: 6px; }
+.merk-skel-desc  { width: 140px; height: 0.75rem; margin-bottom: 4px; }
+.merk-skel-file  { width: 80px;  height: 0.75rem; }
+.merk-card--skeleton .merk-card__actions { visibility: hidden; }

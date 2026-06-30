@@ -224,3 +224,13 @@
 }
 .toast.show { opacity: 1; transform: translateY(0); }
 .toast--error { background: #c0392b; }
+
+/* ── Skeleton ── */
+.skel-dc-code    { width: 80px; }
+.skel-dc-type    { width: 90px; }
+.skel-dc-value   { width: 50px; }
+.skel-dc-min     { width: 60px; }
+.skel-dc-usage   { width: 44px; }
+.skel-dc-date    { width: 76px; }
+.skel-dc-status  { width: 72px; }
+.skel-dc-actions { width: 52px; }

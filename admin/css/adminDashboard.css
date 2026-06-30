@@ -370,3 +370,45 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ── Skeleton ── */
+.skeleton-stat-value {
+    width: 110px;
+    height: 1.8rem;
+    margin-bottom: 4px;
+}
+
+.skeleton-stat-delta {
+    width: 52px;
+    height: 0.85rem;
+    display: inline-block;
+}
+
+.chart-skeleton {
+    position: absolute;
+    inset: 0;
+    border-radius: 0.5rem;
+    z-index: 1;
+}
+
+.dash-skel-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--soft-white);
+}
+
+.dash-skel-left,
+.dash-skel-right {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.dash-skel-right { align-items: flex-end; }
+
+.dash-skel-title { width: 130px; }
+.dash-skel-sub   { width: 80px;  height: 0.75rem; }
+.dash-skel-value { width: 60px;  }
+.dash-skel-badge { width: 64px;  height: 1.4rem; }

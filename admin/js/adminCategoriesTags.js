@@ -57,7 +57,31 @@ function closeCategoryModal() {
 catModal?.addEventListener('click', e => { if (e.target === catModal) closeCategoryModal(); });
 document.getElementById('btn-new-category')?.addEventListener('click', () => openCategoryModal());
 
+function renderCategorySkeletons(count = 4) {
+    const container = document.getElementById('categories-tree');
+    if (!container) return;
+    container.innerHTML = Array.from({ length: count }, () => `
+        <div class="ct-tree-group">
+            <div class="ct-tree-item ct-tree-item--main">
+                <span class="skeleton-block skeleton-line skel-cat-name"></span>
+                <span class="skeleton-block skeleton-line skel-cat-slug"></span>
+                <div class="ct-tree-actions" style="visibility:hidden">
+                    <button class="action-btn"></button><button class="action-btn"></button>
+                </div>
+            </div>
+            <div class="ct-tree-item ct-tree-item--child">
+                <span class="ct-tree-dash">—</span>
+                <span class="skeleton-block skeleton-line skel-cat-child"></span>
+                <span class="skeleton-block skeleton-line skel-cat-slug"></span>
+                <div class="ct-tree-actions" style="visibility:hidden">
+                    <button class="action-btn"></button><button class="action-btn"></button>
+                </div>
+            </div>
+        </div>`).join('');
+}
+
 async function loadCategories() {
+    renderCategorySkeletons();
     try {
         const res  = await fetch('/api/admin/categories');
         const data = await res.json();
@@ -166,7 +190,15 @@ function closeTagModal() {
 tagModal?.addEventListener('click', e => { if (e.target === tagModal) closeTagModal(); });
 document.getElementById('btn-new-tag')?.addEventListener('click', () => openTagModal());
 
+function renderTagSkeletons(count = 8) {
+    const grid = document.getElementById('tags-grid');
+    if (!grid) return;
+    grid.innerHTML = Array.from({ length: count }, () =>
+        `<div class="skeleton-block skeleton-pill skel-tag"></div>`).join('');
+}
+
 async function loadTags() {
+    renderTagSkeletons();
     try {
         const res  = await fetch('/api/admin/tags');
         const data = await res.json();

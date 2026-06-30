@@ -3,7 +3,7 @@
 namespace adminControllers;
 use repositories\UserRepository;
 
-class AdminAuthController
+class   AdminAuthController
 {
     private UserRepository $userRepository;
 

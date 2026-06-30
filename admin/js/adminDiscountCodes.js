@@ -37,8 +37,29 @@ function closeModal() {
 modal?.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 document.getElementById('btn-new-code')?.addEventListener('click', () => openModal());
 
+// ── Skeleton ──
+function renderSkeletons(count = 6) {
+    const tbody = document.getElementById('discount-tbody');
+    const rows = Array.from({ length: count }, () => {
+        const tr = document.createElement('tr');
+        tr.className = 'skeleton-row';
+        tr.innerHTML = `
+            <td><div class="skeleton-block skeleton-line skel-dc-code"></div></td>
+            <td><div class="skeleton-block skeleton-pill skel-dc-type"></div></td>
+            <td><div class="skeleton-block skeleton-line skel-dc-value"></div></td>
+            <td><div class="skeleton-block skeleton-line skel-dc-min"></div></td>
+            <td><div class="skeleton-block skeleton-line skel-dc-usage"></div></td>
+            <td><div class="skeleton-block skeleton-line skel-dc-date"></div></td>
+            <td><div class="skeleton-block skeleton-pill skel-dc-status"></div></td>
+            <td><div class="skeleton-block skeleton-line skel-dc-actions"></div></td>`;
+        return tr;
+    });
+    tbody.replaceChildren(...rows);
+}
+
 // ── Load ──
 async function loadCodes() {
+    renderSkeletons();
     try {
         const res  = await fetch('/api/admin/discount-codes');
         const data = await res.json();
