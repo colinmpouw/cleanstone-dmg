@@ -12,11 +12,60 @@ let categoryChart;
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
+    showStatSkeletons();
+    showChartSkeletons();
+    showListSkeletons('orderList', 4);
+    showListSkeletons('adviceList', 4);
+
     loadStats();
     loadRevenue();
     loadCategories();
     loadOrders();
     loadAdvice();
+}
+
+/* ── Skeleton helpers ── */
+
+function showStatSkeletons() {
+    ['revenue', 'orders', 'active_products', 'advice_requests'].forEach(id => {
+        const card = document.getElementById(id);
+        if (!card) return;
+        const h2 = card.querySelector('h2');
+        const small = card.querySelector('small');
+        if (h2) h2.innerHTML = '<span class="skeleton-block skeleton-stat-value"></span>';
+        if (small) small.innerHTML = '<span class="skeleton-block skeleton-stat-delta"></span>';
+    });
+}
+
+function showChartSkeletons() {
+    ['revenueChart', 'categoryChart'].forEach(canvasId => {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const skel = document.createElement('div');
+        skel.className = 'skeleton-block chart-skeleton';
+        skel.dataset.for = canvasId;
+        canvas.parentElement.appendChild(skel);
+    });
+}
+
+function hideChartSkeleton(canvasId) {
+    document.querySelector(`.chart-skeleton[data-for="${canvasId}"]`)?.remove();
+}
+
+function showListSkeletons(listId, count = 4) {
+    const el = document.getElementById(listId);
+    if (!el) return;
+    el.innerHTML = Array.from({ length: count }, () => `
+        <li class="dash-skel-item">
+            <div class="dash-skel-left">
+                <span class="skeleton-block skeleton-line dash-skel-title"></span>
+                <span class="skeleton-block skeleton-line dash-skel-sub"></span>
+            </div>
+            <div class="dash-skel-right">
+                <span class="skeleton-block skeleton-line dash-skel-value"></span>
+                <span class="skeleton-block skeleton-pill dash-skel-badge"></span>
+            </div>
+        </li>`).join('');
 }
 
 /* ===================================================== */
@@ -214,6 +263,7 @@ function renderStats(stats) {
 /* ===================================================== */
 
 function renderRevenueChart(data) {
+    hideChartSkeleton('revenueChart');
     const ctx = document.getElementById('revenueChart').getContext('2d');
 
     if (revenueChart) revenueChart.destroy();
@@ -258,6 +308,7 @@ function renderRevenueChart(data) {
 /* ===================================================== */
 
 function renderCategoryChart(categories) {
+    hideChartSkeleton('categoryChart');
     const ctx = document.getElementById('categoryChart').getContext('2d');
 
     if (categoryChart) categoryChart.destroy();

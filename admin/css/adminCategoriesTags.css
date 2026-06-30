@@ -350,3 +350,14 @@
 .toast--error {
     background: #c0392b;
 }
+
+/* ── Skeleton ── */
+.skel-cat-name  { width: 120px; }
+.skel-cat-slug  { width: 85px;  }
+.skel-cat-child { width: 100px; }
+
+.skel-tag {
+    width: 72px;
+    height: 32px;
+    display: inline-block;
+}
