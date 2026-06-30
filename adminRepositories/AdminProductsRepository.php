@@ -75,9 +75,10 @@ class AdminProductsRepository
 
         return $this->DB->save($sql, $data);
     }
+
     public function insertImage($data)
     {
-        $url =  $data['image'];
+        $url = $data['image'];
 
         $this->DB->save(
             "INSERT INTO product_images (product_id, url, image, is_primary)
@@ -237,7 +238,10 @@ class AdminProductsRepository
             ]
         );
 
-        return $this->DB->lastInsertId();
+        $id = $this->DB->lastInsertId();
+        $slug = 'p' . $id;
+        $this->DB->save("UPDATE products SET slug = ? WHERE id = ?", [$slug, $id]);
+        return $id;
     }
 
     public function addGalleryImage($productId, $filename)
