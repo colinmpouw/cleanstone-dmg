@@ -22,12 +22,7 @@ class AdminOrdersController
     public function ordersPage()
     {
         if (!$this->isAdminLoggedIn()) {
-            http_response_code(401);
-
-            echo json_encode([
-                "success" => false,
-                "message" => "Unauthorized"
-            ]);
+            header('Location: /admin/login');
             exit;
         }
         require_once __DIR__ . '/../admin/adminOrders.php';
