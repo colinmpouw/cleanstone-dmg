@@ -217,42 +217,62 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // =========================
-    // TAG SELECT (same system)
+    // TAG SELECT (multi-select dropdown — click to toggle, no typing)
     // =========================
     function initTagSelect(allTags) {
-        const input = document.getElementById('tagSearchInput');
+        const toggle = document.getElementById('tagSelectToggle');
         const dropdown = document.getElementById('tagDropdown');
 
-        input.addEventListener('input', () => {
-            const query = input.value.toLowerCase();
+        renderDropdown();
 
-            const results = allTags.filter(tag =>
-                !selectedTags.some(t => t.id === tag.id) &&
-                tag.name.toLowerCase().includes(query)
-            );
-
-            renderDropdown(results);
-
-            dropdown.hidden = !query || !results.length;
+        toggle.addEventListener('click', () => {
+            dropdown.hidden = !dropdown.hidden;
         });
 
-        function renderDropdown(tags) {
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.tag-select')) {
+                dropdown.hidden = true;
+            }
+        });
+
+        function renderDropdown() {
             dropdown.replaceChildren();
 
-            tags.forEach(tag => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'tag-option';
-                btn.textContent = tag.name;
+            if (!allTags.length) {
+                const empty = document.createElement('p');
+                empty.className = 'tag-option-empty';
+                empty.textContent = 'Geen tags beschikbaar';
+                dropdown.append(empty);
+                return;
+            }
 
-                btn.addEventListener('click', () => {
-                    selectedTags.push(tag);
+            allTags.forEach(tag => {
+                const isSelected = selectedTags.some(t => t.id === tag.id);
+
+                const option = document.createElement('button');
+                option.type = 'button';
+                option.className = 'tag-option' + (isSelected ? ' is-selected' : '');
+
+                const check = document.createElement('span');
+                check.className = 'tag-option-check';
+                check.innerHTML = isSelected ? '<i class="ti ti-check"></i>' : '';
+
+                const label = document.createElement('span');
+                label.textContent = tag.name;
+
+                option.append(check, label);
+
+                option.addEventListener('click', () => {
+                    if (isSelected) {
+                        selectedTags = selectedTags.filter(t => t.id !== tag.id);
+                    } else {
+                        selectedTags.push(tag);
+                    }
                     renderTagChips();
-                    input.value = '';
-                    dropdown.hidden = true;
+                    renderDropdown();
                 });
 
-                dropdown.append(btn);
+                dropdown.append(option);
             });
         }
     }

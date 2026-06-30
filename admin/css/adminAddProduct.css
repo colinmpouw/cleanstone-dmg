@@ -1,8 +1,8 @@
 /* ==========================================================================
-   adminAddProduct.css (FULLY UNIFIED SYSTEM)
+   adminProductEdit.css (UNIFIED WITH BUNDLE SYSTEM)
    ========================================================================== */
 
-/* ── CONTENT ── */
+/* ---------- CONTENT ---------- */
 .content {
     flex: 1;
     padding: 28px;
@@ -20,13 +20,33 @@
 
 .edit-heading-left {
     display: flex;
+    align-items: flex-start;
     gap: 1rem;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-top: 0.4rem;
+    border-radius: 0.5rem;
+    color: var(--charcoal-clay);
+    text-decoration: none;
+    font-size: 1.3rem;
+    transition: background-color 0.15s ease;
+}
+
+.back-link:hover {
+    background: var(--soft-white);
 }
 
 .edit-heading h1 {
     font-family: var(--title-font);
     font-size: var(--page-title-size);
     color: var(--charcoal-clay);
+    font-weight: 700;
     margin: 0;
 }
 
@@ -43,13 +63,13 @@
 
 /* ---------- Buttons ---------- */
 .btn-cancel {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.85rem 1.4rem;
-    border-radius: 0.65rem;
-    border: 1px solid var(--creamy-taupe);
     background: var(--white);
+    border: 1px solid var(--creamy-taupe);
+    border-radius: 0.65rem;
+    padding: 0.85rem 1.4rem;
     font-weight: 600;
+    text-decoration: none;
+    color: var(--charcoal-clay);
 }
 
 .btn-cancel:hover {
@@ -57,10 +77,10 @@
 }
 
 .btn-save {
-    padding: 0.85rem 1.4rem;
-    border-radius: 0.65rem;
     background: var(--charcoal-clay);
     color: var(--white);
+    border-radius: 0.65rem;
+    padding: 0.85rem 1.4rem;
     font-weight: 600;
 }
 
@@ -92,8 +112,8 @@
 .panel {
     background: var(--white);
     border: 1px solid var(--creamy-taupe);
-    border-radius: 1rem;
     padding: 1.5rem;
+    border-radius: 1rem;
 }
 
 .panel h2 {
@@ -114,12 +134,12 @@
 
 /* ---------- Photo ---------- */
 .photo-main {
-    position: relative;
     aspect-ratio: 1;
     border-radius: 0.85rem;
-    overflow: hidden;
     background: var(--soft-white);
     margin-bottom: 0.85rem;
+    position: relative;
+    overflow: hidden;
 }
 
 .photo-main img {
@@ -132,8 +152,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--creamy-taupe);
     font-size: 3rem;
+    color: var(--creamy-taupe);
     height: 100%;
 }
 
@@ -142,7 +162,7 @@
     top: 0.75rem;
     left: 0.75rem;
     background: var(--charcoal-clay);
-    color: var(--white);
+    color: white;
     padding: 0.3rem 0.7rem;
     border-radius: 999px;
     font-size: var(--list-text-size);
@@ -156,12 +176,7 @@
 }
 
 .tips-box h3 {
-    margin-bottom: 0.4rem;
-}
-
-.tips-box p {
-    font-size: var(--list-text-size);
-    color: var(--rustic-taupe);
+    margin-bottom: 0.3rem;
 }
 
 /* ---------- Fields ---------- */
@@ -176,10 +191,10 @@
 }
 
 .field label {
-    display: block;
     text-transform: uppercase;
     font-size: var(--list-text-size);
     margin-bottom: 0.5rem;
+    display: block;
 }
 
 .field input,
@@ -199,7 +214,6 @@
 
 /* ---------- Tag select ---------- */
 .tag-select {
-    position: relative;
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
@@ -207,32 +221,37 @@
     border-radius: 0.65rem;
     padding: 0.6rem;
 }
-
-.tag-chip {
-    display: inline-flex;
-    gap: 0.3rem;
-    background: var(--soft-white);
-    border-radius: 999px;
-    padding: 0.25rem 0.6rem;
+.tag-select-chips{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.5rem;
 }
-
-.tag-select-dropdown {
+.tag-chip {
+    background: var(--soft-white);
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    position: relative;
+}
+.tag-chip-remove{
+    border: none;
+    background: var(--red);
     position: absolute;
-    top: calc(100% + 0.4rem);
-    left: 0;
-    right: 0;
-    background: var(--white);
-    border: 1px solid var(--creamy-taupe);
-    border-radius: 0.65rem;
-    box-shadow: 0 8px 24px rgba(58, 43, 32, 0.1);
+    color: var(--white);
+    cursor: pointer;
+    top: -0.25rem;
+    right: -0.25rem;
+    border-radius: 50%;
+}
+.tag-select-dropdown {
+    margin-top: 0.4rem;
 }
 
 /* ---------- Discount ---------- */
 .discount-note {
     margin-top: 1rem;
-    background: rgba(34, 197, 94, 0.1);
-    color: #22C55E;
-    padding: 0.85rem 1rem;
+    background: rgba(0,200,0,0.1);
+    padding: 0.75rem;
     border-radius: 0.65rem;
 }
 
@@ -267,13 +286,279 @@
     gap: 0.5rem;
 }
 
-.skeleton-field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-}
-
 @keyframes skeleton-pulse {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
+}
+/* ==========================================================
+   RATING DISPLAY
+   ========================================================== */
+
+.rating-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--creamy-taupe);
+    border: 1px solid var(--warm-beige);
+    border-radius: 8px;
+}
+
+.rating-display-stars {
+    color: var(--warm-beige);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.rating-display-value {
+    font-family: var(--title-font);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--charcoal-clay);
+}
+
+.rating-display-count {
+    font-family: var(--body-font);
+    font-size: 0.85rem;
+    color: var(--rustic-taupe);
+}
+
+.rating-display-note {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--rustic-taupe);
+}
+
+
+/* ==========================================================
+   PHOTO GALLERY THUMBNAILS
+   ========================================================== */
+
+.photo-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.photo-thumb {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid var(--warm-beige);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-thumb.is-primary {
+    border-color: var(--charcoal-clay);
+    box-shadow: 0 0 0 1px var(--charcoal-clay);
+}
+
+.photo-thumb-remove {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: var(--white);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.photo-thumb-remove:hover {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.photo-thumb--add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: dashed;
+    color: var(--rustic-taupe);
+    font-size: 1.3rem;
+    background: var(--creamy-taupe);
+}
+
+.photo-thumb--add:hover {
+    border-color: var(--warm-beige);
+    color: var(--warm-beige);
+}
+
+
+/* ==========================================================
+   LIST EDITORS
+   ========================================================== */
+
+.list-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.list-editor-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.list-editor-row input[type="text"],
+.list-editor-row input[type="number"],
+.list-editor-row textarea {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--warm-beige);
+    border-radius: 6px;
+    font-family: var(--body-font);
+    font-size: 0.9rem;
+    background: var(--white);
+    color: var(--charcoal-clay);
+}
+
+/* Specification rows */
+.list-editor--spec .list-editor-row input.spec-name {
+    flex: 0 0 38%;
+}
+
+/* Instruction rows */
+.list-editor--step .list-editor-row .step-number-input {
+    flex: 0 0 48px;
+    text-align: center;
+}
+
+.list-editor-row .btn-remove-row {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid var(--warm-beige);
+    background: var(--white);
+    color: var(--rustic-taupe);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.list-editor-row .btn-remove-row:hover {
+    border-color: var(--red);
+    color: var(--red);
+}
+
+.list-editor-empty {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--rustic-taupe);
+    font-style: italic;
+}
+
+.btn-add-row {
+    margin-top: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px dashed var(--warm-beige);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--warm-beige);
+    font-family: var(--body-font);
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.btn-add-row:hover {
+    background: var(--creamy-taupe);
+}
+/* Tag multi-select additions */
+.tag-select-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    background: var(--soft-white, #fff);
+    border: 1px solid var(--rustic-taupe, #ccc);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-align: left;
+    color: inherit;
+}
+
+.tag-select-toggle:hover {
+    border-color: var(--charcoal-clay, #333);
+}
+
+.tag-select-dropdown {
+    position: absolute;
+    z-index: 20;
+    margin-top: 0.4rem;
+    width: 100%;
+    max-height: 240px;
+    overflow-y: auto;
+    background: var(--soft-white, #fff);
+    border: 1px solid var(--rustic-taupe, #ccc);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    padding: 0.35rem;
+}
+
+.tag-option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+}
+
+.tag-option:hover {
+    background: var(--warm-beige, #f3ede4);
+}
+
+.tag-option.is-selected {
+    background: var(--creamy-taupe, #ece3d6);
+    font-weight: 600;
+}
+
+.tag-option-check {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.tag-option-empty {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--rustic-taupe, #999);
+}
+
+.tag-select {
+    position: relative;
 }

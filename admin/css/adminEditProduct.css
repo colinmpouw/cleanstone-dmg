@@ -486,3 +486,79 @@
 .btn-add-row:hover {
     background: var(--creamy-taupe);
 }
+/* Tag multi-select additions */
+.tag-select-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    background: var(--soft-white, #fff);
+    border: 1px solid var(--rustic-taupe, #ccc);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-align: left;
+    color: inherit;
+}
+
+.tag-select-toggle:hover {
+    border-color: var(--charcoal-clay, #333);
+}
+
+.tag-select-dropdown {
+    position: absolute;
+    z-index: 20;
+    margin-top: 0.4rem;
+    width: 100%;
+    max-height: 240px;
+    overflow-y: auto;
+    background: var(--soft-white, #fff);
+    border: 1px solid var(--rustic-taupe, #ccc);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    padding: 0.35rem;
+}
+
+.tag-option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+}
+
+.tag-option:hover {
+    background: var(--warm-beige, #f3ede4);
+}
+
+.tag-option.is-selected {
+    background: var(--creamy-taupe, #ece3d6);
+    font-weight: 600;
+}
+
+.tag-option-check {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.tag-option-empty {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--rustic-taupe, #999);
+}
+
+.tag-select {
+    position: relative;
+}

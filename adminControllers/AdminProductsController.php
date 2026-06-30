@@ -27,6 +27,7 @@ class AdminProductsController
 
         $router->put('/api/admin/update_product/{productId}', [$this, 'updateProduct']);
         $router->post('/api/admin/upload_product_photo/{productId}', [$this, 'updateProductPhoto']);
+        $router->post('/api/admin/create_product', [$this, 'createProduct']);
 
 
     }
@@ -145,6 +146,47 @@ console.log(window.productId);
                 "success" => true,
                 "message" => "Photo uploaded successfully",
                 "data" => $result
+            ]);
+
+        } catch (Exception $e) {
+            http_response_code(500);
+
+            echo json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function createProduct()
+    {
+        header('Content-Type: application/json');
+
+        try {
+            $input = [
+                'name'              => $_POST['name'] ?? '',
+                'short_description' => $_POST['short_description'] ?? '',
+                'description'       => $_POST['description'] ?? '',
+                'price'             => $_POST['price'] ?? 0,
+                'sale_price'        => $_POST['sale_price'] ?? '',
+                'stock'             => $_POST['stock'] ?? 0,
+                'sku'               => $_POST['sku'] ?? '',
+                'brand_id'          => $_POST['brand_id'] ?: null,
+                'category_id'       => $_POST['category_id'] ?: null,
+                'tags'              => json_decode($_POST['tags'] ?? '[]', true),
+                'features'          => json_decode($_POST['features'] ?? '[]', true),
+                'specifications'    => json_decode($_POST['specifications'] ?? '[]', true),
+                'instructions'      => json_decode($_POST['instructions'] ?? '[]', true),
+            ];
+
+            $mainImage     = $_FILES['main_image'] ?? null;
+            $galleryImages = $_FILES['gallery_images'] ?? null;
+
+            $productId = $this->service->createProduct($input, $mainImage, $galleryImages);
+
+            echo json_encode([
+                "success" => true,
+                "data" => ["id" => $productId]
             ]);
 
         } catch (Exception $e) {

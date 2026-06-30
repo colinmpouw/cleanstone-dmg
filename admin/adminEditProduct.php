@@ -171,12 +171,15 @@
                         </div>
                     </div>
 
-                    <!-- TAGS (your system) -->
+                    <!-- TAGS (multi-select dropdown) -->
                     <div class="field">
                         <label>Tags</label>
                         <div class="tag-select">
                             <div class="tag-select-chips" id="tagChips"></div>
-                            <input type="text" id="tagSearchInput">
+                            <button type="button" class="tag-select-toggle" id="tagSelectToggle">
+                                <i class="ti ti-tag"></i>
+                                Tags selecteren
+                            </button>
                             <div class="tag-select-dropdown" id="tagDropdown" hidden></div>
                         </div>
                     </div>

@@ -91,7 +91,6 @@ class AdminProductsService
             throw $e;
         }
     }
-
     public function uploadPhoto($productId, $file, $isPrimary = 0)
     {
         if ($file['error'] !== UPLOAD_ERR_OK) {
@@ -133,6 +132,81 @@ class AdminProductsService
             'product_id' => $productId,
             'image' => $filename
         ]);
+    }
+
+    public function createProduct(array $input, ?array $mainImage, ?array $galleryImages): int
+    {
+        $productId = $this->repository->createProduct([
+            'name'              => $input['name'],
+            'short_description' => $input['short_description'],
+            'description'       => $input['description'],
+            'price'             => (float)$input['price'],
+            'sale_price'        => $input['sale_price'] !== '' ? (float)$input['sale_price'] : null,
+            'stock'             => (int)$input['stock'],
+            'sku'               => $input['sku'],
+            'brand_id'          => $input['brand_id'],
+            'category_id'       => $input['category_id'],
+        ]);
+
+        if (!empty($input['tags'])) {
+            $this->repository->syncTags($productId, $input['tags']);
+        }
+
+        if (!empty($input['features'])) {
+            $this->repository->replaceFeatures($productId, $input['features']);
+        }
+
+        if (!empty($input['specifications'])) {
+            $this->repository->replaceSpecifications($productId, $input['specifications']);
+        }
+
+        if (!empty($input['instructions'])) {
+            $this->repository->replaceInstructions($productId, $input['instructions']);
+        }
+
+        if ($mainImage && $mainImage['error'] === UPLOAD_ERR_OK) {
+            $filename = $this->storeUploadedFile($mainImage);
+            $this->repository->updateProductMainImage($productId, $filename);
+        }
+
+        if ($galleryImages && isset($galleryImages['name']) && is_array($galleryImages['name'])) {
+            $count = count($galleryImages['name']);
+
+            for ($i = 0; $i < $count; $i++) {
+                if ($galleryImages['error'][$i] !== UPLOAD_ERR_OK) continue;
+
+                $file = [
+                    'name'     => $galleryImages['name'][$i],
+                    'type'     => $galleryImages['type'][$i],
+                    'tmp_name' => $galleryImages['tmp_name'][$i],
+                    'error'    => $galleryImages['error'][$i],
+                    'size'     => $galleryImages['size'][$i],
+                ];
+
+                $filename = $this->storeUploadedFile($file);
+                $this->repository->addGalleryImage($productId, $filename);
+            }
+        }
+
+        return $productId;
+    }
+
+    private function storeUploadedFile(array $file): string
+    {
+        $uploadDir = __DIR__ . '/../../public/uploads/products/';
+
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
+        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $filename = uniqid('prod_', true) . '.' . $ext;
+
+        if (!move_uploaded_file($file['tmp_name'], $uploadDir . $filename)) {
+            throw new Exception('Foto opslaan mislukt');
+        }
+
+        return $filename;
     }
     private function buildProduct($rows)
     {

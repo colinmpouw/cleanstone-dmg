@@ -217,4 +217,35 @@ class AdminProductsRepository
             [$imageId]
         );
     }
+
+    public function createProduct($data)
+    {
+        $this->DB->save(
+            "INSERT INTO products
+            (name, short_description, description, price, sale_price, stock, sku, brand_id, category_id)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [
+                $data['name'],
+                $data['short_description'],
+                $data['description'],
+                $data['price'],
+                $data['sale_price'],
+                $data['stock'],
+                $data['sku'],
+                $data['brand_id'],
+                $data['category_id']
+            ]
+        );
+
+        return $this->DB->lastInsertId();
+    }
+
+    public function addGalleryImage($productId, $filename)
+    {
+        $this->DB->save(
+            "INSERT INTO product_images (product_id,url, image) VALUES (?, ?,?)",
+            [$productId, $filename, $filename]
+        );
+    }
+
 }
