@@ -25,7 +25,7 @@
     </a>
 
     <!-- ✅ SKELETON -->
-    <section class="product-section skeleton-section" id="bundleSkeleton">
+    <section class="product-section skeleton-section" id="bundleSkeleton" >
 
         <div class="image-col">
             <div class="image-wrap">
@@ -70,7 +70,7 @@
     </section>
 
     <!-- ✅ REAL CONTENT -->
-    <section class="product-section" id="bundleContent" hidden>
+    <section class="product-section" id="bundleContent" style="display: none">
 
         <!-- LEFT -->
         <div class="image-col">
