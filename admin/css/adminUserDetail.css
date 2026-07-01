@@ -411,3 +411,46 @@
 .ud-stat--enter {
     animation: detailCardEnter 0.3s ease both;
 }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .content {
+        padding: 16px;
+    }
+
+    .ud-card {
+        padding: 20px;
+    }
+
+    .ud-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .ud-stat {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 560px) {
+    .ud-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #ud-profile-card {
+        flex-wrap: wrap;
+    }
+
+    .ud-role-toggle {
+        grid-template-columns: 1fr;
+    }
+
+    .ud-role-btn:first-child {
+        border-right: none;
+        border-bottom: 1.5px solid var(--creamy-taupe);
+    }
+
+    .ud-review-top {
+        flex-wrap: wrap;
+    }
+}

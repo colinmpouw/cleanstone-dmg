@@ -371,6 +371,46 @@
     }
 }
 
+@media (max-width: 900px) {
+    .content {
+        padding: 16px;
+    }
+
+    .dashboard {
+        padding: 24px 4px 40px;
+    }
+
+    .card {
+        padding: 20px 18px;
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .card-head {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .advice-list li {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .advice-right {
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .order-list li {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
+
 /* ── Skeleton ── */
 .skeleton-stat-value {
     width: 110px;

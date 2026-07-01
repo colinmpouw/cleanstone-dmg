@@ -237,3 +237,34 @@
 .user-row--enter {
     animation: userRowEnter 0.3s ease both;
 }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .content {
+        padding: 16px;
+    }
+
+    .users-heading {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .users-heading h1 {
+        font-size: 1.75rem;
+    }
+
+    .user-row {
+        padding: 14px 16px;
+        gap: 12px;
+    }
+
+    .user-meta {
+        flex-wrap: wrap;
+    }
+
+    .user-chevron {
+        display: none;
+    }
+}

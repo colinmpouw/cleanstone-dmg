@@ -320,3 +320,44 @@
 .merk-skel-desc  { width: 140px; height: 0.75rem; margin-bottom: 4px; }
 .merk-skel-file  { width: 80px;  height: 0.75rem; }
 .merk-card--skeleton .merk-card__actions { visibility: hidden; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .content {
+        padding: 16px;
+    }
+
+    .merken-heading {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .new-merk-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 560px) {
+    .merken-heading h1 {
+        font-size: 1.75rem;
+    }
+
+    .merken-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .merk-modal {
+        width: 100%;
+        max-width: 360px;
+    }
+
+    .modal-overlay {
+        padding: 16px;
+    }
+
+    .toast {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+    }
+}

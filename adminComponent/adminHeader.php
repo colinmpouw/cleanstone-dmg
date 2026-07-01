@@ -1,4 +1,11 @@
 <header class="header">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Menu" aria-expanded="false" aria-controls="adminSidebar">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.5 5H17.5" stroke="#3A2B20" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.5 10H17.5" stroke="#3A2B20" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.5 15H17.5" stroke="#3A2B20" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
     <span class="header-title"></span>
     <div class="header-right">
 <!--        <button class="notif-btn" aria-label="Notificaties">-->

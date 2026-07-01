@@ -15,6 +15,7 @@ $invoiceNr = 'INV-' . str_pad($order['order_id'], 5, '0', STR_PAD_LEFT);
 <html lang="nl">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Factuur <?= $invoiceNr ?> — CleanStone</title>
 
     <style>
@@ -109,6 +110,37 @@ $invoiceNr = 'INV-' . str_pad($order['order_id'], 5, '0', STR_PAD_LEFT);
 
         @media print {
             .print-btn { display: none; }
+        }
+
+        @media (max-width: 640px) {
+            main {
+                padding: 20px;
+            }
+
+            .header,
+            .addresses {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .meta {
+                text-align: left;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .totals {
+                width: 100%;
+            }
+
+            .print-btn {
+                top: 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>

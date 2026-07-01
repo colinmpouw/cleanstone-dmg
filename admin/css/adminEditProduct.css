@@ -562,3 +562,39 @@
 .tag-select {
     position: relative;
 }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .content {
+        padding: 16px;
+    }
+
+    .edit-heading {
+        flex-direction: column;
+    }
+
+    .edit-heading-actions {
+        width: 100%;
+    }
+
+    .edit-heading-actions .btn-cancel,
+    .edit-heading-actions .btn-save {
+        flex: 1;
+        text-align: center;
+    }
+
+    .field-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .edit-heading h1 {
+        font-size: 1.75rem;
+    }
+
+    .panel {
+        padding: 1.1rem;
+    }
+}

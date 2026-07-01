@@ -610,3 +610,50 @@
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .content {
+        padding: 16px;
+    }
+
+    .orders-heading,
+    .page-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .btn-export {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .orders-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-input {
+        min-width: 0;
+    }
+
+    .orders-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .orders-table {
+        min-width: 760px;
+    }
+}
+
+@media (max-width: 480px) {
+    .orders-heading h1 {
+        font-size: 1.75rem;
+    }
+
+    .order-detail-panel {
+        max-width: 100%;
+    }
+}

@@ -15,7 +15,6 @@
 </head>
 <body>
 <?php require_once __DIR__ . '/../adminComponent/adminSidebar.php'; ?>
-<?php require_once __DIR__ . '/../adminComponent/adminSidebar.php'; ?>
 
 <!-- MAIN -->
 <div class="main">

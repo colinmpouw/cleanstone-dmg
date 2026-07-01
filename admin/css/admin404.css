@@ -38,3 +38,18 @@ main a:hover:after {
     width: 0%;
     left: 50%;
 }
+
+@media (max-width: 480px) {
+    main {
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    main h1 {
+        font-size: 3.2rem;
+    }
+
+    main h2 {
+        font-size: 1.4rem;
+    }
+}

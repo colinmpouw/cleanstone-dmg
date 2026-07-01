@@ -343,3 +343,45 @@ body {
     color: transparent;
     border: none;
 }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .chat-card {
+        margin: 12px;
+    }
+
+    .msg-bubbles {
+        max-width: 78%;
+    }
+}
+
+@media (max-width: 560px) {
+    .chat-card {
+        margin: 8px;
+        border-radius: 10px;
+    }
+
+    .chat-header {
+        padding: 12px 14px;
+    }
+
+    .adv-images-strip,
+    .chat-messages,
+    .chat-input-area {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .msg-bubbles {
+        max-width: 88%;
+    }
+
+    .msg-image {
+        max-width: 200px;
+    }
+
+    .status-pill {
+        padding: 5px 8px;
+        font-size: 0.62rem;
+    }
+}

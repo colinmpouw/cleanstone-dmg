@@ -295,6 +295,12 @@
     font-size: var(--button-size);
 }
 
+@media (max-width: 900px) {
+    .content {
+        padding: 16px;
+    }
+}
+
 @media (max-width: 760px) {
     .blog-heading,
     .panel-title {
@@ -313,5 +319,9 @@
 
     .form-actions button {
         width: 100%;
+    }
+
+    .blog-panel {
+        padding: 16px;
     }
 }

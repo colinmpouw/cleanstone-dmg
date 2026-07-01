@@ -282,3 +282,49 @@
     color: var(--rustic-taupe);
     font-family: var(--body-font);
 }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .content {
+        padding: 16px;
+    }
+
+    .bundles-heading,
+    .page-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .btn-new-bundle {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 700px) {
+    .bundle-card,
+    .bundle-skel-card {
+        min-width: 0;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .bundle-card-image,
+    .bundle-card-placeholder,
+    .bundle-skel-img {
+        width: 100%;
+        height: 160px;
+    }
+
+    .bundle-card-top,
+    .bundle-card-footer {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .bundles-heading h1 {
+        font-size: 1.75rem;
+    }
+}

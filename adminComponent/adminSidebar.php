@@ -1,4 +1,5 @@
-<aside class="sidebar">
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="adminSidebar">
     <div class="sidebar-brand">
         <a href="/admin/dashboard" class="sidebar-logo"> <img src="/admin/assets/logo.png" alt="logo" ></a>
     </div>
@@ -178,22 +179,59 @@
 </aside>
 <script>
     (() => {
-        const links = document.querySelectorAll('.sidebar-nav a[href]');
-        const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+        const init = () => {
+            const links = document.querySelectorAll('.sidebar-nav a[href]');
+            const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
 
-        const normalize = (href) => {
-            const path = new URL(href, window.location.origin).pathname.replace(/\/+$/, '') || '/';
-            return path;
+            const normalize = (href) => {
+                const path = new URL(href, window.location.origin).pathname.replace(/\/+$/, '') || '/';
+                return path;
+            };
+
+            links.forEach(link => {
+                const isActive = normalize(link.getAttribute('href')) === currentPath;
+                link.parentElement.classList.toggle('active', isActive);
+
+                link.addEventListener('click', () => {
+                    links.forEach(l => l.parentElement.classList.remove('active'));
+                    link.parentElement.classList.add('active');
+                    closeSidebar();
+                });
+            });
+
+            const sidebar = document.getElementById('adminSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const toggleBtn = document.getElementById('sidebarToggle');
+
+            const openSidebar = () => {
+                sidebar.classList.add('open');
+                overlay.classList.add('visible');
+                toggleBtn && toggleBtn.setAttribute('aria-expanded', 'true');
+            };
+
+            const closeSidebar = () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('visible');
+                toggleBtn && toggleBtn.setAttribute('aria-expanded', 'false');
+            };
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+                });
+            }
+
+            overlay.addEventListener('click', closeSidebar);
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 1024) closeSidebar();
+            });
         };
 
-        links.forEach(link => {
-            const isActive = normalize(link.getAttribute('href')) === currentPath;
-            link.parentElement.classList.toggle('active', isActive);
-
-            link.addEventListener('click', () => {
-                links.forEach(l => l.parentElement.classList.remove('active'));
-                link.parentElement.classList.add('active');
-            });
-        });
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
     })();
 </script>

@@ -65,8 +65,7 @@
         </div>
 
     </div>
-</div>
-
+<body>
 <script src="/admin/js/adminAdviceChat.js"></script>
 
 </html>
