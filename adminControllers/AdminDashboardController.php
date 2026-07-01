@@ -40,7 +40,8 @@ class AdminDashboardController
     {
         $user = $_SESSION['user'] ?? null;
         if (!$user || $user['role'] !== 'admin') {
-            http_response_code(403);
+            header('Location: /admin/login');
+            exit();
         }
         require_once __DIR__ . '/../admin/adminDashboard.php';
         exit();

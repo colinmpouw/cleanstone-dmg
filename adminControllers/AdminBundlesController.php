@@ -22,15 +22,23 @@ class AdminBundlesController
         $router->put('/api/admin/update_bundle/{bundle_id}', [$this, 'update_bundle']);
         $router->post('/api/admin/create_bundle', [$this, 'create_bundle']);
     }
-
+    private function requireAdmin(): void
+    {
+        if (empty($_SESSION['user']['id']) || $_SESSION['user']['role'] !== 'admin') {
+            header('Location: /admin/login');
+            exit;
+        }
+    }
     public function bundlesPage()
     {
+        $this->requireAdmin();
         require_once __DIR__ . '/../admin/adminBundles.php';
         die();
     }
 
     public function bundleEditPage($id)
     {
+        $this->requireAdmin();
         echo '<script>window.bundleId = ' . json_encode((int)$id) . ';</script>';
         require_once __DIR__ . '/../admin/adminEditBundle.php';
         die();
@@ -38,6 +46,7 @@ class AdminBundlesController
 
     public function bundleAddPage()
     {
+        $this->requireAdmin();
         require_once __DIR__ . '/../admin/adminAddBundle.php';
         die();
     }

@@ -31,18 +31,26 @@ class AdminProductsController
 
 
     }
+    private function requireAdmin(): void
+    {
+        if (empty($_SESSION['user']['id']) || $_SESSION['user']['role'] !== 'admin') {
+            header('Location: /admin/login');
+            exit;
+        }
+    }
     public function productsPage(){
+        $this->requireAdmin();
         require_once __DIR__ . '/../admin/adminProducts.php';
-        die();
     }
     public function productsEditPage($id){
+        $this->requireAdmin();
         echo '<script>window.productId = ' . json_encode((int)$id) . ';
 console.log(window.productId);
 </script>';
         require_once __DIR__ . '/../admin/adminEditProduct.php';
     }
     public function productsAddPage(){
-
+        $this->requireAdmin();
         require_once __DIR__ . '/../admin/adminAddProduct.php';
     }
     public function get_all_products()

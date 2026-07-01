@@ -15,14 +15,22 @@ class AdminAdvicesController
         $router->get('/admin/advieschat/{id}', [$this, 'adviceChatPage']);
         $router->get('/api/admin/adviesaanvragen', [$this, 'getAll']);
     }
-
+    private function requireAdmin(): void
+    {
+        if (empty($_SESSION['user']['id']) || $_SESSION['user']['role'] !== 'admin') {
+            header('Location: /admin/login');
+            exit;
+        }
+    }
     public function advicePage(): void
     {
+        $this->requireAdmin();
         require_once __DIR__ . '/../admin/adminAdvice.php';
     }
 
     public function adviceChatPage(int $id): void
     {
+        $this->requireAdmin();
         echo '<script>window.advies_id = ' . json_encode($id) . ';</script>';
         require_once __DIR__ . '/../admin/adminAdviceChat.php';
     }
