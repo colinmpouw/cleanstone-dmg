@@ -86,6 +86,7 @@ class BundlesService
                     "quantity" => $row['quantity'],
                     "price" => $row['product_price'],
                     "rating" => $row['product_avg_rating'],
+                    "slug" => $row['product_slug'],
                     "tags" => []
                 ];
 

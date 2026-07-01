@@ -133,7 +133,7 @@ async function loadBundle() {
 
 
             const link = document.createElement('a');
-            link.href = `/product/${p.product_id}/${slugify(p.product_name)}`;
+            link.href = `/product/${slugify(p.slug)}`;
             link.textContent = `${p.product_name} (${p.quantity}x)`;
             li.appendChild(iconWrap);
             li.appendChild(link);
