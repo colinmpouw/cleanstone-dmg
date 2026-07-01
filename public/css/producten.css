@@ -271,7 +271,7 @@
 .stars { color: #D4A843; letter-spacing: -0.04em; }
 
 .price {
-    font-family: var(--title-font);
+    /*font-family: var(--title-font);*/
     font-size: 1.15rem;
     font-weight: 700;
     color: var(--charcoal-clay);
