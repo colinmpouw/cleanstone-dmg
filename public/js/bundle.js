@@ -49,7 +49,7 @@ async function loadBundle() {
 
         /* ───────── IMAGE ───────── */
         const img = document.getElementById('bundle-image');
-        img.src = bundle.image || 'https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=900&q=80';
+        img.src = `/uploads/bundles/${bundle.image}` || 'https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=900&q=80';
         img.alt = bundle.name || '';
 
         /* ───────── BADGES ───────── */
@@ -191,10 +191,7 @@ async function loadBundleCards() {
 
             card.innerHTML = `
                 <div class="bundle-card-image-wrap">
-                    <img 
-                        src="${bundle.image || 'https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=900&q=80'}" 
-                        alt="${bundle.name || ''}"
-                    />
+                   <img src=/uploads/bundles/${bundle.image} alt=${bundle.image} />
                 </div>
                 <div class="bundle-card-info">
                     <p class="bundle-card-name">${bundle.name || ''}</p>
