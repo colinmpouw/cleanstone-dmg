@@ -353,7 +353,7 @@
         </div>
 
         <div class="reviews-cards scroll-animate">
-            <script defer async src='https://cdn.trustindex.io/loader.js?6333d3b74fab094f66964df949d'></script>
+            <script defer async src='https://cdn.trustindex.io/loader.js?7b5f7cb750795321143613b94eb'></script>
         </div>
 
         <!-- STATS -->
