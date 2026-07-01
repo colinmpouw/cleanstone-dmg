@@ -545,81 +545,53 @@ class   MailService
 
 
 
-    public function sendOrderStatusMail(int $orderId, string $status): void
-    {
-        try {
-            $order = $this->orderRepository->getOrderForMail($orderId);
+    public function sendOrderStatusMail(int $order_id, string $status): void
+{
+    try {
+        // haal order + user op
+        $DB    = new \controllers\DatabaseController();
+        $order = $DB->read(
+            "SELECT o.*, u.email, u.username FROM orders o
+             JOIN users u ON u.id = o.user_id
+             WHERE o.id = :id",
+            ['id' => $order_id]
+        );
 
-            if (!$order) {
-                return;
-            }
+        if (empty($order)) return;
+        $order = $order[0];
 
-            $statusTexts = [
-                'verwerking'  => ['subject' => 'Uw bestelling wordt verwerkt', 'title' => 'Bestelling in verwerking', 'text' => 'Wij zijn uw bestelling aan het verwerken. Zodra deze klaar is voor verzending, ontvangt u hier weer bericht van.'],
-                'betaald'     => ['subject' => 'Betaling ontvangen', 'title' => 'Betaling ontvangen', 'text' => 'Wij hebben uw betaling in goede orde ontvangen. Uw bestelling wordt nu voorbereid.'],
-                'verzonden'   => ['subject' => 'Uw bestelling is onderweg!', 'title' => 'Uw bestelling is onderweg', 'text' => 'Goed nieuws! Uw bestelling is verzonden en is nu onderweg naar u.'],
-                'geleverd'    => ['subject' => 'Uw bestelling is bezorgd', 'title' => 'Uw bestelling is bezorgd', 'text' => 'Uw bestelling is bezorgd. Wij hopen dat u tevreden bent met uw aankoop!'],
-                'geannuleerd' => ['subject' => 'Uw bestelling is geannuleerd', 'title' => 'Bestelling geannuleerd', 'text' => 'Uw bestelling is geannuleerd. Neem contact met ons op als dit onterecht is.'],
-            ];
+        $statusLabels = [
+            'pending'    => 'In afwachting',
+            'paid'       => 'Betaald',
+            'processing' => 'In verwerking',
+            'shipped'    => 'Verzonden',
+            'completed'  => 'Geleverd',
+            'cancelled'  => 'Geannuleerd',
+        ];
 
-            $info = $statusTexts[$status] ?? null;
+        $statusLabel = $statusLabels[$status] ?? ucfirst($status);
+        $toEmail     = $order['email'];
+        $toName      = $order['username'];
 
-            if (!$info) {
-                return;
-            }
+        $this->mail->clearAddresses();
+        $this->mail->addAddress($toEmail, $toName);
 
-            $toName = $order['first_name'] . ' ' . $order['last_name'];
+        $this->mail->Subject = "Uw bestelling #{$order_id} — {$statusLabel}";
+        $this->mail->Body    = "
+            <div style='font-family: sans-serif; max-width: 600px; margin: 0 auto;'>
+                <h2 style='color: #3A2B20;'>Statusupdate bestelling #{$order_id}</h2>
+                <p>Beste {$toName},</p>
+                <p>De status van uw bestelling is bijgewerkt naar: <strong>{$statusLabel}</strong>.</p>
+                <p style='margin-top: 24px;'>Met vriendelijke groet,<br><strong>Team CleanStone</strong></p>
+            </div>
+        ";
+        $this->mail->AltBody = "Beste {$toName}, uw bestelling #{$order_id} heeft nu de status: {$statusLabel}.";
 
-            $this->mail->clearAddresses();
-            $this->mail->addAddress($order['email'], $toName);
-
-            $this->mail->Subject = $info['subject'] . ' — CleanStone (#' . $order['id'] . ')';
-            $this->mail->Body = "
-<!DOCTYPE html>
-<html lang='nl'>
-<head><meta charset='UTF-8'></head>
-<body style='margin:0; padding:0; background-color:#F9F5ED; font-family: Arial, sans-serif;'>
-  <table width='100%' cellpadding='0' cellspacing='0' style='background-color:#F9F5ED; padding: 40px 20px;'>
-    <tr>
-      <td align='center'>
-        <table width='600' cellpadding='0' cellspacing='0' style='max-width:600px; width:100%; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow: 0 4px 24px rgba(58,43,32,0.08);'>
-          <tr>
-            <td style='background: linear-gradient(135deg, #3A2B20 0%, #7E6A52 100%); padding: 36px 40px; text-align:center;'>
-              <h1 style='margin:0; font-family: Georgia, serif; font-size: 26px; font-weight: 700; color: #ffffff;'>CleanStone</h1>
-              <p style='margin: 8px 0 0; font-size: 13px; color: rgba(255,255,255,0.7);'>Specialist in natuursteen onderhoud</p>
-            </td>
-          </tr>
-          <tr>
-            <td style='padding: 40px 40px 32px;'>
-              <h2 style='margin: 0 0 8px; font-family: Georgia, serif; font-size: 22px; font-weight: 700; color: #3A2B20; text-align: center;'>" . htmlspecialchars($info['title']) . "</h2>
-              <p style='margin: 0 0 28px; font-size: 14px; color: #7E6A52; text-align: center;'>Bestelling #" . $order['id'] . "</p>
-
-              <p style='margin: 0 0 20px; font-size: 15px; color: #3A2B20; line-height: 1.6;'>Beste " . htmlspecialchars($order['first_name']) . ",</p>
-              <p style='margin: 0 0 28px; font-size: 15px; color: #7E6A52; line-height: 1.7;'>" . htmlspecialchars($info['text']) . "</p>
-
-              <p style='margin: 0; font-size: 15px; color: #3A2B20; line-height: 1.7;'>Met vriendelijke groet,<br><strong>Team CleanStone</strong></p>
-            </td>
-          </tr>
-          <tr>
-            <td style='background-color: #F9F5ED; padding: 24px 40px; border-top: 1px solid #DACFB6; text-align: center;'>
-              <p style='margin: 0 0 6px; font-size: 12px; color: #B89C82;'>CleanStone &middot; Specialist in natuursteen onderhoud</p>
-              <p style='margin: 0; font-size: 11px; color: #B89C82;'>U ontvangt deze e-mail omdat de status van uw bestelling is gewijzigd.</p>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>";
-
-            $this->mail->AltBody = $info['title'] . " — Bestelling #" . $order['id'] . ". " . $info['text'];
-
-            $this->mail->send();
-        } catch (Exception $e) {
-            $this->writeLog($order['email'] ?? '', $e);
-        }
+        $this->mail->send();
+    } catch (Exception $e) {
+        $this->writeLog('order-status', $e);
     }
+}
 
     private function writeLog(string $toEmail, Exception $e): void
     {
