@@ -200,6 +200,7 @@ body{
     flex-shrink: 0;
 }
 #AiChat-input {
+    width: 80%;
     flex: 1;
     border: 1px solid var(--creamy-taupe);
     border-radius: 8px;

@@ -37,7 +37,7 @@
                 <line x1="8" y1="16" x2="8" y2="16"/>
                 <line x1="16" y1="16" x2="16" y2="16"/>
             </svg>
-            AI Chat</h2>
+            AI Assistant</h2>
         <button id="AiChat-close-button">&times;</button>
     </div>
     <div id="AiChat-messages"></div>
