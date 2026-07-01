@@ -432,13 +432,12 @@ async function loadTopProducts() {
                         <span class="rating-value">${avg.toFixed(1)} (${count})</span>
                     </div>
                     <div class="price">€${price}</div>
-                    <button class="products-btn-primary" onclick="location.href='/product/${product.id}/${product.slug}'">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6.66665 18.3333C7.12688 18.3333 7.49998 17.9602 7.49998 17.5C7.49998 17.0398 7.12688 16.6667 6.66665 16.6667C6.20641 16.6667 5.83331 17.0398 5.83331 17.5C5.83331 17.9602 6.20641 18.3333 6.66665 18.3333Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M15.8333 18.3333C16.2936 18.3333 16.6667 17.9602 16.6667 17.5C16.6667 17.0398 16.2936 16.6667 15.8333 16.6667C15.3731 16.6667 15 17.0398 15 17.5C15 17.9602 15.3731 18.3333 15.8333 18.3333Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M1.70831 1.70834H3.37498L5.59165 12.0583C5.67296 12.4374 5.88387 12.7762 6.18807 13.0166C6.49227 13.2569 6.87073 13.3836 7.25831 13.375H15.4083C15.7876 13.3744 16.1554 13.2444 16.4508 13.0065C16.7463 12.7687 16.9518 12.4371 17.0333 12.0667L18.4083 5.875H4.26665" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                    <button class="products-btn-primary" onclick="location.href='/product/${product.slug}'">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="12" r="3" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        In winkelwagen
+                        Bekijk product
                     </button>
                 </div>
             `;
