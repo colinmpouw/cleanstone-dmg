@@ -46,38 +46,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /**
-     * Shows placeholder cards shaped like real bundle cards while the
-     * fetch is in flight, instead of a blank grid.
-     */
     function renderSkeletons(count = 4) {
-        const skeletons = Array.from({ length: count }, createSkeletonCard);
-        grid.replaceChildren(...skeletons);
-    }
-
-    function createSkeletonCard() {
-        const card = document.createElement('div');
-        card.className = 'bundle-card bundle-card--skeleton';
-
-        const image = document.createElement('div');
-        image.className = 'skeleton-block skeleton-image';
-
-        const body = document.createElement('div');
-        body.className = 'bundle-card-body';
-
-        const title = document.createElement('div');
-        title.className = 'skeleton-block skeleton-line skeleton-line--title';
-
-        const price = document.createElement('div');
-        price.className = 'skeleton-block skeleton-line skeleton-line--price';
-
-        const footer = document.createElement('div');
-        footer.className = 'skeleton-block skeleton-line skeleton-line--footer';
-
-        body.append(title, price, footer);
-        card.append(image, body);
-
-        return card;
+        grid.innerHTML = Array.from({ length: count }, () => `
+            <div class="bundle-skel-card">
+                <div class="bundle-skel-img skeleton-block"></div>
+                <div class="bundle-skel-body">
+                    <div class="skeleton-block bundle-skel-title"></div>
+                    <div class="skeleton-block bundle-skel-price"></div>
+                    <div class="skeleton-block bundle-skel-meta"></div>
+                </div>
+            </div>
+        `).join('');
     }
 
     async function loadBundles() {
@@ -135,10 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderError(message) {
+        grid.innerHTML = '';
         const errorState = document.createElement('div');
         errorState.className = 'bundles-empty';
         errorState.textContent = message;
-        grid.replaceChildren(errorState);
+        grid.appendChild(errorState);
     }
 
     function formatPrice(price) {
@@ -264,18 +244,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderGrid(bundles) {
+        grid.innerHTML = '';
+
         if (!bundles.length) {
             const emptyState = document.createElement('div');
             emptyState.className = 'bundles-empty';
             emptyState.textContent = 'Geen bundels gevonden.';
-            grid.replaceChildren(emptyState);
+            grid.appendChild(emptyState);
         } else {
             const cards = bundles.map(createBundleCard);
-            grid.replaceChildren(...cards);
+            cards.forEach(card => grid.appendChild(card));
 
-            // Stagger the fade-in slightly per card, then clean up the
-            // animation class so it doesn't replay on later re-renders
-            // (e.g. after a delete).
             cards.forEach((card, index) => {
                 card.style.animationDelay = `${index * 60}ms`;
                 card.addEventListener('animationend', () => {
