@@ -3,14 +3,17 @@
 namespace adminServices;
 
 use adminRepositories\AdminOrdersRepository;
+use services\MailService;
 
 class AdminOrdersService
 {
     private $repository;
+    private $mailService;
 
     public function __construct()
     {
         $this->repository = new AdminOrdersRepository();
+        $this->mailService = new MailService();
     }
 
     public function getAllOrders()
@@ -26,7 +29,13 @@ class AdminOrdersService
             return false;
         }
 
-        return $this->repository->changeStatus($input);
+        $success = $this->repository->changeStatus($input);
+
+        if ($success) {
+            $this->mailService->sendOrderStatusMail((int)$input['order_id'], $input['status']);
+        }
+
+        return $success;
     }
 
     public function getOrderForInvoice(int $order_id, int $user_id): ?array
