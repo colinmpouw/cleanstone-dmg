@@ -15,7 +15,7 @@ class ProductenRepository
 
     public function getAllProducts(): array
     {
-        $query = "SELECT * FROM products_full_details ORDER BY id DESC;";
+        $query = "SELECT * FROM product_summary_view ORDER BY id DESC;";
 
         return $this->DB->read($query) ?: [];
     }
