@@ -546,52 +546,143 @@ class   MailService
 
 
     public function sendOrderStatusMail(int $order_id, string $status): void
-{
-    try {
-        // haal order + user op
-        $DB    = new \controllers\DatabaseController();
-        $order = $DB->read(
-            "SELECT o.*, u.email, u.username FROM orders o
-             JOIN users u ON u.id = o.user_id
-             WHERE o.id = :id",
-            ['id' => $order_id]
-        );
+    {
+        try {
+            // haal order + user op
+            $DB    = new \controllers\DatabaseController();
+            $order = $DB->read(
+                "SELECT o.*, u.email, u.username FROM orders o
+                 JOIN users u ON u.id = o.user_id
+                 WHERE o.id = :id",
+                ['id' => $order_id]
+            );
 
-        if (empty($order)) return;
-        $order = $order[0];
+            if (empty($order)) return;
+            $order = $order[0];
 
-        $statusLabels = [
-            'pending'    => 'In afwachting',
-            'paid'       => 'Betaald',
-            'processing' => 'In verwerking',
-            'shipped'    => 'Verzonden',
-            'completed'  => 'Geleverd',
-            'cancelled'  => 'Geannuleerd',
-        ];
+            $statusLabels = [
+                'pending'    => 'In afwachting',
+                'paid'       => 'Betaald',
+                'processing' => 'In verwerking',
+                'shipped'    => 'Verzonden',
+                'completed'  => 'Geleverd',
+                'cancelled'  => 'Geannuleerd',
+            ];
 
-        $statusLabel = $statusLabels[$status] ?? ucfirst($status);
-        $toEmail     = $order['email'];
-        $toName      = $order['username'];
+            $statusMeta = [
+                'pending'    => ['color' => '#9C8672', 'bg' => '#F2EDE4', 'icon' => '&#9203;'],
+                'paid'       => ['color' => '#4CAF50', 'bg' => '#EAF6EB', 'icon' => '&#10003;'],
+                'processing' => ['color' => '#3A7CA5', 'bg' => '#EAF2F8', 'icon' => '&#9881;'],
+                'shipped'    => ['color' => '#3A7CA5', 'bg' => '#EAF2F8', 'icon' => '&#128666;'],
+                'completed'  => ['color' => '#4CAF50', 'bg' => '#EAF6EB', 'icon' => '&#10003;'],
+                'cancelled'  => ['color' => '#C0392B', 'bg' => '#FBEAE8', 'icon' => '&#10005;'],
+            ];
 
-        $this->mail->clearAddresses();
-        $this->mail->addAddress($toEmail, $toName);
+            $statusLabel = $statusLabels[$status] ?? ucfirst($status);
+            $meta        = $statusMeta[$status] ?? ['color' => '#3A2B20', 'bg' => '#F2EDE4', 'icon' => '&#8226;'];
+            $toEmail     = $order['email'];
+            $toName      = $order['username'];
 
-        $this->mail->Subject = "Uw bestelling #{$order_id} — {$statusLabel}";
-        $this->mail->Body    = "
-            <div style='font-family: sans-serif; max-width: 600px; margin: 0 auto;'>
-                <h2 style='color: #3A2B20;'>Statusupdate bestelling #{$order_id}</h2>
-                <p>Beste {$toName},</p>
-                <p>De status van uw bestelling is bijgewerkt naar: <strong>{$statusLabel}</strong>.</p>
-                <p style='margin-top: 24px;'>Met vriendelijke groet,<br><strong>Team CleanStone</strong></p>
-            </div>
-        ";
-        $this->mail->AltBody = "Beste {$toName}, uw bestelling #{$order_id} heeft nu de status: {$statusLabel}.";
+            $this->mail->clearAddresses();
+            $this->mail->addAddress($toEmail, $toName);
 
-        $this->mail->send();
-    } catch (Exception $e) {
-        $this->writeLog('order-status', $e);
+            $this->mail->Subject = "Uw bestelling #{$order_id} — {$statusLabel}";
+
+            $this->mail->Body = "<!DOCTYPE html>
+<html lang='nl'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+</head>
+<body style='margin:0; padding:0; background-color:#F2EDE4; font-family: Arial, Helvetica, sans-serif;'>
+
+  <table width='100%' cellpadding='0' cellspacing='0' style='background-color:#F2EDE4; padding: 48px 16px;'>
+    <tr>
+      <td align='center'>
+        <table width='600' cellpadding='0' cellspacing='0' style='max-width:600px; width:100%;'>
+
+          <!-- LOGO BALK -->
+          <tr>
+            <td align='center' style='padding-bottom: 28px;'>
+              <p style='margin:0; font-family: Georgia, serif; font-size: 22px; font-weight: 700; color: #3A2B20; letter-spacing: 2px; text-transform: uppercase;'>CleanStone</p>
+              <p style='margin: 4px 0 0; font-size: 12px; color: #9C8672; letter-spacing: 1px; text-transform: uppercase;'>Specialist in natuursteen onderhoud</p>
+            </td>
+          </tr>
+
+          <!-- MAIN CARD -->
+          <tr>
+            <td style='background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 20px rgba(58,43,32,0.10);'>
+
+              <!-- HEADER -->
+              <table width='100%' cellpadding='0' cellspacing='0'>
+                <tr>
+                  <td style='background: linear-gradient(135deg, #3A2B20 0%, #6B5440 100%); padding: 40px 40px 36px; text-align: center;'>
+                    <p style='margin: 0 0 10px; font-size: 40px; line-height: 1;'>{$meta['icon']}</p>
+                    <h1 style='margin: 0 0 8px; font-family: Georgia, serif; font-size: 24px; font-weight: 700; color: #ffffff; letter-spacing: -0.3px;'>Statusupdate bestelling</h1>
+                    <p style='margin: 0; font-size: 14px; color: rgba(255,255,255,0.70);'>Bestelling #{$order_id}</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- BODY -->
+              <table width='100%' cellpadding='0' cellspacing='0'>
+                <tr>
+                  <td style='padding: 36px 40px 40px;'>
+
+                    <p style='margin: 0 0 6px; font-size: 15px; color: #3A2B20; line-height: 1.6;'>Beste <strong>" . htmlspecialchars($toName) . "</strong>,</p>
+                    <p style='margin: 0 0 28px; font-size: 14px; color: #7E6A52; line-height: 1.7;'>De status van uw bestelling is zojuist bijgewerkt. Hieronder vindt u de nieuwe status.</p>
+
+                    <!-- STATUS BADGE -->
+                    <table width='100%' cellpadding='0' cellspacing='0' style='background: {$meta['bg']}; border-radius: 10px; margin-bottom: 28px;'>
+                      <tr>
+                        <td style='padding: 20px 24px;'>
+                          <table width='100%' cellpadding='0' cellspacing='0'>
+                            <tr>
+                              <td style='font-size: 13px; color: #9C8672;'>Bestelnummer</td>
+                              <td style='font-size: 13px; color: #3A2B20; font-weight: 700; text-align: right;'>#{$order_id}</td>
+                            </tr>
+                            <tr>
+                              <td style='padding-top: 10px; font-size: 13px; color: #9C8672;'>Nieuwe status</td>
+                              <td style='padding-top: 10px; text-align: right;'>
+                                <span style='display: inline-block; padding: 4px 14px; border-radius: 999px; background: {$meta['color']}; color: #ffffff; font-size: 12px; font-weight: 700; letter-spacing: 0.03em;'>{$statusLabel}</span>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <p style='margin: 0; font-size: 14px; color: #3A2B20; line-height: 1.7;'>Met vriendelijke groet,<br><strong>Team CleanStone</strong></p>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- FOOTER -->
+          <tr>
+            <td align='center' style='padding-top: 28px; padding-bottom: 12px;'>
+              <p style='margin: 0 0 4px; font-size: 12px; color: #B89C82;'>CleanStone &middot; Specialist in natuursteen onderhoud</p>
+              <p style='margin: 0; font-size: 11px; color: #C4B09A;'>U ontvangt deze e-mail omdat u een bestelling heeft geplaatst.</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>";
+
+            $this->mail->AltBody = "Beste {$toName}, uw bestelling #{$order_id} heeft nu de status: {$statusLabel}.";
+
+            $this->mail->send();
+        } catch (Exception $e) {
+            $this->writeLog('order-status', $e);
+        }
     }
-}
 
     private function writeLog(string $toEmail, Exception $e): void
     {
